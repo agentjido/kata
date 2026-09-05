@@ -1,0 +1,114 @@
+{
+  "profile": "codex-sol-medium",
+  "version": "setup-quality-v1",
+  "protocol": {
+    "context": "b76130fc2246",
+    "repetitions": 1,
+    "checks": [
+      "setup_files",
+      "content_preserved",
+      "asset_preserved",
+      "sources_moved",
+      "image_target",
+      "readme_target",
+      "index_link",
+      "intake_record",
+      "protected_files",
+      "git_index"
+    ],
+    "case_ids": [
+      "train-guide",
+      "validation-note",
+      "test-manual"
+    ]
+  },
+  "reference": "abf90ebc381bc463669974448c9391711c05da89df7c51a5a4dec18960861824",
+  "eligible": true,
+  "score": 43.654704,
+  "max_words": 500,
+  "cases": [
+    {
+      "reference": {
+        "tokens": 161083,
+        "elapsed_ms": 92465,
+        "tool_calls": 15
+      },
+      "relative_cost": 2.0666267703985044,
+      "candidate": {
+        "tokens": 356103,
+        "elapsed_ms": 237312,
+        "tool_calls": 20
+      },
+      "case_id": "test-manual",
+      "ratios": {
+        "tokens": 2.2106802083398,
+        "elapsed_ms": 2.566506245606446,
+        "tool_calls": 1.3125
+      }
+    },
+    {
+      "reference": {
+        "tokens": 214650,
+        "elapsed_ms": 364097,
+        "tool_calls": 8
+      },
+      "relative_cost": 0.9691760315385451,
+      "candidate": {
+        "tokens": 227536,
+        "elapsed_ms": 98864,
+        "tool_calls": 8
+      },
+      "case_id": "train-guide",
+      "ratios": {
+        "tokens": 1.0600326112275797,
+        "elapsed_ms": 0.27153203679239324,
+        "tool_calls": 1.0
+      }
+    },
+    {
+      "reference": {
+        "tokens": 322640,
+        "elapsed_ms": 110826,
+        "tool_calls": 13
+      },
+      "relative_cost": 0.8363089087538194,
+      "candidate": {
+        "tokens": 273609,
+        "elapsed_ms": 110637,
+        "tool_calls": 9
+      },
+      "case_id": "validation-note",
+      "ratios": {
+        "tokens": 0.8480318621373667,
+        "elapsed_ms": 0.9982946240051973,
+        "tool_calls": 0.7142857142857143
+      }
+    }
+  ],
+  "evidence": "exploratory",
+  "relative_cost": 1.290703903563623,
+  "score_units": 43654704,
+  "candidate": "29c4ddc219b8d3d3792d7640b04cf3fb15a332a83f7e655541a7fa56e2afa445",
+  "inputs": {
+    "lib/kata_evolve/fixture.ex": "163a07f33108fa38b11f698761148a543cbf517bdd7f78a341fb190208fe10cc",
+    "lib/kata_evolve/score.ex": "f94d0df0eca71ba0f821717efb304458b24392666856bb01386acb00a04c5372",
+    "lib/kata_evolve/skill.ex": "565655f3d651a9a20d6945c04f6c34154b2f5fe39d59a4a09e3d3b67572a86ae",
+    "lib/kata_evolve/snapshot.ex": "6b7bf68ff7a49e05adeaa9366c1c465ed8610c6a7d9622f03229cf5912442e41",
+    "lib/kata_evolve/store.ex": "606a252953f19c5f37c04bb9610003371a9c02db79736ab5fe42180c8266802e",
+    "results/setup/codex-sol-medium/cases/b76130fc2246-29c4ddc219b8-test-manual.json": "154a5c6994f20c2e736e2c655a9961c12328b0854189d40ee1b2ca9d386ef081",
+    "results/setup/codex-sol-medium/cases/b76130fc2246-29c4ddc219b8-train-guide.json": "47c7c5dc03f308d75d0284c70fa8e6cce3cfc2401cadccfae6f5628b05fd0a8d",
+    "results/setup/codex-sol-medium/cases/b76130fc2246-29c4ddc219b8-validation-note.json": "e1ef017ea942ac83efa8e2f5474c7e6c8b0cf935f994aeeabb7b3c868ee38436",
+    "results/setup/codex-sol-medium/cases/b76130fc2246-abf90ebc381b-test-manual.json": "f2967fa912cbb4914eb2007010f00f2df332f7c16f22782d3ca166925f34019f",
+    "results/setup/codex-sol-medium/cases/b76130fc2246-abf90ebc381b-train-guide.json": "0a37d54318f97b2e1e0a3b51c4ad7b12fafe22934a9ed3f3cdf784641622b2dd",
+    "results/setup/codex-sol-medium/cases/b76130fc2246-abf90ebc381b-validation-note.json": "86a3ea530d4adfbfcdd5f7ef474043ff7e9957db463297706f7035606a50e4e0",
+    "results/setup/codex-sol-medium/context-b76130fc2246.json": "cdc36c337caa5871143147d1bd55fdb4afd35d72bec9b931453c32abe60caf10",
+    "results/setup/codex-sol-medium/skills/29c4ddc219b8.md": "29c4ddc219b8d3d3792d7640b04cf3fb15a332a83f7e655541a7fa56e2afa445",
+    "results/setup/codex-sol-medium/skills/abf90ebc381b.md": "abf90ebc381bc463669974448c9391711c05da89df7c51a5a4dec18960861824"
+  },
+  "weights": {
+    "tokens": 70,
+    "elapsed_ms": 10,
+    "tool_calls": 20
+  },
+  "score_decimal_places": 6
+}

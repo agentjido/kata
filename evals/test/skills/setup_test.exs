@@ -2,7 +2,7 @@ defmodule KataEvolve.SetupTest do
   use ExUnit.Case
 
   test "saved setup outcomes can be checked without a model" do
-    for path <- Path.wildcard(Path.expand("../../results/setup/cases/*.json", __DIR__)) do
+    for path <- Path.wildcard(Path.expand("../../results/setup/**/cases/*.json", __DIR__)) do
       record = KataEvolve.Store.read(path)
       checked = KataEvolve.Store.recheck(record)
       assert checked["checks"] == record["checks"]

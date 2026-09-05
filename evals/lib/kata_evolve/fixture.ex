@@ -1,6 +1,10 @@
 defmodule KataEvolve.Fixture do
   @moduledoc "Small document and asset cases with an independent expected state."
 
+  def check_names,
+    do:
+      ~w(setup_files content_preserved asset_preserved sources_moved image_target readme_target index_link intake_record protected_files git_index)
+
   def cases do
     %{
       train: [

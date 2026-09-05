@@ -25,6 +25,9 @@ defmodule KataEvolveTest do
     Fixture.write(root, "docs/inbox/README.md", "#{item.source} | docs/inbox/#{item.source}")
     assert Fixture.check(root, item, initial).score == 1.0
 
+    assert Enum.sort(Map.keys(Fixture.check(root, item, initial).checks)) ==
+             Enum.sort(Fixture.check_names())
+
     Fixture.write(root, "docs/inbox/README.md", "#{item.source} | [inbox file](#{item.source})")
     assert Fixture.check(root, item, initial).checks["intake_record"]
 

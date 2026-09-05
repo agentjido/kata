@@ -1,0 +1,112 @@
+{
+  "pending": false,
+  "proposals": [
+    {
+      "candidate": "b288d47b4e46",
+      "decision": "kept",
+      "metrics": {
+        "elapsed_ms": 80983,
+        "file_change_events": 2,
+        "tool_calls": 3,
+        "tool_errors": 1,
+        "tools": {
+          "exec_command": 3
+        },
+        "usage": {
+          "cached_input_tokens": 122752,
+          "input_tokens": 134019,
+          "output_tokens": 4409,
+          "reasoning_output_tokens": 284,
+          "total_tokens": 138428
+        }
+      },
+      "parent": "abf90ebc381b"
+    },
+    {
+      "candidate": "585980bae4ce",
+      "decision": "kept",
+      "metrics": {
+        "elapsed_ms": 77821,
+        "file_change_events": 2,
+        "tool_calls": 3,
+        "tool_errors": 1,
+        "tools": {
+          "exec_command": 3
+        },
+        "usage": {
+          "cached_input_tokens": 122112,
+          "input_tokens": 132808,
+          "output_tokens": 3886,
+          "reasoning_output_tokens": 498,
+          "total_tokens": 136694
+        }
+      },
+      "parent": "b288d47b4e46"
+    },
+    {
+      "candidate": "3ed9aede4c84",
+      "decision": "kept",
+      "metrics": {
+        "elapsed_ms": 54928,
+        "file_change_events": 1,
+        "tool_calls": 3,
+        "tool_errors": 1,
+        "tools": {
+          "exec_command": 3
+        },
+        "usage": {
+          "cached_input_tokens": 102912,
+          "input_tokens": 113969,
+          "output_tokens": 2775,
+          "reasoning_output_tokens": 277,
+          "total_tokens": 116744
+        }
+      },
+      "parent": "585980bae4ce"
+    },
+    {
+      "candidate": "03c5424f3d7d",
+      "decision": "kept",
+      "metrics": {
+        "elapsed_ms": 55493,
+        "file_change_events": 1,
+        "tool_calls": 3,
+        "tool_errors": 1,
+        "tools": {
+          "exec_command": 3
+        },
+        "usage": {
+          "cached_input_tokens": 85632,
+          "input_tokens": 110476,
+          "output_tokens": 2811,
+          "reasoning_output_tokens": 264,
+          "total_tokens": 113287
+        }
+      },
+      "parent": "3ed9aede4c84"
+    },
+    {
+      "candidate": "29c4ddc219b8",
+      "decision": "kept",
+      "metrics": {
+        "elapsed_ms": 79009,
+        "file_change_events": 2,
+        "tool_calls": 3,
+        "tool_errors": 1,
+        "tools": {
+          "exec_command": 3
+        },
+        "usage": {
+          "cached_input_tokens": 122752,
+          "input_tokens": 133846,
+          "output_tokens": 4286,
+          "reasoning_output_tokens": 844,
+          "total_tokens": 138132
+        }
+      },
+      "parent": "03c5424f3d7d"
+    }
+  ],
+  "selected": "29c4ddc219b8",
+  "target_proposals": 5
+}

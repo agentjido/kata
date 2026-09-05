@@ -2,10 +2,24 @@ defmodule KataEvolve.Store do
   @moduledoc "Git-friendly skills, final files, measurements, and resumable proposals."
   alias KataEvolve.{Fixture, Harness, Skill}
 
+  def profile(name) do
+    {profiles, _} = Code.eval_file(Path.join(KataEvolve.root(), "config/profiles.exs"))
+
+    case Map.fetch(profiles, name) do
+      {:ok, profile} ->
+        profile
+
+      :error ->
+        raise ArgumentError,
+              "Unknown profile: #{name}. Choose #{Enum.join(Map.keys(profiles), ", ")}"
+    end
+  end
+
   def context(opts) do
     root = KataEvolve.root()
-    {profiles, _} = Code.eval_file(Path.join(root, "config/profiles.exs"))
-    profile = profiles["codex-astra-xhigh"]
+    profile_name = opts[:profile] || "codex-astra-xhigh"
+    profile = profile(profile_name)
+
     {cli, 0} = System.cmd(profile.provider_options.cli_path, ["--version"])
     seed = File.read!(Path.expand("../skills/kata-setup/SKILL.md", root))
     template = File.read!(Path.expand("../skills/kata-setup/templates/docs-agents.md", root))
@@ -18,7 +32,8 @@ defmodule KataEvolve.Store do
       Path.wildcard(Path.join(Mix.Project.deps_paths()[:jido_harness], "lib/**/*.ex"))
 
     identity = %{
-      "runner" => "setup-v2",
+      "runner" => "setup-v3",
+      "profile_name" => profile_name,
       "baseline" => Skill.hash(seed),
       "template" => Skill.hash(template),
       "inputs" => fingerprint(inputs),
@@ -29,9 +44,8 @@ defmodule KataEvolve.Store do
         "Normal Codex execution inherits host config. Refresh after changing that config."
     }
 
-    key = identity |> :erlang.term_to_binary() |> Skill.hash() |> String.slice(0, 12)
-    dir = opts[:dir] || Path.join(root, "results/setup")
-    write(Path.join(dir, "context-#{key}.json"), identity)
+    dir = opts[:dir] || Path.join(root, "results/setup/#{profile_name}")
+    key = save_context(dir, identity)
 
     %{
       dir: dir,
@@ -39,11 +53,35 @@ defmodule KataEvolve.Store do
       seed: seed,
       template: template,
       profile: profile,
+      profile_name: profile_name,
       execute: &Harness.execute/3,
       fresh: opts[:fresh] || false,
       started_at: DateTime.to_iso8601(DateTime.utc_now()),
       deadline: System.monotonic_time(:millisecond) + (opts[:minutes] || 30) * 60_000
     }
+  end
+
+  def save_context(dir, identity) do
+    # JSON removes atom ordering differences between VM instances. Match old
+    # records by content so their saved executions remain available.
+    normalized = identity |> Jason.encode!() |> Jason.decode!()
+
+    existing =
+      Path.wildcard(Path.join(dir, "context-*.json"))
+      |> Enum.find(&(read(&1) == normalized))
+
+    if existing do
+      existing |> Path.basename(".json") |> String.replace_prefix("context-", "")
+    else
+      key =
+        normalized
+        |> :erlang.term_to_binary([:deterministic])
+        |> Skill.hash()
+        |> String.slice(0, 12)
+
+      write(Path.join(dir, "context-#{key}.json"), identity)
+      key
+    end
   end
 
   def skill(ctx, text) do
@@ -70,7 +108,7 @@ defmodule KataEvolve.Store do
     Map.merge(record, %{"checks" => checked.checks, "feedback" => checked.feedback})
   end
 
-  def report(ctx, baseline, best, records) do
+  def report(ctx, baseline, best, records, baseline_records \\ nil) do
     text = text(ctx, best)
 
     passed =
@@ -81,8 +119,12 @@ defmodule KataEvolve.Store do
     full_suite = length(records) == 3
     ready = full_suite and passed and Skill.validate(text) == :ok and Skill.words(text) <= 500
 
-    baseline_record = read(case_path(ctx, baseline, hd(Fixture.cases().train).id)) |> recheck()
-    comparison = [{"baseline", baseline_record}] ++ Enum.map(records, &{"selected", &1})
+    baseline_records =
+      baseline_records ||
+        [read(case_path(ctx, baseline, hd(Fixture.cases().train).id)) |> recheck()]
+
+    comparison =
+      Enum.map(baseline_records, &{"baseline", &1}) ++ Enum.map(records, &{"selected", &1})
 
     lines =
       for {label, r} <- comparison do
@@ -94,6 +136,8 @@ defmodule KataEvolve.Store do
     report = """
     # Setup evaluation
 
+    Profile: #{ctx.profile_name} (#{ctx.profile.model}, #{ctx.profile.reasoning_effort}).
+    Source skills target Codex / gpt-6-astra / xhigh. Other profiles are experiments.
     Baseline: #{baseline} (#{Skill.words(text(ctx, baseline))} words).
     Selected: [#{best}](skills/#{best}.md) (#{Skill.words(text)} words).
     Ready for review: #{ready}. Full suite checked: #{full_suite}. Original skill is unchanged.
@@ -102,6 +146,8 @@ defmodule KataEvolve.Store do
     | --- | --- | --- | --- | --- | --- |
     #{Enum.join(lines, "\n")}
 
+    #{rounds(ctx)}
+
     Measurements are from saved executions; reuse does not measure the model again.
     This is one small suite, not a general reliability claim. Token subsets and proposal
     costs are in the case JSON and search JSON. Context: context-#{ctx.key}.json.
@@ -109,7 +155,27 @@ defmodule KataEvolve.Store do
 
     File.write!(Path.join(ctx.dir, "report.md"), report)
     IO.puts(report)
+    IO.puts("Saved #{Path.relative_to(Path.join(ctx.dir, "report.md"), KataEvolve.root())}")
     %{passed: passed, ready: ready, candidate: best, records: records}
+  end
+
+  defp rounds(ctx) do
+    path = Path.join(ctx.dir, "search-#{ctx.key}.json")
+    proposals = if File.exists?(path), do: read(path)["proposals"], else: []
+
+    rows =
+      proposals
+      |> Enum.with_index(1)
+      |> Enum.map(fn {p, number} ->
+        path = case_path(ctx, p["candidate"], hd(Fixture.cases().train).id)
+        observed = if File.exists?(path), do: read(path), else: %{}
+        metrics = observed["metrics"] || %{}
+
+        "| #{number} | [#{p["candidate"]}](skills/#{p["candidate"]}.md) | #{observed["skill_words"] || "not run"} | #{p["decision"] || "pending"} | #{get_in(metrics, ["usage", "total_tokens"]) || "unknown"} | #{metrics["tool_calls"] || "unknown"} | #{metrics["elapsed_ms"] || "unknown"} | #{get_in(p, ["metrics", "usage", "total_tokens"]) || "unknown"} |"
+      end)
+
+    "Tuning rounds: #{length(proposals)}.\n\n| Round | Candidate | Words | Training decision | Task tokens | Tool calls | Milliseconds | Proposal tokens |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n" <>
+      Enum.join(rows, "\n")
   end
 
   def write(path, data) do

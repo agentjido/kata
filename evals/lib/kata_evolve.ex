@@ -21,7 +21,12 @@ defmodule KataEvolve do
         do: Enum.map(cases.train ++ cases.validation ++ cases.test, &evaluate(ctx, best, &1)),
         else: [baseline_result]
 
-    report = Store.report(ctx, baseline, best, results)
+    baseline_results =
+      if command == "tune",
+        do: Enum.map(cases.train ++ cases.validation ++ cases.test, &evaluate(ctx, baseline, &1)),
+        else: [baseline_result]
+
+    report = Store.report(ctx, baseline, best, results, baseline_results)
 
     if command == "tune" do
       path = Path.join(ctx.dir, "search-#{ctx.key}.json")
@@ -35,8 +40,11 @@ defmodule KataEvolve do
     report
   end
 
-  def check do
-    records = Path.wildcard(Path.join(root(), "results/setup/cases/*.json"))
+  def check(opts \\ []) do
+    profile = opts[:profile]
+    if profile, do: Store.profile(profile)
+    scope = profile || "**"
+    records = Path.wildcard(Path.join(root(), "results/setup/#{scope}/cases/*.json"))
 
     for path <- records do
       result = Store.read(path) |> Store.recheck()
@@ -49,56 +57,67 @@ defmodule KataEvolve do
   def tune(ctx, baseline, baseline_result, attempts) do
     path = Path.join(ctx.dir, "search-#{ctx.key}.json")
     state = if File.exists?(path), do: Store.read(path), else: %{"proposals" => []}
-    pending = state["pending"] == true
+    count = length(state["proposals"])
 
-    # Recheck saved training evidence before selecting a parent.
-    {best, result} =
-      Enum.reduce(state["proposals"], {baseline, baseline_result}, fn proposal, {best, result} ->
-        candidate = proposal["candidate"]
+    target =
+      if state["pending"],
+        do: state["target_proposals"] || count + attempts - 1,
+        else: count + attempts
 
-        if Skill.validate(Store.text(ctx, candidate)) == :ok do
-          observed = evaluate(ctx, candidate, hd(Fixture.cases().train))
-          if better?(observed, result), do: {candidate, observed}, else: {best, result}
-        else
-          {best, result}
-        end
+    state = Map.merge(state, %{"target_proposals" => target, "pending" => true})
+    Store.write(path, state)
+
+    # Recheck saved training evidence; resume the same budget after an interruption.
+    {best, result, proposals} =
+      Enum.reduce(state["proposals"], {baseline, baseline_result, []}, fn proposal,
+                                                                          {best, result, done} ->
+        {best, result, proposal} = compare(ctx, proposal, best, result)
+        {best, result, done ++ [proposal]}
       end)
 
-    # Completing a saved pending proposal counts as this invocation's first attempt.
-    count = if pending, do: attempts - 1, else: attempts
+    state = Map.put(state, "proposals", proposals)
     Store.write(path, state)
 
     {best, _result, _state} =
-      Enum.reduce_while(List.duplicate(:attempt, max(count, 0)), {best, result, state}, fn _,
-                                                                                           {best,
-                                                                                            result,
-                                                                                            state} ->
+      Enum.reduce(List.duplicate(:attempt, max(target - count, 0)), {best, result, state}, fn _,
+                                                                                              {best,
+                                                                                               result,
+                                                                                               state} ->
+        round = length(state["proposals"]) + 1
+        IO.puts("Tuning round #{round}/#{target}")
         feedback = training_feedback(ctx, state, result)
         {candidate, metrics} = propose(ctx, best, feedback)
         proposal = %{"parent" => best, "candidate" => candidate, "metrics" => metrics}
-        state = Map.update!(state, "proposals", &(&1 ++ [proposal])) |> Map.put("pending", true)
+        state = Map.update!(state, "proposals", &(&1 ++ [proposal]))
         Store.write(path, state)
 
-        if Skill.validate(Store.text(ctx, candidate)) == :ok and candidate != best do
-          observed = evaluate(ctx, candidate, hd(Fixture.cases().train))
-          improved = better?(observed, result)
-
-          IO.puts(
-            if improved,
-              do: "Keep shorter passing candidate.",
-              else: "Reject candidate; keep parent."
-          )
-
-          if improved,
-            do: {:cont, {candidate, observed, state}},
-            else: {:halt, {best, result, state}}
-        else
-          IO.puts("Reject unchanged or invalid proposal.")
-          {:halt, {best, result, state}}
-        end
+        {best, result, proposal} = compare(ctx, proposal, best, result)
+        state = Map.update!(state, "proposals", &List.replace_at(&1, -1, proposal))
+        Store.write(path, state)
+        IO.puts("Round #{round}: #{proposal["decision"]}")
+        {best, result, state}
       end)
 
     best
+  end
+
+  defp compare(ctx, proposal, best, result) do
+    candidate = proposal["candidate"]
+
+    cond do
+      Skill.validate(Store.text(ctx, candidate)) != :ok ->
+        {best, result, Map.put(proposal, "decision", "invalid")}
+
+      candidate == best ->
+        {best, result, Map.put(proposal, "decision", "unchanged")}
+
+      true ->
+        observed = evaluate(ctx, candidate, hd(Fixture.cases().train))
+
+        if better?(observed, result),
+          do: {candidate, observed, Map.put(proposal, "decision", "kept")},
+          else: {best, result, Map.put(proposal, "decision", "rejected")}
+    end
   end
 
   def better?(candidate, parent) do
@@ -193,6 +212,7 @@ defmodule KataEvolve do
       training checks and measurements. Use failures to correct behavior; otherwise shorten it.
       Aim for 200-500 words. A shorter intermediate version above 500 words is allowed.
       Keep name and description frontmatter and the templates/docs-agents.md reference.
+      The runner sets optimized_for metadata to the active profile after this edit.
       Keep the scope and safeguards: inspect first, preserve instructions and local edits,
       fixed consumers, collision-safe moves, relative links, intake provenance, and safe repeats.
       Do not add fixture-specific paths or test-specific rules. Do not run setup here.
@@ -201,7 +221,7 @@ defmodule KataEvolve do
 
       case ctx.execute.(limits(ctx), prompt, workspace) do
         {:ok, %{metrics: metrics}} ->
-          text = File.read!(Path.join(workspace, "SKILL.md"))
+          text = File.read!(Path.join(workspace, "SKILL.md")) |> Skill.mark_optimized(ctx.profile)
           {Store.skill(ctx, text), metrics}
 
         {:error, error} ->

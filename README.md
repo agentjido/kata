@@ -36,10 +36,24 @@ documents as verified or create every category in advance.
 
 ## Skill evaluation
 
-Keep each source skill in `skills/<name>/SKILL.md`. Aim for 200–500 words and
-keep its instructions independent of the model and coding host. Use the local
-Elixir project in [`evals/`](evals/README.md) to measure and improve it. Users
-do not need Elixir to use the plugin.
+Our target is **Astra xhigh**: Codex, model `gpt-6-astra`, reasoning `xhigh`.
+Skills in `skills/` target this profile. Keep one source version per skill and
+aim for 200–500 words. Other models can be used for experiments; their candidates
+and measurements stay in `evals/results/`. We do not maintain separate model
+variants of the source skills.
+
+The setup skill records its optimization target in one frontmatter line:
+
+```yaml
+metadata: {optimized_for: "codex/gpt-6-astra/xhigh"}
+```
+
+This is a provenance note, not a command that selects or requires a model.
+The execution profile controls the harness, model, and reasoning level. Only add
+an optimization claim when a skill has been tuned for that target; the other
+skills share the intended target but do not yet have equivalent evaluation evidence.
+Use [`evals/`](evals/README.md) to measure and improve skills. Plugin users do not
+need Elixir.
 
 ### Tune, check, and adopt
 
@@ -65,31 +79,98 @@ mix check
 mix setup.eval tune
 ```
 
-Read `evals/results/setup/report.md` and the candidate it links to. The tuning
-command does not overwrite the source skill. It reuses completed runs and resumes
+Read the profile report printed by the command and the candidate it links to.
+The tuning command does not overwrite the source skill. It reuses completed runs and resumes
 saved proposals. After adoption, the new source becomes the next tuning baseline.
 
-The current loop optimizes word count subject to correctness. It reports tokens,
+The current loop still optimizes word count subject to correctness. It reports tokens,
 tool calls, and elapsed time separately. A shorter skill can use more total tokens:
 the first setup trial reduced the skill from 939 to 499 words, but its training
 run used more tokens. See the [recorded comparison](evals/results/setup/report.md).
+
+### Skill quality score: `setup-quality-v1`
+
+Use a fixed rule to score saved evidence. **The same inputs and rule version must
+produce the same score.** The calculator runs without a model. New live executions
+can produce different evidence and thus different scores.
+
+Correctness is a requirement. A candidate scores **0** if its format is invalid,
+it exceeds 500 words, any required check fails, or an execution fails or times out.
+Missing cases, duplicate executions, or mixed contexts are **unscored** (`null`).
+Missing cost measurements for otherwise passing work are also unscored. The fixed reference
+must have complete, passing results. Scores apply to the named suite and profile.
+
+For each case, take the median of each metric across the required executions.
+Compare the candidate with a **fixed source baseline**, not the latest parent:
+
+```text
+token_ratio = candidate_tokens / baseline_tokens
+tool_ratio  = (candidate_tool_calls + 1) / (baseline_tool_calls + 1)
+time_ratio  = candidate_elapsed_ms / baseline_elapsed_ms
+
+case_cost = 0.70 × token_ratio + 0.20 × tool_ratio + 0.10 × time_ratio
+cost      = mean(case_cost across all required cases)
+score     = round(100 / (1 + cost), 6)
+```
+
+Each case has equal weight. Total tokens are input plus output, including cached
+input once. The `+1` permits a reference case with zero tool calls. Positive token
+and time measurements are required. Proposal costs are reported separately.
+The weights are our v1 policy: token use matters most; variable elapsed time has
+less weight. Word count is a limit, with no extra reward for shorter text.
+
+A passing baseline scores **50**. Lower relative cost scores above 50; higher cost
+scores below 50. Freeze the reference, fixtures, required checks, profile, execution
+settings, repetitions, and rule version before search. A change starts a new score
+series. Do not compare scores across profiles or different case sets.
+
+Use one execution per case for an **exploratory** score. Require three fresh
+executions per case for both reference and candidate before promotion; every
+execution must pass. A median cannot hide a failed execution. The evolver should
+maximize the training score, keep the current parent on equal scores, and check
+the selected candidate on cases excluded from proposal feedback. Promotion also
+requires a repeated full-suite score above the fixed reference and review of
+behavior the assertions do not cover.
+
+The [offline calculator](evals/lib/kata_evolve/score.ex) implements this rule.
+The [scoring guide](evals/README.md#calculate-a-quality-score) gives the command and
+evidence contract. Connecting this fitness rule to the evolver and collecting
+repeated executions remain next steps; `tune` still selects by word count.
+
+Applied to the saved Sol trial, the source scores **50.000000** and the selected
+445-word candidate scores **43.654704**. These are exploratory scores. This rule
+would reject the candidate for promotion despite its shorter text.
 
 ### Models and current scope
 
 | Harness | Model | Reasoning | Use and evidence |
 | --- | --- | --- | --- |
 | Codex through `jido_harness` | `gpt-6-astra` | `xhigh` | Primary tuning profile. The adopted setup candidate passed three live cases. |
-| Other model IDs, reasoning levels, or harnesses | Explicit profile required | Explicit value required | No current compatibility claim. Test each selected profile before declaring support. |
+| Codex through `jido_harness` | `gpt-5.6-sol` | `medium` | Completed five tuning rounds. The source and selected candidate each passed all 30 fixture checks. |
 
-The task model and proposal model currently use the same profile. Keep model
-settings in the evaluation code, not in shared skill instructions. A model family
-is a way to group profiles; success on one model does not prove family-wide support.
-Keep one source skill and test that text on the profiles we choose to support.
+The task model and proposal model use the same profile. Astra xhigh is the default.
+For the Sol medium experiment, from `evals`:
 
-Only setup is wired into the runner today. The other skills need dedicated suites;
-there is no generic skill selector, `--profile` option, or fixed-candidate verification
-command yet. See [adding a skill and selecting models](evals/README.md#adding-another-skill)
-for the next small extension and the manual adoption steps.
+```sh
+mix setup.eval tune --profile codex-sol-medium --attempts 5 --minutes 30
+```
+
+Five attempts means five proposal rounds, followed by final checks. It does not
+mean five independent repetitions of an unchanged skill. Each round compares its
+candidate against the best training result so far. Rejected proposals do not end
+the requested round budget. Saved state preserves that budget after an interruption.
+
+The [completed Sol trial](evals/results/setup/codex-sol-medium/report.md) reduced
+the skill from 500 to 445 words. Total tokens across the three cases increased
+from 698,373 to 857,248, about 23%. The loop improved word count; this trial did
+not show token savings. The candidate stays in evaluation results. The source
+skill and its Astra target are unchanged.
+
+Only setup is wired into the runner today. The other skills need dedicated suites.
+Profile selection is available; a generic skill selector and fixed-candidate
+verification command remain future work. See [the evaluation guide](evals/README.md)
+for the complete process. Testing Sol does not change the Astra target for `skills/`
+or establish support for an entire model family.
 
 ## Attribution
 
