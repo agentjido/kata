@@ -449,7 +449,7 @@ defmodule DeadCode.CLI do
       do: raise(ArgumentError, "Use [--json] [--root DIR] [--roots FILE]")
 
     root = opts |> Keyword.get(:root, File.cwd!()) |> Path.expand()
-    project_manifest_path = Path.join(root, ".agents/skills/kata-hunt-dead-code/roots.exs")
+    project_manifest_path = Path.join(root, ".agents/skills/kata-ex-hunt-dead-code/roots.exs")
 
     installed_manifest_path =
       __ENV__.file

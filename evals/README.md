@@ -271,8 +271,8 @@ different final cases. Suitable first cases are:
 
 | Skill | Saved input | Checks to write |
 | --- | --- | --- |
-| `kata-coverage` | Small Elixir project with known covered and uncovered lines and generated coverage data | Correct modules, line numbers, and coverage counts; source files preserved. |
-| `kata-hunt-dead-code` | Elixir project with an unused module cycle, public entry points, and dynamic references | Finds the unused group; retains live modules; audit leaves files unchanged. Test requested removals separately with compilation and runtime checks. |
+| `kata-ex-coverage` | Small Elixir project with known covered and uncovered lines and generated coverage data | Correct modules, line numbers, and coverage counts; source files preserved. |
+| `kata-ex-hunt-dead-code` | Elixir project with an unused module cycle, public entry points, and dynamic references | Finds the unused group; retains live modules; audit leaves files unchanged. Test requested removals separately with compilation and runtime checks. |
 | `kata-neckbeard` | Small project with a known feature, limits, and an unanswered question | Claims agree with the source; cited files and lines support them; missing evidence is stated; project files preserved. |
 | `kata-showme` | Fixed explanation request with known concepts and relationships | Required content and relationships are present; output opens and local links resolve. Review visual clarity separately. |
 

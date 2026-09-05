@@ -15,13 +15,28 @@ Understand the current condition. Set a clear target. Make a small change. Check
 
 Use the amount of planning that the work needs. A small fix can use a few lines in the conversation. A larger change can use a written plan. Specifications are one tool in the process.
 
+Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills use
+`kata-<task>`. Keep both in the flat `skills/<name>/SKILL.md` layout.
+
+### General engineering
+
 | Skill | Job |
 | --- | --- |
-| `kata-coverage` | Find and explain gaps in Elixir test coverage. |
-| `kata-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-setup` | Set up Docs Kata and collect existing documents in `docs/inbox`. |
+
+### Elixir engineering
+
+| Skill | Job |
+| --- | --- |
+| `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
+| `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
+
+Elixir skills declare `metadata: {language: elixir}`. Without a language marker,
+a skill is language-agnostic. `kata-neckbeard` is general system investigation;
+it does not require Elixir. Language scope is separate from the model recorded
+in `optimized_for`.
 
 Use a skill by name when you need it. Each skill can run separately.
 
@@ -192,7 +207,7 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
   skills. These were not published in a public repository. Kata includes
-  adaptations as `kata-coverage`, `kata-neckbeard`, and `kata-hunt-dead-code`.
+  adaptations as `kata-ex-coverage`, `kata-neckbeard`, and `kata-ex-hunt-dead-code`.
 
 ## Installation
 
@@ -215,7 +230,7 @@ npx skills add /path/to/kata --agent codex
 
 These commands install skills at project scope. Installation has not been tested.
 
-Ask the host to use a skill by name. For example: "Use kata-coverage to inspect test coverage." Skill invocation syntax depends on the host.
+Ask the host to use a skill by name. For example: "Use kata-ex-coverage to inspect test coverage." Skill invocation syntax depends on the host.
 
 ### Grok Build CLI
 
@@ -252,9 +267,9 @@ above do not install skills into that library. For personal use, give the Bot
 the skill files and ask it to save each one as a private skill:
 
 1. Attach the selected `skills/kata-*/SKILL.md` file to a Bot conversation.
-2. Include the skill's support files: `coverage_tool.exs` for `kata-coverage`,
+2. Include the skill's support files: `coverage_tool.exs` for `kata-ex-coverage`,
    `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
-   `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-hunt-dead-code`.
+   `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
    the instructions, author credits, and support files. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."

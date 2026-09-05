@@ -1,6 +1,7 @@
 ---
-name: kata-hunt-dead-code
+name: kata-ex-hunt-dead-code
 description: Find unused Elixir modules and module groups through reachability analysis. Use when auditing dead code, checking abandoned subsystems, or removing confirmed unused code and its tests.
+metadata: {language: elixir}
 ---
 
 # Kata Hunt Dead Code
@@ -31,7 +32,7 @@ elixir "<skill-directory>/scripts/dead_code.exs" --root "<project-root>" --roots
 ```
 
 `--roots` is relative to `--root`; absolute paths also work. Without `--roots`,
-the analyzer uses the target's `.agents/skills/kata-hunt-dead-code/roots.exs`, then
+the analyzer uses the target's `.agents/skills/kata-ex-hunt-dead-code/roots.exs`, then
 the bundled template. JSON output needs Elixir 1.18+; omit `--json` for text.
 
 ## Check each candidate
