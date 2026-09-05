@@ -18,6 +18,7 @@ Use the amount of planning that the work needs. A small fix can use a few lines 
 | Skill | Job |
 | --- | --- |
 | `kata-coverage` | Find and explain gaps in Elixir test coverage. |
+| `kata-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-setup` | Set up Docs Kata and collect existing documents in `docs/inbox`. |
@@ -94,8 +95,15 @@ Use a fixed rule to score saved evidence. **The same inputs and rule version mus
 produce the same score.** The calculator runs without a model. New live executions
 can produce different evidence and thus different scores.
 
+**Every case must pass its Elixir outcome test before efficiency earns a score.**
+The test checks the actual final project state. For file creation, assert the
+expected path, file type, required content, valid links, and preservation of
+existing material. File existence or a model's success statement is insufficient.
+Setup runs `ExUnit.Assertions` through `Fixture.assert_outcome!/1` and records
+`outcome_test`; saved final files can run through those assertions again offline.
+
 Correctness is a requirement. A candidate scores **0** if its format is invalid,
-it exceeds 500 words, any required check fails, or an execution fails or times out.
+it exceeds 500 words, its required Elixir outcome test fails, or an execution fails or times out.
 Missing cases, duplicate executions, or mixed contexts are **unscored** (`null`).
 Missing cost measurements for otherwise passing work are also unscored. The fixed reference
 must have complete, passing results. Scores apply to the named suite and profile.
@@ -140,6 +148,9 @@ repeated executions remain next steps; `tune` still selects by word count.
 Applied to the saved Sol trial, the source scores **50.000000** and the selected
 445-word candidate scores **43.654704**. These are exploratory scores. This rule
 would reject the candidate for promotion despite its shorter text.
+The expanded setup outcome test passes 13 assertions per case on those saved
+files, including generated content. The original live report retains its ten
+checks per case; the new checker identity and results are recorded by the scorer.
 
 ### Models and current scope
 
@@ -181,8 +192,7 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
   skills. These were not published in a public repository. Kata includes
-  adaptations as `kata-coverage` and `kata-neckbeard`. The dead code skill is
-  stored in the workspace references and is not yet part of the plugin.
+  adaptations as `kata-coverage`, `kata-neckbeard`, and `kata-hunt-dead-code`.
 
 ## Installation
 
@@ -243,7 +253,8 @@ the skill files and ask it to save each one as a private skill:
 
 1. Attach the selected `skills/kata-*/SKILL.md` file to a Bot conversation.
 2. Include the skill's support files: `coverage_tool.exs` for `kata-coverage`,
-   `LICENSE` for `kata-showme`, and `templates/docs-agents.md` for `kata-setup`.
+   `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
+   `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-hunt-dead-code`.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
    the instructions, author credits, and support files. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."
@@ -301,6 +312,9 @@ The package follows the root skills layout used by [Compound Engineering](https:
 
 There is no plugin build step, runtime service, or hook. The coverage skill
 includes an Elixir script that reads coverage data from a target project.
+The dead-code skill includes an Elixir analyzer for source references and declared
+entry points. Its JSON output needs Elixir 1.18+. Keep project root declarations
+in the target repository and pass their path with `--roots`.
 The `private: true` field in `package.json` prevents accidental npm publication;
 it does not control GitHub visibility or prevent Pi installs from Git.
 No npm publication or public marketplace submission is configured.

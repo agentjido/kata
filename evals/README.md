@@ -114,6 +114,41 @@ contract. Its implementation is [`KataEvolve.Score`](lib/kata_evolve/score.ex).
 It has a correctness gate, then a bounded cost score. All required checks must pass;
 passing more assertions does not compensate for one failed assertion.
 
+### Elixir outcome tests are required
+
+Each skill needs a hard-coded Elixir test for the result of its work. Test the
+actual final files and behavior. A statement from the agent that it finished is
+not evidence. For setup, the output contract includes:
+
+| Output | Required assertion |
+| --- | --- |
+| `docs/AGENTS.md` | A regular file that contains the supplied rules template. |
+| `docs/README.md` | A regular file with links to the rules and inbox. |
+| `docs/inbox/README.md` | A regular file with source/destination records and an unprocessed or pending-review status. |
+| Moved documents and assets | Content is preserved and links reach the intended files. |
+| Existing project files and Git index | Protected files, local edits, and index entries are preserved. |
+
+`Fixture.check_snapshot/3` derives the thirteen conditions from the initial and
+final snapshots. `Fixture.assert_outcome!/1` executes their `ExUnit.Assertions`.
+`Store.recheck/1` records the case ID, framework, and passed/failed result in
+`outcome_test`. It always recomputes the result from final files. The score requires
+both the passed test result and every required check; a failed output test scores
+zero regardless of token savings. A missing test result cannot qualify.
+
+These assertions execute after each skill run and during offline scoring. The
+ExUnit suite also tests the checker with deliberately missing files, empty rules,
+broken index links, and an incorrect intake status. A cached success flag cannot
+make those outputs pass. Passing tests of the calculator alone does not qualify
+a candidate; its own saved output must pass the outcome test.
+
+Keep assertions outside the agent's editable project. Define the contract before
+search and keep it fixed during tuning. Use exact text only where the contract
+requires it, such as a supplied template. For free-form output, assert observable
+properties and identify anything that still needs human review. Changes to the
+checker start a new score series; they can regrade saved files without model calls.
+
+### Run the calculator
+
 Run this from `evals` to score the saved Sol candidate:
 
 ```sh
@@ -168,7 +203,7 @@ the reference. Also fix the training and final case sets before search.
 `Score.calculate(candidate, reference, protocol)` is the pure calculation. Each
 candidate/reference contains `text` and `records`. The protocol contains `context`,
 `case_ids`, `checks`, and `repetitions`. The saved-file command uses all three setup
-cases and the ten names in `Fixture.check_names/0`.
+cases and the thirteen names in `Fixture.check_names/0`.
 
 - Require exactly the declared cases and executions for both versions. A record
   must match its context and skill hash. Each execution must have a distinct
@@ -208,13 +243,16 @@ candidate with v1 gives:
 
 | Version | Words | Checks | Quality score | Evidence |
 | --- | --- | --- | --- | --- |
-| Fixed source reference | 500 | 30/30 | 50.000000 | One execution per case |
-| Selected Sol candidate | 445 | 30/30 | 43.654704 | One execution per case |
+| Fixed source reference | 500 | 39/39 | 50.000000 | One execution per case |
+| Selected Sol candidate | 445 | 39/39 | 43.654704 | One execution per case |
 
 The shorter candidate costs more under this policy. It would not pass the score
 requirement for promotion. This is an offline calculation, not a new model run or
 a rerun of the five-round search. The score and its input hashes are saved beside
 the original report; earlier search decisions remain unchanged.
+The current checker adds three output assertions per case to the original ten.
+Both versions pass them on their saved files. The historical live report retains
+its original counts; the score JSON records the expanded contract and checker hash.
 
 The calculator is implemented and tested. The evolver still uses `better?/2` and
 word count. Connect the new calculation, freeze its reference and protocol in
@@ -234,6 +272,7 @@ different final cases. Suitable first cases are:
 | Skill | Saved input | Checks to write |
 | --- | --- | --- |
 | `kata-coverage` | Small Elixir project with known covered and uncovered lines and generated coverage data | Correct modules, line numbers, and coverage counts; source files preserved. |
+| `kata-hunt-dead-code` | Elixir project with an unused module cycle, public entry points, and dynamic references | Finds the unused group; retains live modules; audit leaves files unchanged. Test requested removals separately with compilation and runtime checks. |
 | `kata-neckbeard` | Small project with a known feature, limits, and an unanswered question | Claims agree with the source; cited files and lines support them; missing evidence is stated; project files preserved. |
 | `kata-showme` | Fixed explanation request with known concepts and relationships | Required content and relationships are present; output opens and local links resolve. Review visual clarity separately. |
 

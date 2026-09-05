@@ -5,7 +5,11 @@ defmodule KataEvolve.SetupTest do
     for path <- Path.wildcard(Path.expand("../../results/setup/**/cases/*.json", __DIR__)) do
       record = KataEvolve.Store.read(path)
       checked = KataEvolve.Store.recheck(record)
-      assert checked["checks"] == record["checks"]
+      # Preserve the original check results while adding new output assertions.
+      assert Map.take(checked["checks"], Map.keys(record["checks"])) == record["checks"]
+
+      assert checked["outcome_test"]["status"] == "passed" ==
+               Enum.all?(checked["checks"], &elem(&1, 1))
     end
   end
 
@@ -23,7 +27,7 @@ defmodule KataEvolve.SetupTest do
         initial = %{files: record["initial"]["files"], index: record["initial"]["index"]}
         snapshot = %{files: record["final"]["files"], index: record["final"]["index"]}
         result = KataEvolve.Fixture.check_snapshot(snapshot, cases[record["case_id"]], initial)
-        assert result.checks == record["checks"]
+        assert Map.take(result.checks, Map.keys(record["checks"])) == record["checks"]
         assert KataEvolve.Skill.words(record["skill"]) <= 500 == record["word_budget_pass"]
       end
     end

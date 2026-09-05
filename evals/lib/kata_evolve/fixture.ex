@@ -3,7 +3,18 @@ defmodule KataEvolve.Fixture do
 
   def check_names,
     do:
-      ~w(setup_files content_preserved asset_preserved sources_moved image_target readme_target index_link intake_record protected_files git_index)
+      ~w(setup_files rules_content docs_index_targets intake_status content_preserved asset_preserved sources_moved image_target readme_target index_link intake_record protected_files git_index)
+
+  def assert_outcome!(checked) do
+    for name <- check_names() do
+      ExUnit.Assertions.assert(
+        checked.checks[name] == true,
+        "Setup output assertion failed: #{name}"
+      )
+    end
+
+    :ok
+  end
 
   def cases do
     %{
@@ -76,6 +87,7 @@ defmodule KataEvolve.Fixture do
     asset_destination = "docs/inbox/" <> item.asset
     doc = read(snapshot, destination)
     log = read(snapshot, "docs/inbox/README.md")
+    template = initial.files[".agents/skills/kata-setup/templates/docs-agents.md"] || ""
 
     checks = %{
       "setup_files" =>
@@ -83,6 +95,15 @@ defmodule KataEvolve.Fixture do
           ["docs/AGENTS.md", "docs/README.md", "docs/inbox/README.md"],
           &KataEvolve.Snapshot.regular?(snapshot, &1)
         ),
+      "rules_content" =>
+        String.trim(template) != "" and
+          String.contains?(read(snapshot, "docs/AGENTS.md"), String.trim(template)),
+      "docs_index_targets" =>
+        links_to?(snapshot, "docs/README.md", "docs/AGENTS.md") and
+          (links_to?(snapshot, "docs/README.md", "docs/inbox/README.md") or
+             links_to?(snapshot, "docs/README.md", "docs/inbox")),
+      "intake_status" =>
+        Regex.match?(~r/await(?:s|ing)?\s+review|pending|unprocessed|unverified/i, log),
       "content_preserved" => normalize(doc) == normalize(initial.files[item.source]),
       "asset_preserved" => read(snapshot, asset_destination) == initial.files[item.asset],
       "sources_moved" =>
@@ -151,7 +172,8 @@ defmodule KataEvolve.Fixture do
   defp links_to?(snapshot, from, target) do
     Regex.scan(~r/\]\(([^)]+)\)/, read(snapshot, from))
     |> Enum.any?(fn [_, href] ->
-      Path.expand(href, Path.dirname("/" <> from)) == "/" <> target
+      path = href |> String.split("#", parts: 2) |> hd()
+      Path.expand(path, Path.dirname("/" <> from)) == "/" <> target
     end)
   end
 end

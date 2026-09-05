@@ -13,7 +13,7 @@ defmodule KataEvolve.MixProject do
     ]
   end
 
-  def application, do: [extra_applications: [:logger, :crypto]]
+  def application, do: [extra_applications: [:logger, :crypto, :ex_unit]]
 
   def cli, do: [preferred_envs: [check: :test]]
 

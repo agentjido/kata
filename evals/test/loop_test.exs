@@ -184,9 +184,16 @@ defmodule KataEvolve.LoopTest do
       "# Example\n[Note](docs/inbox/#{item.source})\n[Docs](docs/README.md)\n"
     )
 
-    Fixture.write(root, "docs/AGENTS.md", "Rules")
-    Fixture.write(root, "docs/README.md", "Index")
-    Fixture.write(root, "docs/inbox/README.md", "#{item.source} | docs/inbox/#{item.source}")
+    template = File.read!(Path.join(root, ".agents/skills/kata-setup/templates/docs-agents.md"))
+    Fixture.write(root, "docs/AGENTS.md", template)
+    Fixture.write(root, "docs/README.md", "[Rules](AGENTS.md)\n[Inbox](inbox/README.md)")
+
+    Fixture.write(
+      root,
+      "docs/inbox/README.md",
+      "#{item.source} | docs/inbox/#{item.source} | Awaiting review"
+    )
+
     {:ok, %{metrics: %{}}}
   end
 end

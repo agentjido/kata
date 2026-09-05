@@ -126,6 +126,10 @@ defmodule KataEvolve.Score do
       profile: profile,
       candidate: Skill.hash(candidate.text),
       reference: Skill.hash(reference.text),
+      outcome_tests: %{
+        candidate: Enum.map(candidate.records, & &1["outcome_test"]),
+        reference: Enum.map(reference.records, & &1["outcome_test"])
+      },
       inputs: inputs
     })
   end
@@ -154,6 +158,9 @@ defmodule KataEvolve.Score do
   defp passing?(records, checks) do
     Enum.all?(records, fn r ->
       r["status"] == "completed" and is_map(r["checks"]) and
+        get_in(r, ["outcome_test", "framework"]) == "ExUnit" and
+        get_in(r, ["outcome_test", "case_id"]) == r["case_id"] and
+        get_in(r, ["outcome_test", "status"]) == "passed" and
         Enum.sort(Map.keys(r["checks"])) == Enum.sort(checks) and
         Enum.all?(r["checks"], fn {_, value} -> value == true end)
     end)

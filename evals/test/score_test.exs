@@ -1,6 +1,6 @@
 defmodule KataEvolve.ScoreTest do
   use ExUnit.Case
-  alias KataEvolve.{Score, Skill}
+  alias KataEvolve.{Fixture, Score, Skill, Store}
 
   setup do
     protocol = %{context: "fixed", case_ids: ["a", "b"], checks: ["correct"], repetitions: 1}
@@ -38,6 +38,7 @@ defmodule KataEvolve.ScoreTest do
     for change <- [
           &Map.put(&1, "checks", %{"correct" => false}),
           &Map.put(&1, "checks", %{}),
+          &Map.delete(&1, "outcome_test"),
           &Map.put(&1, "status", "error")
         ] do
       failed = %{candidate | records: List.update_at(candidate.records, 0, change)}
@@ -134,6 +135,47 @@ defmodule KataEvolve.ScoreTest do
     assert Score.from_saved("codex-sol-medium", "b76130fc2246", "29c4ddc219b8", 3).score == nil
   end
 
+  test "generated files must pass Elixir outcome assertions before earning a quality score" do
+    dir = Path.join(KataEvolve.root(), "results/setup/codex-sol-medium")
+    id = "abf90ebc381b"
+
+    records =
+      Path.wildcard(Path.join(dir, "cases/b76130fc2246-#{id}-*.json"))
+      |> Enum.map(&(Store.read(&1) |> Store.recheck()))
+
+    reference = %{text: File.read!(Path.join(dir, "skills/#{id}.md")), records: records}
+
+    protocol = %{
+      context: "b76130fc2246",
+      case_ids: Enum.map(records, & &1["case_id"]),
+      checks: Fixture.check_names(),
+      repetitions: 1
+    }
+
+    assert Score.calculate(reference, reference, protocol).score == 50.0
+
+    for {path, replacement} <- [
+          {"docs/README.md", nil},
+          {"docs/AGENTS.md", "# Rules\n"},
+          {"docs/README.md", "# Index\n[Rules](missing.md)\n"},
+          {"docs/inbox/README.md", "# Inbox\nAll material is approved.\n"}
+        ] do
+      record = hd(records)
+      files = record["final"]["files"]
+
+      files =
+        if replacement,
+          do: Map.put(files, path, %{"type" => "file", "text" => replacement}),
+          else: Map.delete(files, path)
+
+      # Cached success cannot hide an incorrect output file.
+      checked = record |> put_in(["final", "files"], files) |> Store.recheck()
+      assert checked["outcome_test"]["status"] == "failed"
+      candidate = %{reference | records: [checked | tl(records)]}
+      assert %{score_units: 0, eligible: false} = Score.calculate(candidate, reference, protocol)
+    end
+  end
+
   defp score(candidate, ctx), do: Score.calculate(candidate, ctx.reference, ctx.protocol)
   defp id(text), do: Skill.hash(text) |> String.slice(0, 12)
 
@@ -152,6 +194,7 @@ defmodule KataEvolve.ScoreTest do
           "recorded_at" => "2026-09-05T12:00:0#{repetition}Z",
           "status" => "completed",
           "checks" => Map.new(protocol.checks, &{&1, true}),
+          "outcome_test" => %{"framework" => "ExUnit", "case_id" => case_id, "status" => "passed"},
           "metrics" => %{
             "usage" => %{
               "input_tokens" => tokens - 10,

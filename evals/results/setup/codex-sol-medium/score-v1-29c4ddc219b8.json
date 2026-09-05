@@ -6,6 +6,9 @@
     "repetitions": 1,
     "checks": [
       "setup_files",
+      "rules_content",
+      "docs_index_targets",
+      "intake_status",
       "content_preserved",
       "asset_preserved",
       "sources_moved",
@@ -90,11 +93,11 @@
   "score_units": 43654704,
   "candidate": "29c4ddc219b8d3d3792d7640b04cf3fb15a332a83f7e655541a7fa56e2afa445",
   "inputs": {
-    "lib/kata_evolve/fixture.ex": "163a07f33108fa38b11f698761148a543cbf517bdd7f78a341fb190208fe10cc",
-    "lib/kata_evolve/score.ex": "f94d0df0eca71ba0f821717efb304458b24392666856bb01386acb00a04c5372",
+    "lib/kata_evolve/fixture.ex": "1c67d19864f235c7ce1064980d47450e7fc738708679cba7dae980aced655ef8",
+    "lib/kata_evolve/score.ex": "13fde9ec56d0b8dc581cc19a034441113a6561523f89546d322316662a6f8ec5",
     "lib/kata_evolve/skill.ex": "565655f3d651a9a20d6945c04f6c34154b2f5fe39d59a4a09e3d3b67572a86ae",
     "lib/kata_evolve/snapshot.ex": "6b7bf68ff7a49e05adeaa9366c1c465ed8610c6a7d9622f03229cf5912442e41",
-    "lib/kata_evolve/store.ex": "606a252953f19c5f37c04bb9610003371a9c02db79736ab5fe42180c8266802e",
+    "lib/kata_evolve/store.ex": "cd11aaa95581442263088275a0753228b7d9e639648cbc498562627cffc44b05",
     "results/setup/codex-sol-medium/cases/b76130fc2246-29c4ddc219b8-test-manual.json": "154a5c6994f20c2e736e2c655a9961c12328b0854189d40ee1b2ca9d386ef081",
     "results/setup/codex-sol-medium/cases/b76130fc2246-29c4ddc219b8-train-guide.json": "47c7c5dc03f308d75d0284c70fa8e6cce3cfc2401cadccfae6f5628b05fd0a8d",
     "results/setup/codex-sol-medium/cases/b76130fc2246-29c4ddc219b8-validation-note.json": "e1ef017ea942ac83efa8e2f5474c7e6c8b0cf935f994aeeabb7b3c868ee38436",
@@ -104,6 +107,42 @@
     "results/setup/codex-sol-medium/context-b76130fc2246.json": "cdc36c337caa5871143147d1bd55fdb4afd35d72bec9b931453c32abe60caf10",
     "results/setup/codex-sol-medium/skills/29c4ddc219b8.md": "29c4ddc219b8d3d3792d7640b04cf3fb15a332a83f7e655541a7fa56e2afa445",
     "results/setup/codex-sol-medium/skills/abf90ebc381b.md": "abf90ebc381bc463669974448c9391711c05da89df7c51a5a4dec18960861824"
+  },
+  "outcome_tests": {
+    "reference": [
+      {
+        "case_id": "test-manual",
+        "framework": "ExUnit",
+        "status": "passed"
+      },
+      {
+        "case_id": "train-guide",
+        "framework": "ExUnit",
+        "status": "passed"
+      },
+      {
+        "case_id": "validation-note",
+        "framework": "ExUnit",
+        "status": "passed"
+      }
+    ],
+    "candidate": [
+      {
+        "case_id": "test-manual",
+        "framework": "ExUnit",
+        "status": "passed"
+      },
+      {
+        "case_id": "train-guide",
+        "framework": "ExUnit",
+        "status": "passed"
+      },
+      {
+        "case_id": "validation-note",
+        "framework": "ExUnit",
+        "status": "passed"
+      }
+    ]
   },
   "weights": {
     "tokens": 70,

@@ -105,7 +105,26 @@ defmodule KataEvolve.Store do
     initial = %{files: record["initial"]["files"], index: record["initial"]["index"]}
     final = %{files: record["final"]["files"], index: record["final"]["index"]}
     checked = Fixture.check_snapshot(final, item, initial)
-    Map.merge(record, %{"checks" => checked.checks, "feedback" => checked.feedback})
+
+    outcome =
+      try do
+        Fixture.assert_outcome!(checked)
+        %{"framework" => "ExUnit", "case_id" => item.id, "status" => "passed"}
+      rescue
+        error in ExUnit.AssertionError ->
+          %{
+            "framework" => "ExUnit",
+            "case_id" => item.id,
+            "status" => "failed",
+            "failure" => error.message
+          }
+      end
+
+    Map.merge(record, %{
+      "checks" => checked.checks,
+      "feedback" => checked.feedback,
+      "outcome_test" => outcome
+    })
   end
 
   def report(ctx, baseline, best, records, baseline_records \\ nil) do

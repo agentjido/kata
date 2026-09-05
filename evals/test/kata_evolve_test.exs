@@ -20,9 +20,15 @@ defmodule KataEvolveTest do
       "# Example\n[Note](docs/inbox/#{item.source})\n[Docs](docs/README.md)\n"
     )
 
-    Fixture.write(root, "docs/AGENTS.md", "Rules")
-    Fixture.write(root, "docs/README.md", "Index")
-    Fixture.write(root, "docs/inbox/README.md", "#{item.source} | docs/inbox/#{item.source}")
+    Fixture.write(root, "docs/AGENTS.md", "template")
+    Fixture.write(root, "docs/README.md", "[Rules](AGENTS.md)\n[Inbox](inbox/README.md)")
+
+    Fixture.write(
+      root,
+      "docs/inbox/README.md",
+      "#{item.source} | docs/inbox/#{item.source} | Awaiting review"
+    )
+
     assert Fixture.check(root, item, initial).score == 1.0
 
     assert Enum.sort(Map.keys(Fixture.check(root, item, initial).checks)) ==
@@ -33,7 +39,12 @@ defmodule KataEvolveTest do
 
     Fixture.write(root, "docs/inbox/README.md", "#{item.source} | [inbox file](missing.md)")
     refute Fixture.check(root, item, initial).checks["intake_record"]
-    Fixture.write(root, "docs/inbox/README.md", "#{item.source} | docs/inbox/#{item.source}")
+
+    Fixture.write(
+      root,
+      "docs/inbox/README.md",
+      "#{item.source} | docs/inbox/#{item.source} | Awaiting review"
+    )
 
     Fixture.write(root, "docs/inbox/" <> item.source, initial.files[item.source] <> "\n")
     assert Fixture.check(root, item, initial).score == 1.0
