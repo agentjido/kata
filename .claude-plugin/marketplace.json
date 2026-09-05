@@ -1,0 +1,11 @@
+{
+  "name": "agentjido-kata",
+  "owner": { "name": "Mike Hostetler" },
+  "plugins": [
+    {
+      "name": "kata",
+      "description": "Personal engineering practices: observe, plan, build, verify, review, and reflect.",
+      "source": "./"
+    }
+  ]
+}
