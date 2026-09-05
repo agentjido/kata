@@ -3,6 +3,6 @@
   "displayName": "Kata",
   "version": "0.1.0",
   "description": "Personal engineering practices: observe, plan, build, verify, review, and reflect.",
-  "author": { "name": "Mike Hostetler" },
+  "author": { "name": "Mike Hostetler and Jason Allum" },
   "repository": "https://github.com/agentjido/kata"
 }

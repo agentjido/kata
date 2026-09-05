@@ -92,6 +92,97 @@ from skill execution costs. These metrics are reported, not combined into a scor
 The three cases test one document and image each. Collision handling, fixed build
 consumers, and repeat-run behavior need further cases before broad acceptance.
 
+## Adding another skill
+
+The process can apply to each Kata skill, but the executable runner currently
+selects setup paths, prompts, template checks, and cases directly. Changing only
+the input skill file is not sufficient. Do not run the setup suite as evidence
+that another skill works.
+
+Start with one dedicated suite for the next skill. Keep its expected behavior in
+Elixir assertions and its input project in Git. Use one training case and two
+different final cases. Suitable first cases are:
+
+| Skill | Saved input | Checks to write |
+| --- | --- | --- |
+| `kata-coverage` | Small Elixir project with known covered and uncovered lines and generated coverage data | Correct modules, line numbers, and coverage counts; source files preserved. |
+| `kata-neckbeard` | Small project with a known feature, limits, and an unanswered question | Claims agree with the source; cited files and lines support them; missing evidence is stated; project files preserved. |
+| `kata-showme` | Fixed explanation request with known concepts and relationships | Required content and relationships are present; output opens and local links resolve. Review visual clarity separately. |
+
+Calibrate the checker against an example that should pass and one that should
+fail before paying for model runs. File existence alone is not proof of skill
+effectiveness. Keep each fixture small enough that its expected result is clear.
+
+The next code change should add only these extension points:
+
+1. A skill selection that supplies its source path, support files, task prompt,
+   candidate format checks, fixtures, and assertions.
+2. A named profile selection from `config/profiles.exs`, with the exact profile
+   recorded in the result. Keep the Harness adapter and metric counters shared.
+3. A **verify-only** operation that runs an existing candidate on all cases,
+   optionally with fresh repetitions, without making a new proposal.
+
+These extension points are planned, not current command options. A dedicated Mix
+task per skill is sufficient while the suites are small. Extract common code when
+the second suite shows what it needs. Do not add a test-definition language.
+
+## Which models to tune
+
+Use **`codex-astra-xhigh`** first: Codex through `jido_harness`, model `gpt-6-astra`,
+reasoning `xhigh`. Both skill execution and proposal generation use this profile.
+Only setup has live evidence from the current loop. The other skills are untested
+by this runner. Earlier mini-model results are historical spike data.
+
+For another model, add an explicit profile and wire profile selection into the
+runner first. Adding a map entry alone does not select it: `Store.context/1`
+currently reads `codex-astra-xhigh` directly. The task has no `--profile` flag.
+Another host also needs a suitable Harness adapter; the current wrapper sets
+Codex-specific options.
+
+Record skill hash, fixture identity, harness/CLI version, exact model ID, and
+reasoning level for each comparison. Keep task and proposal costs separate. If we
+later use a different proposal model, record both profiles. Do not compare runs as
+if model settings were equal when they differ.
+
+Treat model-family names as grouping metadata. Tune one canonical skill, then
+verify that exact text on each profile we choose to support. A failure can lead to
+a correction in the shared skill or a narrower tested-support statement. Keep
+experimental variants in results until there is evidence that separate versions
+are needed. Do not infer support for an entire family from one model's result.
+
+Use fresh repetitions of both parent and candidate under the same conditions to
+assess token use, tool calls, and time. Cached replay checks old outputs; it cannot
+measure current model behavior. The current `tune --fresh` command also makes a
+proposal, so it is **not** a substitute for the planned verify-only operation.
+
+## Save an accepted candidate back to skills
+
+First check the report and read the complete candidate. `Ready for review: true`
+means the current fixture checks and word target passed; it does not establish
+all skill behavior. Check that shortening preserved scope, safeguards, attribution,
+and references to supporting files. For showme, also inspect the rendered result.
+
+For setup, from `kata/evals`, select the exact file linked by the report and copy
+it. Replace `<selected-hash>` below with that file's hash:
+
+```sh
+candidate_path="results/setup/skills/<selected-hash>.md"
+cp "$candidate_path" ../skills/kata-setup/SKILL.md
+cmp "$candidate_path" ../skills/kata-setup/SKILL.md
+git diff --check -- ../skills/kata-setup/SKILL.md
+git diff -- ../skills/kata-setup/SKILL.md
+```
+
+Commit the changed source, relevant input fixtures, candidate, context, case
+results, and search record together. Note the adoption in the result report.
+Preserve earlier evidence in Git before a fresh run replaces any measurements.
+No automatic promotion, commit, push, or plugin installation is performed.
+
+After adoption, the source hash changes and the next tune starts from that text
+as its baseline. Prior results remain evidence for their recorded hashes. If you
+edit the candidate during review, test the edited text before adopting it; the
+old result does not cover those edits.
+
 ## Dependencies and tracked gaps
 
 Elixir 1.19+, Git, Codex, and a native build toolchain are required. The local Harness
