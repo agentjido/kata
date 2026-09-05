@@ -1,190 +1,131 @@
 defmodule KataEvolve.Score do
-  @moduledoc "Deterministic setup quality from fixed evidence; no model calls."
-  alias KataEvolve.{Fixture, Skill, Store}
+  @moduledoc "Fixed-reference costs for case-specific outcome checks."
+  alias KataEvolve.{Evidence, Skill}
+  @version "skill-quality-v2"
+  def version, do: @version
 
-  @version "setup-quality-v1"
-
-  def rules do
-    %{
-      version: @version,
-      max_words: 500,
-      weights: %{tokens: 70, tool_calls: 20, elapsed_ms: 10},
-      score_decimal_places: 6
-    }
-  end
-
-  def calculate(candidate, reference, protocol) do
-    result = Map.merge(rules(), %{protocol: protocol, score: nil, eligible: false})
+  def calculate(candidate, reference, protocol, validate \\ &Skill.validate/1) do
+    base = %{version: @version, protocol: protocol, score: nil, score_units: nil, eligible: false}
 
     cond do
       not valid_protocol?(protocol) ->
-        Map.put(result, :reason, "Invalid case, check, or repetition specification")
+        Map.put(base, :reason, "Invalid case, check, or repetition specification")
 
       not complete?(candidate, protocol) or not complete?(reference, protocol) ->
-        Map.put(result, :reason, "Missing, duplicate, or mismatched execution evidence")
+        Map.put(base, :reason, "Missing, duplicate or mismatched evidence")
 
-      Skill.validate(reference.text) != :ok or not passing?(reference.records, protocol.checks) ->
-        Map.put(result, :reason, "The fixed reference must pass every required check")
+      Enum.any?(candidate.records ++ reference.records, &unresolved?/1) ->
+        Map.put(base, :reason, "Execution, capture, checker error, or pending review")
 
-      Skill.validate(candidate.text) != :ok or Skill.words(candidate.text) > result.max_words or
-          not passing?(candidate.records, protocol.checks) ->
-        Map.merge(result, %{score: 0.0, score_units: 0, reason: "Candidate failed a requirement"})
+      validate.(reference.text) != :ok or not passing?(reference.records, protocol) ->
+        Map.put(base, :reason, "Reference outcome failed")
+
+      validate.(candidate.text) != :ok or Skill.words(candidate.text) > 500 or
+          not passing?(candidate.records, protocol) ->
+        Map.merge(base, %{score: 0.0, score_units: 0, reason: "Candidate requirement failed"})
 
       not Enum.all?(candidate.records ++ reference.records, &metrics?/1) ->
-        Map.put(result, :reason, "Missing or invalid cost measurements")
+        Map.put(base, :reason, "Missing or invalid metrics")
 
       true ->
         cases =
-          for id <- Enum.sort(protocol.case_ids) do
+          Enum.map(protocol.case_ids, fn id ->
             c = medians(candidate.records, id)
-            b = medians(reference.records, id)
-
-            ratios = %{
-              tokens: c.tokens / b.tokens,
-              tool_calls: (c.tool_calls + 1) / (b.tool_calls + 1),
-              elapsed_ms: c.elapsed_ms / b.elapsed_ms
-            }
-
-            weights = result.weights
+            r = medians(reference.records, id)
 
             cost =
-              (weights.tokens * ratios.tokens + weights.tool_calls * ratios.tool_calls +
-                 weights.elapsed_ms * ratios.elapsed_ms) / 100
+              0.70 * c.tokens / r.tokens + 0.20 * (c.tools + 1) / (r.tools + 1) +
+                0.10 * c.time / r.time
 
-            %{case_id: id, candidate: c, reference: b, ratios: ratios, relative_cost: cost}
-          end
+            %{id: id, candidate: c, reference: r, cost: cost}
+          end)
 
-        cost = Enum.sum(Enum.map(cases, & &1.relative_cost)) / length(cases)
+        cost = Enum.sum(Enum.map(cases, & &1.cost)) / length(cases)
         units = round(100_000_000 / (1 + cost))
 
-        Map.merge(result, %{
+        Map.merge(base, %{
           score: units / 1_000_000,
           score_units: units,
           eligible: true,
-          evidence: if(protocol.repetitions == 3, do: "repeated", else: "exploratory"),
-          relative_cost: cost,
-          cases: cases
+          cases: cases,
+          relative_cost: cost
         })
     end
   end
 
-  def from_saved(profile, context, candidate_id, repetitions \\ 1) do
-    Store.profile(profile)
-
-    unless Enum.all?([context, candidate_id], &Regex.match?(~r/\A[0-9a-f]{12}\z/, &1)),
-      do: raise(ArgumentError, "Use the exact 12-character context and skill IDs")
-
-    dir = Path.join(KataEvolve.root(), "results/setup/#{profile}")
-    context_path = Path.join(dir, "context-#{context}.json")
-    identity = Store.read(context_path)
-    reference_id = String.slice(identity["baseline"], 0, 12)
-    cases = Fixture.cases()
-    case_ids = Enum.map(cases.train ++ cases.validation ++ cases.test, & &1.id)
-
-    load = fn id ->
-      skill_path = Path.join(dir, "skills/#{id}.md")
-      paths = Path.wildcard(Path.join(dir, "cases/#{context}-#{id}-*.json"))
-
-      data = %{
-        text: File.read!(skill_path),
-        records: Enum.map(paths, &(Store.read(&1) |> Store.recheck()))
-      }
-
-      {data, [skill_path | paths]}
-    end
-
-    {candidate, candidate_paths} = load.(candidate_id)
-    {reference, reference_paths} = load.(reference_id)
-
-    unless identity["profile_name"] == profile and
-             Skill.hash(reference.text) == identity["baseline"] and
-             String.starts_with?(Skill.hash(candidate.text), candidate_id),
-           do:
-             raise(ArgumentError, "Saved context does not match the requested skills or profile")
-
-    protocol = %{
-      context: context,
-      case_ids: case_ids,
-      checks: Fixture.check_names(),
-      repetitions: repetitions
-    }
-
-    checker_paths =
-      for name <- ~w(fixture snapshot skill store score),
-          do: Path.join(KataEvolve.root(), "lib/kata_evolve/#{name}.ex")
-
-    paths = [context_path | candidate_paths ++ reference_paths ++ checker_paths]
-
-    inputs =
-      paths
-      |> Enum.uniq()
-      |> Enum.sort()
-      |> Map.new(&{Path.relative_to(&1, KataEvolve.root()), Skill.hash(File.read!(&1))})
-
-    calculate(candidate, reference, protocol)
-    |> Map.merge(%{
-      profile: profile,
-      candidate: Skill.hash(candidate.text),
-      reference: Skill.hash(reference.text),
-      outcome_tests: %{
-        candidate: Enum.map(candidate.records, & &1["outcome_test"]),
-        reference: Enum.map(reference.records, & &1["outcome_test"])
-      },
-      inputs: inputs
-    })
-  end
-
   defp valid_protocol?(p) do
-    p.repetitions in [1, 3] and p.case_ids != [] and p.checks != [] and
-      Enum.uniq(p.case_ids) == p.case_ids and Enum.uniq(p.checks) == p.checks
-  end
-
-  defp complete?(data, p) do
-    id = Skill.hash(data.text) |> String.slice(0, 12)
-    groups = Enum.group_by(data.records, & &1["case_id"])
-
-    Enum.sort(Map.keys(groups)) == Enum.sort(p.case_ids) and
-      Enum.all?(groups, fn {_case, records} ->
-        times = Enum.map(records, & &1["recorded_at"])
-
-        length(records) == p.repetitions and length(Enum.uniq(times)) == p.repetitions and
-          Enum.all?(records, fn r ->
-            r["context"] == p.context and r["skill"] == id and
-              is_binary(r["recorded_at"]) and r["recorded_at"] != ""
-          end)
+    is_map(p) and p[:repetitions] in [1, 3] and is_binary(p[:context]) and
+      is_list(p[:case_ids]) and p.case_ids != [] and
+      length(p.case_ids) == length(Enum.uniq(p.case_ids)) and is_map(p[:checks]) and
+      Enum.sort(Map.keys(p.checks)) == Enum.sort(p.case_ids) and
+      Enum.all?(p.checks, fn {_case, checks} ->
+        is_list(checks) and checks != [] and Enum.all?(checks, &is_binary/1) and
+          length(checks) == length(Enum.uniq(checks))
       end)
   end
 
-  defp passing?(records, checks) do
+  def complete?(data, p) do
+    records = data.records
+    ids = Enum.map(records, & &1["execution_id"])
+    groups = Enum.group_by(records, & &1["case_id"])
+
+    p.repetitions in [1, 3] and p.case_ids != [] and
+      Enum.sort(Map.keys(groups)) == Enum.sort(p.case_ids) and
+      length(ids) == length(Enum.uniq(ids)) and Enum.all?(ids, &(is_binary(&1) and &1 != "")) and
+      Enum.all?(groups, fn {_id, rs} ->
+        length(rs) == p.repetitions and
+          Enum.sort(Enum.map(rs, & &1["repetition"])) == Enum.to_list(1..p.repetitions)
+      end) and
+      Enum.all?(records, fn r ->
+        r["context"] == p.context and r["skill"] == Skill.hash(data.text) and
+          (is_nil(p[:assessment]) or r["assessment"] == p.assessment)
+      end)
+  end
+
+  def passing?(records, p) do
     Enum.all?(records, fn r ->
-      r["status"] == "completed" and is_map(r["checks"]) and
+      checks = Map.fetch!(p.checks, r["case_id"])
+
+      r["status"] == "completed" and r["answer_complete"] == true and
         get_in(r, ["outcome_test", "framework"]) == "ExUnit" and
-        get_in(r, ["outcome_test", "case_id"]) == r["case_id"] and
         get_in(r, ["outcome_test", "status"]) == "passed" and
-        Enum.sort(Map.keys(r["checks"])) == Enum.sort(checks) and
+        get_in(r, ["outcome_test", "case_id"]) == r["case_id"] and
+        is_map(r["checks"]) and Enum.sort(Map.keys(r["checks"])) == Enum.sort(checks) and
         Enum.all?(r["checks"], fn {_, value} -> value == true end)
     end)
   end
 
-  defp metrics?(r) do
-    input = get_in(r, ["metrics", "usage", "input_tokens"])
-    output = get_in(r, ["metrics", "usage", "output_tokens"])
-    tools = get_in(r, ["metrics", "tool_calls"])
-    time = get_in(r, ["metrics", "elapsed_ms"])
-
-    Enum.all?([input, output, tools], &(is_integer(&1) and &1 >= 0)) and
-      input + output > 0 and is_integer(time) and time > 0 and
-      get_in(r, ["metrics", "usage", "total_tokens"]) == input + output
+  defp unresolved?(r) do
+    r["status"] != "completed" or r["answer_complete"] != true or
+      get_in(r, ["outcome_test", "status"]) in [
+        "execution_error",
+        "capture_error",
+        "checker_error",
+        "review"
+      ]
   end
 
-  defp medians(records, id) do
-    records = Enum.filter(records, &(&1["case_id"] == id))
-    median = fn values -> values |> Enum.sort() |> Enum.at(div(length(values), 2)) end
+  def metrics?(r) do
+    m = r["metrics"] || %{}
+    u = m["usage"] || %{}
+    i = u["input_tokens"]
+    o = u["output_tokens"]
+
+    Enum.all?([i, o, m["tool_calls"]], &(is_integer(&1) and &1 >= 0)) and
+      i + o > 0 and u["total_tokens"] == i + o and is_integer(m["elapsed_ms"]) and
+      m["elapsed_ms"] > 0
+  end
+
+  def medians(records, id) do
+    rs = Enum.filter(records, &(&1["case_id"] == id))
+    median = fn xs -> xs |> Enum.sort() |> Enum.at(div(length(xs), 2)) end
 
     %{
-      tokens: median.(Enum.map(records, &get_in(&1, ["metrics", "usage", "total_tokens"]))),
-      tool_calls: median.(Enum.map(records, &get_in(&1, ["metrics", "tool_calls"]))),
-      elapsed_ms: median.(Enum.map(records, &get_in(&1, ["metrics", "elapsed_ms"])))
+      tokens: median.(Enum.map(rs, &get_in(&1, ["metrics", "usage", "total_tokens"]))),
+      tools: median.(Enum.map(rs, &get_in(&1, ["metrics", "tool_calls"]))),
+      time: median.(Enum.map(rs, &get_in(&1, ["metrics", "elapsed_ms"])))
     }
   end
+
+  def input_hashes(records), do: Enum.map(records, &Evidence.identity/1)
 end

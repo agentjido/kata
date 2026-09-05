@@ -1,0 +1,25 @@
+{
+  "trial": "proposal-v3-three-rounds-20260905",
+  "started_at": "2026-09-05T22:47:05.341258+00:00",
+  "profile": "codex-astra-xhigh",
+  "model": "gpt-6-astra",
+  "reasoning": "xhigh",
+  "source_sha256": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "proposal_rounds": 3,
+  "max_live_calls": 7,
+  "max_recorded_tokens": 1000000,
+  "call_shape": "one fresh source + three proposals + three distinct candidate executions",
+  "search_approaches": [
+    "remove-procedure",
+    "replace-workflow",
+    "refine-evidence"
+  ],
+  "adoption": false,
+  "final_verification": false,
+  "notes": [
+    "Outcome contract, assessment and score frozen before proposal search.",
+    "No new calls for offline checker calibration.",
+    "All calls, including proposals, count toward the budget.",
+    "Prompt plus checker changes make this a system trial, not an isolated prompt A/B comparison."
+  ]
+}

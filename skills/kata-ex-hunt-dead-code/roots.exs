@@ -1,5 +1,5 @@
 # Declared roots for the transitive dead-code analyzer.
-# Original author: Jason Allum. This bundled file is a template.
+# This bundled file is a template.
 # Save project entries in the target repository and select it with --roots FILE.
 #
 # A root is code reachable from outside this repository -- by a downstream user,

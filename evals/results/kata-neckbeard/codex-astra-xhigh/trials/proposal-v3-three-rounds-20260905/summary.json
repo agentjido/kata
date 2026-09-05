@@ -1,0 +1,254 @@
+{
+  "trial": "proposal-v3-three-rounds-20260905",
+  "completed_at": "2026-09-05T23:01:21.266059+00:00",
+  "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+  "assessment": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757",
+  "outcome_contract": {
+    "requirements": [
+      "Answer the user's question about the correct current repository, with accurate material claims supported by relevant source files and lines.",
+      "Distinguish implemented behavior from documented requirements or intent; identify relevant disagreements and cite both sources.",
+      "Use relevant source, documentation, configuration, tests, and recorded history as evidence where the question requires them.",
+      "Do not infer design history or rationale from implementation alone. State missing evidence and separate facts from deductions.",
+      "State the limits of static inspection. Do not claim tests passed or deployed behavior was verified without evidence.",
+      "Keep the work within investigation and reporting. Follow applicable project instructions and preserve project files and Git state."
+    ],
+    "sha256": "950ad8e2b4d3f2babc99615b118489283ddb06fe7e856bbe11643b43de01a29d"
+  },
+  "profile": "codex-astra-xhigh",
+  "baseline": {
+    "words": 370,
+    "skill_sha256": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+    "metrics": {
+      "elapsed_ms": 69345,
+      "file_change_events": 0,
+      "tool_calls": 11,
+      "tool_errors": 0,
+      "tools": {
+        "exec_command": 11
+      },
+      "usage": {
+        "cached_input_tokens": 73088,
+        "input_tokens": 83914,
+        "output_tokens": 1631,
+        "reasoning_output_tokens": 376,
+        "total_tokens": 85545
+      }
+    },
+    "raw_status": "review",
+    "assessed_status": "passed",
+    "score": 50,
+    "record_sha256": "bb71e689d3a7945cf740eb5bbb6f16c725888d1295eb1af04cb1ebf56f35c332"
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "approach": "remove-procedure",
+      "skill_sha256": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+      "words": 290,
+      "parent": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+      "checks": {
+        "allowed_changes": true,
+        "answer_capture": true,
+        "answer_present": true,
+        "documentation_conflict": true,
+        "evidence_limits": true,
+        "missing_reason": true,
+        "no_contradiction": true,
+        "no_false_runtime_claim": true,
+        "no_invented_reason": true,
+        "project_unchanged": true,
+        "required_claims": true,
+        "supporting_citations": true
+      },
+      "outcome": "passed",
+      "decision": "kept",
+      "score": 57.809727,
+      "metrics": {
+        "elapsed_ms": 50989,
+        "file_change_events": 0,
+        "tool_calls": 6,
+        "tool_errors": 0,
+        "tools": {
+          "exec_command": 6
+        },
+        "usage": {
+          "cached_input_tokens": 58368,
+          "input_tokens": 64834,
+          "output_tokens": 1111,
+          "reasoning_output_tokens": 223,
+          "total_tokens": 65945
+        }
+      },
+      "cost_ratio_diagnostic": 0.7298126969161238,
+      "token_change_percent": -22.91191770413232,
+      "proposal_metrics": {
+        "usage": {
+          "cached_input_tokens": 60544,
+          "input_tokens": 71608,
+          "output_tokens": 2029,
+          "reasoning_output_tokens": 805,
+          "total_tokens": 73637
+        },
+        "tools": {
+          "exec_command": 5
+        },
+        "elapsed_ms": 81529,
+        "tool_calls": 5,
+        "tool_errors": 1,
+        "file_change_events": 1
+      },
+      "proposal_note": "Updated SKILL.md to 287 words, removing fixed reading order and repeated checks while retaining required outcomes.\n\nHypothesis: stopping when the answer has sufficient evidence will reduce redundant reads and tool calls. The recorded run passed; this candidate is unmeasured.\n\nMain risk: stopping too early could miss relevant evidence.",
+      "record": "batches/0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506/training-24d0878ca8304f8b/cases/train-retry-1.json",
+      "record_sha256": "55a199f63de0b635487ee084a6e2294109153a38978d30572a07b82bff5b4c48",
+      "proposal_record": "search/0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506/proposal-1.json",
+      "proposal_record_sha256": "126139e39f26caac3a2d2e88bdd8e78fb92a761ebc9f3748483b8676e583553f",
+      "decision_record_sha256": "0767d2eefc4da60fcea416bc1e444e0f8f0aae1bb0035f2c63d4ec56949a00d3"
+    },
+    {
+      "round": 2,
+      "approach": "replace-workflow",
+      "skill_sha256": "eaf47e9290aac7df49a7d44cbd3cd35a71692d0d6faa524f06652535ce031de7",
+      "words": 350,
+      "parent": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+      "checks": {
+        "allowed_changes": true,
+        "answer_capture": true,
+        "answer_present": true,
+        "documentation_conflict": true,
+        "evidence_limits": "review",
+        "missing_reason": true,
+        "no_contradiction": true,
+        "no_false_runtime_claim": true,
+        "no_invented_reason": true,
+        "project_unchanged": true,
+        "required_claims": true,
+        "supporting_citations": true
+      },
+      "outcome": "review",
+      "decision": "review",
+      "score": null,
+      "metrics": {
+        "elapsed_ms": 70032,
+        "file_change_events": 0,
+        "tool_calls": 7,
+        "tool_errors": 0,
+        "tools": {
+          "exec_command": 7
+        },
+        "usage": {
+          "cached_input_tokens": 53760,
+          "input_tokens": 65678,
+          "output_tokens": 1528,
+          "reasoning_output_tokens": 612,
+          "total_tokens": 67206
+        }
+      },
+      "cost_ratio_diagnostic": 0.7842591538795285,
+      "token_change_percent": -21.437839733473606,
+      "proposal_metrics": {
+        "usage": {
+          "cached_input_tokens": 95488,
+          "input_tokens": 117218,
+          "output_tokens": 1981,
+          "reasoning_output_tokens": 804,
+          "total_tokens": 119199
+        },
+        "tools": {
+          "exec_command": 7
+        },
+        "elapsed_ms": 84423,
+        "tool_calls": 7,
+        "tool_errors": 1,
+        "file_change_events": 1
+      },
+      "proposal_note": "Updated `SKILL.md` to group related evidence reads, collect citation lines immediately, and investigate remaining gaps.\n\nHypothesis: this reduces repeated reads, tool calls, and tokens. Both recorded runs passed, but they do not establish this mechanism. The 350-word candidate is unmeasured.\n\nMain risk: grouped reads may collect unnecessary context.",
+      "record": "batches/0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506/training-eaf47e9290aac7df/cases/train-retry-1.json",
+      "record_sha256": "c6605e5199a764755f34e7dee11addba84855cfdf9f4684c4eb84b4046b89085",
+      "proposal_record": "search/0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506/proposal-2.json",
+      "proposal_record_sha256": "724d4bf899b3b7dd5ba61b77be1cac3144a20f7ad9109c38435cced4db73c0f0",
+      "decision_record_sha256": "58252c634f4709ec932c7cc8dfbba2c9f04597886ef896b1834d66ee05555ccb"
+    },
+    {
+      "round": 3,
+      "approach": "refine-evidence",
+      "skill_sha256": "e507d9d96228f294ebba0d3ed3f15f3246b0363656adc049897ca1d8f169cfb9",
+      "words": 319,
+      "parent": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+      "checks": {
+        "allowed_changes": true,
+        "answer_capture": true,
+        "answer_present": true,
+        "documentation_conflict": true,
+        "evidence_limits": true,
+        "missing_reason": true,
+        "no_contradiction": true,
+        "no_false_runtime_claim": true,
+        "no_invented_reason": true,
+        "project_unchanged": true,
+        "required_claims": true,
+        "supporting_citations": true
+      },
+      "outcome": "passed",
+      "decision": "rejected",
+      "score": 56.067399,
+      "metrics": {
+        "elapsed_ms": 56287,
+        "file_change_events": 0,
+        "tool_calls": 8,
+        "tool_errors": 0,
+        "tools": {
+          "exec_command": 8
+        },
+        "usage": {
+          "cached_input_tokens": 55424,
+          "input_tokens": 66211,
+          "output_tokens": 1296,
+          "reasoning_output_tokens": 363,
+          "total_tokens": 67507
+        }
+      },
+      "cost_ratio_diagnostic": 0.7835676677639939,
+      "token_change_percent": -21.085978140160144,
+      "proposal_metrics": {
+        "usage": {
+          "cached_input_tokens": 60160,
+          "input_tokens": 76438,
+          "output_tokens": 1837,
+          "reasoning_output_tokens": 1308,
+          "total_tokens": 78275
+        },
+        "tools": {
+          "exec_command": 6
+        },
+        "elapsed_ms": 84202,
+        "tool_calls": 6,
+        "tool_errors": 0,
+        "file_change_events": 1
+      },
+      "proposal_note": "Updated SKILL.md to collect citation lines during evidence reads and reuse those passages.\n\nHypothesis: fewer rereads will reduce tool calls and tokens. Main risk: reused excerpts may lack context. The candidate is unmeasured; I did not execute the skill.",
+      "record": "batches/0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506/training-e507d9d96228f294/cases/train-retry-1.json",
+      "record_sha256": "3418fb9462a1903d9ac85640a17d831f89cc446538ff6a3d5f34305d929bafa8",
+      "proposal_record": "search/0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506/proposal-3.json",
+      "proposal_record_sha256": "9e77ca0974cbae9dee80fbdd572db3f53a57416bf446e183a1307c0be08e79f8",
+      "decision_record_sha256": "1ca96d7b52353a85b10874048468880693509bc665474f9beed156b6df3e566e"
+    }
+  ],
+  "totals": {
+    "live_calls": 7,
+    "proposals": 3,
+    "skill_executions": 4,
+    "total_tokens": 557314,
+    "tool_calls": 50,
+    "tool_errors": 2,
+    "elapsed_ms": 496807,
+    "proposal_tokens": 271111,
+    "pending": 0,
+    "unknown_metrics": 0
+  },
+  "selected_sha256": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+  "selected_path": "skills/24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31.md",
+  "official_skill_changed": false,
+  "full_verification_run": false,
+  "tests_passed": 54,
+  "conclusion": "Broader rewrites produced a passing exploratory winner. Round 1 remains selected; Round 2 is unscored after explicit review deferral; Round 3 passed but did not beat Round 1."
+}

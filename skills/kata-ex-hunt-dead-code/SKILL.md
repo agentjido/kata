@@ -6,8 +6,6 @@ metadata: {language: elixir}
 
 # Kata Hunt Dead Code
 
-Original author: [Jason Allum](https://github.com/jallum). Adapted for Kata by Mike Hostetler.
-
 Treat code unreachable from declared production roots as a candidate for removal.
 Tests do not establish production reachability. A group whose only callers are
 its own members and tests can still be unused. Static analysis proposes candidates;

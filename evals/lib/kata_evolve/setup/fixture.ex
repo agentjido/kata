@@ -1,4 +1,4 @@
-defmodule KataEvolve.Fixture do
+defmodule KataEvolve.Setup.Fixture do
   @moduledoc "Small document and asset cases with an independent expected state."
 
   def check_names,
@@ -46,8 +46,8 @@ defmodule KataEvolve.Fixture do
   end
 
   def prepare(root, item, skill, template) do
-    input = Path.expand("../../test/fixtures/setup/input/#{item.id}", __DIR__)
-    files = KataEvolve.Snapshot.take_input(input)
+    input = Path.join(KataEvolve.root(), "test/fixtures/setup/input/#{item.id}")
+    files = KataEvolve.Setup.Snapshot.take_input(input)
 
     files =
       Map.merge(files, %{
@@ -80,7 +80,7 @@ defmodule KataEvolve.Fixture do
   end
 
   def check(root, item, initial),
-    do: check_snapshot(KataEvolve.Snapshot.take(root), item, initial)
+    do: check_snapshot(KataEvolve.Setup.Snapshot.take(root), item, initial)
 
   def check_snapshot(snapshot, item, initial) do
     destination = "docs/inbox/" <> item.source
@@ -93,7 +93,7 @@ defmodule KataEvolve.Fixture do
       "setup_files" =>
         Enum.all?(
           ["docs/AGENTS.md", "docs/README.md", "docs/inbox/README.md"],
-          &KataEvolve.Snapshot.regular?(snapshot, &1)
+          &KataEvolve.Setup.Snapshot.regular?(snapshot, &1)
         ),
       "rules_content" =>
         String.trim(template) != "" and
@@ -163,7 +163,7 @@ defmodule KataEvolve.Fixture do
     end
   end
 
-  defp read(snapshot, path), do: KataEvolve.Snapshot.text(snapshot, path)
+  defp read(snapshot, path), do: KataEvolve.Setup.Snapshot.text(snapshot, path)
 
   defp normalize(text) do
     Regex.replace(~r/\]\([^)]*\)/, text, "](LINK)") |> String.trim_trailing("\n")

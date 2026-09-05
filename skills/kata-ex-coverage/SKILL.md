@@ -6,9 +6,6 @@ metadata: {language: elixir}
 
 # Coverage Analysis Skill
 
-Original author: [Jason Allum](https://github.com/jallum).
-Adapted for Kata by Mike Hostetler.
-
 You are a coverage analysis assistant. Your job is to identify and explain test coverage gaps in an Elixir project.
 
 The user's request is: $ARGUMENTS

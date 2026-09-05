@@ -1,0 +1,17 @@
+{
+  "tests_passed": 53,
+  "diff_check": "passed",
+  "implementation_sha256": {
+    "evals/prompts/propose_skill.md": "7736d3319fb63c06c45ffa93c672ff48935d070e07ca74ae9fbf712d4d625544",
+    "evals/lib/kata_evolve/proposal.ex": "9d8452dc5ecfa0924bb973f466a21d36cbf7e943215571708e43a4a9bc74a18b",
+    "evals/lib/kata_evolve/suite.ex": "265a1b882d7c832ee3e2f91c89204ff69913314a3f0ab0e49b7e9692d62ece51",
+    "evals/lib/kata_evolve/experiment.ex": "005f55fc825d8c1597c62eab94431067fee590b7a393cd9bdead1ee9748135c7",
+    "evals/suites/neckbeard.exs": "d3e584bca9e1b8b8ca95b24cd780cad19078e34bdd632a8051bbf4167316e7e8"
+  },
+  "unchanged_expected_outcomes_sha256": {
+    "evals/test/fixtures/kata-neckbeard/expected/final-cache.json": "5bfa47cf774eea28d556fe6a6ea0f1297eb9227ca30895dea919d2463decf1d3",
+    "evals/test/fixtures/kata-neckbeard/expected/final-export.json": "d478fd9f3e96f24fb09458a848f5d9151b7ac0364afbd9e14cc78976cd74369e",
+    "evals/test/fixtures/kata-neckbeard/expected/train-retry.json": "3f29f4fc449d7fcf8e7dbb2f298d20ec84d578ef5c49e6ab007dd96e3f75da86"
+  },
+  "calibration": "Earlier three live answers plus existing good and deliberately faulty examples. Unknown claims require review; no outcome value was relaxed."
+}

@@ -1,0 +1,686 @@
+{
+  "answer": "By default, `fetch` makes **up to 3 total attempts: one initial call and two retries**.\n\n| Behavior | Guide | Implementation |\n|---|---|---|\n| Total attempts | [Up to 5]( /private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/guides/retries.md:3) | [Up to 3]( /private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/client.py:3) |\n| Responses that trigger retries | [All HTTP 5xx]( /private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/guides/retries.md:4) | [Only status 503, while attempts remain]( /private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/client.py:13) |\n| Delay | [100 milliseconds]( /private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/guides/retries.md:5) | [Fixed 0.1 seconds]( /private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/client.py:5) |\n\nThe guide disagrees with the code on attempts and retry statuses; the delay agrees. Any non-503 response returns immediately. The final response returns even if it is 503, with no pause afterward. [Retry loop](/private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/client.py:11)\n\nThe test source supports this behavior: repeated 503 responses must produce three calls and two 0.1-second pauses; a 500 response must produce one call and no pauses. [Tests](/private/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project/tests/test_client.py:7)\n\n**Why 503 was selected is unknown.** The supplied files contain no explanation, and the available relevant Git history contains only “Initial source import” (`11af870`). The constant establishes the choice, not its rationale.\n\nThis was static inspection only. Tests were not run; they use fake responses and record requested pauses, so they do not establish real network behavior or actual elapsed delay. No files were changed.",
+  "answer_capture": {
+    "result_text_truncated": false,
+    "sequence": 41,
+    "source": "last_output_text_final"
+  },
+  "answer_complete": true,
+  "case_id": "train-retry",
+  "checks": {
+    "allowed_changes": true,
+    "answer_capture": true,
+    "answer_present": true,
+    "documentation_conflict": true,
+    "evidence_limits": "review",
+    "missing_reason": true,
+    "no_contradiction": true,
+    "no_false_runtime_claim": true,
+    "no_invented_reason": true,
+    "project_unchanged": true,
+    "required_claims": true,
+    "supporting_citations": true
+  },
+  "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+  "error": null,
+  "execution_id": "05bcd2c5268f03f49cd230e1cf5258f0",
+  "final": {
+    "files": {
+      ".git/hooks/update.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to block unannotated tags from entering.\n# Called by \"git receive-pack\" with arguments: refname sha1-old sha1-new\n#\n# To enable this hook, rename this file to \"update\".\n#\n# Config\n# ------\n# hooks.allowunannotated\n#   This boolean sets whether unannotated tags will be allowed into the\n#   repository.  By default they won't be.\n# hooks.allowdeletetag\n#   This boolean sets whether deleting tags will be allowed in the\n#   repository.  By default they won't be.\n# hooks.allowmodifytag\n#   This boolean sets whether a tag may be modified after creation. By default\n#   it won't be.\n# hooks.allowdeletebranch\n#   This boolean sets whether deleting branches will be allowed in the\n#   repository.  By default they won't be.\n# hooks.denycreatebranch\n#   This boolean sets whether remotely creating branches will be denied\n#   in the repository.  By default this is allowed.\n#\n\n# --- Command line\nrefname=\"$1\"\noldrev=\"$2\"\nnewrev=\"$3\"\n\n# --- Safety check\nif [ -z \"$GIT_DIR\" ]; then\n\techo \"Don't run this script from the command line.\" >&2\n\techo \" (if you want, you could supply GIT_DIR then run\" >&2\n\techo \"  $0 <ref> <oldrev> <newrev>)\" >&2\n\texit 1\nfi\n\nif [ -z \"$refname\" -o -z \"$oldrev\" -o -z \"$newrev\" ]; then\n\techo \"usage: $0 <ref> <oldrev> <newrev>\" >&2\n\texit 1\nfi\n\n# --- Config\nallowunannotated=$(git config --type=bool hooks.allowunannotated)\nallowdeletebranch=$(git config --type=bool hooks.allowdeletebranch)\ndenycreatebranch=$(git config --type=bool hooks.denycreatebranch)\nallowdeletetag=$(git config --type=bool hooks.allowdeletetag)\nallowmodifytag=$(git config --type=bool hooks.allowmodifytag)\n\n# check for no description\nprojectdesc=$(sed -e '1q' \"$GIT_DIR/description\")\ncase \"$projectdesc\" in\n\"Unnamed repository\"* | \"\")\n\techo \"*** Project description file hasn't been set\" >&2\n\texit 1\n\t;;\nesac\n\n# --- Check types\n# if $newrev is 0000...0000, it's a commit to delete a ref.\nzero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')\nif [ \"$newrev\" = \"$zero\" ]; then\n\tnewrev_type=delete\nelse\n\tnewrev_type=$(git cat-file -t $newrev)\nfi\n\ncase \"$refname\",\"$newrev_type\" in\n\trefs/tags/*,commit)\n\t\t# un-annotated tag\n\t\tshort_refname=${refname##refs/tags/}\n\t\tif [ \"$allowunannotated\" != \"true\" ]; then\n\t\t\techo \"*** The un-annotated tag, $short_refname, is not allowed in this repository\" >&2\n\t\t\techo \"*** Use 'git tag [ -a | -s ]' for tags you want to propagate.\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/tags/*,delete)\n\t\t# delete tag\n\t\tif [ \"$allowdeletetag\" != \"true\" ]; then\n\t\t\techo \"*** Deleting a tag is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/tags/*,tag)\n\t\t# annotated tag\n\t\tif [ \"$allowmodifytag\" != \"true\" ] && git rev-parse $refname > /dev/null 2>&1\n\t\tthen\n\t\t\techo \"*** Tag '$refname' already exists.\" >&2\n\t\t\techo \"*** Modifying a tag is not allowed in this repository.\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/heads/*,commit)\n\t\t# branch\n\t\tif [ \"$oldrev\" = \"$zero\" -a \"$denycreatebranch\" = \"true\" ]; then\n\t\t\techo \"*** Creating a branch is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/heads/*,delete)\n\t\t# delete branch\n\t\tif [ \"$allowdeletebranch\" != \"true\" ]; then\n\t\t\techo \"*** Deleting a branch is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/remotes/*,commit)\n\t\t# tracking branch\n\t\t;;\n\trefs/remotes/*,delete)\n\t\t# delete tracking branch\n\t\tif [ \"$allowdeletebranch\" != \"true\" ]; then\n\t\t\techo \"*** Deleting a tracking branch is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\t*)\n\t\t# Anything else (is there anything else?)\n\t\techo \"*** Update hook: unknown type of update to ref $refname of type $newrev_type\" >&2\n\t\texit 1\n\t\t;;\nesac\n\n# --- Finished\nexit 0\n",
+        "type": "file"
+      },
+      ".git/objects/b4": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-receive.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to make use of push options.\n# The example simply echoes all push options that start with 'echoback='\n# and rejects all pushes when the \"reject\" push option is used.\n#\n# To enable this hook, rename this file to \"pre-receive\".\n\nif test -n \"$GIT_PUSH_OPTION_COUNT\"\nthen\n\ti=0\n\twhile test \"$i\" -lt \"$GIT_PUSH_OPTION_COUNT\"\n\tdo\n\t\teval \"value=\\$GIT_PUSH_OPTION_$i\"\n\t\tcase \"$value\" in\n\t\techoback=*)\n\t\t\techo \"echo from the pre-receive-hook: ${value#*=}\" >&2\n\t\t\t;;\n\t\treject)\n\t\t\texit 1\n\t\tesac\n\t\ti=$((i + 1))\n\tdone\nfi\n",
+        "type": "file"
+      },
+      "client.py": {
+        "mode": 420,
+        "text": "from time import sleep\n\nDEFAULT_ATTEMPTS = 3\nRETRY_STATUS = 503\nDELAY_SECONDS = 0.1\n\n\ndef fetch(send, attempts=DEFAULT_ATTEMPTS, pause=sleep):\n    if attempts < 1:\n        raise ValueError(\"attempts must be positive\")\n    for index in range(attempts):\n        response = send()\n        if response.status != RETRY_STATUS or index == attempts - 1:\n            return response\n        pause(DELAY_SECONDS)\n",
+        "type": "file"
+      },
+      ".agents/skills/kata-neckbeard": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "guides/README.md": {
+        "mode": 420,
+        "text": "# Guides\n\n- [Retry policy](retries.md)\n",
+        "type": "file"
+      },
+      ".git/refs/tags": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-push.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n\n# An example hook script to verify what is about to be pushed.  Called by \"git\n# push\" after it has checked the remote status, but before anything has been\n# pushed.  If this script exits with a non-zero status nothing will be pushed.\n#\n# This hook is called with the following parameters:\n#\n# $1 -- Name of the remote to which the push is being done\n# $2 -- URL to which the push is being done\n#\n# If pushing without using a named remote those arguments will be equal.\n#\n# Information about the commits which are being pushed is supplied as lines to\n# the standard input in the form:\n#\n#   <local ref> <local oid> <remote ref> <remote oid>\n#\n# This sample shows how to prevent push of commits where the log message starts\n# with \"WIP\" (work in progress).\n\nremote=\"$1\"\nurl=\"$2\"\n\nzero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')\n\nwhile read local_ref local_oid remote_ref remote_oid\ndo\n\tif test \"$local_oid\" = \"$zero\"\n\tthen\n\t\t# Handle delete\n\t\t:\n\telse\n\t\tif test \"$remote_oid\" = \"$zero\"\n\t\tthen\n\t\t\t# New branch, examine all commits\n\t\t\trange=\"$local_oid\"\n\t\telse\n\t\t\t# Update to existing branch, examine new commits\n\t\t\trange=\"$remote_oid..$local_oid\"\n\t\tfi\n\n\t\t# Check for WIP commit\n\t\tcommit=$(git rev-list -n 1 --grep '^WIP' \"$range\")\n\t\tif test -n \"$commit\"\n\t\tthen\n\t\t\techo >&2 \"Found WIP commit in $local_ref, not pushing\"\n\t\t\texit 1\n\t\tfi\n\tfi\ndone\n\nexit 0\n",
+        "type": "file"
+      },
+      ".git/info": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/38/bebd5ef5fdd3798b88e981b91aae3045562308": {
+        "base64": "eAE9zMEKwjAQhGHPfYoB76UF9e7No0hfIElHDG6T0N3W9u0NHjwN/DCfl+zRny6HIx60eUfJEsPeNMOLCBKZDJN7U7EUWMYzrqxrTuDMOBXTtrmK4DYMd5y3DTO15KT1EdyihKulwu1PHCluh6d9yPQXEBV912GKIlEZchqr+gX1nzVA",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/be": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".agents/skills": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/applypatch-msg.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to check the commit log message taken by\n# applypatch from an e-mail message.\n#\n# The hook should exit with non-zero status after issuing an\n# appropriate message if it wants to stop the commit.  The hook is\n# allowed to edit the commit message file.\n#\n# To enable this hook, rename this file to \"applypatch-msg\".\n\n. git-sh-setup\ncommitmsg=\"$(git rev-parse --git-path hooks/commit-msg)\"\ntest -x \"$commitmsg\" && exec \"$commitmsg\" ${1+\"$@\"}\n:\n",
+        "type": "file"
+      },
+      ".git/objects/11": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-rebase.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# Copyright (c) 2006, 2008 Junio C Hamano\n#\n# The \"pre-rebase\" hook is run just before \"git rebase\" starts doing\n# its job, and can prevent the command from running by exiting with\n# non-zero status.\n#\n# The hook is called with the following parameters:\n#\n# $1 -- the upstream the series was forked from.\n# $2 -- the branch being rebased (or empty when rebasing the current branch).\n#\n# This sample shows how to prevent topic branches that are already\n# merged to 'next' branch from getting rebased, because allowing it\n# would result in rebasing already published history.\n\npublish=next\nbasebranch=\"$1\"\nif test \"$#\" = 2\nthen\n\ttopic=\"refs/heads/$2\"\nelse\n\ttopic=`git symbolic-ref HEAD` ||\n\texit 0 ;# we do not interrupt rebasing detached HEAD\nfi\n\ncase \"$topic\" in\nrefs/heads/??/*)\n\t;;\n*)\n\texit 0 ;# we do not interrupt others.\n\t;;\nesac\n\n# Now we are dealing with a topic branch being rebased\n# on top of master.  Is it OK to rebase it?\n\n# Does the topic really exist?\ngit show-ref -q \"$topic\" || {\n\techo >&2 \"No such branch $topic\"\n\texit 1\n}\n\n# Is topic fully merged to master?\nnot_in_master=`git rev-list --pretty=oneline ^master \"$topic\"`\nif test -z \"$not_in_master\"\nthen\n\techo >&2 \"$topic is fully merged to master; better remove it.\"\n\texit 1 ;# we could allow it, but there is no point.\nfi\n\n# Is topic ever merged to next?  If so you should not be rebasing it.\nonly_next_1=`git rev-list ^master \"^$topic\" ${publish} | sort`\nonly_next_2=`git rev-list ^master           ${publish} | sort`\nif test \"$only_next_1\" = \"$only_next_2\"\nthen\n\tnot_in_topic=`git rev-list \"^$topic\" master`\n\tif test -z \"$not_in_topic\"\n\tthen\n\t\techo >&2 \"$topic is already up to date with master\"\n\t\texit 1 ;# we could allow it, but there is no point.\n\telse\n\t\texit 0\n\tfi\nelse\n\tnot_in_next=`git rev-list --pretty=oneline ^${publish} \"$topic\"`\n\t/usr/bin/perl -e '\n\t\tmy $topic = $ARGV[0];\n\t\tmy $msg = \"* $topic has commits already merged to public branch:\\n\";\n\t\tmy (%not_in_next) = map {\n\t\t\t/^([0-9a-f]+) /;\n\t\t\t($1 => 1);\n\t\t} split(/\\n/, $ARGV[1]);\n\t\tfor my $elem (map {\n\t\t\t\t/^([0-9a-f]+) (.*)$/;\n\t\t\t\t[$1 => $2];\n\t\t\t} split(/\\n/, $ARGV[2])) {\n\t\t\tif (!exists $not_in_next{$elem->[0]}) {\n\t\t\t\tif ($msg) {\n\t\t\t\t\tprint STDERR $msg;\n\t\t\t\t\tundef $msg;\n\t\t\t\t}\n\t\t\t\tprint STDERR \" $elem->[1]\\n\";\n\t\t\t}\n\t\t}\n\t' \"$topic\" \"$not_in_next\" \"$not_in_master\"\n\texit 1\nfi\n\n<<\\DOC_END\n\nThis sample hook safeguards topic branches that have been\npublished from being rewound.\n\nThe workflow assumed here is:\n\n * Once a topic branch forks from \"master\", \"master\" is never\n   merged into it again (either directly or indirectly).\n\n * Once a topic branch is fully cooked and merged into \"master\",\n   it is deleted.  If you need to build on top of it to correct\n   earlier mistakes, a new topic branch is created by forking at\n   the tip of the \"master\".  This is not strictly necessary, but\n   it makes it easier to keep your history simple.\n\n * Whenever you need to test or publish your changes to topic\n   branches, merge them into \"next\" branch.\n\nThe script, being an example, hardcodes the publish branch name\nto be \"next\", but it is trivial to make it configurable via\n$GIT_DIR/config mechanism.\n\nWith this workflow, you would want to know:\n\n(1) ... if a topic branch has ever been merged to \"next\".  Young\n    topic branches can have stupid mistakes you would rather\n    clean up before publishing, and things that have not been\n    merged into other branches can be easily rebased without\n    affecting other people.  But once it is published, you would\n    not want to rewind it.\n\n(2) ... if a topic branch has been fully merged to \"master\".\n    Then you can delete it.  More importantly, you should not\n    build on top of it -- other people may already want to\n    change things related to the topic as patches against your\n    \"master\", so if you need further changes, it is better to\n    fork the topic (perhaps with the same name) afresh from the\n    tip of \"master\".\n\nLet's look at this example:\n\n\t\t   o---o---o---o---o---o---o---o---o---o \"next\"\n\t\t  /       /           /           /\n\t\t /   a---a---b A     /           /\n\t\t/   /               /           /\n\t       /   /   c---c---c---c B         /\n\t      /   /   /             \\         /\n\t     /   /   /   b---b C     \\       /\n\t    /   /   /   /             \\     /\n    ---o---o---o---o---o---o---o---o---o---o---o \"master\"\n\n\nA, B and C are topic branches.\n\n * A has one fix since it was merged up to \"next\".\n\n * B has finished.  It has been fully merged up to \"master\" and \"next\",\n   and is ready to be deleted.\n\n * C has not merged to \"next\" at all.\n\nWe would want to allow C to be rebased, refuse A, and encourage\nB to be deleted.\n\nTo compute (1):\n\n\tgit rev-list ^master ^topic next\n\tgit rev-list ^master        next\n\n\tif these match, topic has not merged in next at all.\n\nTo compute (2):\n\n\tgit rev-list master..topic\n\n\tif this is empty, it is fully merged to \"master\".\n\nDOC_END\n",
+        "type": "file"
+      },
+      ".git/objects/3c": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/index": {
+        "base64": "RElSQwAAAAIAAAAGapyb8RDEjwpqnJvxAAAAAAEAAA8G1QHQAACBpAAAAfUAAAAUAAAAfZF4XnYWWEDnVRcQ6tckBPfODmOdAAlBR0VOVFMubWQAapyb8RC0UUhqnJvxAAAAAAEAAA8G1QHMAACBpAAAAfUAAAAUAAAAaLR+ypN1Ky1f2oY3QZvCMaqniJa8AAlSRUFETUUubWQAapyb8RCosVdqnJvxAAAAAAEAAA8G1QHJAACBpAAAAfUAAAAUAAABlGcM2kKu5pz7g8M4tO7jFe1Qc1psAAljbGllbnQucHkAapyb8RC69IRqnJvxAAAAAAEAAA8G1QHOAACBpAAAAfUAAAAUAAAAJwkBeRjbqLEIUi7i+v3jg195U9wkABBndWlkZXMvUkVBRE1FLm1kAABqnJvxEL/kh2qcm/EAAAAAAQAADwbVAc8AAIGkAAAB9QAAABQAAACSOL69XvX903mLiOmBuRquMEVWIwgAEWd1aWRlcy9yZXRyaWVzLm1kAGqcm/EQr5hJapyb8QAAAAABAAAPBtUBywAAgaQAAAH1AAAAFAAAAv3TpmOSWW78t1tk9e0rgxsFXYqvAwAUdGVzdHMvdGVzdF9jbGllbnQucHkAAAAAAABUUkVFAAAAVgA2IDIKPJpaC0RR3dxRLOulIPTmYOY+/4t0ZXN0cwAxIDAKVz8b3sTLU82aeT0w7KbKOPtBvrVndWlkZXMAMiAwCr4lQzINXeiT3RANZ6xVsfUiPVrJjXJxr9oyWYjcH1YyOEEs9YPvS0o=",
+        "mode": 420,
+        "type": "file"
+      },
+      ".git/HEAD": {
+        "mode": 420,
+        "text": "ref: refs/heads/master\n",
+        "type": "file"
+      },
+      ".git/hooks/pre-commit.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to verify what is about to be committed.\n# Called by \"git commit\" with no arguments.  The hook should\n# exit with non-zero status after issuing an appropriate message if\n# it wants to stop the commit.\n#\n# To enable this hook, rename this file to \"pre-commit\".\n\nif git rev-parse --verify HEAD >/dev/null 2>&1\nthen\n\tagainst=HEAD\nelse\n\t# Initial commit: diff against an empty tree object\n\tagainst=$(git hash-object -t tree /dev/null)\nfi\n\n# If you want to allow non-ASCII filenames set this variable to true.\nallownonascii=$(git config --type=bool hooks.allownonascii)\n\n# Redirect output to stderr.\nexec 1>&2\n\n# Cross platform projects tend to avoid non-ASCII filenames; prevent\n# them from being added to the repository. We exploit the fact that the\n# printable range starts at the space character and ends with tilde.\nif [ \"$allownonascii\" != \"true\" ] &&\n\t# Note that the use of brackets around a tr range is ok here, (it's\n\t# even required, for portability to Solaris 10's /usr/bin/tr), since\n\t# the square bracket bytes happen to fall in the designated range.\n\ttest $(git diff-index --cached --name-only --diff-filter=A -z $against |\n\t  LC_ALL=C tr -d '[ -~]\\0' | wc -c) != 0\nthen\n\tcat <<\\EOF\nError: Attempt to add a non-ASCII file name.\n\nThis can cause problems if you want to work with people on other platforms.\n\nTo be portable it is advisable to rename the file.\n\nIf you know what you are doing you can disable this check using:\n\n  git config hooks.allownonascii true\nEOF\n\texit 1\nfi\n\n# If there are whitespace errors, print the offending file names and fail.\nexec git diff-index --check --cached $against --\n",
+        "type": "file"
+      },
+      ".git/objects/b4/7eca93752b2d5fda8637419bc231aaa78896bc": {
+        "base64": "eAFLyslPUjA0MGFQVghKLSmqVEjOyUzNK+HiCsnILFYIqCzJyM+DiimUFyUWFCskKhSXFhQAVaUolBQl5hUX5BeV6CkEp6YqRJdkpCqkl2ampCpk5qWkVsRqgDnF+kGuji6+rnq5KZp6XACLuSZr",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/57": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-merge-commit.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to verify what is about to be committed.\n# Called by \"git merge\" with no arguments.  The hook should\n# exit with non-zero status after issuing an appropriate message to\n# stderr if it wants to stop the merge commit.\n#\n# To enable this hook, rename this file to \"pre-merge-commit\".\n\n. git-sh-setup\ntest -x \"$GIT_DIR/hooks/pre-commit\" &&\n        exec \"$GIT_DIR/hooks/pre-commit\"\n:\n",
+        "type": "file"
+      },
+      ".git/config": {
+        "mode": 420,
+        "text": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n\tignorecase = true\n\tprecomposeunicode = true\n",
+        "type": "file"
+      },
+      ".git/COMMIT_EDITMSG": {
+        "mode": 420,
+        "text": "Initial source import\n",
+        "type": "file"
+      },
+      ".git/logs": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/description": {
+        "mode": 420,
+        "text": "Unnamed repository; edit this file 'description' to name the repository.\n",
+        "type": "file"
+      },
+      ".git/hooks/commit-msg.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to check the commit log message.\n# Called by \"git commit\" with one argument, the name of the file\n# that has the commit message.  The hook should exit with non-zero\n# status after issuing an appropriate message if it wants to stop the\n# commit.  The hook is allowed to edit the commit message file.\n#\n# To enable this hook, rename this file to \"commit-msg\".\n\n# Uncomment the below to add a Signed-off-by line to the message.\n# Doing this in a hook is a bad idea in general, but the prepare-commit-msg\n# hook is more suited to it.\n#\n# SOB=$(git var GIT_AUTHOR_IDENT | sed -n 's/^\\(.*>\\).*$/Signed-off-by: \\1/p')\n# grep -qs \"^$SOB\" \"$1\" || echo \"$SOB\" >> \"$1\"\n\n# This example catches duplicate Signed-off-by lines.\n\ntest \"\" = \"$(grep '^Signed-off-by: ' \"$1\" |\n\t sort | uniq -c | sed -e '/^[ \t]*1[ \t]/d')\" || {\n\techo >&2 Duplicate Signed-off-by lines.\n\texit 1\n}\n",
+        "type": "file"
+      },
+      ".git/hooks/sendemail-validate.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n\n# An example hook script to validate a patch (and/or patch series) before\n# sending it via email.\n#\n# The hook should exit with non-zero status after issuing an appropriate\n# message if it wants to prevent the email(s) from being sent.\n#\n# To enable this hook, rename this file to \"sendemail-validate\".\n#\n# By default, it will only check that the patch(es) can be applied on top of\n# the default upstream branch without conflicts in a secondary worktree. After\n# validation (successful or not) of the last patch of a series, the worktree\n# will be deleted.\n#\n# The following config variables can be set to change the default remote and\n# remote ref that are used to apply the patches against:\n#\n#   sendemail.validateRemote (default: origin)\n#   sendemail.validateRemoteRef (default: HEAD)\n#\n# Replace the TODO placeholders with appropriate checks according to your\n# needs.\n\nvalidate_cover_letter () {\n\tfile=\"$1\"\n\t# TODO: Replace with appropriate checks (e.g. spell checking).\n\ttrue\n}\n\nvalidate_patch () {\n\tfile=\"$1\"\n\t# Ensure that the patch applies without conflicts.\n\tgit am -3 \"$file\" || return\n\t# TODO: Replace with appropriate checks for this patch\n\t# (e.g. checkpatch.pl).\n\ttrue\n}\n\nvalidate_series () {\n\t# TODO: Replace with appropriate checks for the whole series\n\t# (e.g. quick build, coding style checks, etc.).\n\ttrue\n}\n\n# main -------------------------------------------------------------------------\n\nif test \"$GIT_SENDEMAIL_FILE_COUNTER\" = 1\nthen\n\tremote=$(git config --default origin --get sendemail.validateRemote) &&\n\tref=$(git config --default HEAD --get sendemail.validateRemoteRef) &&\n\tworktree=$(mktemp --tmpdir -d sendemail-validate.XXXXXXX) &&\n\tgit worktree add -fd --checkout \"$worktree\" \"refs/remotes/$remote/$ref\" &&\n\tgit config --replace-all sendemail.validateWorktree \"$worktree\"\nelse\n\tworktree=$(git config --get sendemail.validateWorktree)\nfi || {\n\techo \"sendemail-validate: error: failed to prepare worktree\" >&2\n\texit 1\n}\n\nunset GIT_DIR GIT_WORK_TREE\ncd \"$worktree\" &&\n\nif grep -q \"^diff --git \" \"$1\"\nthen\n\tvalidate_patch \"$1\"\nelse\n\tvalidate_cover_letter \"$1\"\nfi &&\n\nif test \"$GIT_SENDEMAIL_FILE_COUNTER\" = \"$GIT_SENDEMAIL_FILE_TOTAL\"\nthen\n\tgit config --unset-all sendemail.validateWorktree &&\n\ttrap 'git worktree remove -ff \"$worktree\"' EXIT &&\n\tvalidate_series\nfi\n",
+        "type": "file"
+      },
+      ".git/objects/be/2543320d5de893dd100d67ac55b1f5223d5ac9": {
+        "base64": "eAErKUpNVTA3ZTA0MDAzMVEIcnV08XXVy01h4GSslLi9YiNHkN6jX38fN8dXBt9RgSoqSi0pykwtBqmy2Lc37uvfy5XdHS8bd0qtM3ANU+YAAKJTH4k=",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/09/017918dba8b108522ee2fafde3835f7953dc24": {
+        "base64": "eAFLyslPUjC2ZFBWcC/NTEkt5uLSVYgOSi0pqlQoyM/JTK6M1SgC8jJTi/VyUzS5AFimDwc=",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/3c/9a5a0b4451dddc512ceba520f4e660e63eff8b": {
+        "base64": "eAErKUpNVTA0N2MwNDAwMzFRcHR39QsJ1stNYZhYEVcmFuHwPFRc4NV1FZbv5/iS50IVBbk6uvi6ghRtqTs1uVRbN/5Wm7nj7EOGq5Z3TNsDVZSck5maV6JXUMmQznPLad2zOb+bD1tsefdY9G1AcVSOiQEQKKSXZqakFjPsU3U24o19MfmuAG/6mtCNX5Vso05CFJSkFpcUM4TbS987cjr47KxKW4M3y05Z/HbctxUAG59IQg==",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/67": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/logs/HEAD": {
+        "mode": 420,
+        "text": "0000000000000000000000000000000000000000 11af870f720414ea593006d3b97b1bb744ee8e1a Fixture <fixture@example.invalid> 1767225600 +0000\tcommit (initial): Initial source import\n",
+        "type": "file"
+      },
+      ".git/objects/67/0cda42aee69cfb83c338b4eee315ed50735a6c": {
+        "base64": "eAFdUD1vwjAQ7exfcWVKJEBB0KWqh6ikE/0QmEqdUEIuraU4tuxz1Z9fOwkU6sHDe/c+7qpWV7DKVjeN1QpIKgSpjLYErkU0jK2Lp3y/EYdciOL5TeyAw5JtC7H9OOxELvYRuMuWYW6TB6h4fH1ZRyybLxhjNTbQIB2/EoddPYWSCJUhx//bTsGU3iHvU9N7BuHJ5jwPD7AYwEjYUjqE97L1WFirbTI5+YLyjqBCMNpJkt84SXurRluQXY0/4Q/y7hOTk2QM633RGd0Faw6xbjJoIxOq2JGcOyrJO7jlcHWGcwLnf7Vnl7WHCPI2VBjN+nIR77dPro6Ysl+ew3s0",
+        "mode": 292,
+        "type": "file"
+      },
+      ".agents/skills/kata-neckbeard/SKILL.md": {
+        "mode": 420,
+        "text": "---\nname: kata-neckbeard\ndescription: Answer questions about an existing system with evidence from its source code, tests, configuration, and documentation. Use when the user asks how a feature works, where behavior is implemented, or what requirements and limits apply.\n---\n\n# Kata Neckbeard\n\nExplain the current system. Support each material claim with a source reference.\nUse the user's question from the current conversation to set the scope.\nDo not edit files or change code.\n\n## Inspect the project\n\n1. Identify the target repository. In a workspace with several repositories,\n   use the conversation to select the correct one. Ask if the target is unclear.\n2. Read its project instructions and README. If `guides/README.md` exists, use\n   it to find relevant guides. Otherwise, find the relevant documentation in\n   the project. Do not require a `guides/` directory.\n3. Read the documents that address the question. Note their stated behavior,\n   requirements, configuration, and limits.\n\n## Check the implementation\n\n1. Trace the relevant entry points, functions, data flow, and configuration in\n   the current source code. Use tests to check the expected behavior.\n2. Compare the implementation with the documentation. Report differences and\n   cite both sources. Use code as evidence of implemented behavior; preserve\n   documented requirements as evidence of intent.\n3. Do not infer a design reason from code alone. Look for a decision record,\n   comment, or relevant history when the question asks why a choice was made.\n4. State what static inspection cannot confirm. Do not claim that a test passed\n   or that deployed behavior was verified unless you have that evidence.\n\n## Report the answer\n\n- Answer the specific question first. Keep the explanation direct and factual.\n- Link to the source files and relevant lines for each material claim. Include\n  documentation references when they explain intent or conflict with the code.\n- Explain relevant limits, prerequisites, and unresolved questions.\n- Separate confirmed facts from deductions. If evidence is missing, say so.\n- Use a short list or diagram only when it makes the explanation clearer.\n- Before responding, check that the references support the answer and refer to\n  the current files in the target repository.\n\nKeep this work limited to investigation and reporting. Do not repair code or\ndocumentation as part of this skill.\n",
+        "type": "file"
+      },
+      ".git/logs/refs": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/38": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/09": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/11/af870f720414ea593006d3b97b1bb744ee8e1a": {
+        "base64": "eAGdjUEKwjAQAD3nFXsXJEmbtEIRT4LP2CYbXGiaEjfS5yv6A+c0l2FCyZkFzDgepBJBF87oUM9970yMMThjA83orE49ea/Jd5TSOCts8igVbrxLqwRT+smVdszbQideX7hwvIAZ/GCt81rDUX9Q4bsU+itW95WFcYFnaTUQcN5KFfUGzW0/vQ==",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/hooks/post-update.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to prepare a packed repository for use over\n# dumb transports.\n#\n# To enable this hook, rename this file to \"post-update\".\n\nexec git update-server-info\n",
+        "type": "file"
+      },
+      ".git/logs/refs/heads": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/pack": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "README.md": {
+        "mode": 420,
+        "text": "# Retry client\n\nThis Python client wraps a supplied transport. See [the guide index](guides/README.md).\n",
+        "type": "file"
+      },
+      ".git/hooks/pre-applypatch.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to verify what is about to be committed\n# by applypatch from an e-mail message.\n#\n# The hook should exit with non-zero status after issuing an\n# appropriate message if it wants to stop the commit.\n#\n# To enable this hook, rename this file to \"pre-applypatch\".\n\n. git-sh-setup\nprecommit=\"$(git rev-parse --git-path hooks/pre-commit)\"\ntest -x \"$precommit\" && exec \"$precommit\" ${1+\"$@\"}\n:\n",
+        "type": "file"
+      },
+      ".git/info/exclude": {
+        "mode": 420,
+        "text": "# git ls-files --others --exclude-from=.git/info/exclude\n# Lines that start with '#' are comments.\n# For a project mostly in C, the following would be a good set of\n# exclude patterns (uncomment them if you want to use them):\n# *.[oa]\n# *~\n",
+        "type": "file"
+      },
+      ".git/hooks/fsmonitor-watchman.sample": {
+        "mode": 493,
+        "text": "#!/usr/bin/perl\n\nuse strict;\nuse warnings;\nuse IPC::Open2;\n\n# An example hook script to integrate Watchman\n# (https://facebook.github.io/watchman/) with git to speed up detecting\n# new and modified files.\n#\n# The hook is passed a version (currently 2) and last update token\n# formatted as a string and outputs to stdout a new update token and\n# all files that have been modified since the update token. Paths must\n# be relative to the root of the working tree and separated by a single NUL.\n#\n# To enable this hook, rename this file to \"query-watchman\" and set\n# 'git config core.fsmonitor .git/hooks/query-watchman'\n#\nmy ($version, $last_update_token) = @ARGV;\n\n# Uncomment for debugging\n# print STDERR \"$0 $version $last_update_token\\n\";\n\n# Check the hook interface version\nif ($version ne 2) {\n\tdie \"Unsupported query-fsmonitor hook version '$version'.\\n\" .\n\t    \"Falling back to scanning...\\n\";\n}\n\nmy $git_work_tree = get_working_dir();\n\nmy $retry = 1;\n\nmy $json_pkg;\neval {\n\trequire JSON::XS;\n\t$json_pkg = \"JSON::XS\";\n\t1;\n} or do {\n\trequire JSON::PP;\n\t$json_pkg = \"JSON::PP\";\n};\n\nlaunch_watchman();\n\nsub launch_watchman {\n\tmy $o = watchman_query();\n\tif (is_work_tree_watched($o)) {\n\t\toutput_result($o->{clock}, @{$o->{files}});\n\t}\n}\n\nsub output_result {\n\tmy ($clockid, @files) = @_;\n\n\t# Uncomment for debugging watchman output\n\t# open (my $fh, \">\", \".git/watchman-output.out\");\n\t# binmode $fh, \":utf8\";\n\t# print $fh \"$clockid\\n@files\\n\";\n\t# close $fh;\n\n\tbinmode STDOUT, \":utf8\";\n\tprint $clockid;\n\tprint \"\\0\";\n\tlocal $, = \"\\0\";\n\tprint @files;\n}\n\nsub watchman_clock {\n\tmy $response = qx/watchman clock \"$git_work_tree\"/;\n\tdie \"Failed to get clock id on '$git_work_tree'.\\n\" .\n\t\t\"Falling back to scanning...\\n\" if $? != 0;\n\n\treturn $json_pkg->new->utf8->decode($response);\n}\n\nsub watchman_query {\n\tmy $pid = open2(\\*CHLD_OUT, \\*CHLD_IN, 'watchman -j --no-pretty')\n\tor die \"open2() failed: $!\\n\" .\n\t\"Falling back to scanning...\\n\";\n\n\t# In the query expression below we're asking for names of files that\n\t# changed since $last_update_token but not from the .git folder.\n\t#\n\t# To accomplish this, we're using the \"since\" generator to use the\n\t# recency index to select candidate nodes and \"fields\" to limit the\n\t# output to file names only. Then we're using the \"expression\" term to\n\t# further constrain the results.\n\tmy $last_update_line = \"\";\n\tif (substr($last_update_token, 0, 1) eq \"c\") {\n\t\t$last_update_token = \"\\\"$last_update_token\\\"\";\n\t\t$last_update_line = qq[\\n\"since\": $last_update_token,];\n\t}\n\tmy $query = <<\"\tEND\";\n\t\t[\"query\", \"$git_work_tree\", {$last_update_line\n\t\t\t\"fields\": [\"name\"],\n\t\t\t\"expression\": [\"not\", [\"dirname\", \".git\"]]\n\t\t}]\n\tEND\n\n\t# Uncomment for debugging the watchman query\n\t# open (my $fh, \">\", \".git/watchman-query.json\");\n\t# print $fh $query;\n\t# close $fh;\n\n\tprint CHLD_IN $query;\n\tclose CHLD_IN;\n\tmy $response = do {local $/; <CHLD_OUT>};\n\n\t# Uncomment for debugging the watch response\n\t# open ($fh, \">\", \".git/watchman-response.json\");\n\t# print $fh $response;\n\t# close $fh;\n\n\tdie \"Watchman: command returned no output.\\n\" .\n\t\"Falling back to scanning...\\n\" if $response eq \"\";\n\tdie \"Watchman: command returned invalid output: $response\\n\" .\n\t\"Falling back to scanning...\\n\" unless $response =~ /^\\{/;\n\n\treturn $json_pkg->new->utf8->decode($response);\n}\n\nsub is_work_tree_watched {\n\tmy ($output) = @_;\n\tmy $error = $output->{error};\n\tif ($retry > 0 and $error and $error =~ m/unable to resolve root .* directory (.*) is not watched/) {\n\t\t$retry--;\n\t\tmy $response = qx/watchman watch \"$git_work_tree\"/;\n\t\tdie \"Failed to make watchman watch '$git_work_tree'.\\n\" .\n\t\t    \"Falling back to scanning...\\n\" if $? != 0;\n\t\t$output = $json_pkg->new->utf8->decode($response);\n\t\t$error = $output->{error};\n\t\tdie \"Watchman: $error.\\n\" .\n\t\t\"Falling back to scanning...\\n\" if $error;\n\n\t\t# Uncomment for debugging watchman output\n\t\t# open (my $fh, \">\", \".git/watchman-output.out\");\n\t\t# close $fh;\n\n\t\t# Watchman will always return all files on the first query so\n\t\t# return the fast \"everything is dirty\" flag to git and do the\n\t\t# Watchman query just to get it over with now so we won't pay\n\t\t# the cost in git to look up each individual file.\n\t\tmy $o = watchman_clock();\n\t\t$error = $output->{error};\n\n\t\tdie \"Watchman: $error.\\n\" .\n\t\t\"Falling back to scanning...\\n\" if $error;\n\n\t\toutput_result($o->{clock}, (\"/\"));\n\t\t$last_update_token = $o->{clock};\n\n\t\teval { launch_watchman() };\n\t\treturn 0;\n\t}\n\n\tdie \"Watchman: $error.\\n\" .\n\t\"Falling back to scanning...\\n\" if $error;\n\n\treturn 1;\n}\n\nsub get_working_dir {\n\tmy $working_dir;\n\tif ($^O =~ 'msys' || $^O =~ 'cygwin') {\n\t\t$working_dir = Win32::GetCwd();\n\t\t$working_dir =~ tr/\\\\/\\//;\n\t} else {\n\t\trequire Cwd;\n\t\t$working_dir = Cwd::cwd();\n\t}\n\n\treturn $working_dir;\n}\n",
+        "type": "file"
+      },
+      ".git/logs/refs/heads/master": {
+        "mode": 420,
+        "text": "0000000000000000000000000000000000000000 11af870f720414ea593006d3b97b1bb744ee8e1a Fixture <fixture@example.invalid> 1767225600 +0000\tcommit (initial): Initial source import\n",
+        "type": "file"
+      },
+      ".git/hooks/prepare-commit-msg.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to prepare the commit log message.\n# Called by \"git commit\" with the name of the file that has the\n# commit message, followed by the description of the commit\n# message's source.  The hook's purpose is to edit the commit\n# message file.  If the hook fails with a non-zero status,\n# the commit is aborted.\n#\n# To enable this hook, rename this file to \"prepare-commit-msg\".\n\n# This hook includes three examples. The first one removes the\n# \"# Please enter the commit message...\" help message.\n#\n# The second includes the output of \"git diff --name-status -r\"\n# into the message, just before the \"git status\" output.  It is\n# commented because it doesn't cope with --amend or with squashed\n# commits.\n#\n# The third example adds a Signed-off-by line to the message, that can\n# still be edited.  This is rarely a good idea.\n\nCOMMIT_MSG_FILE=$1\nCOMMIT_SOURCE=$2\nSHA1=$3\n\n/usr/bin/perl -i.bak -ne 'print unless(m/^. Please enter the commit message/..m/^#$/)' \"$COMMIT_MSG_FILE\"\n\n# case \"$COMMIT_SOURCE,$SHA1\" in\n#  ,|template,)\n#    /usr/bin/perl -i.bak -pe '\n#       print \"\\n\" . `git diff --cached --name-status -r`\n# \t if /^#/ && $first++ == 0' \"$COMMIT_MSG_FILE\" ;;\n#  *) ;;\n# esac\n\n# SOB=$(git var GIT_COMMITTER_IDENT | sed -n 's/^\\(.*>\\).*$/Signed-off-by: \\1/p')\n# git interpret-trailers --in-place --trailer \"$SOB\" \"$COMMIT_MSG_FILE\"\n# if test -z \"$COMMIT_SOURCE\"\n# then\n#   /usr/bin/perl -i.bak -pe 'print \"\\n\" if !$first_line++' \"$COMMIT_MSG_FILE\"\n# fi\n",
+        "type": "file"
+      },
+      ".git/refs/heads": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/info": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "guides/retries.md": {
+        "mode": 420,
+        "text": "# Retry policy\n\nThe client makes up to five total attempts.\nAll HTTP 5xx responses cause a retry.\nThe delay between attempts is 100 milliseconds.\n",
+        "type": "file"
+      },
+      "tests/test_client.py": {
+        "mode": 420,
+        "text": "import unittest\nfrom types import SimpleNamespace\nfrom client import fetch\n\n\nclass RetryTests(unittest.TestCase):\n    def test_three_total_attempts(self):\n        calls, waits = [], []\n        def send():\n            calls.append(1)\n            return SimpleNamespace(status=503)\n        self.assertEqual(fetch(send, pause=waits.append).status, 503)\n        self.assertEqual(len(calls), 3)\n        self.assertEqual(waits, [0.1, 0.1])\n\n    def test_other_server_error_returns_immediately(self):\n        calls, waits = [], []\n        def send():\n            calls.append(1)\n            return SimpleNamespace(status=500)\n        self.assertEqual(fetch(send, pause=waits.append).status, 500)\n        self.assertEqual(len(calls), 1)\n        self.assertEqual(waits, [])\n",
+        "type": "file"
+      },
+      ".git/objects/91": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/d3": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/57/3f1bdec4cb53cd9a793d30eca6ca38fb41beb5": {
+        "base64": "eAErKUpNVTAxYjA0MDAzMVEoSS0uiU/OyUzNK9ErqGS4vCx5UmTen+3RKV/fajdLs8Z2rWcGALVYEys=",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/hooks/push-to-checkout.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n\n# An example hook script to update a checked-out tree on a git push.\n#\n# This hook is invoked by git-receive-pack(1) when it reacts to git\n# push and updates reference(s) in its repository, and when the push\n# tries to update the branch that is currently checked out and the\n# receive.denyCurrentBranch configuration variable is set to\n# updateInstead.\n#\n# By default, such a push is refused if the working tree and the index\n# of the remote repository has any difference from the currently\n# checked out commit; when both the working tree and the index match\n# the current commit, they are updated to match the newly pushed tip\n# of the branch. This hook is to be used to override the default\n# behaviour; however the code below reimplements the default behaviour\n# as a starting point for convenient modification.\n#\n# The hook receives the commit with which the tip of the current\n# branch is going to be updated:\ncommit=$1\n\n# It can exit with a non-zero status to refuse the push (when it does\n# so, it must not modify the index or the working tree).\ndie () {\n\techo >&2 \"$*\"\n\texit 1\n}\n\n# Or it can make any necessary changes to the working tree and to the\n# index to bring them to the desired state when the tip of the current\n# branch is updated to the new commit, and exit with a zero status.\n#\n# For example, the hook can simply run git read-tree -u -m HEAD \"$1\"\n# in order to emulate git fetch that is run in the reverse direction\n# with git push, as the two-tree form of git read-tree -u -m is\n# essentially the same as git switch or git checkout that switches\n# branches while keeping the local changes in the working tree that do\n# not interfere with the difference between the branches.\n\n# The below is a more-or-less exact translation to shell of the C code\n# for the default behaviour for git's push-to-checkout hook defined in\n# the push_to_deploy() function in builtin/receive-pack.c.\n#\n# Note that the hook will be executed from the repository directory,\n# not from the working tree, so if you want to perform operations on\n# the working tree, you will have to adapt your code accordingly, e.g.\n# by adding \"cd ..\" or using relative paths.\n\nif ! git update-index -q --ignore-submodules --refresh\nthen\n\tdie \"Up-to-date check failed\"\nfi\n\nif ! git diff-files --quiet --ignore-submodules --\nthen\n\tdie \"Working directory has unstaged changes\"\nfi\n\n# This is a rough translation of:\n#\n#   head_has_history() ? \"HEAD\" : EMPTY_TREE_SHA1_HEX\nif git cat-file -e HEAD 2>/dev/null\nthen\n\thead=HEAD\nelse\n\thead=$(git hash-object -t tree --stdin </dev/null)\nfi\n\nif ! git diff-index --quiet --cached --ignore-submodules $head --\nthen\n\tdie \"Working directory has staged changes\"\nfi\n\nif ! git read-tree -u -m \"$commit\"\nthen\n\tdie \"Could not update working tree to new HEAD\"\nfi\n",
+        "type": "file"
+      },
+      ".git/refs": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "tests": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".agents": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/91/785e76165840e7551710ead72404f7ce0e639d": {
+        "base64": "eAE9zEsKwlAMRmHHruLfgBEFFyC0QycFF3B7E2vwNgGTCu7eFzg9fJyx+Yjd/rAapPDGrT2h9pBInUqqG6FzmCeENXHRJkH4WAz9sTv1NDOKMaZFWWL7j4RzCMKXe5UvyPczkI56lXr7edRWdA5avwDcVC0r",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/hooks": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "AGENTS.md": {
+        "mode": 420,
+        "text": "Read-only investigation. Do not edit files. Read README.md and guides/README.md. Use source and tests to check guide claims.\n",
+        "type": "file"
+      },
+      ".git/objects/d3/a66392596efcb75b64f5ed2b831b055d8aaf03": {
+        "base64": "eAHFUU1LxTAQ9NxfsccWSulDnoLQk3j1oN7kUfa1WxpI25jdKv33br+eVaEnwUASws7OzkzOtjvD7c3xyjSu8wJ9a0SIJah814AMjhiW0rPelh6xIXZY0IworKFWVkhFUtRBEBQWmeGJxA8vSsbhSpuMz3tkiu4C0FVSBeO4XGpPlEsnaHNUBY3TLiZbLcARXKC1HMMHGmHI4PUU655oViqmtgw3HZeuBJ0ba4fogh9rnqT3LfxwFrKg9Jwd0+sv+KglUVfk5eGtRxtOXlViW8bgsGfKJmHLpCiZSWLYZ7HUhpOvKIa9aRO3+k2TQwx6nKLge4Cd1ORzlfeuF3nf+Xx2x7lpGioNCtnh/yNN/yTSPZZtpJv//vWBa6Qa5ScsVPB6",
+        "mode": 292,
+        "type": "file"
+      },
+      "guides": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/refs/heads/master": {
+        "mode": 420,
+        "text": "11af870f720414ea593006d3b97b1bb744ee8e1a\n",
+        "type": "file"
+      }
+    },
+    "head": "11af870f720414ea593006d3b97b1bb744ee8e1a\n",
+    "index": "100644 91785e76165840e7551710ead72404f7ce0e639d 0\tAGENTS.md\n100644 b47eca93752b2d5fda8637419bc231aaa78896bc 0\tREADME.md\n100644 670cda42aee69cfb83c338b4eee315ed50735a6c 0\tclient.py\n100644 09017918dba8b108522ee2fafde3835f7953dc24 0\tguides/README.md\n100644 38bebd5ef5fdd3798b88e981b91aae3045562308 0\tguides/retries.md\n100644 d3a66392596efcb75b64f5ed2b831b055d8aaf03 0\ttests/test_client.py\n"
+  },
+  "harness_run_id": "run_zDn9jDAUW5HtPpl5kE-nSEoZ",
+  "initial": {
+    "files": {
+      ".git/hooks/update.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to block unannotated tags from entering.\n# Called by \"git receive-pack\" with arguments: refname sha1-old sha1-new\n#\n# To enable this hook, rename this file to \"update\".\n#\n# Config\n# ------\n# hooks.allowunannotated\n#   This boolean sets whether unannotated tags will be allowed into the\n#   repository.  By default they won't be.\n# hooks.allowdeletetag\n#   This boolean sets whether deleting tags will be allowed in the\n#   repository.  By default they won't be.\n# hooks.allowmodifytag\n#   This boolean sets whether a tag may be modified after creation. By default\n#   it won't be.\n# hooks.allowdeletebranch\n#   This boolean sets whether deleting branches will be allowed in the\n#   repository.  By default they won't be.\n# hooks.denycreatebranch\n#   This boolean sets whether remotely creating branches will be denied\n#   in the repository.  By default this is allowed.\n#\n\n# --- Command line\nrefname=\"$1\"\noldrev=\"$2\"\nnewrev=\"$3\"\n\n# --- Safety check\nif [ -z \"$GIT_DIR\" ]; then\n\techo \"Don't run this script from the command line.\" >&2\n\techo \" (if you want, you could supply GIT_DIR then run\" >&2\n\techo \"  $0 <ref> <oldrev> <newrev>)\" >&2\n\texit 1\nfi\n\nif [ -z \"$refname\" -o -z \"$oldrev\" -o -z \"$newrev\" ]; then\n\techo \"usage: $0 <ref> <oldrev> <newrev>\" >&2\n\texit 1\nfi\n\n# --- Config\nallowunannotated=$(git config --type=bool hooks.allowunannotated)\nallowdeletebranch=$(git config --type=bool hooks.allowdeletebranch)\ndenycreatebranch=$(git config --type=bool hooks.denycreatebranch)\nallowdeletetag=$(git config --type=bool hooks.allowdeletetag)\nallowmodifytag=$(git config --type=bool hooks.allowmodifytag)\n\n# check for no description\nprojectdesc=$(sed -e '1q' \"$GIT_DIR/description\")\ncase \"$projectdesc\" in\n\"Unnamed repository\"* | \"\")\n\techo \"*** Project description file hasn't been set\" >&2\n\texit 1\n\t;;\nesac\n\n# --- Check types\n# if $newrev is 0000...0000, it's a commit to delete a ref.\nzero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')\nif [ \"$newrev\" = \"$zero\" ]; then\n\tnewrev_type=delete\nelse\n\tnewrev_type=$(git cat-file -t $newrev)\nfi\n\ncase \"$refname\",\"$newrev_type\" in\n\trefs/tags/*,commit)\n\t\t# un-annotated tag\n\t\tshort_refname=${refname##refs/tags/}\n\t\tif [ \"$allowunannotated\" != \"true\" ]; then\n\t\t\techo \"*** The un-annotated tag, $short_refname, is not allowed in this repository\" >&2\n\t\t\techo \"*** Use 'git tag [ -a | -s ]' for tags you want to propagate.\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/tags/*,delete)\n\t\t# delete tag\n\t\tif [ \"$allowdeletetag\" != \"true\" ]; then\n\t\t\techo \"*** Deleting a tag is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/tags/*,tag)\n\t\t# annotated tag\n\t\tif [ \"$allowmodifytag\" != \"true\" ] && git rev-parse $refname > /dev/null 2>&1\n\t\tthen\n\t\t\techo \"*** Tag '$refname' already exists.\" >&2\n\t\t\techo \"*** Modifying a tag is not allowed in this repository.\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/heads/*,commit)\n\t\t# branch\n\t\tif [ \"$oldrev\" = \"$zero\" -a \"$denycreatebranch\" = \"true\" ]; then\n\t\t\techo \"*** Creating a branch is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/heads/*,delete)\n\t\t# delete branch\n\t\tif [ \"$allowdeletebranch\" != \"true\" ]; then\n\t\t\techo \"*** Deleting a branch is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\trefs/remotes/*,commit)\n\t\t# tracking branch\n\t\t;;\n\trefs/remotes/*,delete)\n\t\t# delete tracking branch\n\t\tif [ \"$allowdeletebranch\" != \"true\" ]; then\n\t\t\techo \"*** Deleting a tracking branch is not allowed in this repository\" >&2\n\t\t\texit 1\n\t\tfi\n\t\t;;\n\t*)\n\t\t# Anything else (is there anything else?)\n\t\techo \"*** Update hook: unknown type of update to ref $refname of type $newrev_type\" >&2\n\t\texit 1\n\t\t;;\nesac\n\n# --- Finished\nexit 0\n",
+        "type": "file"
+      },
+      ".git/objects/b4": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-receive.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to make use of push options.\n# The example simply echoes all push options that start with 'echoback='\n# and rejects all pushes when the \"reject\" push option is used.\n#\n# To enable this hook, rename this file to \"pre-receive\".\n\nif test -n \"$GIT_PUSH_OPTION_COUNT\"\nthen\n\ti=0\n\twhile test \"$i\" -lt \"$GIT_PUSH_OPTION_COUNT\"\n\tdo\n\t\teval \"value=\\$GIT_PUSH_OPTION_$i\"\n\t\tcase \"$value\" in\n\t\techoback=*)\n\t\t\techo \"echo from the pre-receive-hook: ${value#*=}\" >&2\n\t\t\t;;\n\t\treject)\n\t\t\texit 1\n\t\tesac\n\t\ti=$((i + 1))\n\tdone\nfi\n",
+        "type": "file"
+      },
+      "client.py": {
+        "mode": 420,
+        "text": "from time import sleep\n\nDEFAULT_ATTEMPTS = 3\nRETRY_STATUS = 503\nDELAY_SECONDS = 0.1\n\n\ndef fetch(send, attempts=DEFAULT_ATTEMPTS, pause=sleep):\n    if attempts < 1:\n        raise ValueError(\"attempts must be positive\")\n    for index in range(attempts):\n        response = send()\n        if response.status != RETRY_STATUS or index == attempts - 1:\n            return response\n        pause(DELAY_SECONDS)\n",
+        "type": "file"
+      },
+      ".agents/skills/kata-neckbeard": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "guides/README.md": {
+        "mode": 420,
+        "text": "# Guides\n\n- [Retry policy](retries.md)\n",
+        "type": "file"
+      },
+      ".git/refs/tags": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-push.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n\n# An example hook script to verify what is about to be pushed.  Called by \"git\n# push\" after it has checked the remote status, but before anything has been\n# pushed.  If this script exits with a non-zero status nothing will be pushed.\n#\n# This hook is called with the following parameters:\n#\n# $1 -- Name of the remote to which the push is being done\n# $2 -- URL to which the push is being done\n#\n# If pushing without using a named remote those arguments will be equal.\n#\n# Information about the commits which are being pushed is supplied as lines to\n# the standard input in the form:\n#\n#   <local ref> <local oid> <remote ref> <remote oid>\n#\n# This sample shows how to prevent push of commits where the log message starts\n# with \"WIP\" (work in progress).\n\nremote=\"$1\"\nurl=\"$2\"\n\nzero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')\n\nwhile read local_ref local_oid remote_ref remote_oid\ndo\n\tif test \"$local_oid\" = \"$zero\"\n\tthen\n\t\t# Handle delete\n\t\t:\n\telse\n\t\tif test \"$remote_oid\" = \"$zero\"\n\t\tthen\n\t\t\t# New branch, examine all commits\n\t\t\trange=\"$local_oid\"\n\t\telse\n\t\t\t# Update to existing branch, examine new commits\n\t\t\trange=\"$remote_oid..$local_oid\"\n\t\tfi\n\n\t\t# Check for WIP commit\n\t\tcommit=$(git rev-list -n 1 --grep '^WIP' \"$range\")\n\t\tif test -n \"$commit\"\n\t\tthen\n\t\t\techo >&2 \"Found WIP commit in $local_ref, not pushing\"\n\t\t\texit 1\n\t\tfi\n\tfi\ndone\n\nexit 0\n",
+        "type": "file"
+      },
+      ".git/info": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/38/bebd5ef5fdd3798b88e981b91aae3045562308": {
+        "base64": "eAE9zMEKwjAQhGHPfYoB76UF9e7No0hfIElHDG6T0N3W9u0NHjwN/DCfl+zRny6HIx60eUfJEsPeNMOLCBKZDJN7U7EUWMYzrqxrTuDMOBXTtrmK4DYMd5y3DTO15KT1EdyihKulwu1PHCluh6d9yPQXEBV912GKIlEZchqr+gX1nzVA",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/be": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".agents/skills": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/applypatch-msg.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to check the commit log message taken by\n# applypatch from an e-mail message.\n#\n# The hook should exit with non-zero status after issuing an\n# appropriate message if it wants to stop the commit.  The hook is\n# allowed to edit the commit message file.\n#\n# To enable this hook, rename this file to \"applypatch-msg\".\n\n. git-sh-setup\ncommitmsg=\"$(git rev-parse --git-path hooks/commit-msg)\"\ntest -x \"$commitmsg\" && exec \"$commitmsg\" ${1+\"$@\"}\n:\n",
+        "type": "file"
+      },
+      ".git/objects/11": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-rebase.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# Copyright (c) 2006, 2008 Junio C Hamano\n#\n# The \"pre-rebase\" hook is run just before \"git rebase\" starts doing\n# its job, and can prevent the command from running by exiting with\n# non-zero status.\n#\n# The hook is called with the following parameters:\n#\n# $1 -- the upstream the series was forked from.\n# $2 -- the branch being rebased (or empty when rebasing the current branch).\n#\n# This sample shows how to prevent topic branches that are already\n# merged to 'next' branch from getting rebased, because allowing it\n# would result in rebasing already published history.\n\npublish=next\nbasebranch=\"$1\"\nif test \"$#\" = 2\nthen\n\ttopic=\"refs/heads/$2\"\nelse\n\ttopic=`git symbolic-ref HEAD` ||\n\texit 0 ;# we do not interrupt rebasing detached HEAD\nfi\n\ncase \"$topic\" in\nrefs/heads/??/*)\n\t;;\n*)\n\texit 0 ;# we do not interrupt others.\n\t;;\nesac\n\n# Now we are dealing with a topic branch being rebased\n# on top of master.  Is it OK to rebase it?\n\n# Does the topic really exist?\ngit show-ref -q \"$topic\" || {\n\techo >&2 \"No such branch $topic\"\n\texit 1\n}\n\n# Is topic fully merged to master?\nnot_in_master=`git rev-list --pretty=oneline ^master \"$topic\"`\nif test -z \"$not_in_master\"\nthen\n\techo >&2 \"$topic is fully merged to master; better remove it.\"\n\texit 1 ;# we could allow it, but there is no point.\nfi\n\n# Is topic ever merged to next?  If so you should not be rebasing it.\nonly_next_1=`git rev-list ^master \"^$topic\" ${publish} | sort`\nonly_next_2=`git rev-list ^master           ${publish} | sort`\nif test \"$only_next_1\" = \"$only_next_2\"\nthen\n\tnot_in_topic=`git rev-list \"^$topic\" master`\n\tif test -z \"$not_in_topic\"\n\tthen\n\t\techo >&2 \"$topic is already up to date with master\"\n\t\texit 1 ;# we could allow it, but there is no point.\n\telse\n\t\texit 0\n\tfi\nelse\n\tnot_in_next=`git rev-list --pretty=oneline ^${publish} \"$topic\"`\n\t/usr/bin/perl -e '\n\t\tmy $topic = $ARGV[0];\n\t\tmy $msg = \"* $topic has commits already merged to public branch:\\n\";\n\t\tmy (%not_in_next) = map {\n\t\t\t/^([0-9a-f]+) /;\n\t\t\t($1 => 1);\n\t\t} split(/\\n/, $ARGV[1]);\n\t\tfor my $elem (map {\n\t\t\t\t/^([0-9a-f]+) (.*)$/;\n\t\t\t\t[$1 => $2];\n\t\t\t} split(/\\n/, $ARGV[2])) {\n\t\t\tif (!exists $not_in_next{$elem->[0]}) {\n\t\t\t\tif ($msg) {\n\t\t\t\t\tprint STDERR $msg;\n\t\t\t\t\tundef $msg;\n\t\t\t\t}\n\t\t\t\tprint STDERR \" $elem->[1]\\n\";\n\t\t\t}\n\t\t}\n\t' \"$topic\" \"$not_in_next\" \"$not_in_master\"\n\texit 1\nfi\n\n<<\\DOC_END\n\nThis sample hook safeguards topic branches that have been\npublished from being rewound.\n\nThe workflow assumed here is:\n\n * Once a topic branch forks from \"master\", \"master\" is never\n   merged into it again (either directly or indirectly).\n\n * Once a topic branch is fully cooked and merged into \"master\",\n   it is deleted.  If you need to build on top of it to correct\n   earlier mistakes, a new topic branch is created by forking at\n   the tip of the \"master\".  This is not strictly necessary, but\n   it makes it easier to keep your history simple.\n\n * Whenever you need to test or publish your changes to topic\n   branches, merge them into \"next\" branch.\n\nThe script, being an example, hardcodes the publish branch name\nto be \"next\", but it is trivial to make it configurable via\n$GIT_DIR/config mechanism.\n\nWith this workflow, you would want to know:\n\n(1) ... if a topic branch has ever been merged to \"next\".  Young\n    topic branches can have stupid mistakes you would rather\n    clean up before publishing, and things that have not been\n    merged into other branches can be easily rebased without\n    affecting other people.  But once it is published, you would\n    not want to rewind it.\n\n(2) ... if a topic branch has been fully merged to \"master\".\n    Then you can delete it.  More importantly, you should not\n    build on top of it -- other people may already want to\n    change things related to the topic as patches against your\n    \"master\", so if you need further changes, it is better to\n    fork the topic (perhaps with the same name) afresh from the\n    tip of \"master\".\n\nLet's look at this example:\n\n\t\t   o---o---o---o---o---o---o---o---o---o \"next\"\n\t\t  /       /           /           /\n\t\t /   a---a---b A     /           /\n\t\t/   /               /           /\n\t       /   /   c---c---c---c B         /\n\t      /   /   /             \\         /\n\t     /   /   /   b---b C     \\       /\n\t    /   /   /   /             \\     /\n    ---o---o---o---o---o---o---o---o---o---o---o \"master\"\n\n\nA, B and C are topic branches.\n\n * A has one fix since it was merged up to \"next\".\n\n * B has finished.  It has been fully merged up to \"master\" and \"next\",\n   and is ready to be deleted.\n\n * C has not merged to \"next\" at all.\n\nWe would want to allow C to be rebased, refuse A, and encourage\nB to be deleted.\n\nTo compute (1):\n\n\tgit rev-list ^master ^topic next\n\tgit rev-list ^master        next\n\n\tif these match, topic has not merged in next at all.\n\nTo compute (2):\n\n\tgit rev-list master..topic\n\n\tif this is empty, it is fully merged to \"master\".\n\nDOC_END\n",
+        "type": "file"
+      },
+      ".git/objects/3c": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/index": {
+        "base64": "RElSQwAAAAIAAAAGapyb8RDEjwpqnJvxAAAAAAEAAA8G1QHQAACBpAAAAfUAAAAUAAAAfZF4XnYWWEDnVRcQ6tckBPfODmOdAAlBR0VOVFMubWQAapyb8RC0UUhqnJvxAAAAAAEAAA8G1QHMAACBpAAAAfUAAAAUAAAAaLR+ypN1Ky1f2oY3QZvCMaqniJa8AAlSRUFETUUubWQAapyb8RCosVdqnJvxAAAAAAEAAA8G1QHJAACBpAAAAfUAAAAUAAABlGcM2kKu5pz7g8M4tO7jFe1Qc1psAAljbGllbnQucHkAapyb8RC69IRqnJvxAAAAAAEAAA8G1QHOAACBpAAAAfUAAAAUAAAAJwkBeRjbqLEIUi7i+v3jg195U9wkABBndWlkZXMvUkVBRE1FLm1kAABqnJvxEL/kh2qcm/EAAAAAAQAADwbVAc8AAIGkAAAB9QAAABQAAACSOL69XvX903mLiOmBuRquMEVWIwgAEWd1aWRlcy9yZXRyaWVzLm1kAGqcm/EQr5hJapyb8QAAAAABAAAPBtUBywAAgaQAAAH1AAAAFAAAAv3TpmOSWW78t1tk9e0rgxsFXYqvAwAUdGVzdHMvdGVzdF9jbGllbnQucHkAAAAAAABUUkVFAAAAVgA2IDIKPJpaC0RR3dxRLOulIPTmYOY+/4t0ZXN0cwAxIDAKVz8b3sTLU82aeT0w7KbKOPtBvrVndWlkZXMAMiAwCr4lQzINXeiT3RANZ6xVsfUiPVrJjXJxr9oyWYjcH1YyOEEs9YPvS0o=",
+        "mode": 420,
+        "type": "file"
+      },
+      ".git/HEAD": {
+        "mode": 420,
+        "text": "ref: refs/heads/master\n",
+        "type": "file"
+      },
+      ".git/hooks/pre-commit.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to verify what is about to be committed.\n# Called by \"git commit\" with no arguments.  The hook should\n# exit with non-zero status after issuing an appropriate message if\n# it wants to stop the commit.\n#\n# To enable this hook, rename this file to \"pre-commit\".\n\nif git rev-parse --verify HEAD >/dev/null 2>&1\nthen\n\tagainst=HEAD\nelse\n\t# Initial commit: diff against an empty tree object\n\tagainst=$(git hash-object -t tree /dev/null)\nfi\n\n# If you want to allow non-ASCII filenames set this variable to true.\nallownonascii=$(git config --type=bool hooks.allownonascii)\n\n# Redirect output to stderr.\nexec 1>&2\n\n# Cross platform projects tend to avoid non-ASCII filenames; prevent\n# them from being added to the repository. We exploit the fact that the\n# printable range starts at the space character and ends with tilde.\nif [ \"$allownonascii\" != \"true\" ] &&\n\t# Note that the use of brackets around a tr range is ok here, (it's\n\t# even required, for portability to Solaris 10's /usr/bin/tr), since\n\t# the square bracket bytes happen to fall in the designated range.\n\ttest $(git diff-index --cached --name-only --diff-filter=A -z $against |\n\t  LC_ALL=C tr -d '[ -~]\\0' | wc -c) != 0\nthen\n\tcat <<\\EOF\nError: Attempt to add a non-ASCII file name.\n\nThis can cause problems if you want to work with people on other platforms.\n\nTo be portable it is advisable to rename the file.\n\nIf you know what you are doing you can disable this check using:\n\n  git config hooks.allownonascii true\nEOF\n\texit 1\nfi\n\n# If there are whitespace errors, print the offending file names and fail.\nexec git diff-index --check --cached $against --\n",
+        "type": "file"
+      },
+      ".git/objects/b4/7eca93752b2d5fda8637419bc231aaa78896bc": {
+        "base64": "eAFLyslPUjA0MGFQVghKLSmqVEjOyUzNK+HiCsnILFYIqCzJyM+DiimUFyUWFCskKhSXFhQAVaUolBQl5hUX5BeV6CkEp6YqRJdkpCqkl2ampCpk5qWkVsRqgDnF+kGuji6+rnq5KZp6XACLuSZr",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/57": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/hooks/pre-merge-commit.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to verify what is about to be committed.\n# Called by \"git merge\" with no arguments.  The hook should\n# exit with non-zero status after issuing an appropriate message to\n# stderr if it wants to stop the merge commit.\n#\n# To enable this hook, rename this file to \"pre-merge-commit\".\n\n. git-sh-setup\ntest -x \"$GIT_DIR/hooks/pre-commit\" &&\n        exec \"$GIT_DIR/hooks/pre-commit\"\n:\n",
+        "type": "file"
+      },
+      ".git/config": {
+        "mode": 420,
+        "text": "[core]\n\trepositoryformatversion = 0\n\tfilemode = true\n\tbare = false\n\tlogallrefupdates = true\n\tignorecase = true\n\tprecomposeunicode = true\n",
+        "type": "file"
+      },
+      ".git/COMMIT_EDITMSG": {
+        "mode": 420,
+        "text": "Initial source import\n",
+        "type": "file"
+      },
+      ".git/logs": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/description": {
+        "mode": 420,
+        "text": "Unnamed repository; edit this file 'description' to name the repository.\n",
+        "type": "file"
+      },
+      ".git/hooks/commit-msg.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to check the commit log message.\n# Called by \"git commit\" with one argument, the name of the file\n# that has the commit message.  The hook should exit with non-zero\n# status after issuing an appropriate message if it wants to stop the\n# commit.  The hook is allowed to edit the commit message file.\n#\n# To enable this hook, rename this file to \"commit-msg\".\n\n# Uncomment the below to add a Signed-off-by line to the message.\n# Doing this in a hook is a bad idea in general, but the prepare-commit-msg\n# hook is more suited to it.\n#\n# SOB=$(git var GIT_AUTHOR_IDENT | sed -n 's/^\\(.*>\\).*$/Signed-off-by: \\1/p')\n# grep -qs \"^$SOB\" \"$1\" || echo \"$SOB\" >> \"$1\"\n\n# This example catches duplicate Signed-off-by lines.\n\ntest \"\" = \"$(grep '^Signed-off-by: ' \"$1\" |\n\t sort | uniq -c | sed -e '/^[ \t]*1[ \t]/d')\" || {\n\techo >&2 Duplicate Signed-off-by lines.\n\texit 1\n}\n",
+        "type": "file"
+      },
+      ".git/hooks/sendemail-validate.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n\n# An example hook script to validate a patch (and/or patch series) before\n# sending it via email.\n#\n# The hook should exit with non-zero status after issuing an appropriate\n# message if it wants to prevent the email(s) from being sent.\n#\n# To enable this hook, rename this file to \"sendemail-validate\".\n#\n# By default, it will only check that the patch(es) can be applied on top of\n# the default upstream branch without conflicts in a secondary worktree. After\n# validation (successful or not) of the last patch of a series, the worktree\n# will be deleted.\n#\n# The following config variables can be set to change the default remote and\n# remote ref that are used to apply the patches against:\n#\n#   sendemail.validateRemote (default: origin)\n#   sendemail.validateRemoteRef (default: HEAD)\n#\n# Replace the TODO placeholders with appropriate checks according to your\n# needs.\n\nvalidate_cover_letter () {\n\tfile=\"$1\"\n\t# TODO: Replace with appropriate checks (e.g. spell checking).\n\ttrue\n}\n\nvalidate_patch () {\n\tfile=\"$1\"\n\t# Ensure that the patch applies without conflicts.\n\tgit am -3 \"$file\" || return\n\t# TODO: Replace with appropriate checks for this patch\n\t# (e.g. checkpatch.pl).\n\ttrue\n}\n\nvalidate_series () {\n\t# TODO: Replace with appropriate checks for the whole series\n\t# (e.g. quick build, coding style checks, etc.).\n\ttrue\n}\n\n# main -------------------------------------------------------------------------\n\nif test \"$GIT_SENDEMAIL_FILE_COUNTER\" = 1\nthen\n\tremote=$(git config --default origin --get sendemail.validateRemote) &&\n\tref=$(git config --default HEAD --get sendemail.validateRemoteRef) &&\n\tworktree=$(mktemp --tmpdir -d sendemail-validate.XXXXXXX) &&\n\tgit worktree add -fd --checkout \"$worktree\" \"refs/remotes/$remote/$ref\" &&\n\tgit config --replace-all sendemail.validateWorktree \"$worktree\"\nelse\n\tworktree=$(git config --get sendemail.validateWorktree)\nfi || {\n\techo \"sendemail-validate: error: failed to prepare worktree\" >&2\n\texit 1\n}\n\nunset GIT_DIR GIT_WORK_TREE\ncd \"$worktree\" &&\n\nif grep -q \"^diff --git \" \"$1\"\nthen\n\tvalidate_patch \"$1\"\nelse\n\tvalidate_cover_letter \"$1\"\nfi &&\n\nif test \"$GIT_SENDEMAIL_FILE_COUNTER\" = \"$GIT_SENDEMAIL_FILE_TOTAL\"\nthen\n\tgit config --unset-all sendemail.validateWorktree &&\n\ttrap 'git worktree remove -ff \"$worktree\"' EXIT &&\n\tvalidate_series\nfi\n",
+        "type": "file"
+      },
+      ".git/objects/be/2543320d5de893dd100d67ac55b1f5223d5ac9": {
+        "base64": "eAErKUpNVTA3ZTA0MDAzMVEIcnV08XXVy01h4GSslLi9YiNHkN6jX38fN8dXBt9RgSoqSi0pykwtBqmy2Lc37uvfy5XdHS8bd0qtM3ANU+YAAKJTH4k=",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/09/017918dba8b108522ee2fafde3835f7953dc24": {
+        "base64": "eAFLyslPUjC2ZFBWcC/NTEkt5uLSVYgOSi0pqlQoyM/JTK6M1SgC8jJTi/VyUzS5AFimDwc=",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/3c/9a5a0b4451dddc512ceba520f4e660e63eff8b": {
+        "base64": "eAErKUpNVTA0N2MwNDAwMzFRcHR39QsJ1stNYZhYEVcmFuHwPFRc4NV1FZbv5/iS50IVBbk6uvi6ghRtqTs1uVRbN/5Wm7nj7EOGq5Z3TNsDVZSck5maV6JXUMmQznPLad2zOb+bD1tsefdY9G1AcVSOiQEQKKSXZqakFjPsU3U24o19MfmuAG/6mtCNX5Vso05CFJSkFpcUM4TbS987cjr47KxKW4M3y05Z/HbctxUAG59IQg==",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/objects/67": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/logs/HEAD": {
+        "mode": 420,
+        "text": "0000000000000000000000000000000000000000 11af870f720414ea593006d3b97b1bb744ee8e1a Fixture <fixture@example.invalid> 1767225600 +0000\tcommit (initial): Initial source import\n",
+        "type": "file"
+      },
+      ".git/objects/67/0cda42aee69cfb83c338b4eee315ed50735a6c": {
+        "base64": "eAFdUD1vwjAQ7exfcWVKJEBB0KWqh6ikE/0QmEqdUEIuraU4tuxz1Z9fOwkU6sHDe/c+7qpWV7DKVjeN1QpIKgSpjLYErkU0jK2Lp3y/EYdciOL5TeyAw5JtC7H9OOxELvYRuMuWYW6TB6h4fH1ZRyybLxhjNTbQIB2/EoddPYWSCJUhx//bTsGU3iHvU9N7BuHJ5jwPD7AYwEjYUjqE97L1WFirbTI5+YLyjqBCMNpJkt84SXurRluQXY0/4Q/y7hOTk2QM633RGd0Faw6xbjJoIxOq2JGcOyrJO7jlcHWGcwLnf7Vnl7WHCPI2VBjN+nIR77dPro6Ysl+ew3s0",
+        "mode": 292,
+        "type": "file"
+      },
+      ".agents/skills/kata-neckbeard/SKILL.md": {
+        "mode": 420,
+        "text": "---\nname: kata-neckbeard\ndescription: Answer questions about an existing system with evidence from its source code, tests, configuration, and documentation. Use when the user asks how a feature works, where behavior is implemented, or what requirements and limits apply.\n---\n\n# Kata Neckbeard\n\nExplain the current system. Support each material claim with a source reference.\nUse the user's question from the current conversation to set the scope.\nDo not edit files or change code.\n\n## Inspect the project\n\n1. Identify the target repository. In a workspace with several repositories,\n   use the conversation to select the correct one. Ask if the target is unclear.\n2. Read its project instructions and README. If `guides/README.md` exists, use\n   it to find relevant guides. Otherwise, find the relevant documentation in\n   the project. Do not require a `guides/` directory.\n3. Read the documents that address the question. Note their stated behavior,\n   requirements, configuration, and limits.\n\n## Check the implementation\n\n1. Trace the relevant entry points, functions, data flow, and configuration in\n   the current source code. Use tests to check the expected behavior.\n2. Compare the implementation with the documentation. Report differences and\n   cite both sources. Use code as evidence of implemented behavior; preserve\n   documented requirements as evidence of intent.\n3. Do not infer a design reason from code alone. Look for a decision record,\n   comment, or relevant history when the question asks why a choice was made.\n4. State what static inspection cannot confirm. Do not claim that a test passed\n   or that deployed behavior was verified unless you have that evidence.\n\n## Report the answer\n\n- Answer the specific question first. Keep the explanation direct and factual.\n- Link to the source files and relevant lines for each material claim. Include\n  documentation references when they explain intent or conflict with the code.\n- Explain relevant limits, prerequisites, and unresolved questions.\n- Separate confirmed facts from deductions. If evidence is missing, say so.\n- Use a short list or diagram only when it makes the explanation clearer.\n- Before responding, check that the references support the answer and refer to\n  the current files in the target repository.\n\nKeep this work limited to investigation and reporting. Do not repair code or\ndocumentation as part of this skill.\n",
+        "type": "file"
+      },
+      ".git/logs/refs": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/38": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/09": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/11/af870f720414ea593006d3b97b1bb744ee8e1a": {
+        "base64": "eAGdjUEKwjAQAD3nFXsXJEmbtEIRT4LP2CYbXGiaEjfS5yv6A+c0l2FCyZkFzDgepBJBF87oUM9970yMMThjA83orE49ea/Jd5TSOCts8igVbrxLqwRT+smVdszbQideX7hwvIAZ/GCt81rDUX9Q4bsU+itW95WFcYFnaTUQcN5KFfUGzW0/vQ==",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/hooks/post-update.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to prepare a packed repository for use over\n# dumb transports.\n#\n# To enable this hook, rename this file to \"post-update\".\n\nexec git update-server-info\n",
+        "type": "file"
+      },
+      ".git/logs/refs/heads": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/pack": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "README.md": {
+        "mode": 420,
+        "text": "# Retry client\n\nThis Python client wraps a supplied transport. See [the guide index](guides/README.md).\n",
+        "type": "file"
+      },
+      ".git/hooks/pre-applypatch.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to verify what is about to be committed\n# by applypatch from an e-mail message.\n#\n# The hook should exit with non-zero status after issuing an\n# appropriate message if it wants to stop the commit.\n#\n# To enable this hook, rename this file to \"pre-applypatch\".\n\n. git-sh-setup\nprecommit=\"$(git rev-parse --git-path hooks/pre-commit)\"\ntest -x \"$precommit\" && exec \"$precommit\" ${1+\"$@\"}\n:\n",
+        "type": "file"
+      },
+      ".git/info/exclude": {
+        "mode": 420,
+        "text": "# git ls-files --others --exclude-from=.git/info/exclude\n# Lines that start with '#' are comments.\n# For a project mostly in C, the following would be a good set of\n# exclude patterns (uncomment them if you want to use them):\n# *.[oa]\n# *~\n",
+        "type": "file"
+      },
+      ".git/hooks/fsmonitor-watchman.sample": {
+        "mode": 493,
+        "text": "#!/usr/bin/perl\n\nuse strict;\nuse warnings;\nuse IPC::Open2;\n\n# An example hook script to integrate Watchman\n# (https://facebook.github.io/watchman/) with git to speed up detecting\n# new and modified files.\n#\n# The hook is passed a version (currently 2) and last update token\n# formatted as a string and outputs to stdout a new update token and\n# all files that have been modified since the update token. Paths must\n# be relative to the root of the working tree and separated by a single NUL.\n#\n# To enable this hook, rename this file to \"query-watchman\" and set\n# 'git config core.fsmonitor .git/hooks/query-watchman'\n#\nmy ($version, $last_update_token) = @ARGV;\n\n# Uncomment for debugging\n# print STDERR \"$0 $version $last_update_token\\n\";\n\n# Check the hook interface version\nif ($version ne 2) {\n\tdie \"Unsupported query-fsmonitor hook version '$version'.\\n\" .\n\t    \"Falling back to scanning...\\n\";\n}\n\nmy $git_work_tree = get_working_dir();\n\nmy $retry = 1;\n\nmy $json_pkg;\neval {\n\trequire JSON::XS;\n\t$json_pkg = \"JSON::XS\";\n\t1;\n} or do {\n\trequire JSON::PP;\n\t$json_pkg = \"JSON::PP\";\n};\n\nlaunch_watchman();\n\nsub launch_watchman {\n\tmy $o = watchman_query();\n\tif (is_work_tree_watched($o)) {\n\t\toutput_result($o->{clock}, @{$o->{files}});\n\t}\n}\n\nsub output_result {\n\tmy ($clockid, @files) = @_;\n\n\t# Uncomment for debugging watchman output\n\t# open (my $fh, \">\", \".git/watchman-output.out\");\n\t# binmode $fh, \":utf8\";\n\t# print $fh \"$clockid\\n@files\\n\";\n\t# close $fh;\n\n\tbinmode STDOUT, \":utf8\";\n\tprint $clockid;\n\tprint \"\\0\";\n\tlocal $, = \"\\0\";\n\tprint @files;\n}\n\nsub watchman_clock {\n\tmy $response = qx/watchman clock \"$git_work_tree\"/;\n\tdie \"Failed to get clock id on '$git_work_tree'.\\n\" .\n\t\t\"Falling back to scanning...\\n\" if $? != 0;\n\n\treturn $json_pkg->new->utf8->decode($response);\n}\n\nsub watchman_query {\n\tmy $pid = open2(\\*CHLD_OUT, \\*CHLD_IN, 'watchman -j --no-pretty')\n\tor die \"open2() failed: $!\\n\" .\n\t\"Falling back to scanning...\\n\";\n\n\t# In the query expression below we're asking for names of files that\n\t# changed since $last_update_token but not from the .git folder.\n\t#\n\t# To accomplish this, we're using the \"since\" generator to use the\n\t# recency index to select candidate nodes and \"fields\" to limit the\n\t# output to file names only. Then we're using the \"expression\" term to\n\t# further constrain the results.\n\tmy $last_update_line = \"\";\n\tif (substr($last_update_token, 0, 1) eq \"c\") {\n\t\t$last_update_token = \"\\\"$last_update_token\\\"\";\n\t\t$last_update_line = qq[\\n\"since\": $last_update_token,];\n\t}\n\tmy $query = <<\"\tEND\";\n\t\t[\"query\", \"$git_work_tree\", {$last_update_line\n\t\t\t\"fields\": [\"name\"],\n\t\t\t\"expression\": [\"not\", [\"dirname\", \".git\"]]\n\t\t}]\n\tEND\n\n\t# Uncomment for debugging the watchman query\n\t# open (my $fh, \">\", \".git/watchman-query.json\");\n\t# print $fh $query;\n\t# close $fh;\n\n\tprint CHLD_IN $query;\n\tclose CHLD_IN;\n\tmy $response = do {local $/; <CHLD_OUT>};\n\n\t# Uncomment for debugging the watch response\n\t# open ($fh, \">\", \".git/watchman-response.json\");\n\t# print $fh $response;\n\t# close $fh;\n\n\tdie \"Watchman: command returned no output.\\n\" .\n\t\"Falling back to scanning...\\n\" if $response eq \"\";\n\tdie \"Watchman: command returned invalid output: $response\\n\" .\n\t\"Falling back to scanning...\\n\" unless $response =~ /^\\{/;\n\n\treturn $json_pkg->new->utf8->decode($response);\n}\n\nsub is_work_tree_watched {\n\tmy ($output) = @_;\n\tmy $error = $output->{error};\n\tif ($retry > 0 and $error and $error =~ m/unable to resolve root .* directory (.*) is not watched/) {\n\t\t$retry--;\n\t\tmy $response = qx/watchman watch \"$git_work_tree\"/;\n\t\tdie \"Failed to make watchman watch '$git_work_tree'.\\n\" .\n\t\t    \"Falling back to scanning...\\n\" if $? != 0;\n\t\t$output = $json_pkg->new->utf8->decode($response);\n\t\t$error = $output->{error};\n\t\tdie \"Watchman: $error.\\n\" .\n\t\t\"Falling back to scanning...\\n\" if $error;\n\n\t\t# Uncomment for debugging watchman output\n\t\t# open (my $fh, \">\", \".git/watchman-output.out\");\n\t\t# close $fh;\n\n\t\t# Watchman will always return all files on the first query so\n\t\t# return the fast \"everything is dirty\" flag to git and do the\n\t\t# Watchman query just to get it over with now so we won't pay\n\t\t# the cost in git to look up each individual file.\n\t\tmy $o = watchman_clock();\n\t\t$error = $output->{error};\n\n\t\tdie \"Watchman: $error.\\n\" .\n\t\t\"Falling back to scanning...\\n\" if $error;\n\n\t\toutput_result($o->{clock}, (\"/\"));\n\t\t$last_update_token = $o->{clock};\n\n\t\teval { launch_watchman() };\n\t\treturn 0;\n\t}\n\n\tdie \"Watchman: $error.\\n\" .\n\t\"Falling back to scanning...\\n\" if $error;\n\n\treturn 1;\n}\n\nsub get_working_dir {\n\tmy $working_dir;\n\tif ($^O =~ 'msys' || $^O =~ 'cygwin') {\n\t\t$working_dir = Win32::GetCwd();\n\t\t$working_dir =~ tr/\\\\/\\//;\n\t} else {\n\t\trequire Cwd;\n\t\t$working_dir = Cwd::cwd();\n\t}\n\n\treturn $working_dir;\n}\n",
+        "type": "file"
+      },
+      ".git/logs/refs/heads/master": {
+        "mode": 420,
+        "text": "0000000000000000000000000000000000000000 11af870f720414ea593006d3b97b1bb744ee8e1a Fixture <fixture@example.invalid> 1767225600 +0000\tcommit (initial): Initial source import\n",
+        "type": "file"
+      },
+      ".git/hooks/prepare-commit-msg.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n#\n# An example hook script to prepare the commit log message.\n# Called by \"git commit\" with the name of the file that has the\n# commit message, followed by the description of the commit\n# message's source.  The hook's purpose is to edit the commit\n# message file.  If the hook fails with a non-zero status,\n# the commit is aborted.\n#\n# To enable this hook, rename this file to \"prepare-commit-msg\".\n\n# This hook includes three examples. The first one removes the\n# \"# Please enter the commit message...\" help message.\n#\n# The second includes the output of \"git diff --name-status -r\"\n# into the message, just before the \"git status\" output.  It is\n# commented because it doesn't cope with --amend or with squashed\n# commits.\n#\n# The third example adds a Signed-off-by line to the message, that can\n# still be edited.  This is rarely a good idea.\n\nCOMMIT_MSG_FILE=$1\nCOMMIT_SOURCE=$2\nSHA1=$3\n\n/usr/bin/perl -i.bak -ne 'print unless(m/^. Please enter the commit message/..m/^#$/)' \"$COMMIT_MSG_FILE\"\n\n# case \"$COMMIT_SOURCE,$SHA1\" in\n#  ,|template,)\n#    /usr/bin/perl -i.bak -pe '\n#       print \"\\n\" . `git diff --cached --name-status -r`\n# \t if /^#/ && $first++ == 0' \"$COMMIT_MSG_FILE\" ;;\n#  *) ;;\n# esac\n\n# SOB=$(git var GIT_COMMITTER_IDENT | sed -n 's/^\\(.*>\\).*$/Signed-off-by: \\1/p')\n# git interpret-trailers --in-place --trailer \"$SOB\" \"$COMMIT_MSG_FILE\"\n# if test -z \"$COMMIT_SOURCE\"\n# then\n#   /usr/bin/perl -i.bak -pe 'print \"\\n\" if !$first_line++' \"$COMMIT_MSG_FILE\"\n# fi\n",
+        "type": "file"
+      },
+      ".git/refs/heads": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/info": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "guides/retries.md": {
+        "mode": 420,
+        "text": "# Retry policy\n\nThe client makes up to five total attempts.\nAll HTTP 5xx responses cause a retry.\nThe delay between attempts is 100 milliseconds.\n",
+        "type": "file"
+      },
+      "tests/test_client.py": {
+        "mode": 420,
+        "text": "import unittest\nfrom types import SimpleNamespace\nfrom client import fetch\n\n\nclass RetryTests(unittest.TestCase):\n    def test_three_total_attempts(self):\n        calls, waits = [], []\n        def send():\n            calls.append(1)\n            return SimpleNamespace(status=503)\n        self.assertEqual(fetch(send, pause=waits.append).status, 503)\n        self.assertEqual(len(calls), 3)\n        self.assertEqual(waits, [0.1, 0.1])\n\n    def test_other_server_error_returns_immediately(self):\n        calls, waits = [], []\n        def send():\n            calls.append(1)\n            return SimpleNamespace(status=500)\n        self.assertEqual(fetch(send, pause=waits.append).status, 500)\n        self.assertEqual(len(calls), 1)\n        self.assertEqual(waits, [])\n",
+        "type": "file"
+      },
+      ".git/objects/91": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/d3": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/57/3f1bdec4cb53cd9a793d30eca6ca38fb41beb5": {
+        "base64": "eAErKUpNVTAxYjA0MDAzMVEoSS0uiU/OyUzNK9ErqGS4vCx5UmTen+3RKV/fajdLs8Z2rWcGALVYEys=",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/hooks/push-to-checkout.sample": {
+        "mode": 493,
+        "text": "#!/bin/sh\n\n# An example hook script to update a checked-out tree on a git push.\n#\n# This hook is invoked by git-receive-pack(1) when it reacts to git\n# push and updates reference(s) in its repository, and when the push\n# tries to update the branch that is currently checked out and the\n# receive.denyCurrentBranch configuration variable is set to\n# updateInstead.\n#\n# By default, such a push is refused if the working tree and the index\n# of the remote repository has any difference from the currently\n# checked out commit; when both the working tree and the index match\n# the current commit, they are updated to match the newly pushed tip\n# of the branch. This hook is to be used to override the default\n# behaviour; however the code below reimplements the default behaviour\n# as a starting point for convenient modification.\n#\n# The hook receives the commit with which the tip of the current\n# branch is going to be updated:\ncommit=$1\n\n# It can exit with a non-zero status to refuse the push (when it does\n# so, it must not modify the index or the working tree).\ndie () {\n\techo >&2 \"$*\"\n\texit 1\n}\n\n# Or it can make any necessary changes to the working tree and to the\n# index to bring them to the desired state when the tip of the current\n# branch is updated to the new commit, and exit with a zero status.\n#\n# For example, the hook can simply run git read-tree -u -m HEAD \"$1\"\n# in order to emulate git fetch that is run in the reverse direction\n# with git push, as the two-tree form of git read-tree -u -m is\n# essentially the same as git switch or git checkout that switches\n# branches while keeping the local changes in the working tree that do\n# not interfere with the difference between the branches.\n\n# The below is a more-or-less exact translation to shell of the C code\n# for the default behaviour for git's push-to-checkout hook defined in\n# the push_to_deploy() function in builtin/receive-pack.c.\n#\n# Note that the hook will be executed from the repository directory,\n# not from the working tree, so if you want to perform operations on\n# the working tree, you will have to adapt your code accordingly, e.g.\n# by adding \"cd ..\" or using relative paths.\n\nif ! git update-index -q --ignore-submodules --refresh\nthen\n\tdie \"Up-to-date check failed\"\nfi\n\nif ! git diff-files --quiet --ignore-submodules --\nthen\n\tdie \"Working directory has unstaged changes\"\nfi\n\n# This is a rough translation of:\n#\n#   head_has_history() ? \"HEAD\" : EMPTY_TREE_SHA1_HEX\nif git cat-file -e HEAD 2>/dev/null\nthen\n\thead=HEAD\nelse\n\thead=$(git hash-object -t tree --stdin </dev/null)\nfi\n\nif ! git diff-index --quiet --cached --ignore-submodules $head --\nthen\n\tdie \"Working directory has staged changes\"\nfi\n\nif ! git read-tree -u -m \"$commit\"\nthen\n\tdie \"Could not update working tree to new HEAD\"\nfi\n",
+        "type": "file"
+      },
+      ".git/refs": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "tests": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".agents": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/objects/91/785e76165840e7551710ead72404f7ce0e639d": {
+        "base64": "eAE9zEsKwlAMRmHHruLfgBEFFyC0QycFF3B7E2vwNgGTCu7eFzg9fJyx+Yjd/rAapPDGrT2h9pBInUqqG6FzmCeENXHRJkH4WAz9sTv1NDOKMaZFWWL7j4RzCMKXe5UvyPczkI56lXr7edRWdA5avwDcVC0r",
+        "mode": 292,
+        "type": "file"
+      },
+      ".git/hooks": {
+        "mode": 493,
+        "type": "directory"
+      },
+      "AGENTS.md": {
+        "mode": 420,
+        "text": "Read-only investigation. Do not edit files. Read README.md and guides/README.md. Use source and tests to check guide claims.\n",
+        "type": "file"
+      },
+      ".git/objects/d3/a66392596efcb75b64f5ed2b831b055d8aaf03": {
+        "base64": "eAHFUU1LxTAQ9NxfsccWSulDnoLQk3j1oN7kUfa1WxpI25jdKv33br+eVaEnwUASws7OzkzOtjvD7c3xyjSu8wJ9a0SIJah814AMjhiW0rPelh6xIXZY0IworKFWVkhFUtRBEBQWmeGJxA8vSsbhSpuMz3tkiu4C0FVSBeO4XGpPlEsnaHNUBY3TLiZbLcARXKC1HMMHGmHI4PUU655oViqmtgw3HZeuBJ0ba4fogh9rnqT3LfxwFrKg9Jwd0+sv+KglUVfk5eGtRxtOXlViW8bgsGfKJmHLpCiZSWLYZ7HUhpOvKIa9aRO3+k2TQwx6nKLge4Cd1ORzlfeuF3nf+Xx2x7lpGioNCtnh/yNN/yTSPZZtpJv//vWBa6Qa5ScsVPB6",
+        "mode": 292,
+        "type": "file"
+      },
+      "guides": {
+        "mode": 493,
+        "type": "directory"
+      },
+      ".git/refs/heads/master": {
+        "mode": 420,
+        "text": "11af870f720414ea593006d3b97b1bb744ee8e1a\n",
+        "type": "file"
+      }
+    },
+    "head": "11af870f720414ea593006d3b97b1bb744ee8e1a\n",
+    "index": "100644 91785e76165840e7551710ead72404f7ce0e639d 0\tAGENTS.md\n100644 b47eca93752b2d5fda8637419bc231aaa78896bc 0\tREADME.md\n100644 670cda42aee69cfb83c338b4eee315ed50735a6c 0\tclient.py\n100644 09017918dba8b108522ee2fafde3835f7953dc24 0\tguides/README.md\n100644 38bebd5ef5fdd3798b88e981b91aae3045562308 0\tguides/retries.md\n100644 d3a66392596efcb75b64f5ed2b831b055d8aaf03 0\ttests/test_client.py\n"
+  },
+  "metrics": {
+    "elapsed_ms": 69345,
+    "file_change_events": 0,
+    "tool_calls": 11,
+    "tool_errors": 0,
+    "tools": {
+      "exec_command": 11
+    },
+    "usage": {
+      "cached_input_tokens": 73088,
+      "input_tokens": 83914,
+      "output_tokens": 1631,
+      "reasoning_output_tokens": 376,
+      "total_tokens": 85545
+    }
+  },
+  "outcome_test": {
+    "case_id": "train-retry",
+    "failure": "\n\nOutcome not passed: evidence_limits\n",
+    "framework": "ExUnit",
+    "review": {
+      "evidence_limits": "Cannot establish the limits of static or deployed evidence"
+    },
+    "status": "review"
+  },
+  "recorded_at": "2026-09-05T22:48:22.755247Z",
+  "repetition": 1,
+  "skill": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "status": "completed",
+  "workspace_path": "/var/folders/8l/nyn2qp4d441b1zrgypxgry7m0000gn/T/kata-eval-82127e34b9c09303ff580e1da0569f29/project"
+}

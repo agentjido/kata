@@ -1,0 +1,20 @@
+{
+  "status": "completed",
+  "metrics": {
+    "usage": {
+      "cached_input_tokens": 53760,
+      "input_tokens": 65678,
+      "output_tokens": 1528,
+      "reasoning_output_tokens": 612,
+      "total_tokens": 67206
+    },
+    "tools": {
+      "exec_command": 7
+    },
+    "elapsed_ms": 70032,
+    "tool_calls": 7,
+    "tool_errors": 0,
+    "file_change_events": 0
+  },
+  "execution_id": "3994180f9cfc4a6dcdec84ebd929643b"
+}

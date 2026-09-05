@@ -1,0 +1,62 @@
+{
+  "parent": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+  "reason": "Unresolved checker review, not a proven task failure; deferred after coordinating review. Candidate remains ineligible and unscored.",
+  "round": 2,
+  "score": {
+    "reason": "Execution, capture, checker error, or pending review",
+    "version": "skill-quality-v2",
+    "protocol": {
+      "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+      "assessment": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757",
+      "checks": {
+        "train-retry": [
+          "answer_present",
+          "required_claims",
+          "supporting_citations",
+          "documentation_conflict",
+          "missing_reason",
+          "evidence_limits",
+          "no_false_runtime_claim",
+          "no_contradiction",
+          "no_invented_reason",
+          "project_unchanged",
+          "answer_capture",
+          "allowed_changes"
+        ]
+      },
+      "case_ids": [
+        "train-retry"
+      ],
+      "repetitions": 1
+    },
+    "reference": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+    "score": null,
+    "eligible": false,
+    "candidate": "eaf47e9290aac7df49a7d44cbd3cd35a71692d0d6faa524f06652535ce031de7",
+    "score_units": null,
+    "input_hashes": {
+      "reference": [
+        "090777cce1a45f845a6833216c6b1a115755a9b3e36629d2ec27d0ba4bc111e4"
+      ],
+      "candidate": [
+        "beda5045c147920ca7452c594291a6b56f4318c494a0c63959de3f0fde8d38c1"
+      ]
+    }
+  },
+  "review": {
+    "reviewer": "coordinating Codex task; not independent human approval",
+    "record_sha256": "c6605e5199a764755f34e7dee11addba84855cfdf9f4684c4eb84b4046b89085",
+    "assessment": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757",
+    "finding": "Retry facts and citations pass. The answer limits static inspection, requested versus elapsed delays, and unknown transport retries. The frozen checker does not resolve that runtime-limit wording.",
+    "disposition": "Leave the candidate unscored and ineligible. Continue the final requested proposal from the last passing parent. Do not repair the checker during this search.",
+    "scores_overridden": false,
+    "extra_live_calls": 0
+  },
+  "candidate": "eaf47e9290aac7df49a7d44cbd3cd35a71692d0d6faa524f06652535ce031de7",
+  "approach": "replace-workflow",
+  "outcome_contract": "950ad8e2b4d3f2babc99615b118489283ddb06fe7e856bbe11643b43de01a29d",
+  "decision": "review",
+  "score_units": null,
+  "training_batch": "training-eaf47e9290aac7df",
+  "proposal_record": "proposal-2.json"
+}

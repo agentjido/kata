@@ -1,6 +1,6 @@
-defmodule KataEvolve.Snapshot do
+defmodule KataEvolve.Setup.Snapshot do
   @moduledoc "Small final file states that can be checked again without a model."
-  alias KataEvolve.Fixture
+  alias KataEvolve.Setup.Fixture
 
   def take_input(root) do
     Map.new(walk(root, ""), fn {path, file} ->

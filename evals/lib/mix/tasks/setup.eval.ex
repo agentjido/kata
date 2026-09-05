@@ -19,11 +19,11 @@ defmodule Mix.Tasks.Setup.Eval do
 
     case rest do
       ["check"] ->
-        IO.inspect(KataEvolve.check(opts))
+        IO.inspect(KataEvolve.Setup.check(opts))
 
       [command] ->
         Mix.Task.run("app.start")
-        result = KataEvolve.run(command, opts)
+        result = KataEvolve.Setup.run(command, opts)
         if not result.passed, do: Mix.raise("Setup checks failed. See the saved profile report.")
     end
   end

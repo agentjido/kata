@@ -1,0 +1,216 @@
+{
+  "trial": "proposal-v2-three-rounds-20260905",
+  "context": "38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1",
+  "assessment": "77fd337e27ad36ed3936068441533010c8b06f277e4b78d70aa7b5ddc97083c7",
+  "profile": "codex-astra-xhigh",
+  "source_sha256": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "source_words": 370,
+  "source_metrics": {
+    "elapsed_ms": 61790,
+    "file_change_events": 0,
+    "tool_calls": 7,
+    "tool_errors": 0,
+    "tools": {
+      "exec_command": 7
+    },
+    "usage": {
+      "cached_input_tokens": 75776,
+      "input_tokens": 83380,
+      "output_tokens": 1308,
+      "reasoning_output_tokens": 351,
+      "total_tokens": 84688
+    }
+  },
+  "baseline_assessment": "Passed after the recorded offline checker repair; the original failed execution record is unchanged.",
+  "rounds": [
+    {
+      "round": 1,
+      "candidate_sha256": "1b863026a98b43887730af43531e4e116de1ae445a20d1eb7891fe72cb3ee0af",
+      "words": 459,
+      "record": "batches/38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1/training-1b863026a98b4388/cases/train-retry-1.json",
+      "record_sha256": "6ad58588a4bbda99df840cf485773674f2112f3ad7d74d971f2176b9d84f2faf",
+      "decision": "rejected",
+      "frozen_score": 0.0,
+      "passed_checks": 10,
+      "check_count": 12,
+      "failed_checks": [
+        "documentation_conflict",
+        "required_claims"
+      ],
+      "metrics": {
+        "elapsed_ms": 65035,
+        "file_change_events": 0,
+        "tool_calls": 10,
+        "tool_errors": 0,
+        "tools": {
+          "exec_command": 10
+        },
+        "usage": {
+          "cached_input_tokens": 58880,
+          "input_tokens": 65827,
+          "output_tokens": 1310,
+          "reasoning_output_tokens": 405,
+          "total_tokens": 67137
+        }
+      },
+      "relative_measured_cost": 0.935182,
+      "tokens_change_percent": -20.724,
+      "proposal_note": "Updated SKILL.md with one focused rule: batch independent, line-numbered source reads and stop once required checks are complete.\n\nThis may reduce separate tool calls and repeated reads. The main risk is missing context in narrow excerpts; the rule requires expanding reads when surrounding logic could affect conclusions.\n\nAll original instructions and metadata remain. The candidate is 456 words. Performance has not been measured.",
+      "note": "Cost ratios are diagnostic only: this record did not pass the frozen outcome gate."
+    },
+    {
+      "round": 2,
+      "candidate_sha256": "9c1424126b22ba383f4172b7f250d5611367cae9675a756c12479dbb9e504b9b",
+      "words": 453,
+      "record": "batches/38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1/training-9c1424126b22ba38/cases/train-retry-1.json",
+      "record_sha256": "f9b05f1411b90043ca15c60a2bb64b20f48539976bfd203ccd45ce7fce5be93f",
+      "decision": "rejected",
+      "frozen_score": 0.0,
+      "passed_checks": 11,
+      "check_count": 12,
+      "failed_checks": [
+        "documentation_conflict"
+      ],
+      "metrics": {
+        "elapsed_ms": 76984,
+        "file_change_events": 0,
+        "tool_calls": 10,
+        "tool_errors": 0,
+        "tools": {
+          "exec_command": 10
+        },
+        "usage": {
+          "cached_input_tokens": 76160,
+          "input_tokens": 83589,
+          "output_tokens": 1860,
+          "reasoning_output_tokens": 527,
+          "total_tokens": 85449
+        }
+      },
+      "relative_measured_cost": 1.10588,
+      "tokens_change_percent": 0.899,
+      "proposal_note": "Updated SKILL.md with an internal evidence checklist and a completion check for requested points and documentation disagreements.\n\nThis targets the recorded coverage failures and may reduce repeated reads. The main risk is checklist overhead for simple questions.\n\nThe candidate is 450 words and preserves the original metadata and required investigation checks. Performance has not been measured.",
+      "note": "Cost ratios are diagnostic only: this record did not pass the frozen outcome gate."
+    },
+    {
+      "round": 3,
+      "candidate_sha256": "d31ccc15b5addf63dfdb366d9fa2d7c014c548ce97480ee72ea21c5dc5ff30c9",
+      "words": 427,
+      "record": "batches/38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1/training-d31ccc15b5addf63/cases/train-retry-1.json",
+      "record_sha256": "b1b1d7bfad860964536157115b4fc32c314919b1cb57100f2870fef28ed2c0e9",
+      "decision": "rejected",
+      "frozen_score": 0.0,
+      "passed_checks": 11,
+      "check_count": 12,
+      "failed_checks": [
+        "required_claims"
+      ],
+      "metrics": {
+        "elapsed_ms": 59846,
+        "file_change_events": 0,
+        "tool_calls": 7,
+        "tool_errors": 0,
+        "tools": {
+          "exec_command": 7
+        },
+        "usage": {
+          "cached_input_tokens": 75776,
+          "input_tokens": 82867,
+          "output_tokens": 1222,
+          "reasoning_output_tokens": 233,
+          "total_tokens": 84089
+        }
+      },
+      "relative_measured_cost": 0.991903,
+      "tokens_change_percent": -0.707,
+      "proposal_note": "Updated SKILL.md with one comparison rule: state documentation disagreements explicitly, target further reads to unresolved evidence or dependencies, and stop expanding completed comparisons.\n\nThis may reduce repeated investigation and address the recorded comparison failure. Main risk: stopping before a subtle dependency is understood.\n\nThe candidate is 424 words. Metadata and all other instructions remain unchanged. Performance has not been measured.",
+      "note": "Cost ratios are diagnostic only: this record did not pass the frozen outcome gate."
+    }
+  ],
+  "proposals": [
+    {
+      "round": 1,
+      "record": "search/38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1/proposal-1.json",
+      "metrics": {
+        "usage": {
+          "cached_input_tokens": 79616,
+          "input_tokens": 88900,
+          "output_tokens": 1745,
+          "reasoning_output_tokens": 704,
+          "total_tokens": 90645
+        },
+        "tools": {
+          "exec_command": 7
+        },
+        "elapsed_ms": 77266,
+        "tool_calls": 7,
+        "tool_errors": 1,
+        "file_change_events": 1
+      },
+      "feedback_sha256": "29333124576d7eae4bf071fa4dee1ec1ecb408b9e3830d2d8eded6dcd8e55da3",
+      "prompt_sha256": "6a530247a6598b863afd9f05bd893c0008d0fb5407e4e4e9ed47c7839f6393e5"
+    },
+    {
+      "round": 2,
+      "record": "search/38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1/proposal-2.json",
+      "metrics": {
+        "usage": {
+          "cached_input_tokens": 105344,
+          "input_tokens": 117529,
+          "output_tokens": 2499,
+          "reasoning_output_tokens": 1389,
+          "total_tokens": 120028
+        },
+        "tools": {
+          "exec_command": 6
+        },
+        "elapsed_ms": 112219,
+        "tool_calls": 6,
+        "tool_errors": 1,
+        "file_change_events": 1
+      },
+      "feedback_sha256": "a20b6997aa6f8803e7450f4b3ab7475ce3b77322ddfd45c5ed365511a9313d55",
+      "prompt_sha256": "6a530247a6598b863afd9f05bd893c0008d0fb5407e4e4e9ed47c7839f6393e5"
+    },
+    {
+      "round": 3,
+      "record": "search/38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1/proposal-3.json",
+      "metrics": {
+        "usage": {
+          "cached_input_tokens": 107136,
+          "input_tokens": 120048,
+          "output_tokens": 2663,
+          "reasoning_output_tokens": 1274,
+          "total_tokens": 122711
+        },
+        "tools": {
+          "exec_command": 6
+        },
+        "elapsed_ms": 118747,
+        "tool_calls": 6,
+        "tool_errors": 1,
+        "file_change_events": 1
+      },
+      "feedback_sha256": "89db794d446402be425b1cbaaba8552584f599c9f4ee88d91b8cc0f05afca527",
+      "prompt_sha256": "6a530247a6598b863afd9f05bd893c0008d0fb5407e4e4e9ed47c7839f6393e5"
+    }
+  ],
+  "totals": {
+    "started_calls": 7,
+    "proposal_calls": 3,
+    "skill_execution_calls": 4,
+    "total_tokens": 654747,
+    "tool_calls": 53,
+    "tool_errors": 3,
+    "elapsed_ms": 571887,
+    "proposal_tokens": 333384,
+    "proposal_elapsed_ms": 308232,
+    "unknown_metrics": 0,
+    "pending_calls": 0
+  },
+  "selected_sha256": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "improved_under_frozen_checks": false,
+  "full_verification_run": false,
+  "official_skill_changed": false,
+  "conclusion": "The three focused proposals completed, but parser failures affected every candidate score. No validated improvement or prompt A/B advantage was established."
+}

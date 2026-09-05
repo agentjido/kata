@@ -1,0 +1,23 @@
+{
+  "adopted_at": "2026-09-05T23:36:20.823923+00:00",
+  "decision": "user_requested_adoption",
+  "request": "elevate round 1 to the main skill, commit and push to github",
+  "skill": "kata-neckbeard",
+  "profile": "codex-astra-xhigh",
+  "official_path": "skills/kata-neckbeard/SKILL.md",
+  "candidate_path": "evals/results/kata-neckbeard/codex-astra-xhigh/skills/24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31.md",
+  "source_sha256": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "adopted_sha256": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+  "trial": "proposal-v3-three-rounds-20260905",
+  "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+  "assessment": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757",
+  "round": 1,
+  "words": 290,
+  "training_cases": 1,
+  "executions_per_training_case": 1,
+  "outcome": "passed",
+  "checks_passed": 12,
+  "exploratory_score": 57.809727,
+  "repeated_full_verification_run": false,
+  "note": "Adopted at the user request from exploratory training evidence. This is an exception to the normal repeated verification requirement. The trial records remain unchanged; they describe the state before adoption."
+}

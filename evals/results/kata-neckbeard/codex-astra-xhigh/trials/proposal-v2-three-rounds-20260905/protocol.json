@@ -1,0 +1,20 @@
+{
+  "trial": "proposal-v2-three-rounds-20260905",
+  "recorded_at": "2026-09-05T21:51:11.819849+00:00",
+  "skill": "kata-neckbeard",
+  "context": "38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1",
+  "source_sha256": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "profile": "codex-astra-xhigh",
+  "training_cases": [
+    "train-retry"
+  ],
+  "max_proposal_rounds": 3,
+  "max_started_calls": 7,
+  "max_recorded_tokens": 1000000,
+  "full_verification": false,
+  "adoption": false,
+  "early_stop": "unchanged proposal, execution error, checker error, unresolved review, or invalid measurements",
+  "comparison": "Each candidate versus the fixed source; retain only a higher passing training cost score. This is not an old-prompt versus new-prompt A/B test.",
+  "source_command": "mix skill.eval suites/neckbeard.exs train --profile codex-astra-xhigh --max-calls 7 --max-tokens 1000000",
+  "tune_command": "mix skill.eval suites/neckbeard.exs tune --profile codex-astra-xhigh --attempts 3 --max-calls 7 --max-tokens 1000000"
+}

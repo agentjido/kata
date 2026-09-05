@@ -1,6 +1,6 @@
-defmodule KataEvolve.ScoreTest do
+defmodule KataEvolve.Setup.ScoreTest do
   use ExUnit.Case
-  alias KataEvolve.{Fixture, Score, Skill, Store}
+  alias KataEvolve.Setup.{Fixture, Score, Skill, Store}
 
   setup do
     protocol = %{context: "fixed", case_ids: ["a", "b"], checks: ["correct"], repetitions: 1}

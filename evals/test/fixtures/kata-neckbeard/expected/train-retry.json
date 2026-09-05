@@ -1,0 +1,85 @@
+{
+  "claims": [
+    {
+      "id": "attempts",
+      "relation": "(?:(?:three|3)\\s+(?:total\\s+)?attempts|(?:attempts|DEFAULT_ATTEMPTS)\\s*(?:=|:|is|are|of|to)?\\s*(?:three|3)\\b)",
+      "evidence": [
+        [
+          "client.py",
+          3,
+          3
+        ],
+        [
+          "client.py",
+          8,
+          13
+        ]
+      ]
+    },
+    {
+      "id": "status",
+      "relation": "(?:only\\s+(?:on\\s+|for\\s+)?(?:HTTP\\s+)?(?:status\\s+)?(?:`?503`?)|(?:`?503`?)[^.!?\\n]{0,65}(?:only|sole)|(?:retry|retries|retried)[^.!?\\n]{0,45}only[^.!?\\n]{0,25}\\b503\\b)",
+      "evidence": [
+        [
+          "client.py",
+          4,
+          4
+        ],
+        [
+          "client.py",
+          11,
+          15
+        ]
+      ]
+    },
+    {
+      "id": "delay",
+      "relation": "(?:100\\s*(?:ms|milliseconds)|0\\.1\\s*(?:s\\b|seconds))",
+      "evidence": [
+        [
+          "client.py",
+          5,
+          5
+        ],
+        [
+          "client.py",
+          15,
+          15
+        ]
+      ]
+    },
+    {
+      "id": "documented_attempts",
+      "relation": "(?:five|5)\\s+(?:total\\s+)?attempts",
+      "evidence": [
+        [
+          "guides/retries.md",
+          3,
+          3
+        ]
+      ],
+      "intent": true
+    },
+    {
+      "id": "documented_statuses",
+      "relation": "(?:all|every|any)\\s+(?:HTTP\\s+)?5xx",
+      "evidence": [
+        [
+          "guides/retries.md",
+          4,
+          4
+        ]
+      ],
+      "intent": true
+    }
+  ],
+  "test_files": [
+    "tests/test_client.py"
+  ],
+  "forbidden": [
+    "(?:three|3)\\s+(?:total\\s+)?retries",
+    "(?:retries|retry)\\s+(?:only\\s+)?(?:HTTP\\s+)?500\\b",
+    "\\b503\\b[^.!?\\n]{0,30}(?:is|are)\\s+not\\s+retried"
+  ],
+  "question": "Explain how fetch retries by default: total attempts, which HTTP responses cause a retry, and the delay. Compare the guide with the implementation. Why was that retry status selected? State the limits of the available evidence. Answer in the conversation. Do not change files or run tests; inspect their source."
+}

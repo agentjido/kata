@@ -39,9 +39,9 @@ defmodule KataEvolve.HarnessTest do
     assert :ok = Skill.validate(text)
     parent = %{"status" => "completed", "checks" => %{"links" => true}, "skill_words" => 939}
     candidate = Map.put(parent, "skill_words", Skill.words(text))
-    assert KataEvolve.better?(candidate, parent)
-    refute KataEvolve.better?(Map.put(candidate, "checks", %{"links" => false}), parent)
-    refute KataEvolve.better?(Map.put(candidate, "status", "error"), parent)
+    assert KataEvolve.Setup.better?(candidate, parent)
+    refute KataEvolve.Setup.better?(Map.put(candidate, "checks", %{"links" => false}), parent)
+    refute KataEvolve.Setup.better?(Map.put(candidate, "status", "error"), parent)
     assert {:error, _} = Skill.validate("missing frontmatter")
   end
 
@@ -54,6 +54,7 @@ defmodule KataEvolve.HarnessTest do
     cat <<'EVENTS'
     {"type":"thread.started","thread_id":"fake"}
     {"type":"item.completed","item":{"type":"command_execution","id":"one","command":"true","exit_code":0}}
+    {"type":"item.completed","item":{"type":"agent_message","id":"answer","text":"Final answer"}}
     {"type":"turn.completed","usage":{"input_tokens":10,"output_tokens":2}}
     EVENTS
     """)
@@ -68,6 +69,8 @@ defmodule KataEvolve.HarnessTest do
     }
 
     assert {:ok, result} = Harness.execute(profile, "Test", root)
+    assert result.answer == "Final answer"
+    assert result.answer_complete
     assert result.metrics.tool_calls == 1
     assert result.metrics.usage["total_tokens"] == 12
     assert Jido.Harness.Run.list() == []

@@ -1,6 +1,5 @@
 # Dead-code detection: what defeats it
 
-Original reference notes by [Jason Allum](https://github.com/jallum).
 The examples and measurements below describe the source Bedrock project.
 They are historical observations, not current Kata evaluation results.
 

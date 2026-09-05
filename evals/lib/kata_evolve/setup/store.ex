@@ -1,19 +1,9 @@
-defmodule KataEvolve.Store do
+defmodule KataEvolve.Setup.Store do
   @moduledoc "Git-friendly skills, final files, measurements, and resumable proposals."
-  alias KataEvolve.{Fixture, Harness, Skill}
+  alias KataEvolve.Harness
+  alias KataEvolve.Setup.{Fixture, Skill}
 
-  def profile(name) do
-    {profiles, _} = Code.eval_file(Path.join(KataEvolve.root(), "config/profiles.exs"))
-
-    case Map.fetch(profiles, name) do
-      {:ok, profile} ->
-        profile
-
-      :error ->
-        raise ArgumentError,
-              "Unknown profile: #{name}. Choose #{Enum.join(Map.keys(profiles), ", ")}"
-    end
-  end
+  defdelegate profile(name), to: KataEvolve.Profile, as: :fetch!
 
   def context(opts) do
     root = KataEvolve.root()

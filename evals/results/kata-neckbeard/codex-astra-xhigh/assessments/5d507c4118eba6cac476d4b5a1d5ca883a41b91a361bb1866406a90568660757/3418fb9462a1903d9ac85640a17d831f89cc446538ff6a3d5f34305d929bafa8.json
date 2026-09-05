@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "allowed_changes": true,
+    "answer_capture": true,
+    "answer_present": true,
+    "documentation_conflict": true,
+    "evidence_limits": true,
+    "missing_reason": true,
+    "no_contradiction": true,
+    "no_false_runtime_claim": true,
+    "no_invented_reason": true,
+    "project_unchanged": true,
+    "required_claims": true,
+    "supporting_citations": true
+  },
+  "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+  "execution_id": "e2682dca5c8076f508efc66ea7019ac6",
+  "outcome_test": {
+    "case_id": "train-retry",
+    "failure": null,
+    "framework": "ExUnit",
+    "review": {},
+    "status": "passed"
+  },
+  "record_sha256": "3418fb9462a1903d9ac85640a17d831f89cc446538ff6a3d5f34305d929bafa8",
+  "revision": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757"
+}

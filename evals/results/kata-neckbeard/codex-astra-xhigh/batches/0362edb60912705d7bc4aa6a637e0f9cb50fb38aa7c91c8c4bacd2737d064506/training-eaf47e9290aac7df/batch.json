@@ -1,0 +1,8 @@
+{
+  "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+  "case_ids": [
+    "train-retry"
+  ],
+  "repetitions": 1,
+  "skill": "eaf47e9290aac7df49a7d44cbd3cd35a71692d0d6faa524f06652535ce031de7"
+}

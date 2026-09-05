@@ -1,6 +1,6 @@
 defmodule KataEvolve.LoopTest do
   use ExUnit.Case
-  alias KataEvolve.{Fixture, Store}
+  alias KataEvolve.Setup.{Fixture, Store}
 
   test "saved baseline is rechecked without a call, and pending proposals resume after an error" do
     dir = Path.join(System.tmp_dir!(), "kata-loop-#{System.unique_integer([:positive])}")
@@ -26,15 +26,15 @@ defmodule KataEvolve.LoopTest do
     seed = skill(900)
     baseline = Store.skill(ctx, seed)
     item = hd(Fixture.cases().train)
-    record = KataEvolve.evaluate(ctx, baseline, item)
+    record = KataEvolve.Setup.evaluate(ctx, baseline, item)
     assert Enum.all?(record["checks"], &elem(&1, 1))
     no_call = %{ctx | execute: fn _, _, _ -> flunk("Cache must prevent a live call") end}
-    assert KataEvolve.evaluate(no_call, baseline, item) == record
+    assert KataEvolve.Setup.evaluate(no_call, baseline, item) == record
 
     # A changed assertion result is derived from final files, not trusted from saved checks.
     path = Store.case_path(ctx, baseline, item.id)
     Store.write(path, Map.put(record, "checks", %{"incorrect_cached_check" => false}))
-    assert KataEvolve.evaluate(no_call, baseline, item)["checks"] == record["checks"]
+    assert KataEvolve.Setup.evaluate(no_call, baseline, item)["checks"] == record["checks"]
 
     owner = self()
 
@@ -55,7 +55,7 @@ defmodule KataEvolve.LoopTest do
     }
 
     assert_raise RuntimeError, ~r/Codex execution failed/, fn ->
-      KataEvolve.tune(failing, baseline, record, 1)
+      KataEvolve.Setup.tune(failing, baseline, record, 1)
     end
 
     assert_received :proposal_call
@@ -64,10 +64,10 @@ defmodule KataEvolve.LoopTest do
     assert length(state["proposals"]) == 1
 
     # The next invocation retries the same candidate; no new proposal is made.
-    candidate = KataEvolve.tune(ctx, baseline, record, 1)
+    candidate = KataEvolve.Setup.tune(ctx, baseline, record, 1)
     assert candidate != baseline
     refute_received :proposal_call
-    selected = KataEvolve.evaluate(no_call, candidate, item)
+    selected = KataEvolve.Setup.evaluate(no_call, candidate, item)
     assert selected["status"] == "completed"
     assert selected["skill_words"] > 500
   end
@@ -108,17 +108,17 @@ defmodule KataEvolve.LoopTest do
     }
 
     baseline = Store.skill(ctx, skill(220))
-    record = KataEvolve.evaluate(ctx, baseline, hd(Fixture.cases().train))
+    record = KataEvolve.Setup.evaluate(ctx, baseline, hd(Fixture.cases().train))
 
     assert_raise RuntimeError, ~r/Proposal call failed/, fn ->
-      KataEvolve.tune(ctx, baseline, record, 5)
+      KataEvolve.Setup.tune(ctx, baseline, record, 5)
     end
 
     path = Path.join(dir, "search-budget.json")
     assert Store.read(path)["target_proposals"] == 5
     assert length(Store.read(path)["proposals"]) == 2
 
-    assert KataEvolve.tune(ctx, baseline, record, 5) == baseline
+    assert KataEvolve.Setup.tune(ctx, baseline, record, 5) == baseline
     state = Store.read(path)
     assert length(state["proposals"]) == 5
     assert Enum.all?(state["proposals"], &(&1["decision"] == "rejected"))
@@ -152,17 +152,17 @@ defmodule KataEvolve.LoopTest do
   test "optimization metadata is valid, repeatable, and changes only frontmatter" do
     profile = Store.profile("codex-sol-medium")
     source = skill(220)
-    marked = KataEvolve.Skill.mark_optimized(source, profile)
+    marked = KataEvolve.Setup.Skill.mark_optimized(source, profile)
     assert marked =~ ~s(metadata: {optimized_for: "codex/gpt-5.6-sol/medium"})
-    assert KataEvolve.Skill.validate(marked) == :ok
-    assert KataEvolve.Skill.mark_optimized(marked, profile) == marked
+    assert KataEvolve.Setup.Skill.validate(marked) == :ok
+    assert KataEvolve.Setup.Skill.mark_optimized(marked, profile) == marked
 
     assert List.last(String.split(marked, "---\n", parts: 3)) ==
              List.last(String.split(source, "---\n", parts: 3))
 
-    astra = KataEvolve.Skill.mark_optimized(marked, Store.profile("codex-astra-xhigh"))
+    astra = KataEvolve.Setup.Skill.mark_optimized(marked, Store.profile("codex-astra-xhigh"))
     refute astra =~ "gpt-5.6-sol"
-    assert KataEvolve.Skill.validate(astra) == :ok
+    assert KataEvolve.Setup.Skill.validate(astra) == :ok
   end
 
   defp skill(n),

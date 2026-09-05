@@ -1,0 +1,23 @@
+[
+  {
+    "round": 1,
+    "record_sha256": "55a199f63de0b635487ee084a6e2294109153a38978d30572a07b82bff5b4c48",
+    "reviewer": "coordinating Codex task; not independent human approval",
+    "finding": "Required retry facts, source evidence, guide comparison, and evidence limits are present. The fixed checks pass. No project files changed.",
+    "score_overridden": false
+  },
+  {
+    "round": 2,
+    "record_sha256": "c6605e5199a764755f34e7dee11addba84855cfdf9f4684c4eb84b4046b89085",
+    "reviewer": "coordinating Codex task; not independent human approval",
+    "finding": "Required retry facts, source evidence, guide comparison, and evidence limits are present. No project files changed. Round 2 remains unresolved under the frozen checker.",
+    "score_overridden": false
+  },
+  {
+    "round": 3,
+    "record_sha256": "3418fb9462a1903d9ac85640a17d831f89cc446538ff6a3d5f34305d929bafa8",
+    "reviewer": "coordinating Codex task; not independent human approval",
+    "finding": "Required retry facts, source evidence, guide comparison, and evidence limits are present. The fixed checks pass. No project files changed.",
+    "score_overridden": false
+  }
+]

@@ -1,402 +1,282 @@
-# Setup skill evaluation
+# Skill evaluation
 
-A small Elixir test project for `kata-setup`. The source skills in `skills/` target
-**Codex / gpt-6-astra / xhigh**. This is the default evaluation profile.
-LLM access uses `jido_harness` and the existing Codex CLI login. Sol medium is an
-experimental profile; its candidates remain in results, with no source variants.
+Use one small suite per skill. Codex runs the skill through `jido_harness`, with
+**gpt-6-astra / xhigh** as the default. Keep the official skill in `skills/`.
+Keep fixtures, candidate text, final answers, final files, and costs in Git.
+Do not save tool transcripts or intermediate output.
 
-## Use
+## Run an optimization
 
-Run these commands from `kata/evals`. Run `mix deps.get` once first.
-
-```sh
-mix check                     # Local tests; no LLM calls
-mix setup.eval tune           # Reuse baseline, propose, test, and compare
-```
-
-Read the report path printed by the command. New runs save it under
-`results/setup/<profile>/report.md`; it links to the selected candidate. Review an
-Astra candidate before copying it into `../skills/kata-setup/SKILL.md`.
-The [first Astra comparison](results/setup/report.md) remains as historical evidence.
-
-Two other commands are available:
+Run from `kata/evals`. Set `JIDO_HARNESS_PATH` if the local dependency is elsewhere.
+Run `mix deps.get` once, then:
 
 ```sh
-mix setup.eval baseline       # Record or reuse the original on the training case
-mix setup.eval check          # Recheck saved final files; no LLM or CLI required
+mix check
+mix skill.eval suites/neckbeard.exs train
+mix skill.eval suites/neckbeard.exs tune --attempts 5 --max-calls 11
+mix skill.eval suites/neckbeard.exs status
 ```
 
-Run the same command after an interruption. It completes saved proposals and the
-remaining round budget, then fills in missing final checks. Completed case runs
-are reused; execution errors are retried. A later invocation after completion
-adds a new round budget. Results are separated by profile and execution identity.
+`tune` creates the training reference if it is missing. The separate `train`
+command lets you inspect the first answer before spending on proposals.
+`baseline` is an alias for `train`; it no longer runs the full suite.
 
-## The loop
+1. **Calibrate offline.** Test saved correct outputs and deliberate faults. Check
+   actual content, links, values, relationships, and preserved files. An agent's
+   claim of success is insufficient.
+2. **Run one training reference.** It must pass its ExUnit outcome test and have
+   valid measurements. Stop and diagnose a failure before more calls.
+3. **Tune on training cases only.** Make up to five proposals. Test each distinct
+   candidate once per training case. Keep a candidate only if every outcome passes
+   and its cost score improves. Repeated candidate text reuses its saved execution.
+4. **Stop if there is no improvement.** Keep the official skill. A shorter skill
+   with higher execution cost is not an improvement.
+5. **Verify one promising candidate.** Run three fresh executions per case for
+   both source and candidate. The training screen must pass with a score above 50
+   before these calls start. No proposals can follow verification in that context.
+6. **Review and adopt.** Require every final outcome to pass, a full score above
+   50, at most 500 words, and review of behavior the checks do not cover. Copy the
+   exact tested candidate to `skills/<name>/SKILL.md`. Commit the suite and evidence
+   with it. The runner does not replace official skills.
 
-1. Run the original skill on one guide fixture, or reuse its saved result.
-2. Give Codex the current skill and training feedback. It edits one Markdown file.
-3. Test the proposal on the same guide. Keep it if all checks pass and it is shorter.
-   A passing proposal can also replace a parent that failed its checks.
-4. Check the selected version and baseline on all three fixtures. The nested-note
-   and manual results are not sent to the proposal call. A failed selected-candidate
-   check prevents acceptance. Baseline results show whether the source skill works
-   on the experimental profile before any revision.
-
-This is a GEPA-style reflective improvement loop with one parent. It has no
-population or Pareto selection. It does not yet use the quality score below for
-selection. It does not depend on the
-private `jido_evolve` example API. Future shared search behavior can move there.
-
-The final target is 200–500 words. A shorter intermediate skill above 500 words is
-allowed. Format and template-reference checks still apply. Short valid skills are
-not padded. A passing result is evidence for these cases, not the whole skill scope.
-
-## Limits and reruns
-
-The default is one proposal and a 30-minute budget. Each CLI call has a ten-minute
-limit, reduced to the remaining experiment time. Allow more proposals when needed:
+Use the candidate path printed by `tune`:
 
 ```sh
-mix setup.eval tune --attempts 3 --minutes 30
+mix skill.eval suites/neckbeard.exs verify --candidate PATH --max-calls 30
 ```
 
-The task accepts one to five rounds. It completes the requested round budget even
-when a proposal is rejected or unchanged. A saved target count prevents a resumed
-experiment from adding extra rounds. CLI failures stop the command with evidence
-saved; run it again to retry. Harness owns call deadlines and cleanup.
-The budget covers CLI work. Startup and bounded cleanup can take extra time.
+With one training case and two final cases, five unsuccessful rounds need at most
+**11 calls**, down from 20. The first proposal follows one source call, instead of
+ten. A complete experiment that reaches verification still needs up to **29 calls**.
+These are protocol counts, not measured token savings. Proposal calls count too.
 
-Use `--fresh` to measure again instead of reusing saved executions. It refreshes each
-needed case once per invocation. Git can preserve earlier measurements before a
-fresh run replaces them. Reuse is a cost-saving development step, not a new model
-measurement. Changing the skill, inputs, template, profile, CLI, or Harness source
-selects different saved evidence. Checker changes regrade final files locally.
+The verification candidate and batch name are fixed at first use. A resumed command
+fills missing slots. It cannot discard a failed completed answer by changing the
+batch name. Final-case feedback must never enter proposals for the same benchmark,
+including through a new context or worktree.
 
-Normal Codex runs currently inherit host configuration. Use `--fresh` after changing
-that configuration. The runner version in `Store.context/1` must change if task
-prompts or fixture preparation semantics change. No model fallback occurs.
+## Proposal prompt
 
-## Files and measurements
+Edit [prompts/propose_skill.md](prompts/propose_skill.md) to change the shared
+revision prompt. The runner appends the suite's `proposal_instructions/0` and uses
+the selected execution profile for proposals too. Astra xhigh remains the default.
 
-- `test/fixtures/setup/input/`: fixed Elixir projects, documents, images, and links.
-- `lib/kata_evolve/fixture.ex`: hard-coded checks for moves, local edits, links,
-  protected files, the intake record, and an unchanged Git index.
-- `results/setup/<profile>/skills/`: baseline and experimental Markdown by content hash.
-- `results/setup/<profile>/cases/`: final files and case metrics, including failures.
-- `results/setup/<profile>/search-*.json`: parent links, round decisions, proposal metrics,
-  target round count, and resume state.
-- `results/setup/<profile>/context-*.json`: execution inputs and configuration identity.
-- `results/setup/<profile>/report.md`: the latest comparison for that profile.
+The v3 prompt permits **full rewrites against a fixed outcome contract**. A
+proposal can delete, replace, combine, or reorder instructions. It must preserve
+required behavior, scope, safeguards, and support references. One testable
+hypothesis can require many edits. The brief change, expected saving, and risk
+note stays outside the skill. Measured cost after outcome passes decides selection.
+A shorter skill is not enough.
 
-Earlier Astra results remain directly under `results/setup/`. Offline checking
-includes both layouts. The runner stamps each proposed skill with its actual
-optimization profile before testing it. The source skill keeps its Astra metadata.
+The three search directions are `remove-procedure`, `replace-workflow`, and
+`refine-evidence`. Longer searches cycle through them with updated feedback. The
+best valid measured candidate remains the parent; previous candidate text is
+also available for useful ideas. We have not added a population search.
 
-Text files stay readable in JSON. Binary data uses base64. There is no event log,
-command transcript, database, service, automatic commit, or skill installation.
-Temporary workspaces and Harness journals are removed after each call. Codex can
-retain its own history outside this project until optional ephemeral runs exist.
+Each suite can declare `outcome_contract/0`: a small list of required outcomes,
+without fixture answers or instructions about the method. The contract and its
+hash are in every proposal and the frozen search policy. Existing suites without
+this callback conservatively preserve the source behavior. The assigned approach
+can vary; the outcome contract and final acceptance rules cannot.
 
-Each case records input/output tokens, cached input and reasoning subsets, tool
-calls, tool errors, file-change events, and elapsed milliseconds. Total tokens are
-input plus output; subsets are not added twice. Missing measurements stay null.
-Tool counts cover the normalized events Harness reports. Proposal costs are separate
-from skill execution costs. The offline quality calculator combines execution costs;
-the current tuning loop still selects by word count.
+The proposer receives four small inputs:
 
-The three cases test one document and image each. Collision handling, fixed build
-consumers, and repeat-run behavior need further cases before broad acceptance.
+| File | Purpose |
+| --- | --- |
+| `SKILL.md` | Current parent; the only file it can edit. |
+| `reference.md` | Original source, to preserve scope and required behavior. |
+| `previous.md` | Last attempted skill, when present, including a rejected revision. |
+| `feedback.json` | Fixed outcome contract, search approach, target profile, labeled hashes and scores, prior decisions/reasons, and training observations. |
+
+Feedback includes the actual training task, outcome checks, measured costs, and
+bounded excerpts of the answer and changed files. It reuses duplicate observations
+and excludes unchanged project files. It rejects final-case or mismatched records.
+Answers are capped at 4,000 characters; file excerpts at six files of 1,200
+characters each. Truncation is explicit. Tool counts are available; tool commands
+and intermediate output are not. Costs support a hypothesis, not a proven cause.
+
+The prompt keeps scope, safeguards, verification, and support references fixed.
+It forbids fixture-specific answers and changes made only to satisfy a parser.
+If an approach supports no useful change, the proposer leaves the file unchanged.
+The runner skips that candidate call and continues with the next approach within
+the same budget. Identical candidates reuse evidence. There is no metadata-only
+edit or automatic budget increase.
+
+Each proposal saves its compact feedback and prompt hash. The search policy saves
+the full rendered prompt and feedback-builder hash. A prompt or builder change
+stops resume of that search; old proposal decisions are not silently reused.
+The [three-round Astra trial](results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v2-three-rounds-20260905/report.md)
+completed seven live calls. Parser failures blocked its candidates. The source
+was retained. Its saved answers now calibrate citation placement, table comparisons,
+and delay expressions; unresolved claims require review instead of a false failure.
+The original scores remain intact. The [Astra search notes](ASTRA_TUNING_NOTES.md)
+explain why v3 allows broader rewrites.
+The [three-round v3 trial](results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md)
+selected a passing 290-word candidate with an exploratory score of 57.809727.
+One candidate remained unscored after an explicit review disposition; the final
+proposal continued from the passing parent without changing the checker.
+The user then requested adoption of that exact Round 1 candidate into
+`skills/kata-neckbeard/SKILL.md`. The
+[adoption record](results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/adoption.json)
+records this decision separately from the trial. Repeated verification and final
+cases have not run; the score remains exploratory.
+
+## Repair a checker without model calls
+
+Execution identity and checker identity are separate. A run fixes the source,
+project inputs and preparation code, prompts, support files, model, tools, and
+execution settings. A checker revision fixes the expected outcomes, checker code,
+and score rule. Changes to checks create new assessments of the same saved output.
+They do not create new executions or replace old results.
+
+```sh
+mix skill.eval suites/neckbeard.exs check --context CONTEXT_ID
+mix skill.eval suites/neckbeard.exs score --context CONTEXT_ID --batch candidate-full-HASH_PREFIX
+```
+
+The runner prints the context ID when a live command starts. Both offline commands
+use saved source text and require no Codex executable. A changed prompt, fixture,
+preparation file, or support file cannot reuse an old execution contract. All
+score inputs must use the same checker revision. A checker change during search
+stops further proposals; first recheck and inspect the saved evidence. Do not
+restart a paid series automatically to debug a parser.
+
+Old v2 contexts did not separate execution inputs from checkers. Keep them as
+historical evidence. You can diagnose an old record with the current checker:
+
+```sh
+mix skill.eval suites/neckbeard.exs check --record test/fixtures/kata-neckbeard/replay/train-retry-1.json
+```
+
+This saves a new assessment keyed by the raw record hash. It does not import that
+run into a new baseline or certify that old contexts are comparable. The neckbeard
+example includes the unchanged real answer that exposed the first checker defect.
+Its table, shared paragraph citation, and uncertainty statement now pass offline.
+This is a checker repair, not a skill promotion or a new live quality measurement.
+
+## Stop rules and costs
+
+The default limits are **30 started calls and 2,000,000 recorded tokens per
+execution context**. Set `--max-calls N` and `--max-tokens N` to change them. Limits
+apply across resumed commands, candidates, proposals, and retries. The token limit
+is checked before dispatch; one call can exceed the remaining token allowance.
+A call also has a ten-minute time limit. An unfinished dispatch blocks new calls.
+
+`status` calculates calls, proposals, errors, missing measurements, tokens, tool
+calls, and elapsed milliseconds from saved evidence. It does not use a manually
+updated status file. `--context ID` limits the report to one context; `--results
+PATH` reads an existing result directory, including an old worktree. Known tokens
+exclude any call whose usage was not returned. Coordinating-agent costs are not
+part of the harness totals. `--results PATH` can also select an isolated results
+directory for other commands; local tests use temporary directories.
+
+| Result | Action |
+| --- | --- |
+| Failed outcome | Keep the answer. Reject a candidate; stop a failed source or final batch. |
+| Checker error or `review` | Stop. Repair or review offline. Do not assign a quality score. |
+| Execution or capture error | Stop. Diagnose the cause. Keep the call and its cost. |
+| Missing metrics | Stop. No cost score is possible. |
+| Call or token limit | Keep completed slots. Resume with an explicit larger limit if needed. |
+
+After you fix an execution problem, `--retry-errors` permits a new attempt for
+only the incomplete/error slot. It saves a linked record and counts both calls.
+It cannot retry a completed wrong answer. There are no automatic error retries.
+A dispatch with no returned result needs diagnosis before it can be reconciled.
+
+## Add a suite
+
+A file under `suites/` implements `KataEvolve.Suite`:
+
+| Callback | Contract |
+| --- | --- |
+| `spec/0` | Skill id, source, support paths, cases, checks, execution inputs, checker inputs. |
+| `prepare(project, case)` | Create that case's input project and Git history. |
+| `prompt(case)` | State the task without expected answers or evaluator details. |
+| `check(record, case)` | Return each declared outcome as `true`, `false`, or `{:review, reason}`. |
+| `validate(text)` | Optional skill format or support-reference rules. |
+| `proposal_instructions/0` | Optional general revision rules. No final-case feedback. |
+| `outcome_contract/0` | Optional fixed list of required behavior; no fixture values or prescribed procedure. |
+
+Keep preparation code separate from the checker. List every preparation helper and
+input fixture in `execution_inputs`. List every checker, expected answer, and
+calibration dependency in `inputs`. Prompts, case specifications, and skill support
+files are also part of the execution contract. Hashes use project-relative paths
+where possible, so a worktree move does not by itself change fixture identity.
+
+Each case has an `id`, `split: :train | :final`, and `writable` paths. Use `[]` for
+read-only tasks, exact paths for files, and a trailing slash for directories.
+Git state and packaged skill files are always protected. `check/2` receives the
+actual final answer and complete initial/final snapshots. Read a saved file with
+`KataEvolve.Evidence.text/2`. The runner asserts the exact check set through ExUnit
+and adds answer-capture and file-preservation checks.
+
+Use `false` for an established outcome failure. Use `{:review, reason}` when a
+parser cannot decide. Both block adoption; review remains unscored. Review is not
+a bypass for a failed file/content assertion. This runner has no automatic review
+approval or paid model judge. Improve checks with positive examples and nearby
+faults; preserve the failed execution and assess it again offline.
+
+The examples are [neckbeard](suites/neckbeard.exs), for answers about Python and
+TypeScript, and [setup](suites/setup.exs), for document creation and moves. Setup is
+excluded from this live round. Its legacy preparation/check helper is still
+conservatively included in execution inputs; changing that helper starts a new
+context. The other skill suites remain in their worktrees pending integration.
 
 ## Calculate a quality score
 
-[`setup-quality-v1`](../README.md#skill-quality-score-setup-quality-v1) is the fitness
-contract. Its implementation is [`KataEvolve.Score`](lib/kata_evolve/score.ex).
-It has a correctness gate, then a bounded cost score. All required checks must pass;
-passing more assertions does not compensate for one failed assertion.
+The common calculator uses **`skill-quality-v2`**. It keeps the v1 cost formula but
+makes execution, capture, and checker errors, plus pending review, **unscored**
+(`null`). Invalid skill format, more than 500 words, or a proven failed candidate
+outcome scores **0**. Missing, duplicate, mismatched, or incomplete evidence is
+unscored. The reference must have complete passing outcomes and valid metrics.
 
-### Elixir outcome tests are required
-
-Each skill needs a hard-coded Elixir test for the result of its work. Test the
-actual final files and behavior. A statement from the agent that it finished is
-not evidence. For setup, the output contract includes:
-
-| Output | Required assertion |
-| --- | --- |
-| `docs/AGENTS.md` | A regular file that contains the supplied rules template. |
-| `docs/README.md` | A regular file with links to the rules and inbox. |
-| `docs/inbox/README.md` | A regular file with source/destination records and an unprocessed or pending-review status. |
-| Moved documents and assets | Content is preserved and links reach the intended files. |
-| Existing project files and Git index | Protected files, local edits, and index entries are preserved. |
-
-`Fixture.check_snapshot/3` derives the thirteen conditions from the initial and
-final snapshots. `Fixture.assert_outcome!/1` executes their `ExUnit.Assertions`.
-`Store.recheck/1` records the case ID, framework, and passed/failed result in
-`outcome_test`. It always recomputes the result from final files. The score requires
-both the passed test result and every required check; a failed output test scores
-zero regardless of token savings. A missing test result cannot qualify.
-
-These assertions execute after each skill run and during offline scoring. The
-ExUnit suite also tests the checker with deliberately missing files, empty rules,
-broken index links, and an incorrect intake status. A cached success flag cannot
-make those outputs pass. Passing tests of the calculator alone does not qualify
-a candidate; its own saved output must pass the outcome test.
-
-Keep assertions outside the agent's editable project. Define the contract before
-search and keep it fixed during tuning. Use exact text only where the contract
-requires it, such as a supplied template. For free-form output, assert observable
-properties and identify anything that still needs human review. Changes to the
-checker start a new score series; they can regrade saved files without model calls.
-
-### Run the calculator
-
-Run this from `evals` to score the saved Sol candidate:
-
-```sh
-mix setup.score codex-sol-medium b76130fc2246 29c4ddc219b8
-```
-
-The arguments are profile, exact context ID, and candidate ID. The context selects
-the fixed source baseline. The command rechecks saved final files and prints JSON.
-It makes no model calls and changes no result files. The JSON includes component
-ratios, medians, rule version, full skill hashes, and hashes of the input records,
-context, checker, and scoring code. Save that output with the evidence in Git.
-An example is [the saved Sol score](results/setup/codex-sol-medium/score-v1-29c4ddc219b8.json).
-
-The calculation is:
+For each case, use median total tokens, tool calls, and elapsed milliseconds:
 
 ```text
-For each case i:
-  T[i] = median(input_tokens + output_tokens)
-  C[i] = median(tool_calls)
-  D[i] = median(elapsed_ms)
-
-  E[i] = 0.70 × T_candidate[i] / T_reference[i]
-       + 0.20 × (C_candidate[i] + 1) / (C_reference[i] + 1)
-       + 0.10 × D_candidate[i] / D_reference[i]
-
-E = sum(E[i]) / number_of_cases
-score_units = round(100000000 / (1 + E))
-score = score_units / 1000000
+case_cost = 0.70 × candidate_tokens / reference_tokens
+          + 0.20 × (candidate_tools + 1) / (reference_tools + 1)
+          + 0.10 × candidate_time / reference_time
+score = round(100 / (1 + mean(case_cost)), 6)
 ```
 
-Use `score_units` for comparison; display `score` to six decimal places. Each case
-has equal weight, irrespective of its duration or number of assertions. Cached
-input is included in input tokens; cached and reasoning subsets are not added
-again. A reference with no tool calls is valid because both tool counts receive
-`+1`. Tokens and time must be positive integers, tools a nonnegative integer, and
-the saved total must equal input plus output. Missing metrics stay unscored.
+Each case has equal weight. Count cached input once within total input tokens.
+Use a fixed source reference, not the latest parent. Passing reference cost is
+50; lower cost scores above 50. An overlength source can supply reference costs
+but cannot qualify for adoption. Ties keep the current parent. Word count earns
+no separate reward. Proposal costs are reported but are not candidate run costs.
 
-The fixed baseline scores 50 when it meets the candidate requirements. The range
-is 0–100, with higher scores preferred. The weights are a chosen policy, not a
-statistical estimate. Do not change them to favor a candidate after seeing its
-results. A shorter skill receives no direct bonus; valid skills at or below 500
-words share the same length gate. There is no 200-word minimum and no padding.
+Training scores use one run per case. Promotion scores require three fresh runs
+per case for both versions. Every counted execution must pass; medians cannot
+hide failures. Save the score rule, execution context, checker revision, exact
+skill hashes, and record hashes with each score. The same inputs yield the same
+score. Do not compare scores across different models, protocols, or checker rules.
+Historical v1 scores remain unchanged.
 
-### Evidence contract
+## Profiles and storage
 
-Before search, fix the source reference, model and reasoning profile, harness and
-host settings, case IDs, expected check names, checker version, repetition count,
-and scoring version. Use a separate reference for each profile. Keep the same
-reference for every candidate in one search; changing parents does not change
-the reference. Also fix the training and final case sets before search.
+Astra xhigh is the default for proposals and skill execution. `--profile NAME`
+selects a profile from [config/profiles.exs](config/profiles.exs). For example,
+`codex-sol-medium` selects the existing Sol medium profile. Metadata is stamped
+before candidate evaluation and preserves language metadata. There is no fallback.
 
-`Score.calculate(candidate, reference, protocol)` is the pure calculation. Each
-candidate/reference contains `text` and `records`. The protocol contains `context`,
-`case_ids`, `checks`, and `repetitions`. The saved-file command uses all three setup
-cases and the thirteen names in `Fixture.check_names/0`.
+Live calls use the Codex CLI login and a temporary auth-only home. macOS process
+rules isolate the project and control writes. This live access method requires
+macOS; suite checks do not require the project to use Elixir.
 
-- Require exactly the declared cases and executions for both versions. A record
-  must match its context and skill hash. Each execution must have a distinct
-  `recorded_at` within that case; replaying a cached record is not another execution.
-- Require the full, nonempty check set. An omitted check is a failure. Recompute
-  checks from final files; do not trust a model's success statement.
-- A complete reference must pass every check. Otherwise the score is `null` with
-  a reason, since it cannot be used as a correct cost reference.
-- An invalid candidate format, more than 500 words, failed check, timeout, or
-  execution error gives an ineligible score of 0. No partial credit is awarded.
-- Incomplete, duplicate, or mismatched evidence is unscored, as are missing or
-  invalid costs for otherwise passing work. Unscored work cannot win selection.
-- Check every execution before taking medians. Retain failed attempts in their
-  declared slots. Do not replace them with successful retries in the same batch.
-  A harness failure invalidates that comparison; a rerun is a new recorded batch.
+Results live in `results/<skill-id>/<profile>/`:
 
-One execution per case is exploratory. Three fresh executions per case for both
-versions are required for promotion. Pass `--repetitions 3` to require that evidence;
-it does not create executions. The current saved Sol trial is incomplete at that
-level. The existing runner replaces case files on `--fresh`; it still needs
-immutable repetition slots and a verify-only operation to collect such a batch.
-Three successful repetitions are a small acceptance check, not a general reliability
-estimate. Setup's own repeat-run behavior also needs a dedicated fixture.
+- `skills/` and `contexts/`: exact candidate text and fixed execution inputs.
+- `batches/`: immutable final answers/files, metrics, and linked error retries.
+- `assessments/`: checker revision, raw record hash, and ExUnit outcomes.
+- `search/`: proposals, costs, fixed search policy, and selection decisions.
+- `calls/`: dispatch/result receipts, including calls interrupted before a result.
+- `scores/`: versioned results and hashes of their inputs.
 
-### Selection and the saved example
+Keep author credits in README.md and required license files, never SKILL.md.
+The [evaluator review](EVALUATOR_REVIEW.md) records the measured waste and this
+repair. The previous [optimization plan](OPTIMIZATION_PLAN.md) is paused; do not
+restart its worktree loops with the old evaluator.
 
-The evolver's target is the highest eligible **training** `score_units`, always
-against the fixed reference. A strict improvement replaces the current parent;
-an equal score keeps the parent. Failed or unscored candidates cannot replace it.
-Training may use one execution per case for inexpensive exploration. Never send
-final-case results to the proposer. Check the selected text in a separate repeated
-full-suite batch and require a score above its reference before promotion. Do not
-compare the numeric scores of different case sets or repetition protocols.
-
-The previous five-round Sol search selected for word count. Regrading its final
-candidate with v1 gives:
-
-| Version | Words | Checks | Quality score | Evidence |
-| --- | --- | --- | --- | --- |
-| Fixed source reference | 500 | 39/39 | 50.000000 | One execution per case |
-| Selected Sol candidate | 445 | 39/39 | 43.654704 | One execution per case |
-
-The shorter candidate costs more under this policy. It would not pass the score
-requirement for promotion. This is an offline calculation, not a new model run or
-a rerun of the five-round search. The score and its input hashes are saved beside
-the original report; earlier search decisions remain unchanged.
-The current checker adds three output assertions per case to the original ten.
-Both versions pass them on their saved files. The historical live report retains
-its original counts; the score JSON records the expanded contract and checker hash.
-
-The calculator is implemented and tested. The evolver still uses `better?/2` and
-word count. Connect the new calculation, freeze its reference and protocol in
-search state, and add immutable repeated verification before using v1 for adoption.
-
-## Adding another skill
-
-The process can apply to each Kata skill, but the executable runner currently
-selects setup paths, prompts, template checks, and cases directly. Changing only
-the input skill file is not sufficient. Do not run the setup suite as evidence
-that another skill works.
-
-Start with one dedicated suite for the next skill. Keep its expected behavior in
-Elixir assertions and its input project in Git. Use one training case and two
-different final cases. Suitable first cases are:
-
-| Skill | Saved input | Checks to write |
-| --- | --- | --- |
-| `kata-ex-coverage` | Small Elixir project with known covered and uncovered lines and generated coverage data | Correct modules, line numbers, and coverage counts; source files preserved. |
-| `kata-ex-hunt-dead-code` | Elixir project with an unused module cycle, public entry points, and dynamic references | Finds the unused group; retains live modules; audit leaves files unchanged. Test requested removals separately with compilation and runtime checks. |
-| `kata-neckbeard` | Small project with a known feature, limits, and an unanswered question | Claims agree with the source; cited files and lines support them; missing evidence is stated; project files preserved. |
-| `kata-showme` | Fixed explanation request with known concepts and relationships | Required content and relationships are present; output opens and local links resolve. Review visual clarity separately. |
-
-Calibrate the checker against an example that should pass and one that should
-fail before paying for model runs. File existence alone is not proof of skill
-effectiveness. Keep each fixture small enough that its expected result is clear.
-
-First connect the fitness rule and repeated verification described above. When a
-second skill needs a suite, keep these extension points small:
-
-1. A skill selection that supplies its source path, support files, task prompt,
-   candidate format checks, fixtures, and assertions.
-2. A **verify-only** operation that runs an existing candidate on all cases,
-   optionally with fresh repetitions, without making a new proposal.
-
-These two extension points are planned, not current command options. Named profile
-selection already works. A dedicated Mix task per skill is sufficient while the
-suites are small. Extract common code when the second suite shows what it needs.
-Do not add a test-definition language.
-
-## Which models to tune
-
-| Profile | CLI model ID | Reasoning | Role |
-| --- | --- | --- | --- |
-| `codex-astra-xhigh` | `gpt-6-astra` | `xhigh` | Default; the target for source skills in `skills/`. |
-| `codex-sol-medium` | `gpt-5.6-sol` | `medium` | Experiment to test the setup skill and the tuning loop. |
-
-Both skill execution and proposal generation use the selected profile. Run the
-Sol experiment from this directory:
-
-```sh
-mix setup.eval tune --profile codex-sol-medium --attempts 5 --minutes 30
-```
-
-This means five proposal rounds, not five identical skill executions. With distinct
-valid proposals, the experiment uses one training baseline, five proposal calls,
-five candidate training calls, and final checks of the baseline and selected skill.
-Cached or duplicate cases can reduce the number of executions. The report lists
-round decisions and separates proposal costs from skill execution costs.
-
-The intended source target remains Astra xhigh. Sol candidates are saved only as
-experiment evidence. There are no shipped Sol variants or automatic model routes.
-Only setup has a live suite; the other skills still need their own checks.
-
-The [completed five-round Sol trial](results/setup/codex-sol-medium/report.md)
-produced this comparison across the three cases:
-
-| Version | Words | Checks | Total tokens | Tool calls | Seconds |
-| --- | --- | --- | --- | --- | --- |
-| Source skill | 500 | 30/30 | 698,373 | 36 | 567.4 |
-| Selected Sol candidate | 445 | 30/30 | 857,248 | 37 | 446.8 |
-
-These totals include skill execution only; proposal costs are listed separately
-in the report. All five proposals passed the training checks and were shorter
-than their parent. The selected text is 11% shorter, but used about 23% more
-tokens across the suite. Time varied between calls. One execution per case does
-not establish a speed or reliability improvement. The loop selects for word
-count and correctness; it does not yet select for token use or time.
-
-Keep exact model IDs and reasoning settings in `config/profiles.exs`. Unknown
-profiles are rejected. Another coding host also needs suitable Harness options;
-the current wrapper sets Codex-specific options. No fallback model is selected.
-
-The setup skill uses one terse frontmatter line:
-
-```yaml
-metadata: {optimized_for: "codex/gpt-6-astra/xhigh"}
-```
-
-It records the optimization target; it does not select the model or claim that
-all possible tasks pass. The word count includes this line. Experiments stamp
-candidate metadata with the active profile and retain the source metadata intact.
-
-Use fresh repetitions of both parent and candidate under the same conditions to
-assess efficiency or reliability. Cached replay checks old outputs. Five evolution
-rounds are not five independent measurements of one candidate. `tune --fresh` also
-makes proposals, so it is not a substitute for the planned verify-only operation.
-Do not infer family-wide support from one model or this small suite.
-
-## Save an accepted candidate back to skills
-
-Adopt an Astra-tested candidate into the source skills. Sol results are experimental.
-First read the report and candidate. `Ready for review: true` means the current
-fixture checks and word target passed; it does not establish
-all skill behavior. Check that shortening preserved scope, safeguards, attribution,
-and references to supporting files. For showme, also inspect the rendered result.
-
-For setup, from `kata/evals`, select the exact file linked by the report and copy
-it. Replace `<selected-hash>` below with that file's hash:
-
-```sh
-candidate_path="results/setup/codex-astra-xhigh/skills/<selected-hash>.md"
-cp "$candidate_path" ../skills/kata-setup/SKILL.md
-cmp "$candidate_path" ../skills/kata-setup/SKILL.md
-git diff --check -- ../skills/kata-setup/SKILL.md
-git diff -- ../skills/kata-setup/SKILL.md
-```
-
-Commit the changed source, relevant input fixtures, candidate, context, case
-results, and search record together. Note the adoption in the result report.
-Preserve earlier evidence in Git before a fresh run replaces any measurements.
-No automatic promotion, commit, push, or plugin installation is performed.
-
-After adoption, the source hash changes and the next tune starts from that text
-as its baseline. Prior results remain evidence for their recorded hashes. If you
-edit the candidate during review, test the edited text before adopting it; the
-old result does not cover those edits.
-
-## Dependencies and tracked gaps
-
-Elixir 1.19+, Git, Codex, and a native build toolchain are required. The local Harness
-path is `../../../Jido/proj_jido_harness/jido_harness`; override it with
-`JIDO_HARNESS_PATH`. The profile is in `config/profiles.exs`. It prefers the desktop
-CLI; `KATA_CODEX_PATH` can select another executable. CLI 0.149.0 rejected Astra;
-the live checks use 0.153.1.
-
-- [Harness #70](https://github.com/agentjido/jido_harness/issues/70): optional
-  configuration isolation for normal Codex coding runs.
-- [Evolve #33](https://github.com/agentjido/jido_evolve/issues/33): cleanup of detached
-  work when an evaluator or reflector times out.
-- [Harness #71](https://github.com/agentjido/jido_harness/issues/71): one intermittent
-  fake-CLI failure before output. The same test seed and 60 follow-up probes passed;
-  the cause is not yet known. Live setup evaluations passed.
-
-The earlier CLI rejection, short reflection timeout, and intake-link checker error
-were local integration problems. They are not evidence of a skill defect. The
-previous final observations remain in `test/fixtures/setup/recorded/` as reference.
+The old `mix setup.eval` and `mix setup.score` commands remain isolated under
+`lib/kata_evolve/setup/`. Historical setup results and `setup-quality-v1` are
+unchanged. See [the legacy guide](SETUP_LEGACY.md).

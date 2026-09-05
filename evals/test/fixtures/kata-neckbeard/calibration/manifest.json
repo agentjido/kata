@@ -1,0 +1,107 @@
+[
+  {
+    "file": "train-retry-good.md",
+    "case": "train-retry",
+    "pass": true
+  },
+  {
+    "file": "final-cache-good.md",
+    "case": "final-cache",
+    "pass": true
+  },
+  {
+    "file": "final-export-good.md",
+    "case": "final-export",
+    "pass": true
+  },
+  {
+    "file": "train-retry-wrong-count.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-retries-not-attempts.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-wrong-units.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-unrelated-citation.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-nonexistent-line.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-invented-history.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-false-test-pass.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-contradiction.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-keywords.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-missing-answer.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-paraphrase.md",
+    "case": "train-retry",
+    "pass": true
+  },
+  {
+    "file": "final-cache-wrong-boundary.md",
+    "case": "final-cache",
+    "pass": false
+  },
+  {
+    "file": "final-cache-wrong-zero.md",
+    "case": "final-cache",
+    "pass": false
+  },
+  {
+    "file": "final-export-decoy-citation.md",
+    "case": "final-export",
+    "pass": false
+  },
+  {
+    "file": "final-export-wrong-limit.md",
+    "case": "final-export",
+    "pass": false
+  },
+  {
+    "file": "train-retry-unspecified-status-scope.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "train-retry-negated-status.md",
+    "case": "train-retry",
+    "pass": false
+  },
+  {
+    "file": "final-export-missing-order-direction.md",
+    "case": "final-export",
+    "pass": false
+  }
+]

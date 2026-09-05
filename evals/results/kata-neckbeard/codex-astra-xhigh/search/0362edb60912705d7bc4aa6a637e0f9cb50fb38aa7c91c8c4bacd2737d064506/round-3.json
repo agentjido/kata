@@ -1,0 +1,58 @@
+{
+  "parent": "24d0878ca8304f8bad7c4434d5607652e04a5565d7d34b7e15ee8538ee59ab31",
+  "reason": "Training cost did not beat the parent",
+  "candidate": "e507d9d96228f294ebba0d3ed3f15f3246b0363656adc049897ca1d8f169cfb9",
+  "outcome_contract": "950ad8e2b4d3f2babc99615b118489283ddb06fe7e856bbe11643b43de01a29d",
+  "score": {
+    "version": "skill-quality-v2",
+    "protocol": {
+      "context": "0362edb60912705d7bc4aa6a637e0f9cb50fb38aa7c91c8c4bacd2737d064506",
+      "checks": {
+        "train-retry": [
+          "answer_present",
+          "required_claims",
+          "supporting_citations",
+          "documentation_conflict",
+          "missing_reason",
+          "evidence_limits",
+          "no_false_runtime_claim",
+          "no_contradiction",
+          "no_invented_reason",
+          "project_unchanged",
+          "answer_capture",
+          "allowed_changes"
+        ]
+      },
+      "case_ids": [
+        "train-retry"
+      ],
+      "repetitions": 1,
+      "assessment": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757"
+    },
+    "eligible": true,
+    "cases": [
+      {
+        "id": "train-retry",
+        "reference": {
+          "time": 69345,
+          "tokens": 85545,
+          "tools": 11
+        },
+        "candidate": {
+          "time": 56287,
+          "tokens": 67507,
+          "tools": 8
+        },
+        "cost": 0.7835676677639939
+      }
+    ],
+    "score": 56.067399,
+    "score_units": 56067399,
+    "relative_cost": 0.7835676677639939
+  },
+  "score_units": 56067399,
+  "approach": "refine-evidence",
+  "decision": "rejected",
+  "proposal_record": "proposal-3.json",
+  "training_batch": "training-e507d9d96228f294"
+}

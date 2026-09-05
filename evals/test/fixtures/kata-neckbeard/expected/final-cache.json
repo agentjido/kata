@@ -1,0 +1,69 @@
+{
+  "claims": [
+    {
+      "id": "default_ttl",
+      "relation": "(?:30\\s*(?:seconds|s\\b)|30[,_]?000\\s*(?:ms|milliseconds)|ttlMs\\s*=\\s*30_000)",
+      "evidence": [
+        [
+          "cache.ts",
+          5,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "boundary",
+      "relation": "(?:>=|\u2265|at\\s+or\\s+after|reaches|equal\\s+to|greater\\s+than\\s+or\\s+equal|exactly\\s+(?:the\\s+)?(?:TTL|30))",
+      "evidence": [
+        [
+          "cache.ts",
+          15,
+          17
+        ]
+      ]
+    },
+    {
+      "id": "zero_ttl",
+      "relation": "(?:(?:zero|0)\\b[^.!?\\n]{0,130}(?:disabl|not\\s+stor|no\\s+(?:entry|entries|cache)|skip|return|nothing)|(?:disabl|not\\s+stor|skip)[^.!?\\n]{0,100}\\b(?:zero|0)\\b)",
+      "evidence": [
+        [
+          "cache.ts",
+          7,
+          9
+        ]
+      ]
+    },
+    {
+      "id": "documented_ttl",
+      "relation": "60\\s*(?:seconds|s\\b)",
+      "evidence": [
+        [
+          "README.md",
+          3,
+          3
+        ]
+      ],
+      "intent": true
+    },
+    {
+      "id": "documented_zero",
+      "relation": "(?:zero|0)\\b[^.!?\\n]{0,100}(?:forever|never\\s+expir|no\\s+expir|indefinit)",
+      "evidence": [
+        [
+          "README.md",
+          4,
+          4
+        ]
+      ],
+      "intent": true
+    }
+  ],
+  "test_files": [
+    "cache.test.ts"
+  ],
+  "forbidden": [
+    "(?:expires?|expired)\\s+only\\s+(?:after|when[^.!?\\n]{0,30}greater)",
+    "(?:zero|0)\\s+TTL\\s+(?:stores|caches)"
+  ],
+  "question": "Explain the current cache default TTL, the exact expiration boundary, and what zero TTL does. Compare the README with the implementation. Why was that expiration boundary selected? State the limits of the available evidence. Answer in the conversation. Do not change files or run tests; inspect their source."
+}

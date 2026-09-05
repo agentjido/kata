@@ -1,0 +1,9 @@
+{
+  "reviewer": "coordinating Codex task; not independent human approval",
+  "record_sha256": "c6605e5199a764755f34e7dee11addba84855cfdf9f4684c4eb84b4046b89085",
+  "assessment": "5d507c4118eba6cac476d4b5a1d5ca883a41b91a361bb1866406a90568660757",
+  "finding": "Retry facts and citations pass. The answer limits static inspection, requested versus elapsed delays, and unknown transport retries. The frozen checker does not resolve that runtime-limit wording.",
+  "disposition": "Leave the candidate unscored and ineligible. Continue the final requested proposal from the last passing parent. Do not repair the checker during this search.",
+  "scores_overridden": false,
+  "extra_live_calls": 0
+}

@@ -1,7 +1,6 @@
 #!/usr/bin/env elixir
 #
 # Transitive dead-code analyzer.
-# Original author: Jason Allum. Adapted for Kata by Mike Hostetler.
 #
 # "Dead" means: unreachable from the declared roots, where tests are NOT roots.
 # A module reachable only from other dead modules and from its own tests is dead,

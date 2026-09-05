@@ -58,7 +58,7 @@ aim for 200–500 words. Other models can be used for experiments; their candida
 and measurements stay in `evals/results/`. We do not maintain separate model
 variants of the source skills.
 
-The setup skill records its optimization target in one frontmatter line:
+The setup and neckbeard skills record their optimization target in one frontmatter line:
 
 ```yaml
 metadata: {optimized_for: "codex/gpt-6-astra/xhigh"}
@@ -75,36 +75,57 @@ need Elixir.
 
 1. **Define success.** Save a small test project and write checks for the skill's
    expected behavior. Use one case for tuning and separate cases for final checks.
-2. **Record a baseline.** Run the current source skill with an explicit harness,
-   model, and reasoning level. Save final files, checks, and measurements.
+2. **Record one training baseline.** Run the current source skill with an explicit
+   harness, model, and reasoning level. Save final files, checks, and measurements.
+   Fix checker faults offline before more model calls.
 3. **Propose and compare.** Give the model the skill and training feedback. Test
-   its revision on the same case. Keep a shorter revision only if correctness
-   passes. Keep the fixtures and checks fixed during the attempt.
-4. **Verify the candidate.** Check the selected text on cases that were not used
+   its revision on the same case. Keep it only if correctness passes and the fixed
+   cost score improves. Keep the fixtures and checks fixed during the attempt.
+4. **Verify an improved candidate.** Stop if training shows no improvement. Check
+   the selected text on cases that were not used
    for feedback. Review its safeguards and supporting files. Use repeated fresh
    runs of the same candidate before making an efficiency or reliability claim.
 5. **Adopt it.** Copy the reviewed candidate to `skills/<name>/SKILL.md`. Check
    that it matches the tested file. Commit the skill, fixtures, and result records
    together. This updates the source package; it does not install a plugin.
 
-The current executable example is `kata-setup`:
+Use the same runner for each skill's dedicated suite. For example:
 
 ```sh
 cd evals
 mix check
-mix setup.eval tune
+mix skill.eval suites/neckbeard.exs train
+mix skill.eval suites/neckbeard.exs tune --attempts 5 --max-calls 11
 ```
 
-Read the profile report printed by the command and the candidate it links to.
-The tuning command does not overwrite the source skill. It reuses completed runs and resumes
-saved proposals. After adoption, the new source becomes the next tuning baseline.
+Use the printed candidate path with
+`mix skill.eval suites/neckbeard.exs verify --candidate PATH`.
+Tuning does not overwrite the source skill. Existing execution
+slots and proposals are reused. Verification fixes one candidate and batch;
+resume that batch to collect missing evidence.
+After adoption, the new source becomes the next tuning baseline.
 
-The current loop still optimizes word count subject to correctness. It reports tokens,
-tool calls, and elapsed time separately. A shorter skill can use more total tokens:
+One training case and five proposal rounds need at most 11 model calls before a
+verification decision. Full repeated verification starts only for a promising
+candidate. Call/token limits and `status` reports include proposals and error
+retries. See the [evaluator guide](evals/README.md) and [process review](evals/EVALUATOR_REVIEW.md).
+The [proposal prompt](evals/prompts/propose_skill.md) permits full rewrites against
+a fixed outcome contract. It tries removing procedure, replacing the workflow,
+and refining the measured approach. Labeled training costs, actual outputs, and
+prior rejection reasons guide each proposal. An unchanged proposal skips its
+candidate call; the next approach can use the remaining budget. Change notes
+stay outside the skill.
+
+The shared loop selects by cost score after outcome checks pass. The old setup
+command remains available for its historical experiment and selects by word count.
+A shorter skill can use more total tokens:
 the first setup trial reduced the skill from 939 to 499 words, but its training
 run used more tokens. See the [recorded comparison](evals/results/setup/report.md).
 
-### Skill quality score: `setup-quality-v1`
+### Skill quality score
+
+The common rule is `skill-quality-v2`; historical setup evidence retains
+`setup-quality-v1`. Both use the cost weights and correctness gates below.
 
 Use a fixed rule to score saved evidence. **The same inputs and rule version must
 produce the same score.** The calculator runs without a model. New live executions
@@ -114,12 +135,14 @@ can produce different evidence and thus different scores.
 The test checks the actual final project state. For file creation, assert the
 expected path, file type, required content, valid links, and preservation of
 existing material. File existence or a model's success statement is insufficient.
-Setup runs `ExUnit.Assertions` through `Fixture.assert_outcome!/1` and records
-`outcome_test`; saved final files can run through those assertions again offline.
+Each suite returns its declared outcome checks. The runner asserts all of them
+through ExUnit and records `outcome_test`; saved answers and final files can run
+through those assertions again offline.
 
 Correctness is a requirement. A candidate scores **0** if its format is invalid,
-it exceeds 500 words, its required Elixir outcome test fails, or an execution fails or times out.
-Missing cases, duplicate executions, or mixed contexts are **unscored** (`null`).
+it exceeds 500 words, or its required Elixir outcome test proves an incorrect result.
+Execution/capture errors, checker errors, pending review, missing cases, duplicate
+executions, or mixed execution contexts are **unscored** (`null`).
 Missing cost measurements for otherwise passing work are also unscored. The fixed reference
 must have complete, passing results. Scores apply to the named suite and profile.
 
@@ -144,8 +167,11 @@ less weight. Word count is a limit, with no extra reward for shorter text.
 
 A passing baseline scores **50**. Lower relative cost scores above 50; higher cost
 scores below 50. Freeze the reference, fixtures, required checks, profile, execution
-settings, repetitions, and rule version before search. A change starts a new score
-series. Do not compare scores across profiles or different case sets.
+settings, repetitions, and rule version before search. Checker repairs create new
+assessments of saved outputs without model calls or changes to old results. A
+changed checker stops live search for offline diagnosis. Changes to actual task
+inputs require new executions. Do not compare scores across profiles or different
+case sets.
 
 Use one execution per case for an **exploratory** score. Require three fresh
 executions per case for both reference and candidate before promotion; every
@@ -155,10 +181,10 @@ the selected candidate on cases excluded from proposal feedback. Promotion also
 requires a repeated full-suite score above the fixed reference and review of
 behavior the assertions do not cover.
 
-The [offline calculator](evals/lib/kata_evolve/score.ex) implements this rule.
+The [generic calculator](evals/lib/kata_evolve/score.ex) implements this rule.
 The [scoring guide](evals/README.md#calculate-a-quality-score) gives the command and
-evidence contract. Connecting this fitness rule to the evolver and collecting
-repeated executions remain next steps; `tune` still selects by word count.
+evidence contract. The common evolver uses this score and collects separate
+training and repeated verification evidence.
 
 Applied to the saved Sol trial, the source scores **50.000000** and the selected
 445-word candidate scores **43.654704**. These are exploratory scores. This rule
@@ -171,8 +197,16 @@ checks per case; the new checker identity and results are recorded by the scorer
 
 | Harness | Model | Reasoning | Use and evidence |
 | --- | --- | --- | --- |
-| Codex through `jido_harness` | `gpt-6-astra` | `xhigh` | Primary tuning profile. The adopted setup candidate passed three live cases. |
+| Codex through `jido_harness` | `gpt-6-astra` | `xhigh` | Primary tuning profile. Setup passed three live cases. Neckbeard Round 1 passed one training case; see the adoption note below. |
 | Codex through `jido_harness` | `gpt-5.6-sol` | `medium` | Completed five tuning rounds. The source and selected candidate each passed all 30 fixture checks. |
+
+The user requested adoption of neckbeard Round 1 from the
+[three-round v3 trial](evals/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md).
+The exact 290-word candidate is now in `skills/kata-neckbeard/SKILL.md`. It passed
+all 12 checks on one training case and scored **57.809727**. This is exploratory
+evidence. Repeated runs and separate final cases have not been checked. The
+[adoption record](evals/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/adoption.json)
+records this exception to the normal verification requirement.
 
 The task model and proposal model use the same profile. Astra xhigh is the default.
 For the Sol medium experiment, from `evals`:
@@ -192,13 +226,19 @@ from 698,373 to 857,248, about 23%. The loop improved word count; this trial did
 not show token savings. The candidate stays in evaluation results. The source
 skill and its Astra target are unchanged.
 
-Only setup is wired into the runner today. The other skills need dedicated suites.
-Profile selection is available; a generic skill selector and fixed-candidate
-verification command remain future work. See [the evaluation guide](evals/README.md)
-for the complete process. Testing Sol does not change the Astra target for `skills/`
-or establish support for an entire model family.
+The shared runner takes a suite file and supports any skill with its own outcome
+checks. Setup and neckbeard adapters are included; the other active suites remain
+in their optimization worktrees until integration. See [the evaluation guide](evals/README.md)
+for the interface and [legacy setup commands](evals/SETUP_LEGACY.md) for historical
+results. Testing Sol does not change the Astra target or establish support for an
+entire model family.
+
+The [Astra optimization plan](evals/OPTIMIZATION_PLAN.md) defines the next round
+for coverage, dead-code hunting, neckbeard, and showme. Setup is excluded.
 
 ## Attribution
+
+Keep author credits here and in required license files, outside skill instructions.
 
 Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 
@@ -271,7 +311,7 @@ the skill files and ask it to save each one as a private skill:
    `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
-   the instructions, author credits, and support files. Resolve support file
+   the instructions and support files, including license notices. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."
 4. Open **Settings → Plugins → Yours** and enable the saved skill for the Bot.
    Select it from the `/` menu.

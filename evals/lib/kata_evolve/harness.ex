@@ -1,7 +1,7 @@
 defmodule KataEvolve.Harness do
   @moduledoc "Finite Codex runs with normalized measurements and explicit cleanup."
   alias Jido.Harness.Run
-  alias KataEvolve.Metrics
+  alias KataEvolve.{Answer, Metrics}
 
   def execute(profile, prompt, workspace) do
     request =
@@ -11,7 +11,7 @@ defmodule KataEvolve.Harness do
 
     request =
       request
-      |> Map.put(:sandbox_mode, :workspace_write)
+      |> Map.put_new(:sandbox_mode, :workspace_write)
       |> Map.update(
         :provider_options,
         %{skip_git_repo_check: true},
@@ -23,13 +23,19 @@ defmodule KataEvolve.Harness do
     with {:ok, id} <- Run.start(profile.provider, request) do
       try do
         with {:ok, stream} <- Run.stream(id),
-             counters <- Enum.reduce(stream, Metrics.new(), &Metrics.add/2),
+             {counters, answer} <-
+               Enum.reduce(stream, {Metrics.new(), Answer.new()}, fn event, {m, a} ->
+                 {Metrics.add(event, m), Answer.add(event, a)}
+               end),
              {:ok, result} <- Run.await(id, 5_000) do
           metrics = Metrics.finish(counters, System.monotonic_time(:millisecond) - started)
 
           case result.status do
-            :completed -> {:ok, %{metrics: metrics}}
-            status -> {:error, %{status: status, error: inspect(result.error), metrics: metrics}}
+            :completed ->
+              {:ok, Map.merge(%{metrics: metrics, run_id: id}, Answer.finish(answer, result))}
+
+            status ->
+              {:error, %{status: status, error: inspect(result.error), metrics: metrics}}
           end
         end
       after

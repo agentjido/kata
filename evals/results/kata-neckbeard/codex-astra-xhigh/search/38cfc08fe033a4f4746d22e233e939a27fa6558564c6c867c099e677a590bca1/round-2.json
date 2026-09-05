@@ -1,0 +1,40 @@
+{
+  "parent": "a01909a311325b200d8da5f3c9a2f71161110135f31f281b8abc98f93711e146",
+  "reason": "Candidate requirement failed",
+  "candidate": "9c1424126b22ba383f4172b7f250d5611367cae9675a756c12479dbb9e504b9b",
+  "score": {
+    "reason": "Candidate requirement failed",
+    "version": "skill-quality-v2",
+    "protocol": {
+      "context": "38cfc08fe033a4f4746d22e233e939a27fa6558564c6c867c099e677a590bca1",
+      "checks": {
+        "train-retry": [
+          "answer_present",
+          "required_claims",
+          "supporting_citations",
+          "documentation_conflict",
+          "missing_reason",
+          "evidence_limits",
+          "no_false_runtime_claim",
+          "no_contradiction",
+          "no_invented_reason",
+          "project_unchanged",
+          "answer_capture",
+          "allowed_changes"
+        ]
+      },
+      "case_ids": [
+        "train-retry"
+      ],
+      "repetitions": 1,
+      "assessment": "77fd337e27ad36ed3936068441533010c8b06f277e4b78d70aa7b5ddc97083c7"
+    },
+    "eligible": false,
+    "score": 0.0,
+    "score_units": 0
+  },
+  "score_units": 0,
+  "decision": "rejected",
+  "proposal_record": "proposal-2.json",
+  "training_batch": "training-9c1424126b22ba38"
+}

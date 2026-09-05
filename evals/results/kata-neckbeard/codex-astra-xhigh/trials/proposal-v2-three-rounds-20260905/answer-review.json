@@ -1,0 +1,24 @@
+{
+  "reviewer": "coordinating Codex task; agent review, not independent human approval",
+  "recorded_at": "2026-09-05T22:03:46.694625+00:00",
+  "grading_revision_unchanged": "77fd337e27ad36ed3936068441533010c8b06f277e4b78d70aa7b5ddc97083c7",
+  "scores_overridden": false,
+  "findings": [
+    {
+      "round": 1,
+      "record_sha256": "6ad58588a4bbda99df840cf485773674f2112f3ad7d74d971f2176b9d84f2faf",
+      "finding": "The required retry facts, guide differences, evidence limits, and sources are present. Citations precede the comparison table, and the differences are shown without a conflict keyword. The finite checker rejects both forms."
+    },
+    {
+      "round": 2,
+      "record_sha256": "f9b05f1411b90043ca15c60a2bb64b20f48539976bfd203ccd45ce7fce5be93f",
+      "finding": "All required claims and citations pass. The guide/implementation table clearly states different attempt counts and retry statuses; only the conflict keyword check rejects it. Costs increased, so there is no cost improvement even if this check is repaired."
+    },
+    {
+      "round": 3,
+      "record_sha256": "b1b1d7bfad860964536157115b4fc32c314919b1cb57100f2870fef28ed2c0e9",
+      "finding": "The answer states correct retry facts and a guide comparison. Shared links use a Sources label, and the delay is expressed as sleep(0.1) with agreement to the 100 ms guide value. The finite required-claims parser does not resolve these forms. Measured cost is close to the source, within plausible run variation."
+    }
+  ],
+  "next_step": "Route ambiguous prose extraction to review instead of presenting it to the proposer as a proven skill failure. Calibrate with these saved outputs before another live series. Keep file-preservation and explicit wrong-fact checks strict."
+}

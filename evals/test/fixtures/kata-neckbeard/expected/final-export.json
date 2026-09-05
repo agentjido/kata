@@ -1,0 +1,85 @@
+{
+  "claims": [
+    {
+      "id": "filter",
+      "relation": "(?:only\\s+(?:the\\s+)?active\\s+(?:rows|accounts)|active\\s*=\\s*1|(?:rows|accounts)[^.!?\\n]{0,45}(?:where|with)\\s+active)",
+      "evidence": [
+        [
+          "exporter/export.sql",
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "id": "order",
+      "relation": "(?:id\\s+(?:ASC|ascending)|ascending\\s+(?:by\\s+)?(?:id|ID)|(?:ordered|sorted)\\s+by\\s+ascending\\s+id)",
+      "evidence": [
+        [
+          "exporter/export.sql",
+          4,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "limit",
+      "relation": "(?:(?:default|limit|up\\s+to|at\\s+most)[^.!?\\n]{0,65}\\b100\\b|100\\s+rows[^.!?\\n]{0,45}default)",
+      "evidence": [
+        [
+          "exporter/export.py",
+          3,
+          3
+        ],
+        [
+          "exporter/export.py",
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "documented_filter",
+      "relation": "all\\s+(?:rows|accounts)",
+      "evidence": [
+        [
+          "exporter/manual/export.md",
+          3,
+          3
+        ]
+      ],
+      "intent": true
+    },
+    {
+      "id": "documented_order",
+      "relation": "newest\\s+first",
+      "evidence": [
+        [
+          "exporter/manual/export.md",
+          4,
+          4
+        ]
+      ],
+      "intent": true
+    },
+    {
+      "id": "documented_limit",
+      "relation": "500\\s+rows|(?:default|limit)[^.!?\\n]{0,50}\\b500\\b",
+      "evidence": [
+        [
+          "exporter/manual/export.md",
+          5,
+          5
+        ]
+      ],
+      "intent": true
+    }
+  ],
+  "test_files": [
+    "exporter/test_export.py"
+  ],
+  "forbidden": [
+    "(?:current\\s+)?exporter\\s+(?:returns|includes)\\s+all\\s+rows"
+  ],
+  "question": "Investigate exporter/, not demo/. Trace export_rows through its SQL query. Explain the filter, row order, and default row limit. Compare the manual with the implementation. Why was that default limit selected? State the limits of the available evidence. Answer in the conversation. Do not change files or run tests; inspect their source."
+}

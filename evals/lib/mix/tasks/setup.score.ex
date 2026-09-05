@@ -8,7 +8,7 @@ defmodule Mix.Tasks.Setup.Score do
     case {args, invalid, opts[:repetitions] || 1} do
       {[profile, context, candidate], [], repetitions} when repetitions in [1, 3] ->
         profile
-        |> KataEvolve.Score.from_saved(context, candidate, repetitions)
+        |> KataEvolve.Setup.Score.from_saved(context, candidate, repetitions)
         |> Jason.encode!(pretty: true)
         |> IO.puts()
 

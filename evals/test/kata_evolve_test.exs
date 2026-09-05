@@ -1,6 +1,6 @@
 defmodule KataEvolveTest do
   use ExUnit.Case
-  alias KataEvolve.Fixture
+  alias KataEvolve.Setup.Fixture
 
   test "checker accepts preserved moves and rejects lost local edits and broken links" do
     root = Path.join(System.tmp_dir!(), "kata-check-#{System.unique_integer([:positive])}")
