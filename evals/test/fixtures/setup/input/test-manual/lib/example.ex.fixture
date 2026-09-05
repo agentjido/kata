@@ -1,0 +1,3 @@
+defmodule Example do
+  def value, do: 42
+end

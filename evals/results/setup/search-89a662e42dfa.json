@@ -1,0 +1,26 @@
+{
+  "pending": false,
+  "proposals": [
+    {
+      "candidate": "1340e889bb6f",
+      "metrics": {
+        "elapsed_ms": 53902,
+        "file_change_events": 0,
+        "tool_calls": 5,
+        "tool_errors": 1,
+        "tools": {
+          "exec_command": 5
+        },
+        "usage": {
+          "cached_input_tokens": 85504,
+          "input_tokens": 94174,
+          "output_tokens": 2103,
+          "reasoning_output_tokens": 878,
+          "total_tokens": 96277
+        }
+      },
+      "parent": "dd3ba00933a9"
+    }
+  ],
+  "selected": "1340e889bb6f"
+}

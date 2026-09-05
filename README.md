@@ -34,6 +34,13 @@ The docs rules define guides, reference, decisions, plans, and lessons as the
 destinations for later review. Setup collects material; it does not treat old
 documents as verified or create every category in advance.
 
+## Skill evaluation
+
+Use the local Elixir project in [`evals/`](evals/README.md) to test `kata-setup`.
+Run `mix setup.eval tune` there to reuse a baseline, propose a shorter skill,
+and check the result. Live runs use Codex Astra at xhigh reasoning.
+This tooling is for skill development; users do not need Elixir to use the plugin.
+
 ## Attribution
 
 Mike Hostetler develops Kata. [Jason Allum](https://github.com/jallum) will

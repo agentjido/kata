@@ -1,0 +1,19 @@
+{
+  "baseline": "dd3ba00933a9dd5cf6bda40274670ecec34375e45ead3b97ca8909082fb72507",
+  "cli": "codex-cli 0.153.1",
+  "config_scope": "Normal Codex execution inherits host config. Refresh after changing that config.",
+  "harness": "5722dc1611c41b66c209e2871373688a30737920a6043714d089e22ac4113aac",
+  "inputs": "9902104c9ccf752b8992406ac41ae0b21173832f62a4f5e0f6336f027e72747c",
+  "profile": {
+    "provider": "codex",
+    "runtime_timeout_ms": 600000,
+    "idle_timeout_ms": 600000,
+    "provider_options": {
+      "cli_path": "/Applications/ChatGPT.app/Contents/Resources/codex"
+    },
+    "model": "gpt-6-astra",
+    "reasoning_effort": "xhigh"
+  },
+  "runner": "setup-v2",
+  "template": "37ddca6990df1022cc07cb575736cd1eba7d5912b073009909e1ac384a01e6fe"
+}
