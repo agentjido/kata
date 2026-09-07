@@ -1,5 +1,5 @@
 > **Paused.** The evaluator review found expensive baseline restarts and false
-> checker failures. Use [the revised process](README.md) for future runs. Keep the
+> checker failures. Use [the revised process](../../../evals/README.md) for future runs. Keep the
 > old worktree evidence unchanged. Do not resume these live loops before their
 > suites are calibrated and moved to the revised evaluator.
 
@@ -14,7 +14,7 @@ Use `codex-astra-xhigh`: Codex through `jido_harness`, model `gpt-6-astra`, reas
 Keep attribution in README.md and required license files, never in SKILL.md.
 
 Implementation update: the main checkout now has the shared suite runner and
-setup/neckbeard adapters. See the [evaluation guide](README.md). The active live
+setup/neckbeard adapters. See the [evaluation guide](../../../evals/README.md). The active live
 worktrees keep their frozen runner version; this refactor does not change their
 measurements. The remaining sections retain the original round's design.
 
@@ -27,8 +27,9 @@ measurements. The remaining sections retain the original round's design.
 | `kata-neckbeard` | 370 | Correct claims and citations, clear uncertainty, no project edits. |
 | `kata-showme` | 472 | Correct visual relationships and usable artifacts; human review of clarity. |
 
-These counts include frontmatter. Coverage needs a candidate within 500 words.
-The other skills need measured execution improvements, not forced shortening.
+These counts include frontmatter. Coverage needs a focused candidate that keeps
+its required detail. All skills need measured execution improvements, not forced
+shortening.
 
 The original runner selected by word count. Its prompts, validator, paths, and
 checks selected setup directly, its Harness wrapper dropped the final answer,
@@ -112,8 +113,8 @@ human review for visual clarity; do not claim that DOM checks prove design quali
    tests must pass. Freeze these costs as the full-suite reference before search.
    If a test fails, diagnose the fixture, tool, or skill before starting a new series.
 2. Record one separate source training execution as the exploratory reference,
-   then run up to five proposal rounds. Require all
-   output assertions, valid format, and at most 500 words for an eligible candidate.
+   then run up to five proposal rounds. Require all output assertions and valid
+   format for an eligible candidate.
    Compare integer score units; keep the parent on a tie. Store proposal costs
    separately from skill execution costs. Include the intended Astra metadata in
    the text before evaluation so promotion can copy the exact tested file.
@@ -123,18 +124,17 @@ human review for visual clarity; do not claim that DOM checks prove design quali
    executions per case. Every execution must pass. Compare with the frozen repeated
    source reference using per-case medians and the fixed 70% token, 20% tool-call,
    and 10% elapsed-time weights. Keep the same execution settings and case order.
-5. Promote only a candidate within the word limit whose full-suite cost score is
-   above the fixed reference and whose manual review passes. Review scope, safeguards,
+5. Promote only a candidate whose full-suite cost score is above the fixed
+   reference and whose manual review passes. Review scope, safeguards,
    references, and visual quality where applicable. A failed final case rejects the
    candidate; do not use it as feedback for another proposal on the same benchmark.
 6. Copy the exact reviewed artifact to its canonical `skills/<name>/SKILL.md`.
    Preserve the tested Astra metadata and `language: elixir` on the
    two Elixir skills. Commit the skill, fixtures, report, and compact evidence together.
 
-Coverage's source exceeds the word limit. Its own eligibility score is 0, but
-passing source executions can supply the fixed cost denominator. A valid candidate
-must beat the neutral cost reference of 50; it cannot win merely by beating 0.
-The source's long form is evidence, not an exception to the candidate word limit.
+Coverage has the longest source skill in this group. Passing source executions
+can supply the fixed cost denominator. A valid candidate must beat the neutral
+cost reference of 50; it cannot win only because it is shorter.
 
 For this three-case design, a full five-round experiment uses up to 29 live
 calls: nine source verification calls, one training reference, five proposals,

@@ -15,5 +15,5 @@ The experiment was paused before producing a candidate. Final observations are i
 profile, so they were not imported into the new loop. The new loop recorded one
 baseline and saves it for reuse on later attempts.
 
-The current process and limits are in [README.md](README.md). The latest result is
-in [results/setup/report.md](results/setup/report.md).
+The current process and limits are in [README.md](../../../evals/README.md). The latest result is
+in [results/setup/report.md](../../../evals/results/setup/report.md).

@@ -35,9 +35,9 @@ command lets you inspect the first answer before spending on proposals.
    both source and candidate. The training screen must pass with a score above 50
    before these calls start. No proposals can follow verification in that context.
 6. **Review and adopt.** Require every final outcome to pass, a full score above
-   50, at most 500 words, and review of behavior the checks do not cover. Copy the
-   exact tested candidate to `skills/<name>/SKILL.md`. Commit the suite and evidence
-   with it. The runner does not replace official skills.
+   50, and review of behavior the checks do not cover. Copy the exact tested
+   candidate to `skills/<name>/SKILL.md`. Commit the suite and evidence with it.
+   The runner does not replace official skills.
 
 Use the candidate path printed by `tune`:
 
@@ -109,7 +109,7 @@ The [three-round Astra trial](results/kata-neckbeard/codex-astra-xhigh/trials/pr
 completed seven live calls. Parser failures blocked its candidates. The source
 was retained. Its saved answers now calibrate citation placement, table comparisons,
 and delay expressions; unresolved claims require review instead of a false failure.
-The original scores remain intact. The [Astra search notes](ASTRA_TUNING_NOTES.md)
+The original scores remain intact. The [Astra search notes](../docs/inbox/evals/ASTRA_TUNING_NOTES.md)
 explain why v3 allows broader rewrites.
 The [three-round v3 trial](results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md)
 selected a passing 290-word candidate with an exploratory score of 57.809727.
@@ -224,11 +224,11 @@ context. The other skill suites remain in their worktrees pending integration.
 
 ## Calculate a quality score
 
-The common calculator uses **`skill-quality-v2`**. It keeps the v1 cost formula but
+The common calculator uses **`skill-quality-v3`**. It keeps the cost formula but
 makes execution, capture, and checker errors, plus pending review, **unscored**
-(`null`). Invalid skill format, more than 500 words, or a proven failed candidate
-outcome scores **0**. Missing, duplicate, mismatched, or incomplete evidence is
-unscored. The reference must have complete passing outcomes and valid metrics.
+(`null`). Invalid skill format or a proven failed candidate outcome scores **0**.
+Missing, duplicate, mismatched, or incomplete evidence is unscored. The reference
+must have complete passing outcomes and valid metrics.
 
 For each case, use median total tokens, tool calls, and elapsed milliseconds:
 
@@ -241,9 +241,9 @@ score = round(100 / (1 + mean(case_cost)), 6)
 
 Each case has equal weight. Count cached input once within total input tokens.
 Use a fixed source reference, not the latest parent. Passing reference cost is
-50; lower cost scores above 50. An overlength source can supply reference costs
-but cannot qualify for adoption. Ties keep the current parent. Word count earns
-no separate reward. Proposal costs are reported but are not candidate run costs.
+50; lower cost scores above 50. Ties keep the current parent. Word count is
+reported and does not affect eligibility or score. Proposal costs are reported
+but are not candidate run costs.
 
 Training scores use one run per case. Promotion scores require three fresh runs
 per case for both versions. Every counted execution must pass; medians cannot
@@ -273,10 +273,10 @@ Results live in `results/<skill-id>/<profile>/`:
 - `scores/`: versioned results and hashes of their inputs.
 
 Keep author credits in README.md and required license files, never SKILL.md.
-The [evaluator review](EVALUATOR_REVIEW.md) records the measured waste and this
-repair. The previous [optimization plan](OPTIMIZATION_PLAN.md) is paused; do not
+The [evaluator review](../docs/inbox/evals/EVALUATOR_REVIEW.md) records the measured waste and this
+repair. The previous [optimization plan](../docs/inbox/evals/OPTIMIZATION_PLAN.md) is paused; do not
 restart its worktree loops with the old evaluator.
 
 The old `mix setup.eval` and `mix setup.score` commands remain isolated under
-`lib/kata_evolve/setup/`. Historical setup results and `setup-quality-v1` are
-unchanged. See [the legacy guide](SETUP_LEGACY.md).
+`lib/kata_evolve/setup/`. Saved `setup-quality-v1` results remain historical; the
+current command uses `setup-quality-v2`. See the [legacy guide](../docs/inbox/evals/SETUP_LEGACY.md).

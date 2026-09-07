@@ -8,10 +8,10 @@ defmodule KataEvolve.Setup.ScoreTest do
     %{protocol: protocol, reference: reference}
   end
 
-  test "baseline is 50 and shorter text alone earns no reward", ctx do
+  test "baseline is 50 and text length alone earns no reward", ctx do
     assert score(ctx.reference, ctx).score == 50.0
     assert score(evidence(200, ctx.protocol), ctx).score == 50.0
-    assert score(evidence(501, ctx.protocol), ctx).score == 0.0
+    assert score(evidence(1200, ctx.protocol), ctx).score == 50.0
   end
 
   test "cost weights, equal case weight, and monotonicity", ctx do

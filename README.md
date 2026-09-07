@@ -2,6 +2,8 @@
 
 Personal engineering practices for coding agents.
 
+[Documentation index](docs/README.md) · [Intake log](docs/inbox/README.md)
+
 Observe. Build. Verify. Improve.
 
 Kata is a software engineering process by Mike Hostetler and Jason Allum, packaged as
@@ -22,6 +24,11 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 
 | Skill | Job |
 | --- | --- |
+| `kata-build-skill` | Create or revise an original skill from a real task. |
+| `kata-import-skill` | Import and adapt a licensed external skill with attribution. |
+| `kata-plan` | Turn a work request or requirements document into an implementation plan. |
+| `kata-status-report` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
+| `kata-work` | Implement a plan or concrete request and verify the result. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-setup` | Set up Docs Kata and collect existing documents in `docs/inbox`. |
@@ -40,6 +47,15 @@ in `optimized_for`.
 
 Use a skill by name when you need it. Each skill can run separately.
 
+`kata-plan` and `kata-work` are direct imports of Compound Engineering's
+`ce-plan` and `ce-work`, with their bundled references and scripts. Kata names
+replace those two command names. A small integration file defines native
+fallbacks for optional CE skills and keeps the active host and model as the
+default. Existing protocol identifiers and script interfaces are preserved.
+These imports have not been tuned or tested in live model runs. Their entry
+files contain 1,176 and 1,105 words, respectively, before support files; their
+size and behavior remain future evaluation work.
+
 To adopt Docs Kata in a project, ask: "Use kata-setup in this repository."
 It creates `docs/AGENTS.md`, a documentation index, and `docs/inbox/` with an
 intake log. Existing documents move into the inbox with their original paths
@@ -53,10 +69,10 @@ documents as verified or create every category in advance.
 ## Skill evaluation
 
 Our target is **Astra xhigh**: Codex, model `gpt-6-astra`, reasoning `xhigh`.
-Skills in `skills/` target this profile. Keep one source version per skill and
-aim for 200–500 words. Other models can be used for experiments; their candidates
-and measurements stay in `evals/results/`. We do not maintain separate model
-variants of the source skills.
+Skills in `skills/` target this profile. Keep one focused source version per
+skill. Other models can be used for experiments; their candidates and measurements
+stay in `evals/results/`. We do not maintain separate model variants of the source
+skills.
 
 The setup and neckbeard skills record their optimization target in one frontmatter line:
 
@@ -108,7 +124,7 @@ After adoption, the new source becomes the next tuning baseline.
 One training case and five proposal rounds need at most 11 model calls before a
 verification decision. Full repeated verification starts only for a promising
 candidate. Call/token limits and `status` reports include proposals and error
-retries. See the [evaluator guide](evals/README.md) and [process review](evals/EVALUATOR_REVIEW.md).
+retries. See the [evaluator guide](evals/README.md) and [process review](docs/inbox/evals/EVALUATOR_REVIEW.md).
 The [proposal prompt](evals/prompts/propose_skill.md) permits full rewrites against
 a fixed outcome contract. It tries removing procedure, replacing the workflow,
 and refining the measured approach. Labeled training costs, actual outputs, and
@@ -124,8 +140,9 @@ run used more tokens. See the [recorded comparison](evals/results/setup/report.m
 
 ### Skill quality score
 
-The common rule is `skill-quality-v2`; historical setup evidence retains
-`setup-quality-v1`. Both use the cost weights and correctness gates below.
+The common rule is `skill-quality-v3`. Historical score files retain their
+recorded rule versions. The current rule uses the cost weights and correctness
+checks below.
 
 Use a fixed rule to score saved evidence. **The same inputs and rule version must
 produce the same score.** The calculator runs without a model. New live executions
@@ -139,8 +156,8 @@ Each suite returns its declared outcome checks. The runner asserts all of them
 through ExUnit and records `outcome_test`; saved answers and final files can run
 through those assertions again offline.
 
-Correctness is a requirement. A candidate scores **0** if its format is invalid,
-it exceeds 500 words, or its required Elixir outcome test proves an incorrect result.
+Correctness is a requirement. A candidate scores **0** if its format is invalid
+or its required Elixir outcome test proves an incorrect result.
 Execution/capture errors, checker errors, pending review, missing cases, duplicate
 executions, or mixed execution contexts are **unscored** (`null`).
 Missing cost measurements for otherwise passing work are also unscored. The fixed reference
@@ -163,7 +180,7 @@ Each case has equal weight. Total tokens are input plus output, including cached
 input once. The `+1` permits a reference case with zero tool calls. Positive token
 and time measurements are required. Proposal costs are reported separately.
 The weights are our v1 policy: token use matters most; variable elapsed time has
-less weight. Word count is a limit, with no extra reward for shorter text.
+less weight. Word count is reported but does not affect correctness or score.
 
 A passing baseline scores **50**. Lower relative cost scores above 50; higher cost
 scores below 50. Freeze the reference, fixtures, required checks, profile, execution
@@ -229,11 +246,11 @@ skill and its Astra target are unchanged.
 The shared runner takes a suite file and supports any skill with its own outcome
 checks. Setup and neckbeard adapters are included; the other active suites remain
 in their optimization worktrees until integration. See [the evaluation guide](evals/README.md)
-for the interface and [legacy setup commands](evals/SETUP_LEGACY.md) for historical
+for the interface and [legacy setup commands](docs/inbox/evals/SETUP_LEGACY.md) for historical
 results. Testing Sol does not change the Astra target or establish support for an
 entire model family.
 
-The [Astra optimization plan](evals/OPTIMIZATION_PLAN.md) defines the next round
+The [Astra optimization plan](docs/inbox/evals/OPTIMIZATION_PLAN.md) defines the next round
 for coverage, dead-code hunting, neckbeard, and showme. Setup is excluded.
 
 ## Attribution
@@ -242,6 +259,12 @@ Keep author credits here and in required license files, outside skill instructio
 
 Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 
+- `kata-plan` and `kata-work` are adapted from `ce-plan` and `ce-work` in
+  [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin/tree/57e409e5c8c2c472106bd7d87ac72b724b70826b),
+  maintained by Kieran Klaassen and Trevin Chow with community contributions.
+  The source is commit `57e409e5c8c2c472106bd7d87ac72b724b70826b`.
+  Each imported skill includes Every's original MIT license notice:
+  [plan license](skills/kata-plan/LICENSE) and [work license](skills/kata-work/LICENSE).
 - `kata-showme` is adapted from `show-me`, written by Dex Horthy and published
   in [humanlayer/skills](https://github.com/humanlayer/skills). The original
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
@@ -310,6 +333,8 @@ the skill files and ask it to save each one as a private skill:
 2. Include the skill's support files: `coverage_tool.exs` for `kata-ex-coverage`,
    `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
+   For `kata-plan` and `kata-work`, include the complete skill directory with
+   `references/`, `scripts/`, and `LICENSE`.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
    the instructions and support files, including license notices. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."

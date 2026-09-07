@@ -1,7 +1,7 @@
 defmodule KataEvolve.Score do
   @moduledoc "Fixed-reference costs for case-specific outcome checks."
   alias KataEvolve.{Evidence, Skill}
-  @version "skill-quality-v2"
+  @version "skill-quality-v3"
   def version, do: @version
 
   def calculate(candidate, reference, protocol, validate \\ &Skill.validate/1) do
@@ -20,8 +20,7 @@ defmodule KataEvolve.Score do
       validate.(reference.text) != :ok or not passing?(reference.records, protocol) ->
         Map.put(base, :reason, "Reference outcome failed")
 
-      validate.(candidate.text) != :ok or Skill.words(candidate.text) > 500 or
-          not passing?(candidate.records, protocol) ->
+      validate.(candidate.text) != :ok or not passing?(candidate.records, protocol) ->
         Map.merge(base, %{score: 0.0, score_units: 0, reason: "Candidate requirement failed"})
 
       not Enum.all?(candidate.records ++ reference.records, &metrics?/1) ->

@@ -18,9 +18,9 @@ may revisit a useful idea from a rejected candidate when the evidence supports
 it. One run is noisy, and aggregate costs do not establish their cause.
 
 Keep the name, description, language scope, safeguards, and support references.
-Use host-neutral instructions and simple technical English. Aim for 200–500
-words including frontmatter, with no padding and a hard limit of 500. Allow
-room for the optimized_for metadata that the runner adds. Keep author credit
+Use host-neutral instructions and simple technical English. Keep the skill
+focused, with no padding. Allow room for the optimized_for metadata that the
+runner adds. Keep author credit
 outside the skill. Do not insert fixture answers, benchmark paths, checker-specific
 phrasing, or instructions that omit required work to obtain a score.
 

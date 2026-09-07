@@ -69,7 +69,7 @@ defmodule KataEvolve.LoopTest do
     refute_received :proposal_call
     selected = KataEvolve.Setup.evaluate(no_call, candidate, item)
     assert selected["status"] == "completed"
-    assert selected["skill_words"] > 500
+    assert selected["skill_words"] < 900
   end
 
   test "five rounds survive a proposal failure and continue after rejected candidates" do

@@ -126,7 +126,7 @@ defmodule KataEvolve.Setup.Store do
       end)
 
     full_suite = length(records) == 3
-    ready = full_suite and passed and Skill.validate(text) == :ok and Skill.words(text) <= 500
+    ready = full_suite and passed and Skill.validate(text) == :ok
 
     baseline_records =
       baseline_records ||

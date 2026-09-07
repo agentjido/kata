@@ -124,14 +124,14 @@ defmodule KataEvolve.SuiteRunnerTest do
     assert File.read!(source) == "source"
   end
 
-  test "score uses neutral cost reference even when source is overlength" do
+  test "score uses the full reference cost regardless of source length" do
     text = "valid " <> String.duplicate("word ", 600)
     p = %{context: "fixed", case_ids: ["a"], repetitions: 3, checks: %{"a" => ["correct"]}}
     reference = data(text, 100, p)
     candidate = data("valid short", 50, p)
     result = Score.calculate(candidate, reference, p, fn _ -> :ok end)
     assert result.score_units > 50_000_000
-    assert Score.calculate(reference, reference, p, fn _ -> :ok end).score_units == 0
+    assert Score.calculate(reference, reference, p, fn _ -> :ok end).score_units == 50_000_000
     [first | rest] = candidate.records
     failed = %{candidate | records: [put_in(first, ["checks", "correct"], false) | rest]}
     assert Score.calculate(failed, reference, p, fn _ -> :ok end).score_units == 0

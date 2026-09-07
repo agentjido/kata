@@ -1,0 +1,3 @@
+interface:
+  display_name: "Elixir Dead Code"
+  short_description: "Find unused Elixir modules and module groups"

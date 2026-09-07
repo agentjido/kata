@@ -53,9 +53,9 @@ from the immutable execution. The score remains reproducible from saved evidence
 and the named assessment version.
 
 Keep the current cost weights during this experiment. Keep the profile at
-`codex/gpt-6-astra/xhigh`. The 500-word limit did not exclude any candidate in the
-three-round trial, and the runner already has no minimum word count. More budget
-or a larger skill limit would not repair the demonstrated search problem.
+`codex/gpt-6-astra/xhigh`. The trial did not show that skill length caused the
+search problem. More budget or a different size target would not repair the
+demonstrated search problem.
 
 The neckbeard outcome contract should require a correct answer, supporting source
 references, a distinction between implementation and documented intent, honest
@@ -78,8 +78,8 @@ rewrite. Preserve required behavior, not the current wording or procedure.
 Prefer removing unnecessary work before adding checks. Let the executing model
 choose routine steps where the contract does not require a specific method.
 
-Test the assigned search approach. Keep the complete skill within 500 words and
-preserve its identity, scope, support references, and project safety boundaries.
+Test the assigned search approach. Keep the complete skill focused and preserve
+its identity, scope, support references, and project safety boundaries.
 Do not add fixture answers or checker-specific wording.
 
 Explain the expected saving and main risk briefly outside the skill. If the

@@ -210,7 +210,7 @@ defmodule KataEvolve.Setup do
       prompt = """
       Edit only SKILL.md to improve this kata-setup skill. Read feedback.json for observed
       training checks and measurements. Use failures to correct behavior; otherwise shorten it.
-      Aim for 200-500 words. A shorter intermediate version above 500 words is allowed.
+      Keep the skill focused. Do not add padding or remove necessary safeguards.
       Keep name and description frontmatter and the templates/docs-agents.md reference.
       The runner sets optimized_for metadata to the active profile after this edit.
       Keep the scope and safeguards: inspect first, preserve instructions and local edits,

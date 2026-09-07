@@ -1,5 +1,5 @@
 defmodule KataEvolve.Setup.Skill do
-  @moduledoc "Minimal format checks; 500 words is a final target, not a tuning gate."
+  @moduledoc "Setup skill identity, format checks, and word counts."
 
   @frontmatter ~r/\A(---\nname: kata-setup\ndescription: [^\n]+\n)(?:metadata: \{optimized_for: "[^"\n]+"\}\n)?---\n/
 

@@ -144,8 +144,8 @@ defmodule KataEvolve.Experiment do
   end
 
   def verify(ctx, text, opts \\ []) do
-    unless Suite.validate(ctx.module, text) == :ok and Skill.words(text) <= 500,
-      do: raise("Candidate must be valid and at most 500 words before verification")
+    unless Suite.validate(ctx.module, text) == :ok,
+      do: raise("Candidate must be valid before verification")
 
     if text == ctx.source, do: raise("No changed candidate to verify")
     require_reference!(ctx, "source-train", :train, 1)
@@ -356,7 +356,7 @@ defmodule KataEvolve.Experiment do
         proposal = propose(ctx, parent.text, previous, feedback, round)
         candidate = proposal["candidate"]
         validation = Suite.validate(ctx.module, candidate)
-        valid = validation == :ok and Skill.words(candidate) <= 500
+        valid = validation == :ok
 
         training_batch = "training-#{String.slice(Skill.hash(candidate), 0, 16)}"
 
@@ -376,7 +376,6 @@ defmodule KataEvolve.Experiment do
           cond do
             candidate == parent.text -> "No change for this approach"
             validation != :ok -> elem(validation, 1)
-            Skill.words(candidate) > 500 -> "Candidate exceeds 500 words after metadata"
             keep -> "Training cost improved"
             score -> score[:reason] || "Training cost did not beat the parent"
             true -> "Candidate was not evaluated"

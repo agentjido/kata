@@ -48,7 +48,7 @@ be converted into successes to make the process look better.
   by checker revision and raw record SHA256. Preserve the original execution,
   verdict, final files, and cost. New fixtures/prompts/models need new executions.
 - Stop on checker error, capture error, missing metrics, or undecidable output.
-  These are unscored under `skill-quality-v2`. Proven wrong candidate outputs still
+  These are unscored under `skill-quality-v3`. Proven wrong candidate outputs still
   score zero. No model judge or automatic review approval was added.
 - Record each dispatch before the call. Enforce cumulative call/token limits.
   Resume missing slots. An explicit error retry saves a linked attempt for only
@@ -60,7 +60,7 @@ be converted into successes to make the process look better.
   and the phrase “does not explain the choice.” Counterexamples still reject
   wrong counts, swapped subjects, unrelated evidence, and invented history.
 
-The [saved neckbeard record](test/fixtures/kata-neckbeard/replay/train-retry-1.json)
+The [saved neckbeard record](../../../evals/test/fixtures/kata-neckbeard/replay/train-retry-1.json)
 still has its original failed result. The current checker passes it offline. This
 is evidence of a repaired checker, not a new execution, a reliable skill score,
 or human approval. Old combined contexts are available for diagnostic replay;

@@ -1,7 +1,7 @@
 # Existing setup evaluations
 
 These commands preserve the original setup experiment and its saved results.
-Use [the common runner](README.md) for new skill suites. The legacy loop selects
+Use [the common runner](../../../evals/README.md) for new skill suites. The legacy loop selects
 by word count subject to correctness; it does not implement the new promotion rule.
 
 From `kata/evals`:
@@ -12,13 +12,13 @@ mix setup.score codex-sol-medium b76130fc2246 29c4ddc219b8
 ```
 
 Both commands run offline. The check command rechecks saved final files through
-ExUnit. The calculator uses `setup-quality-v1`: 70% tokens, 20% tools, 10% time,
-correctness required, and a 500-word candidate limit. The rule version and saved
-measurements are unchanged. Code now lives under `KataEvolve.Setup`; new score
-output identifies the moved checker paths.
+ExUnit. The calculator uses `setup-quality-v2`: 70% tokens, 20% tools, 10% time,
+and correctness required. Saved `setup-quality-v1` measurements remain historical.
+Code now lives under `KataEvolve.Setup`; new score output identifies the moved
+checker paths.
 
-The [first Astra trial](results/setup/report.md) remains historical evidence.
-The [Sol trial](results/setup/codex-sol-medium/report.md) ran five proposal rounds
+The [first Astra trial](../../../evals/results/setup/report.md) remains historical evidence.
+The [Sol trial](../../../evals/results/setup/codex-sol-medium/report.md) ran five proposal rounds
 on `gpt-5.6-sol / medium`. Its selected text fell from 500 to 445 words, but total
 tokens rose from 698,373 to 857,248. Its exploratory cost score is **43.654704**,
 compared with the source's **50.000000**. It would not qualify for promotion under

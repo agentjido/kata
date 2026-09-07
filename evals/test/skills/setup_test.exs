@@ -31,7 +31,6 @@ defmodule KataEvolve.SetupTest do
           KataEvolve.Setup.Fixture.check_snapshot(snapshot, cases[record["case_id"]], initial)
 
         assert Map.take(result.checks, Map.keys(record["checks"])) == record["checks"]
-        assert KataEvolve.Setup.Skill.words(record["skill"]) <= 500 == record["word_budget_pass"]
       end
     end
   end

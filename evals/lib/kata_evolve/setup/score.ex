@@ -2,12 +2,11 @@ defmodule KataEvolve.Setup.Score do
   @moduledoc "Deterministic setup quality from fixed evidence; no model calls."
   alias KataEvolve.Setup.{Fixture, Skill, Store}
 
-  @version "setup-quality-v1"
+  @version "setup-quality-v2"
 
   def rules do
     %{
       version: @version,
-      max_words: 500,
       weights: %{tokens: 70, tool_calls: 20, elapsed_ms: 10},
       score_decimal_places: 6
     }
@@ -26,7 +25,7 @@ defmodule KataEvolve.Setup.Score do
       Skill.validate(reference.text) != :ok or not passing?(reference.records, protocol.checks) ->
         Map.put(result, :reason, "The fixed reference must pass every required check")
 
-      Skill.validate(candidate.text) != :ok or Skill.words(candidate.text) > result.max_words or
+      Skill.validate(candidate.text) != :ok or
           not passing?(candidate.records, protocol.checks) ->
         Map.merge(result, %{score: 0.0, score_units: 0, reason: "Candidate failed a requirement"})
 

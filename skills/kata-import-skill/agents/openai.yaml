@@ -1,0 +1,3 @@
+interface:
+  display_name: "Import Skill"
+  short_description: "Import and adapt a licensed external skill"

@@ -74,8 +74,8 @@ The source must pass before search. Keep each failed record; do not replace it.
 
 Compare eligible training candidates with the fixed training reference, using
 integer score units and weights 70% tokens, 20% tool calls, 10% time. Keep the parent
-on a tie. Candidate words must be at most 500; there is no minimum or shortening
-reward. Verify the selected bytes against the fixed repeated full-suite reference.
+on a tie. Word count does not affect eligibility or score. Verify the selected
+bytes against the fixed repeated full-suite reference.
 All nine candidate executions must pass, and the repeated score must exceed 50.
 Keep final-case responses and failures away from the proposer. No improvement is
 valid. Stamp metadata before evaluation; adoption must use those exact bytes.
