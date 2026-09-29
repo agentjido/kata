@@ -39,10 +39,10 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 
 | Skill | Job |
 | --- | --- |
-| `kata-ex-jido-action` | Build and test actions with the current `Jido.Action` contract. |
-| `kata-ex-jido-agent` | Build and test agents, routes, state operations, directives, and runtime signals. |
-| `kata-ex-jido-ai` | Add Jido AI agents, tools, generation, and structured output with offline tests. |
-| `kata-ex-jido-testing` | Add focused tests for Jido action, agent, runtime, and AI behavior. |
+| `kata-jido-action` | Build and test actions with the current `Jido.Action` contract. |
+| `kata-jido-agent` | Build and test agents, routes, state operations, directives, and runtime signals. |
+| `kata-jido-ai` | Add Jido AI agents, tools, generation, and structured output with offline tests. |
+| `kata-jido-testing` | Add focused tests for Jido action, agent, runtime, and AI behavior. |
 | `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
 | `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 
@@ -287,8 +287,8 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 - Mike Hostetler wrote the source material migrated from
   [agentjido/jido-skills](https://github.com/agentjido/jido-skills), reviewed at
   commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges that
-  material as `kata-ex-jido-action`, `kata-ex-jido-agent`, `kata-ex-jido-ai`,
-  `kata-ex-jido-testing`, `kata-review-pr`, `kata-sync-docs`, and the pull-request
+  material as `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`,
+  `kata-jido-testing`, `kata-review-pr`, `kata-sync-docs`, and the pull-request
   hardening reference in `kata-work`. Each affected skill directory contains
   the required Apache-2.0 license and copyright notice.
 
@@ -355,7 +355,7 @@ the skill files and ask it to save each one as a private skill:
 2. Include the skill's support files: `coverage_tool.exs` for `kata-ex-coverage`,
    `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
-   Include `LICENSE` with each `kata-ex-jido-*`, `kata-review-pr`, and
+   Include `LICENSE` with each `kata-jido-*`, `kata-review-pr`, and
    `kata-sync-docs` skill.
    For `kata-plan` and `kata-work`, include the complete skill directory with
    `references/`, `scripts/`, and all license files.

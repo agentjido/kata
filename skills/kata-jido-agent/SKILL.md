@@ -1,5 +1,5 @@
 ---
-name: kata-ex-jido-agent
+name: kata-jido-agent
 description: Build or change Jido agents with current state, action, route, directive, plugin, and AgentServer contracts. Use for `Jido.Agent` modules and runtime wiring.
 metadata: {language: elixir}
 ---

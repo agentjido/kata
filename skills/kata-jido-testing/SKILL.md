@@ -1,5 +1,5 @@
 ---
-name: kata-ex-jido-testing
+name: kata-jido-testing
 description: Add focused tests for Jido actions, agents, signals, directives, plugins, runtimes, and AI integrations. Use when Jido behavior needs test coverage or a regression test.
 metadata: {language: elixir}
 ---

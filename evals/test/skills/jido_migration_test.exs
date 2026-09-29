@@ -5,10 +5,10 @@ defmodule KataEvolve.JidoMigrationTest do
 
   @root Path.expand("../../..", __DIR__)
   @skills ~w(
-    kata-ex-jido-action
-    kata-ex-jido-agent
-    kata-ex-jido-ai
-    kata-ex-jido-testing
+    kata-jido-action
+    kata-jido-agent
+    kata-jido-ai
+    kata-jido-testing
     kata-review-pr
     kata-sync-docs
   )
@@ -30,10 +30,10 @@ defmodule KataEvolve.JidoMigrationTest do
   end
 
   test "Jido skills use current API boundaries and no hub prerequisite" do
-    action = skill("kata-ex-jido-action")
-    agent = skill("kata-ex-jido-agent")
-    ai = skill("kata-ex-jido-ai")
-    testing = skill("kata-ex-jido-testing")
+    action = skill("kata-jido-action")
+    agent = skill("kata-jido-agent")
+    ai = skill("kata-jido-ai")
+    testing = skill("kata-jido-testing")
 
     assert action =~ "Jido.Exec.run/3"
     assert action =~ "An action can perform HTTP"

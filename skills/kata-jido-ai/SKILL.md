@@ -1,5 +1,5 @@
 ---
-name: kata-ex-jido-ai
+name: kata-jido-ai
 description: Add Jido AI generation, tool use, structured output, streaming, or AI agents with current `jido_ai` and `req_llm` contracts. Use for Jido LLM integration work.
 metadata: {language: elixir}
 ---

@@ -1,5 +1,5 @@
 ---
-name: kata-ex-jido-action
+name: kata-jido-action
 description: Build or change Jido actions with current schemas, execution contracts, state effects, and focused tests. Use for `Jido.Action` modules or action-based tools.
 metadata: {language: elixir}
 ---
