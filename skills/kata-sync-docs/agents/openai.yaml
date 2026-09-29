@@ -1,0 +1,3 @@
+interface:
+  display_name: "Sync Documentation"
+  short_description: "Make documentation match current code"

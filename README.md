@@ -27,7 +27,9 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 | `kata-build-skill` | Create or revise an original skill from a real task. |
 | `kata-import-skill` | Import and adapt a licensed external skill with attribution. |
 | `kata-plan` | Turn a work request or requirements document into an implementation plan. |
+| `kata-review-pr` | Review a pull request without changing code or remote state. |
 | `kata-status-report` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
+| `kata-sync-docs` | Check current documentation against code and correct stale claims. |
 | `kata-work` | Implement a plan or concrete request and verify the result. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
@@ -37,6 +39,10 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 
 | Skill | Job |
 | --- | --- |
+| `kata-ex-jido-action` | Build and test actions with the current `Jido.Action` contract. |
+| `kata-ex-jido-agent` | Build and test agents, routes, state operations, directives, and runtime signals. |
+| `kata-ex-jido-ai` | Add Jido AI agents, tools, generation, and structured output with offline tests. |
+| `kata-ex-jido-testing` | Add focused tests for Jido action, agent, runtime, and AI behavior. |
 | `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
 | `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 
@@ -46,6 +52,13 @@ it does not require Elixir. Language scope is separate from the model recorded
 in `optimized_for`.
 
 Use a skill by name when you need it. Each skill can run separately.
+
+The four Jido skills are self-contained. They do not require a separate hub
+skill. They were rewritten from `agentjido/jido-skills` against current local
+`jido`, `jido_action`, and `jido_ai` APIs. They use `Jido.Agent.Directive`,
+signal-based `AgentServer` calls, current state operations, and the current rule
+that an action can perform immediate I/O when its result is needed by the
+workflow.
 
 `kata-plan` and `kata-work` are direct imports of Compound Engineering's
 `ce-plan` and `ce-work`, with their bundled references and scripts. Kata names
@@ -271,6 +284,13 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
   skills. These were not published in a public repository. Kata includes
   adaptations as `kata-ex-coverage`, `kata-neckbeard`, and `kata-ex-hunt-dead-code`.
+- Mike Hostetler wrote the source material migrated from
+  [agentjido/jido-skills](https://github.com/agentjido/jido-skills), reviewed at
+  commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges that
+  material as `kata-ex-jido-action`, `kata-ex-jido-agent`, `kata-ex-jido-ai`,
+  `kata-ex-jido-testing`, `kata-review-pr`, `kata-sync-docs`, and the pull-request
+  hardening reference in `kata-work`. Each affected skill directory contains
+  the required Apache-2.0 license and copyright notice.
 
 ## Installation
 
@@ -291,7 +311,9 @@ local checkout, replace `/path/to/kata` with the plugin repository directory:
 npx skills add /path/to/kata --agent codex
 ```
 
-These commands install skills at project scope. Installation has not been tested.
+These commands install skills at project scope. A local project-scope Codex
+installation from this checkout passed on 2026-09-28 and discovered all 16
+skills. Claude Code and Cursor installation still need direct checks.
 
 Ask the host to use a skill by name. For example: "Use kata-ex-coverage to inspect test coverage." Skill invocation syntax depends on the host.
 
@@ -333,8 +355,10 @@ the skill files and ask it to save each one as a private skill:
 2. Include the skill's support files: `coverage_tool.exs` for `kata-ex-coverage`,
    `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
+   Include `LICENSE` with each `kata-ex-jido-*`, `kata-review-pr`, and
+   `kata-sync-docs` skill.
    For `kata-plan` and `kata-work`, include the complete skill directory with
-   `references/`, `scripts/`, and `LICENSE`.
+   `references/`, `scripts/`, and all license files.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
    the instructions and support files, including license notices. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."
@@ -370,8 +394,8 @@ Omit `-l` for a user-wide install. Start a new Pi session after installation
 and ask it to use a skill by name. Use `pi list` to inspect installed packages.
 See the [Pi package documentation](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/packages.md).
 
-The package files and skill paths have passed static checks. Host installation
-and runtime behavior have not been tested.
+The package files and skill paths have passed static checks. The local Codex
+project installation has passed. Pi runtime behavior has not been tested.
 
 ## Package structure
 

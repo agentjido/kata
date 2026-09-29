@@ -22,6 +22,15 @@ The source workflow and its bundled references remain the basis for this skill.
 
 ## Execution Workflow
 
+### Explicit pull-request hardening route
+
+When the user identifies a pull request and asks to fix, repair, or harden it,
+read `references/pull-request-hardening.md` before normal input triage. That
+reference owns target selection, review-finding intake, writable branch safety,
+focused fixes, and the no-merge boundary. It does not require another skill.
+After its local verification gate passes, enter the normal shipping tail only
+when the request also authorizes its external actions.
+
 **Bundled reference loading is fail-closed.** Resolve every bundled reference or script path named below from this skill's loaded `SKILL.md` directory, using the skill full path supplied by the harness; never glob the target repository to find a bundled file. Read a phase's owner when that phase is entered; a read made before that phase does not satisfy it, and an owner named for re-reading is read again at its step even when already in context. If the harness does not expose that directory or a required file cannot be read, stop before the action governed by it and report the missing reference instead of approximating the protocol or continuing natively.
 
 ### Phase 0: Input Triage

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Jido Testing"
+  short_description: "Add focused tests for Jido behavior"
