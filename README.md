@@ -44,6 +44,7 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 | `kata-jido-ai` | Add Jido AI agents, tools, generation, and structured output with offline tests. |
 | `kata-jido-testing` | Add focused tests for Jido action, agent, runtime, and AI behavior. |
 | `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
+| `kata-ex-design-review` | Review Elixir design, contracts, and OTP ownership. Report findings or apply requested local fixes. |
 | `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 
 Elixir skills declare `metadata: {language: elixir}`. Without a language marker,
