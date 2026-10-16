@@ -7,7 +7,8 @@ Do not save tool transcripts or intermediate output.
 
 ## Run an optimization
 
-Run from `kata/evals`. Set `JIDO_HARNESS_PATH` if the local dependency is elsewhere.
+Run from `kata/evals`. The default harness path is the sibling `jido_harness`
+repository (`../../jido_harness`). Set `JIDO_HARNESS_PATH` if it is elsewhere.
 Run `mix deps.get` once, then:
 
 ```sh
@@ -16,6 +17,9 @@ mix skill.eval suites/neckbeard.exs train
 mix skill.eval suites/neckbeard.exs tune --attempts 5 --max-calls 11
 mix skill.eval suites/neckbeard.exs status
 ```
+
+The runner uses the Harness ACP protocol. Offline checks use a local ACP
+fixture. Token counts remain unknown when the provider does not report them.
 
 `tune` creates the training reference if it is missing. The separate `train`
 command lets you inspect the first answer before spending on proposals.

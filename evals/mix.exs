@@ -19,7 +19,7 @@ defmodule KataEvolve.MixProject do
 
   defp deps do
     harness =
-      System.get_env("JIDO_HARNESS_PATH") || "../../../Jido/proj_jido_harness/jido_harness"
+      System.get_env("JIDO_HARNESS_PATH") || "../../jido_harness"
 
     [{:jido_harness, path: harness}, {:jason, "~> 1.4"}]
   end

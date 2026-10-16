@@ -1,6 +1,37 @@
 defmodule KataEvolve.HarnessTest do
   use ExUnit.Case
-  alias KataEvolve.{Harness, Metrics, Skill}
+  alias KataEvolve.{Answer, Harness, Metrics, Skill}
+
+  test "ACP answer capture excludes tool commentary and requires a completed run" do
+    events = [
+      %{type: :output_text_delta, payload: %{"text" => "Checking files"}, sequence: 1},
+      %{type: :tool_call, payload: %{"toolCallId" => "one"}, sequence: 2},
+      %{type: :thinking_delta, payload: %{"text" => "Private reasoning"}, sequence: 3},
+      %{type: :output_text_delta, payload: %{"text" => "Final "}, sequence: 4},
+      %{type: :output_text_delta, payload: %{"text" => "answer"}, sequence: 5}
+    ]
+
+    answer = Enum.reduce(events, Answer.new(), &Answer.add/2)
+    refute Answer.finish(answer, %{status: :failed}).answer_complete
+    refute Answer.finish(answer, %{status: :completed}).answer_complete
+
+    answer = Answer.add(%{type: :run_completed}, answer)
+    result = Answer.finish(answer, %{status: :completed})
+    assert result.answer == "Final answer"
+    assert result.answer_complete
+    assert result.answer_capture.source == "last_acp_message"
+  end
+
+  test "ACP tool IDs are deduplicated and failed tool updates are counted" do
+    event = %{type: :tool_call, payload: %{"title" => "shell", "toolCallId" => "one"}}
+    counters = Metrics.add(event, Metrics.new()) |> then(&Metrics.add(event, &1))
+    counters = Metrics.add(%{type: :tool_result, payload: %{"status" => "failed"}}, counters)
+    result = Metrics.finish(counters, 1)
+    assert result.tool_calls == 1
+    assert result.tools == %{"shell" => 1}
+    assert result.tool_errors == 1
+    assert result.usage["total_tokens"] == nil
+  end
 
   test "usage subsets are not counted twice and tool IDs are deduplicated" do
     call = %{
@@ -49,21 +80,13 @@ defmodule KataEvolve.HarnessTest do
     root = sandbox()
     script = Path.join(root, "fake-codex")
 
-    File.write!(script, """
-    #!/bin/sh
-    cat <<'EVENTS'
-    {"type":"thread.started","thread_id":"fake"}
-    {"type":"item.completed","item":{"type":"command_execution","id":"one","command":"true","exit_code":0}}
-    {"type":"item.completed","item":{"type":"agent_message","id":"answer","text":"Final answer"}}
-    {"type":"turn.completed","usage":{"input_tokens":10,"output_tokens":2}}
-    EVENTS
-    """)
+    File.cp!(Path.join(__DIR__, "fixtures/fake_acp.py"), script)
 
     File.chmod!(script, 0o755)
 
     profile = %{
       provider: :codex,
-      provider_options: %{cli_path: script},
+      acp_path: script,
       runtime_timeout_ms: 5000,
       idle_timeout_ms: 5000
     }
@@ -85,7 +108,7 @@ defmodule KataEvolve.HarnessTest do
 
     profile = %{
       provider: :codex,
-      provider_options: %{cli_path: script},
+      acp_path: script,
       runtime_timeout_ms: 100,
       idle_timeout_ms: 100
     }

@@ -7,7 +7,8 @@ defmodule KataEvolve.Metrics do
   def add(event, acc) do
     case event.type do
       :tool_call ->
-        key = {event.payload["name"], event.payload["call_id"] || event.sequence}
+        name = event.payload["name"] || event.payload["title"]
+        key = {name, event.payload["call_id"] || event.payload["toolCallId"] || event.sequence}
 
         if MapSet.member?(acc.calls, key) do
           acc
@@ -20,7 +21,8 @@ defmodule KataEvolve.Metrics do
         end
 
       :tool_result ->
-        %{acc | tool_errors: acc.tool_errors + if(event.payload["is_error"], do: 1, else: 0)}
+        failed = event.payload["is_error"] || event.payload["status"] == "failed"
+        %{acc | tool_errors: acc.tool_errors + if(failed, do: 1, else: 0)}
 
       :file_change ->
         %{acc | file_change_events: acc.file_change_events + 1}

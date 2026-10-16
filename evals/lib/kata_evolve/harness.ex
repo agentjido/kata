@@ -9,14 +9,7 @@ defmodule KataEvolve.Harness do
       |> Map.drop([:provider])
       |> Map.merge(%{prompt: prompt, cwd: workspace, approval_mode: :auto_approve})
 
-    request =
-      request
-      |> Map.put_new(:sandbox_mode, :workspace_write)
-      |> Map.update(
-        :provider_options,
-        %{skip_git_repo_check: true},
-        &Map.put(&1, :skip_git_repo_check, true)
-      )
+    request = Map.put_new(request, :sandbox_mode, :workspace_write)
 
     started = System.monotonic_time(:millisecond)
 
