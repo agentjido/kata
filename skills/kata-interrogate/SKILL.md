@@ -1,11 +1,36 @@
 ---
 name: kata-interrogate
 description: "Use for \"interrogate\", \"adversarial review\", \"multi-model review\", \"challenge this\", \"stress test this code\", \"find blind spots\", or \"tear this apart\". Adversaries try to break a change or design, and only findings proven by a run survive."
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: adversarial-review
+  object: change-set
+  profile: coordination
+  authority: local-write
+  consumes: [change-set, design-intent]
+  produces: [verified-findings]
 ---
 
 # Interrogate
 
 Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.
+
+**Outcome:** An adversarial report that contains only failures proven against
+the scoped change or design.
+
+**Done:** Each surviving finding has a reproducible command and observed wrong
+result, every unproved claim is dropped, independence limits are stated, and the
+primary workspace remains unchanged.
+
+## Assignment
+
+The required inputs are one change or design, its intended result, and the
+target repository. Direct user authority or inherited caller authority permits
+read-only inspection of the primary workspace and local isolated worktrees,
+reproduction files, and checks needed to prove findings. Adversaries inherit
+only that scope. Do not edit the primary change, apply fixes, stage, commit,
+push, or change remote state.
 
 ## Frame
 
