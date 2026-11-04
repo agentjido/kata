@@ -40,6 +40,12 @@ The Phoenix Playground reads each package's current `SKILL.md` frontmatter.
 Use **Reload source** after a file change. Set `KATA_CATALOG_PORT` to use another
 port or `KATA_CATALOG_OPEN_BROWSER=false` to keep the browser closed.
 
+Agent Skills metadata values are strings. Kata stores multi-value `consumes`
+and `produces` facets as comma-separated strings. The catalog parses them into
+ordered lists for filtering and display. Kata stores a portable command hint,
+when useful, as the custom `metadata.kata-argument-hint` string instead of a
+host-specific top-level field.
+
 Check the catalog without starting the server:
 
 ```sh

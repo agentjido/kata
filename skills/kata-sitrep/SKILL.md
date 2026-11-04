@@ -8,8 +8,8 @@ metadata:
   object: git-workbench
   profile: bounded-execution
   authority: local-write
-  consumes: [git-repository, project-folder]
-  produces: [git-workbench-report]
+  consumes: "git-repository, project-folder"
+  produces: "git-workbench-report"
 ---
 
 # Kata Sitrep

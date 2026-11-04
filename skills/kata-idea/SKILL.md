@@ -1,16 +1,16 @@
 ---
 name: kata-idea
 description: Turn a vague idea, disputed product direction, or untested design assumption into a decision-ready idea brief. Explore alternatives, grill unresolved decisions, or challenge the idea before planning; do not implement the result.
-argument-hint: "[idea, decision, or design to explore] [mode:explore|grill|challenge]"
 metadata:
+  kata-argument-hint: "[idea, decision, or design to explore] [mode:explore|grill|challenge]"
   schema: kata.skill/v1
   subject: general
   practice: explore
   object: idea
   profile: direction
   authority: local-write
-  consumes: [idea-request, domain-context, source-material]
-  produces: [idea-brief, product-contract, verified-change]
+  consumes: "idea-request, domain-context, source-material"
+  produces: "idea-brief, product-contract, verified-change"
 ---
 
 # Idea

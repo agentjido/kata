@@ -1,16 +1,16 @@
 ---
 name: kata-understand
 description: Understand the current condition of a domain with evidence. Use when facts, a problem, cause, limits, recent work, or existing software behavior are unclear; skip when the target and acceptance conditions are already supported well enough to plan or work.
-argument-hint: "[question, condition, or unclear work request]"
 metadata:
+  kata-argument-hint: "[question, condition, or unclear work request]"
   schema: kata.skill/v1
   subject: general
   practice: understand
   object: domain-context
   profile: bounded-execution
   authority: read-only
-  consumes: [work-request, domain-context, recall-request, conversation-history, system-question, software-system]
-  produces: [understood-context, work-brief, current-state-brief, project-knowledge-capture, evidence-supported-answer]
+  consumes: "work-request, domain-context, research-question, recall-request, conversation-history, system-question, software-system"
+  produces: "understood-context, work-brief, current-state-brief, research-synthesis, project-knowledge-capture, evidence-supported-answer"
 ---
 
 # Understand
@@ -72,6 +72,11 @@ When the user asks how existing software works, where behavior is implemented,
 or what its requirements and limits are, read and follow
 [references/software-system.md](references/software-system.md). System
 explanation is an understanding mode, not authority to change the system.
+
+When the question needs several external sources, a reproducible search
+boundary, or cross-source synthesis, read and follow
+[references/research-synthesis.md](references/research-synthesis.md). A normal
+engineering survey must not claim systematic-review coverage.
 
 Do not prescribe a multi-step route when the target still needs an accountable
 value decision. Do not repeat this step when supplied evidence already

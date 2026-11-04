@@ -8,8 +8,8 @@ metadata:
   object: current-topic
   profile: bounded-execution
   authority: local-write
-  consumes: [explanation-request, topic-context]
-  produces: [visual-explanation]
+  consumes: "explanation-request, topic-context"
+  produces: "visual-explanation"
 ---
 
 # Show me

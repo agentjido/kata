@@ -8,8 +8,8 @@ metadata:
   object: technical-document
   profile: bounded-execution
   authority: local-write
-  consumes: [technical-writing-request, source-material, readme-brief]
-  produces: [technical-document, verified-readme, writing-review, revised-prose, verified-change]
+  consumes: "technical-writing-request, source-material, readme-brief"
+  produces: "technical-document, verified-readme, writing-review, revised-prose, verified-change"
 ---
 
 # Technical writing

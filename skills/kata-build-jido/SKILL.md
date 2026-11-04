@@ -8,8 +8,8 @@ metadata:
   object: jido-system
   profile: bounded-execution
   authority: local-write
-  consumes: [jido-change-request, elixir-repository]
-  produces: [verified-change]
+  consumes: "jido-change-request, elixir-repository"
+  produces: "verified-change"
   language: elixir
 ---
 

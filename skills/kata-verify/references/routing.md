@@ -14,6 +14,8 @@ Use the candidate and claim shape to select the smallest useful method set.
 | Document, image, UI artifact, generated file, or rendered output | Artifact review | Comment review or direct content checks |
 | Research, recommendation, analysis, or decision memo | Research review | Adversarial review when the user asks to challenge the reasoning |
 | Deployment, migration, repository action, service change, or remote operation | Operation review | Security or blast radius |
+| Interactive CLI, TUI, browser, IDE, or Electron behavior with an existing harness | Application review | Benchmark, security, or artifact review |
+| AI feature, agent, prompt, model configuration, or variable-output behavior | AI behavior review | Benchmark, security, or adversarial review |
 | Skill package | Direct structure and contract checks | Dojo only on an explicit Dojo request |
 
 ## Selection rules

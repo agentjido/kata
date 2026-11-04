@@ -8,8 +8,8 @@ metadata:
   object: project-orientation
   profile: system-design
   authority: local-write
-  consumes: [project, project-orientation-request, project-knowledge-capture, verified-readme]
-  produces: [project-orientation-audit, verified-project-orientation, readme-brief, project-knowledge-capture, verified-change]
+  consumes: "project, project-orientation-request, project-knowledge-capture, verified-readme"
+  produces: "project-orientation-audit, verified-project-orientation, readme-brief, project-knowledge-capture, verified-change"
 ---
 
 # Orient

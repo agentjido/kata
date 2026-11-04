@@ -159,6 +159,7 @@ defmodule KataExQuality.Backlog do
     "performance-proof-gap" => "1",
     "public-example-proof-gap" => "1",
     "waiver-governance-gap" => "1",
+    "test-value-gap" => "1",
     "test-arbitrary-sleep" => "2",
     "test-unnecessary-serialization" => "2",
     "test-fixture-duplication" => "2",
@@ -221,6 +222,7 @@ defmodule KataExQuality.Backlog do
     component-ownership-gap
     performance-proof-gap
     waiver-governance-gap
+    test-value-gap
     data-access-shape-mismatch
     internal-wire-data-conflation
     invalid-state-encoding

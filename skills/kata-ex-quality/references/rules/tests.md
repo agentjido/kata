@@ -3,6 +3,44 @@
 Load this file for `focus:tests` or when test-efficiency and test-reliability
 detectors apply.
 
+## `test-value-gap` version 1
+
+- **Use when:** A test can be duplicate, stale, assertion-free, coupled to an
+  implementation detail, or responsible for test-only production code.
+- **Detect:** Read the complete test, its production owner, its non-test
+  callers, overlapping tests, and relevant history. State the observable
+  behavior or independent contract, one credible regression that the test can
+  detect, why stronger existing proof does not already detect it, and every
+  production seam that exists only for the test.
+- **Finding:** One test has a repeatable maintenance or runtime cost, but no
+  distinct supported behavior, invariant, boundary, or regression that needs
+  its current proof.
+- **Fix:** Prefer extending a stronger owning-boundary test, rewriting the test
+  at that boundary, or removing an approved duplicate. Remove test-only
+  production code only after reachability and package checks prove that no
+  production caller needs it.
+- **Protect:** Public behavior, defect regression, package entry points,
+  protocols, configuration, storage, security, generated output, coverage,
+  required gates, and all behavior named by the finding.
+- **Verify:** Show the original behavior protection, the replacement or
+  remaining proof, focused and sibling test results, required gates, and a
+  build or dead-code result for removed production code. Coverage percentage,
+  grep output, test count, age, or runtime alone is not proof of equal value.
+- **Judgment stop:** The protected contract, production reachability, history,
+  stronger proof, or required validation is unknown. Record the candidate but
+  do not select it for application.
+- **Batch key:** Production owner, protected contract, and validation boundary.
+
+This rule is always `judgment-required` and is never automatically applied.
+Test deletion needs explicit authority for the named batch. A scan can report
+zero ready candidates. Do not add weak candidates to meet a count.
+
+When the project already has a test registry, or the user requests one, record
+test assets by module, suite, or critical workflow. Link requirements, defects,
+risks, and boundary contracts to executable evidence without copying every test
+function or the source success criteria. Do not create a registry only because
+this rule ran.
+
 ## Test-efficiency scan
 
 Inspect these cues before a runtime claim:

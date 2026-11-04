@@ -1,16 +1,16 @@
 ---
 name: kata-plan
 description: "Create a deeply grounded software implementation plan from a clear request, Product Contract, or existing plan. Use when software work has technical decisions, cross-file effects, dependencies, migrations, or several verifiable units; do not use to explore product direction, diagnose an unknown failure, or implement the change."
-argument-hint: "[software request, Product Contract path, or plan path] [output:html] [beadwork] [chat-only]"
 metadata:
+  kata-argument-hint: "[software request, Product Contract path, or plan path] [output:html] [beadwork] [chat-only]"
   schema: kata.skill/v1
   subject: software-engineering
   practice: plan
   object: software-effort
   profile: system-design
   authority: local-write
-  consumes: [planning-request, product-contract, decision-roadmap, understood-context, existing-plan]
-  produces: [implementation-plan, verified-change]
+  consumes: "planning-request, product-contract, decision-roadmap, understood-context, existing-plan"
+  produces: "implementation-plan, verified-change"
 ---
 
 # Plan Software Work

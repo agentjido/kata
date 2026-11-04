@@ -90,9 +90,25 @@ defmodule Kata.Catalog do
       profile: Map.fetch!(metadata, "profile"),
       authority: Map.fetch!(metadata, "authority"),
       language: Map.get(metadata, "language"),
-      consumes: Map.fetch!(metadata, "consumes"),
-      produces: Map.fetch!(metadata, "produces")
+      consumes: facet_list!(metadata, "consumes", path),
+      produces: facet_list!(metadata, "produces", path)
     }
+  end
+
+  defp facet_list!(metadata, key, path) do
+    value = Map.fetch!(metadata, key)
+
+    unless is_binary(value) do
+      raise "#{path}: metadata.#{key} must be a comma-separated string"
+    end
+
+    values = value |> String.split(",") |> Enum.map(&String.trim/1)
+
+    if values == [] or Enum.any?(values, &(&1 == "")) do
+      raise "#{path}: metadata.#{key} must contain non-empty identifiers"
+    end
+
+    values
   end
 
   defp frontmatter!("---\n" <> rest, path) do

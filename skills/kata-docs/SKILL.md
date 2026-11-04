@@ -8,8 +8,8 @@ metadata:
   object: project-documentation
   profile: bounded-execution
   authority: local-write
-  consumes: [project, documentation-request, project-knowledge-capture]
-  produces: [docs-kata-intake, documented-project-knowledge, verified-documentation-change, verified-change]
+  consumes: "project, documentation-request, project-knowledge-capture"
+  produces: "docs-kata-intake, documented-project-knowledge, verified-documentation-change, verified-change"
 ---
 
 # Docs Kata

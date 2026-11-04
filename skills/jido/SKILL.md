@@ -1,16 +1,16 @@
 ---
 name: jido
 description: "Use only when the user explicitly invokes `$jido`. Interpret the natural-language goal, select value delivery or reusable improvement internally, and run the smallest valid Kata sequence from the first unresolved step."
-argument-hint: "[goal]"
 metadata:
+  kata-argument-hint: "[goal]"
   schema: kata.skill/v1
   subject: agent-work
   practice: route
   object: work-request
   profile: coordination
   authority: local-write
-  consumes: [work-request]
-  produces: [routed-work-result]
+  consumes: "work-request"
+  produces: "routed-work-result"
 ---
 
 # Jido

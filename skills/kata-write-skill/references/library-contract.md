@@ -99,13 +99,20 @@ does not materially change scope, cost, or authority.
 | Object | The primary thing examined or changed. |
 | Profile | `bounded-execution`, `coordination`, `system-design`, or `direction`. |
 | Authority | The normal action class: `read-only`, `local-write`, `external-write`, or `destructive`. This value does not grant permission. |
-| Consumes | A list of stable input-type identifiers. |
-| Produces | A list of stable output-type identifiers. |
+| Consumes | A comma-separated string of stable input-type identifiers. |
+| Produces | A comma-separated string of stable output-type identifiers. |
 | Execution profile | Model, tools, memory, budget, and review frequency supported by evidence. Conditional. |
 
-Facet lists name stable types. They do not encode input cardinality or route
-conditions. The work contract must state which consumed inputs are alternatives,
-which are required together, and which produced result belongs to each route.
+The frontmatter stores each facet list as one comma-separated string because
+the Agent Skills specification requires metadata values to be strings. Kata
+tools split these strings into ordered lists. Facet lists name stable types.
+They do not encode input cardinality or route conditions. The work contract
+must state which consumed inputs are alternatives, which are required together,
+and which produced result belongs to each route.
+
+Keep host-specific hints out of the top-level Agent Skills frontmatter. When a
+hint has portable reference value, store it as a string under the distinctive
+`metadata.kata-argument-hint` key. A host can ignore this metadata safely.
 
 `profile` names the normal work profile. State a supported conditional profile
 and its deciding condition in the work contract. `authority` names the highest

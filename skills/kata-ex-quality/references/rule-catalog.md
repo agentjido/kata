@@ -55,6 +55,7 @@ cannot disable a configured gate or weaken a protection.
 
 | Rule | Ver. | Cost | Confirm | Apply | Effects | Default class | Auto |
 | --- | ---: | --- | --- | --- | --- | --- | --- |
+| `test-value-gap` | 1 | expensive | high | high | build-write, report-write | judgment-required | no |
 | `test-arbitrary-sleep` | 2 | normal | medium | high | read-only | safe-refinement | yes |
 | `test-unnecessary-serialization` | 2 | expensive | high | high | build-write | safe-refinement | yes |
 | `test-fixture-duplication` | 2 | normal | medium | medium | read-only | safe-refinement | yes |

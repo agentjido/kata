@@ -22,6 +22,11 @@ external calls, dependencies, or destructive paths.
    report, or complete failure-path analysis. Do not run an exploit against a
    live system without explicit authority.
 
+When repository-scoped MCP configuration or an MCP package selector is the
+security surface, also read
+[mcp-dependency-review.md](mcp-dependency-review.md). That method is static and
+must not start a configured server.
+
 Report the boundary, asset, threat, reachable failure path, consequence,
 evidence, and missing control. Separate confirmed vulnerabilities from
 hardening suggestions and unknowns. Do not include a secret or usable exploit

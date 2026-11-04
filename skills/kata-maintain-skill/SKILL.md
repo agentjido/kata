@@ -8,8 +8,8 @@ metadata:
   object: skill-library
   profile: system-design
   authority: local-write
-  consumes: [skill-library, skill-evaluation-evidence]
-  produces: [resolved-library-finding, conversion-brief, work-request, verified-change]
+  consumes: "skill-library, skill-evaluation-evidence, conversation-history"
+  produces: "resolved-library-finding, conversion-brief, workflow-learning-brief, work-request, verified-change"
 ---
 
 # Maintain Skill
@@ -49,6 +49,11 @@ contract or ownership boundary. It is `bounded-execution` when the finding only
 repairs an established classification or index rule. Ask the accountable owner
 when the decision depends on intent, rights, or authority that repository
 evidence cannot establish.
+
+When the operator explicitly asks to learn a reusable workflow or preference
+from named conversations or a named date range, read
+[references/chat-evidence.md](references/chat-evidence.md). Do not mine chat
+history without that explicit source and range.
 
 ## Select one finding
 

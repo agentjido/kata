@@ -1,7 +1,7 @@
 {
   "name": "kata",
-  "version": "0.3.0",
-  "description": "Personal engineering practices: observe, plan, build, verify, review, and reflect.",
+  "version": "1.0.0",
+  "description": "An evidence-based knowledge-work system for coding agents.",
   "author": {
     "name": "Mike Hostetler and Jason Allum"
   },

@@ -1,16 +1,16 @@
 ---
 name: kata-shipit
 description: "Finish a verified Git change through the exact delivery boundary the user requests: create a scoped local commit, push and open or update a pull request, monitor requested checks, or land an approved change. Preserve unrelated work and require explicit authority for each remote or merge action."
-argument-hint: "[commit|ship|open-pr|update-pr|watch|land] [scope or PR]"
 metadata:
+  kata-argument-hint: "[commit|ship|open-pr|update-pr|watch|land] [scope or PR]"
   schema: kata.skill/v1
   subject: software-engineering
   practice: deliver
   object: git-change
   profile: coordination
   authority: external-write
-  consumes: [verified-change, delivery-request, git-repository]
-  produces: [git-commit, pull-request, shipped-change]
+  consumes: "verified-change, delivery-request, git-repository"
+  produces: "git-commit, pull-request, shipped-change"
 ---
 
 # Ship It

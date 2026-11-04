@@ -1,16 +1,16 @@
 ---
 name: kata-work
 description: Produce one candidate result from a clear work request or plan. Use when the target, scope, acceptance conditions, and authority are known; skip understanding and planning when those contracts are already resolved, and use a separate verification step for final judgment.
-argument-hint: "[work request or plan path]"
 metadata:
+  kata-argument-hint: "[work request or plan path]"
   schema: kata.skill/v1
   subject: general
   practice: execute
   object: work-result
   profile: bounded-execution
   authority: local-write
-  consumes: [work-request, work-brief, work-plan, implementation-plan]
-  produces: [candidate-result, work-evidence]
+  consumes: "work-request, work-brief, work-plan, implementation-plan"
+  produces: "candidate-result, work-evidence"
 ---
 
 # Work
@@ -56,6 +56,9 @@ Load a focused method only when its trigger applies:
   [references/tdd.md](references/tdd.md).
 - For explicitly requested long-running or unattended decision logging, read
   [references/decision-log.md](references/decision-log.md).
+- For a request to create or adapt a local harness that drives an interactive
+  CLI, TUI, browser, IDE, or Electron application, read
+  [references/application-harness.md](references/application-harness.md).
 
 These methods do not change the assignment authority or let this skill verify
 its own result.

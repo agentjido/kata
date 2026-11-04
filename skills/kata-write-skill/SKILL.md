@@ -8,8 +8,8 @@ metadata:
   object: skill-package
   profile: system-design
   authority: local-write
-  consumes: [skill-request, skill-source, conversion-brief]
-  produces: [conforming-skill-package]
+  consumes: "skill-request, skill-source, conversion-brief"
+  produces: "conforming-skill-package"
 ---
 
 # Write Skill

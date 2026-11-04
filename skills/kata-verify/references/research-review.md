@@ -13,6 +13,20 @@ sources.
 6. Recalculate important numbers from the supplied inputs.
 7. Confirm that uncertainty and source limits are visible in the conclusion.
 
+When the candidate claims broad or reproducible search coverage, also check:
+
+8. The question, source classes, services, exact queries, dates, selection
+   rules, result caps, failures, and stopping condition are recorded.
+9. Supporting and contrary evidence received the same inclusion rules, and
+   ranking, venue, citation count, or an excerpt did not replace source review.
+10. Duplicate records, versions, corrections, and related reports are linked
+    without double-counting the underlying work or evidence.
+11. Conclusions synthesize across sources and identify direct support,
+    conflicts, exclusions, and important gaps.
+12. A `systematic review` claim has a fixed protocol, suitable database
+    coverage, auditable screening and exclusion counts, and the required
+    independent review process. Otherwise require a narrower coverage label.
+
 Return supported, unsupported, conflicting, and unknown claims. A reasonable
 recommendation can still be unknown when the accountable value tradeoff is not
 specified.

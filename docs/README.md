@@ -22,7 +22,7 @@ Last reviewed: 2026-11-04
 
 ## Documents kept at fixed paths
 
-- [Project README](../README.md): project entry point, skill list, and attribution.
+- [Project README](../README.md): public project entry point and first-use guide.
 - [Project instructions](../AGENTS.md): rules for the whole repository.
 - [Dojo guide](../dojo/README.md): preserved opt-in evaluation tooling and historical evidence.
 - [Dojo runner handoff](../dojo/RUNNER.md): preserved interface for explicitly requested Dojo work.
@@ -31,6 +31,12 @@ The intake log records retained files and exclusions. Retention does not mean
 that a document has been verified.
 
 ## Active work
+
+- [Public 1.0 release plan](plans/2026-11-04-1504-idea-public-1-0-release-plan.md):
+  product and implementation contract for legal, package, release, directory,
+  README, and launch preparation.
+- [Public 1.0 marketing plan](plans/2026-11-04-agent-jido-kata-1-0-marketing-plan.md):
+  positioning, demonstration, directory strategy, launch schedule, and measures.
 
 - [Jido skills migration backlog](plans/jido-skills-migration-backlog.md):
   remaining verification and the archive gate for `agentjido/jido-skills`.
@@ -55,12 +61,22 @@ guard method moved from `kata-correct` into `kata-work` and `kata-verify`, and
 
 ## Completed and superseded plans
 
+- [Existing skill improvement backlog](plans/2026-11-04-existing-skill-improvement-backlog.md):
+  completed seven bounded refinements in the existing skill owners; it did not
+  add `kata-prototype`, and it sends visual-design work to Impeccable.
 - [Complete skill template conversion](plans/2026-11-04-0604-refactor-complete-skill-template-conversion-plan.md):
   completed in commit `86d79df`; the direct metadata check still passes.
 - [Astra xhigh optimization plan](plans/2026-09-05-astra-optimization-plan.md):
   superseded by the current Dojo process and retained as historical intent.
 
 ## Evaluation reference
+
+- [Installation guide](guides/installation.md): primary and host-specific
+  installation paths and compatibility limits.
+- [Release guide](guides/releasing.md): version, validation, tag, GitHub Release,
+  directory, and recovery process.
+- [Attribution](reference/attribution.md): current sources, adaptations, and
+  package-specific notices.
 
 - [Skill provenance and retention index](reference/skill-provenance-and-retention.md):
   current origin groups and proposed keep, fold, or retire actions for imported

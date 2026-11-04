@@ -1,16 +1,16 @@
 ---
 name: kata-dojo
 description: Use only when the user explicitly requests Dojo. Inspect saved evidence or evaluate one exact skill candidate with controlled cases; do not use for ordinary skill development, verification, adoption, commits, or publication.
-argument-hint: "[skill candidate, suite, or saved evaluation context]"
 metadata:
+  kata-argument-hint: "[skill candidate, suite, or saved evaluation context]"
   schema: kata.skill/v1
   subject: agent-work
   practice: evaluate
   object: skill-candidate
   profile: bounded-execution
   authority: local-write
-  consumes: [conforming-skill-package, skill-evaluation-suite, skill-evaluation-request]
-  produces: [skill-evaluation-evidence, adoption-recommendation, verified-change]
+  consumes: "conforming-skill-package, skill-evaluation-suite, skill-evaluation-request"
+  produces: "skill-evaluation-evidence, adoption-recommendation, verified-change"
 ---
 
 # Dojo

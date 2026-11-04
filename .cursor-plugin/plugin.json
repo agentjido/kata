@@ -1,8 +1,8 @@
 {
   "name": "kata",
-  "displayName": "Kata",
-  "version": "0.3.0",
-  "description": "Personal engineering practices: observe, plan, build, verify, review, and reflect.",
+  "displayName": "Agent Jido Kata",
+  "version": "1.0.0",
+  "description": "An evidence-based knowledge-work system for coding agents.",
   "author": { "name": "Mike Hostetler and Jason Allum" },
   "repository": "https://github.com/agentjido/kata"
 }

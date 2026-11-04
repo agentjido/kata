@@ -8,8 +8,8 @@ metadata:
   object: software-design
   profile: system-design
   authority: local-write
-  consumes: [elixir-codebase, design-review-request]
-  produces: [design-assessment, verified-change]
+  consumes: "elixir-codebase, design-review-request"
+  produces: "design-assessment, verified-change"
   language: elixir
 ---
 

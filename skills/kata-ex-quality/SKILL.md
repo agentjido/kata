@@ -1,16 +1,16 @@
 ---
 name: kata-ex-quality
 description: "Find, record, batch, and fix bounded Elixir package-quality findings with configured gates, coverage and dead-code analyzers, a versioned rule catalog, and a durable backlog. Use for quality hill climbs, coverage gaps, dead-code audits, test-smell cleanup, and repeated quality runs; use repeated-mistake prevention or open design review when that narrower result is the whole request."
-argument-hint: "<project> [scan|record|apply] [find:N] [apply:N] [limit:N] [focus:<surface>] [rule:<id>] [depth:standard|thorough] [breadth:balanced|deep] [rule-cap:N] [backlog:<path>] [beadwork]"
 metadata:
+  kata-argument-hint: "<project> [scan|record|apply] [find:N] [apply:N] [limit:N] [focus:<surface>] [rule:<id>] [depth:standard|thorough] [breadth:balanced|deep] [rule-cap:N] [backlog:<path>] [beadwork]"
   schema: kata.skill/v1
   subject: software-engineering
   practice: improve
   object: elixir-package-quality
   profile: coordination
   authority: local-write
-  consumes: [elixir-project, quality-improvement-request]
-  produces: [quality-backlog, quality-finding-report, verified-change]
+  consumes: "elixir-project, quality-improvement-request"
+  produces: "quality-backlog, quality-finding-report, verified-change"
   language: elixir
 ---
 
@@ -68,8 +68,11 @@ findings and batches. A run that selects one finding is bounded execution.
 
 Use `rule:coverage-gap` for focused existing-coverage analysis. Use
 `rule:confirmed-dead-code` for a reachability audit or one explicitly requested
-removal group. These routes keep their focused analyzers without separate skill
-packages. Keep open system design review in `kata-ex-design-review`.
+removal group. Use `rule:test-value-gap` to find tests whose maintenance or
+runtime cost is not justified by distinct behavioral protection. This rule does
+not authorize test deletion. These routes keep their focused analyzers without
+separate skill packages. Keep open system design review in
+`kata-ex-design-review`.
 
 Direct user authority or inherited caller authority permits configured local
 checks and the writes allowed by the selected mode. Do not install dependencies,

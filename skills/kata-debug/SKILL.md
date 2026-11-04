@@ -1,22 +1,22 @@
 ---
 name: kata-debug
-description: Diagnose software bugs, test failures, flaky behavior, and performance regressions with a reproducible feedback loop and a complete causal chain. Apply a minimal test-first repair only when the assignment authorizes a fix; use kata-understand for an explanation with no executable failure and kata-work when the required change is already known.
+description: Diagnose software bugs, test failures, flaky behavior, performance regressions, and failed agent executions with a reproducible feedback loop and a complete causal chain. Apply a minimal test-first repair only when the assignment authorizes a fix; use kata-understand for an explanation with no executable failure and kata-work when the required change is already known.
 metadata:
   schema: kata.skill/v1
   subject: software-engineering
   practice: debug
-  object: software-failure
+  object: execution-failure
   profile: bounded-execution
   authority: local-write
-  consumes: [debugging-request, software-system, failure-evidence]
-  produces: [debug-diagnosis, verified-change]
+  consumes: "debugging-request, software-system, agent-execution, failure-evidence"
+  produces: "debug-diagnosis, verified-change"
 ---
 
 # Debug
 
 **Outcome:** The next consumer receives either an evidence-supported diagnosis
-or a minimal local repair that removes the confirmed cause of one software
-failure.
+or a minimal local repair that removes the confirmed cause of one software or
+agent-execution failure.
 
 **Done:** A repeatable check shows the exact symptom, the causal chain from
 trigger to symptom has no unsupported link, and the result is either a
@@ -27,9 +27,12 @@ evidence needed next.
 
 ## Assignment and authority
 
-The required input is one observed software failure or performance regression
-and enough context to identify the affected system. A test path, error, trace,
-ticket, or reproduction can supply failure evidence.
+The required input is one observed software failure, performance regression, or
+failed agent execution and enough context to identify the affected system. A
+test path, error, trace, ticket, saved run, or reproduction can supply failure
+evidence. For an agent run that loops, drifts, uses the wrong tool, stops at the
+wrong boundary, or produces the wrong result, read
+[references/agent-run.md](references/agent-run.md).
 
 Treat requests to diagnose, investigate, explain, or find the cause as
 diagnosis-only authority. Treat an explicit request to fix, repair, or make the

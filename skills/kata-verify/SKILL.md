@@ -1,16 +1,16 @@
 ---
 name: kata-verify
 description: Route one existing candidate to the smallest set of verification methods that fit its result type, claims, and risks. Return pass, fail, unknown, or blocked with direct evidence; do not create, repair, or improve the candidate.
-argument-hint: "[candidate result, claims, and acceptance conditions]"
 metadata:
+  kata-argument-hint: "[candidate result, claims, and acceptance conditions]"
   schema: kata.skill/v1
   subject: general
   practice: verify
   object: candidate-result
   profile: coordination
   authority: read-only
-  consumes: [candidate-result, work-evidence, acceptance-contract, verification-request]
-  produces: [verified-result, verified-change, verification-finding]
+  consumes: "candidate-result, work-evidence, acceptance-contract, verification-request"
+  produces: "verified-result, verified-change, verification-finding"
 ---
 
 # Verify
@@ -71,7 +71,11 @@ Then add only the focused methods that can change the verdict:
 - [references/research-review.md](references/research-review.md) for research,
   recommendations, analysis, or decisions based on sources; and
 - [references/operation-review.md](references/operation-review.md) for a
-  repository, service, deployment, migration, or external-system operation.
+  repository, service, deployment, migration, or external-system operation;
+- [references/application-review.md](references/application-review.md) when an
+  existing harness can drive a CLI, TUI, browser, IDE, or Electron candidate;
+- [references/ai-behavior-review.md](references/ai-behavior-review.md) for an AI
+  feature, agent, prompt, model configuration, or other variable-output system.
 
 Select at most three focused methods by default. Use more only when the
 acceptance contract has separate high-risk surfaces. Run methods in this order:
