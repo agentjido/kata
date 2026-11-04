@@ -1,9 +1,33 @@
 ---
 name: kata-no-comments
 description: Review a requested scope for weak, stale, redundant, or workaround comments. Remove accepted comments, preserve required contracts and external constraints, and report code that needs a structural fix.
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: refactor
+  object: code-comments
+  profile: bounded-execution
+  authority: local-write
+  consumes: [code-scope]
+  produces: [verified-comment-cleanup]
 ---
 
 # No comments
+
+**Outcome:** The selected code scope retains only comments with a proven
+contract or external reason, and it identifies structural problems that remain.
+
+**Done:** Each reviewed comment is removed or tied to one keep rule with
+evidence, in-scope edits pass proportionate checks, and broader structural work
+is reported without being applied.
+
+## Assignment
+
+The required input is a named file set or diff. Direct user authority or
+inherited caller authority permits comment removal and trivial local fixes in
+that scope. Preserve unrelated changes. Do not change behavior, architecture,
+public contracts, staged state, Git history, or remote state without separate
+authority.
 
 Review the files or diff that the user names. Otherwise, use the working-tree diff against the base branch. Do not inspect unrelated files.
 
