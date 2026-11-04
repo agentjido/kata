@@ -1,9 +1,33 @@
 ---
 name: kata-correct
-description: "Find the mistakes agents keep repeating in this repo and make each one impossible. Try architecture first, then types, then a lint whose error names the fix, then a test, and write docs last. Prove each check fails on a real past mistake. Repeat this each time the operator corrects you."
+description: "Make one repeated repository mistake impossible through architecture or an executable guard. Use when evidence shows the same mistake at least twice; use a normal fix workflow for a one-time defect."
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: enforce
+  object: repository-constraint
+  profile: system-design
+  authority: local-write
+  consumes: [repeated-correction, repository-history]
+  produces: [verified-repository-guard]
 ---
 
 # Correct
+
+**Outcome:** One repeated mistake class has a structural owner or executable
+guard that prevents the next occurrence.
+
+**Done:** The class has evidence from at least two occurrences, the selected
+guard fails on a real past mistake and passes on the corrected state, and the
+local change is ready for a separate commit decision.
+
+## Assignment
+
+The required inputs are one target repository and evidence of repeated mistakes.
+Direct user authority or inherited caller authority permits the smallest local
+architecture, type, lint, test, or instruction change that blocks one class.
+Preserve unrelated work. Do not stage, commit, push, change CI state, or fix a
+second class without separate authority.
 
 The operator keeps correcting agents in this repo for the same mistakes. Change the repo so the next agent can't make them.
 
@@ -22,7 +46,11 @@ First, read recent commits, reverts, review comments, agent instruction files, a
 
 ## Fix and prove
 
-Then fix the most frequent classes now, one commit each. Prove each new check fails on a real past mistake. Run the same command locally and in CI. Exceptions go on the offending line with a reason, an expiry date, and a human's approval.
+Select the highest-frequency class with the strongest evidence and fix that one
+class. Prove the new check fails on a real past mistake. Run the same command
+that CI uses when it is available locally. Leave the verified change uncommitted
+for the commit workflow. Exceptions go on the offending line with a reason, an
+expiry date, and the accountable owner's approval.
 
 ## Keep the rule table
 
