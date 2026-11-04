@@ -1,12 +1,35 @@
 ---
 name: kata-review-pr
-description: Review a pull request for correctness, regression risk, tests, security, CI, and merge readiness without changing it. Use for a PR review or readiness decision.
+description: Review a pull request for correctness, regression risk, tests, security, CI, and merge readiness without changing it. Use for a PR review or readiness decision; use an implementation workflow when the request is to fix the change.
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: review
+  object: pull-request
+  profile: bounded-execution
+  authority: read-only
+  consumes: [pull-request]
+  produces: [pull-request-review]
 ---
 
 # Review Pull Request
 
 **Outcome:** An evidence-based review with ordered findings and a clear
 readiness result. The review does not change code, labels, branches, or the PR.
+
+**Done:** The complete diff and affected behavior have been inspected, each
+finding has evidence, readiness and available CI state are reported, and every
+unknown or untested area is explicit.
+
+## Assignment
+
+The required input is one pull request or a branch with one resolvable pull
+request. Ask when the target or comparison base is ambiguous.
+
+Direct user authority or inherited caller authority permits read-only local and
+remote inspection and focused tests that repository rules allow. It does not
+permit code edits, review submission, labels, merges, pushes, or other remote
+changes. Report an unavailable check as unknown instead of expanding authority.
 
 ## Establish the review target
 
