@@ -51,13 +51,13 @@ implement an unclear idea, or report success without independent evidence.
 Agent Jido Kata separates these result boundaries:
 
 ```text
-Value:   understand -> idea? -> roadmap? -> plan -> work -> verify -> accept
+Primary: jido -> understand -> plan -> work -> verify -> shipit
 Improve: maintain-skill -> write-skill -> accept
 ```
 
 Jido enters at the first unresolved boundary. A small ready change can start at
 work. An unclear problem starts with evidence. A long initiative can resolve
-decisions before implementation planning.
+decisions at the idea or roadmap altitude before implementation planning.
 
 The route does not expand authority. A request to inspect a repository does not
 permit a commit, push, publication, live-system change, purchase, or deletion.
@@ -70,12 +70,17 @@ permit a commit, push, publication, live-system change, purchase, or deletion.
 | --- | --- |
 | `jido` | Route an explicit `$jido` goal to the smallest valid sequence. |
 | `kata-understand` | Establish the current condition with evidence. |
-| `kata-idea` | Settle product direction and requirements. |
-| `kata-roadmap` | Resolve dependent long-horizon decisions. |
 | `kata-plan` | Create a grounded software implementation plan. |
 | `kata-work` | Produce one candidate result from ready work. |
 | `kata-verify` | Judge a candidate against its acceptance contract. |
 | `kata-shipit` | Commit, publish, watch, or land an accepted change. |
+
+### Decision altitudes
+
+| Skill | Result |
+| --- | --- |
+| `kata-idea` | Settle product direction and requirements before planning. |
+| `kata-roadmap` | Resolve dependent long-horizon decisions across plans. |
 
 ### Work-system improvement
 
