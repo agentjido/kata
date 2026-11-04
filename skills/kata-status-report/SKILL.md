@@ -1,7 +1,15 @@
 ---
 name: kata-status-report
 description: Give a decision-ready local and remote Git workbench report. Use for one repository or a folder of active projects before new work or cleanup; use an application-health skill for service status.
-metadata: {subject: software-engineering}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: report
+  object: git-workbench
+  profile: coordination
+  authority: read-only
+  consumes: [git-repository, project-folder]
+  produces: [git-workbench-report]
 ---
 
 # Kata Status Report
