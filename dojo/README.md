@@ -8,8 +8,7 @@ and costs in Git. Do not save full tool transcripts or intermediate output.
 
 ## Run an optimization
 
-Run from `kata/dojo`. The default harness path is the sibling `jido_harness`
-repository (`../../jido_harness`). Set `JIDO_HARNESS_PATH` if it is elsewhere.
+Run from `kata/dojo`. Dojo uses the pinned `jido_harness` GitHub dependency.
 Run `mix deps.get` once, then:
 
 ```sh

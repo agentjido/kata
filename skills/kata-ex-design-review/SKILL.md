@@ -1,10 +1,33 @@
 ---
 name: kata-ex-design-review
 description: "Review an Elixir package or subsystem as a principal engineer. Find unnecessary complexity, unclear contracts, and missed Elixir or OTP patterns. Use for deep design reviews and simplification proposals, including existing code without a diff. Report by default; apply local fixes only when requested."
-metadata: {language: elixir}
+metadata: {subject: software-engineering, language: elixir}
 ---
 
 # Elixir Design Review
+
+**Outcome:** A decision-ready Elixir design assessment for the package
+maintainer, or verified local fixes when the operator requests them.
+
+**Done:** Every in-scope responsibility has a traced contract and evidence or a
+concrete blocker. Findings, preserved decisions, checks, limits, and any applied
+changes are reported against one recorded source state.
+
+## Assignment
+
+The required input is one package, subsystem, or bounded set of paths. A
+comparison ref, focus, or `apply:local` mode is optional. The practice is Elixir
+and OTP design review. The work profile is `system-design` for a package-wide
+contract review and `bounded-execution` for one narrow boundary.
+
+Direct user authority or inherited caller authority permits local inspection
+and proportionate review checks. Default authority is report-only. Apply source
+changes only with `apply:local` or an explicit fix request, and keep them inside
+the selected scope. API breaks, feature removal, dependency installation,
+branch changes, commits, pushes, pull requests, publication, and live-system
+changes require separate authority. The primary reviewer owns coverage,
+cross-boundary synthesis, verification, and the final assessment. Ask the
+operator when scope, source revision, or change authority remains ambiguous.
 
 Arguments: `<package or paths> [ref or comparison] [focus] [apply:local]`.
 

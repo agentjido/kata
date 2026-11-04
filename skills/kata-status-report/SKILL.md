@@ -1,16 +1,30 @@
 ---
 name: kata-status-report
-description: Give a short local and remote Git workbench report for one repository or a folder of active projects. Use before new work or repository cleanup; do not use for application health.
+description: Give a decision-ready local and remote Git workbench report. Use for one repository or a folder of active projects before new work or cleanup; use an application-health skill for service status.
+metadata: {subject: software-engineering}
 ---
 
 # Kata Status Report
 
-Show the smallest useful view of the workbench. Report only. Do not change files,
-branches, worktrees, or remote items. One fetch without pruning is permitted.
+**Outcome:** The operator or calling skill receives the smallest Git workbench
+report that identifies work needing a decision.
+
+**Done:** Every in-scope repository has local, sync, and relevant open-work
+status or an explicit unknown, and the report names the most useful next action.
+
+**Authority:** Inspect the requested Git roots and provider state. Do not change
+files, branches, worktrees, issues, pull requests, or other remote items. One
+fetch without pruning is permitted to refresh remote-tracking state.
+
+**Work profile:** Use `bounded-execution` for one repository. Use `coordination`
+for a folder of projects because the report integrates several bounded checks.
+
+Use judgment to show only the facts the operator needs to choose the next action.
 
 ## Find the active roots
 
-Start with local Git commands:
+Resolve the requested repository or project folder. Ask only when several
+plausible roots would materially change the report. Start with local Git commands:
 
 - Use `git rev-parse --show-toplevel` to find the current root.
 - Use `git worktree list --porcelain` to find its linked worktrees.

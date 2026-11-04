@@ -107,7 +107,7 @@ when the current Kata skill is revised.
 | `kata-work` | CE `ce-work` and `lfg`; Matt `implement` and `implement-spec`; pstack `figure-it-out`, autonomous-run, and feature playbooks |
 | `kata-neckbeard` | pstack `how` and parts of `why`; the investigation parts of Matt architecture skills |
 | `kata-showme` | CE `ce-explain`; pstack `teach`; visual report ideas from Matt `improve-codebase-architecture` |
-| `kata-build-skill` and `kata-import-skill` | CE `ce-retune`; pstack `automate-me` and skill-authoring playbook; Matt `writing-for-agents` |
+| `kata-write-skill` | CE `ce-retune`; pstack `automate-me` and skill-authoring playbook; Matt `writing-for-agents` |
 | `kata-setup` | CE `ce-setup`; pstack `setup-pstack`; Matt `setup-matt-pocock-skills` |
 
 The current skill can still need improvement. Overlap means revise or evaluate
@@ -131,8 +131,8 @@ the current skill instead of adding a second entry point for the same job.
 
 ## Import TODO template
 
-Complete this list for one queue item at a time. Use `kata-import-skill` only
-when the user requests the import.
+Complete this list for one queue item at a time. Use `kata-write-skill` only when
+the user requests the import.
 
 - [ ] Confirm a real task needs the candidate and name the missing capability in
   current Kata.
@@ -146,6 +146,8 @@ when the user requests the import.
 - [ ] Remove host names, fixed model names, service assumptions, and calls to
   other skills.
 - [ ] Create `skills/<kata-name>/SKILL.md` with matching standard frontmatter.
+- [ ] Select a subject from the canonical vocabulary by the knowledge needed to
+  judge the result, and write it to `metadata.subject`.
 - [ ] Copy required license notices and add author attribution to `README.md`.
 - [ ] Add focused fixtures and outcome checks for the real task.
 - [ ] Run the skill on the task and record failures, cost, and useful behavior.

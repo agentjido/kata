@@ -18,9 +18,9 @@ defmodule KataEvolve.MixProject do
   def cli, do: [preferred_envs: [check: :test]]
 
   defp deps do
-    harness =
-      System.get_env("JIDO_HARNESS_PATH") || "../../jido_harness"
-
-    [{:jido_harness, path: harness}, {:jason, "~> 1.4"}]
+    [
+      {:jido_harness, github: "agentjido/jido_harness", tag: "v3.0.0-rc.1"},
+      {:jason, "~> 1.4"}
+    ]
   end
 end

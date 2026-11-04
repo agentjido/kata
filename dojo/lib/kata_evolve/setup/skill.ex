@@ -1,7 +1,7 @@
 defmodule KataEvolve.Setup.Skill do
   @moduledoc "Setup skill identity, format checks, and word counts."
 
-  @frontmatter ~r/\A(---\nname: kata-setup\ndescription: [^\n]+\n)(?:metadata: \{optimized_for: "[^"\n]+"\}\n)?---\n/
+  @frontmatter ~r/\A(---\nname: kata-setup\ndescription: [^\n]+\n)(?:metadata: \{[^\n]+\}\n)?---\n/
 
   def words(text), do: text |> String.split() |> length()
   def hash(text), do: :crypto.hash(:sha256, text) |> Base.encode16(case: :lower)
@@ -27,7 +27,7 @@ defmodule KataEvolve.Setup.Skill do
 
   def mark_optimized(text, profile) do
     metadata =
-      "metadata: {optimized_for: \"#{profile.provider}/#{profile.model}/#{profile.reasoning_effort}\"}"
+      "metadata: {subject: general, optimized_for: \"#{profile.provider}/#{profile.model}/#{profile.reasoning_effort}\"}"
 
     Regex.replace(@frontmatter, text, fn _, fields -> fields <> metadata <> "\n---\n" end,
       global: false

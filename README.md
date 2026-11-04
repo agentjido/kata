@@ -37,13 +37,13 @@ boundaries, maturity model, and migration rules.
 
 | Skill | Job |
 | --- | --- |
-| `kata-build-skill` | Create or revise an original skill from a real task. |
-| `kata-import-skill` | Import and adapt a licensed external skill with attribution. |
+| `kata-write-skill` | Write, import, or convert one package with the library contract and faceted metadata. |
 | `kata-benchmark-checklist` | Check that a performance measurement is valid, repeatable, and relevant. |
 | `kata-blast-radius` | Find and prove effects of a change outside its visible diff. |
 | `kata-correct` | Turn repeated repository mistakes into structural checks. |
 | `kata-create-verification-skill` | Create a project-local skill that drives and verifies the real application. |
 | `kata-interrogate` | Run an adversarial review and keep only findings proven by execution. |
+| `kata-maintain-skill` | Resolve one evidence-backed finding about skill-library ownership, overlap, classification, or contract conformance. |
 | `kata-no-comments` | Remove weak comments and identify code that needs a structural fix. |
 | `kata-plan` | Turn a work request into a plan and create a Beadwork graph when the repository is configured for it. |
 | `kata-principled` | Apply one of 24 focused engineering principles through a named command. |
@@ -85,12 +85,18 @@ explicit request.
 | `kata-ex-design-review` | Review Elixir design, contracts, and OTP ownership with selectable Phoenix, Ash, and Jido package lenses. |
 | `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 
-Elixir skills declare `metadata: {language: elixir}`. Without a language marker,
-a skill is language-agnostic. `kata-neckbeard` is general system investigation;
+Elixir skills include `language: elixir` in their metadata. Without a language
+marker, a skill is language-agnostic. `kata-neckbeard` is general system investigation;
 it does not require Elixir. Language scope is separate from the model recorded
 in `optimized_for`.
 
 Use a skill by name when you need it. Each skill can run separately.
+
+`kata.skill/v1` metadata adds practice, object, profile, authority, input, and
+output facets beside each skill's subject. `kata-write-skill` and
+`kata-maintain-skill` use the complete schema first. Small tools can derive
+catalog, workflow, and overlap candidates from the skill frontmatter while the
+remaining packages migrate.
 
 `kata-principled` is one skill with 24 commands. Invoke a command as
 `$kata-principled prove-it-works` or `$kata-principled fix-root-causes`. This
@@ -136,10 +142,11 @@ skill. Other models can be used for experiments; their candidates and measuremen
 stay in `dojo/results/`. We do not maintain separate model variants of the source
 skills.
 
-The setup and neckbeard skills record their optimization target in one frontmatter line:
+The setup and neckbeard skills include their optimization target with their
+subject metadata. For example, setup uses:
 
 ```yaml
-metadata: {optimized_for: "codex/gpt-6-astra/xhigh"}
+metadata: {subject: general, optimized_for: "codex/gpt-6-astra/xhigh"}
 ```
 
 This is a provenance note, not a command that selects or requires a model.
@@ -321,6 +328,13 @@ Keep author credits here and in required license files, outside skill instructio
 
 Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 
+- `kata-write-skill` adapts skill-authoring concepts from Matt Pocock's
+  [writing-for-agents](https://github.com/mattpocock/skills/tree/4ae2317ddb22b046e26455e4f9c9b3aaaf62212d/skills/productivity/writing-for-agents)
+  and Every's
+  [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin/tree/406b85c4562de3d415927fccc5e614c6554aab00).
+  The package includes the source MIT notices:
+  [Matt Pocock license](skills/kata-write-skill/LICENSE-MATT-POCOCK) and
+  [Compound Engineering license](skills/kata-write-skill/LICENSE-COMPOUND-ENGINEERING).
 - `kata-plan` and `kata-work` are adapted from `ce-plan` and `ce-work` in
   [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin/tree/57e409e5c8c2c472106bd7d87ac72b724b70826b),
   maintained by Kieran Klaassen and Trevin Chow with community contributions.

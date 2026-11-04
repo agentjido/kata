@@ -40,4 +40,7 @@ Run its own instructions end to end once: launch, doctor, drive ONE mapped featu
 
 ## 5. Offer the maintenance loop
 
-Point the user at **maintain-verification-skill** for keeping the map honest as the app changes. Suggest a cadence only if they ask.
+Tell the user to update the generated skill and feature map when the app's user
+paths, launch steps, authentication, or driving harness changes. After an
+update, run one affected mapped feature and preserve its evidence. Suggest a
+cadence only if the user asks.

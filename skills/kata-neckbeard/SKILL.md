@@ -1,15 +1,32 @@
 ---
 name: kata-neckbeard
 description: Answer questions about an existing system with evidence from its source code, tests, configuration, and documentation. Use when the user asks how a feature works, where behavior is implemented, or what requirements and limits apply.
-metadata: {optimized_for: "codex/gpt-6-astra/xhigh"}
+metadata: {subject: software-engineering, optimized_for: "codex/gpt-6-astra/xhigh"}
 ---
 
 # Kata Neckbeard
 
-Answer the current conversation's question about the correct current repository.
-Resolve the target from context; ask if it remains unclear. Read and follow
-applicable project instructions. Keep all work limited to investigation and
-reporting; do not edit files or change code, and preserve Git state.
+**Outcome:** An evidence-supported answer about the current system for the
+person or agent that needs to understand it next.
+
+**Done:** The scoped question is answered, each material claim has a relevant
+source reference, conflicts and deductions are clear, and missing evidence or
+runtime limits are stated.
+
+## Assignment
+
+The required inputs are the question and one target system. Resolve the target
+from the conversation; ask when it remains unclear. The practice is
+evidence-based system investigation. The work profile is `bounded-execution`.
+
+Direct user authority or inherited caller authority permits read-only inspection
+of the target's documentation, source, configuration, tests, and relevant
+history. Read applicable project instructions and preserve Git state. Do not
+edit files, change code, or change local, remote, or live-system state. If the
+available evidence cannot answer the question, report that limit instead of
+expanding the scope or inventing a reason.
+
+## Investigate
 
 Choose the investigation order based on the question and available evidence.
 Use the repository README and `guides/README.md`, when present, to locate

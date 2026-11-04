@@ -153,7 +153,8 @@ defmodule KataEvolve.LoopTest do
     profile = Store.profile("codex-sol-medium")
     source = skill(220)
     marked = KataEvolve.Setup.Skill.mark_optimized(source, profile)
-    assert marked =~ ~s(metadata: {optimized_for: "codex/gpt-5.6-sol/medium"})
+    assert marked =~
+             ~s(metadata: {subject: general, optimized_for: "codex/gpt-5.6-sol/medium"})
     assert KataEvolve.Setup.Skill.validate(marked) == :ok
     assert KataEvolve.Setup.Skill.mark_optimized(marked, profile) == marked
 
