@@ -54,7 +54,7 @@ defmodule KataEvolve.Setup.Store do
   def save_context(dir, identity) do
     # JSON removes atom ordering differences between VM instances. Match old
     # records by content so their saved executions remain available.
-    normalized = identity |> Jason.encode!() |> Jason.decode!()
+    normalized = identity |> JSON.encode!() |> JSON.decode!()
 
     existing =
       Path.wildcard(Path.join(dir, "context-*.json"))
@@ -87,7 +87,7 @@ defmodule KataEvolve.Setup.Store do
   def case_path(ctx, id, case_id),
     do: Path.join(ctx.dir, "cases/#{ctx.key}-#{id}-#{case_id}.json")
 
-  def read(path), do: path |> File.read!() |> Jason.decode!()
+  def read(path), do: path |> File.read!() |> JSON.decode!()
 
   def recheck(record) do
     cases = Fixture.cases()
@@ -189,7 +189,7 @@ defmodule KataEvolve.Setup.Store do
 
   def write(path, data) do
     File.mkdir_p!(Path.dirname(path))
-    File.write!(path <> ".tmp", Jason.encode!(data, pretty: true) <> "\n")
+    File.write!(path <> ".tmp", JSON.encode!(data) <> "\n")
     File.rename!(path <> ".tmp", path)
   end
 

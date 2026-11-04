@@ -59,15 +59,19 @@ defmodule KataEvolve.JidoMigrationTest do
     assert docs =~ "Use `kata-setup` only"
   end
 
-  test "kata-work stops at a verified local change" do
+  test "kata-work stops at a candidate for independent verification" do
     work = skill("kata-work")
     interface = File.read!(Path.join(@root, "skills/kata-work/agents/openai.yaml"))
 
     assert Skill.validate(work, "kata-work") == :ok
-    assert work =~ "consumes: [work-request, implementation-plan]"
-    assert work =~ "produces: [verified-change]"
-    assert work =~ "Do not\nstage, commit"
-    assert work =~ "A commit or review workflow owns the next boundary."
+
+    assert work =~
+             "consumes: [work-request, work-brief, work-plan, implementation-plan]"
+
+    assert work =~ "produces: [candidate-result, work-evidence]"
+    assert work =~ "Do not stage, commit"
+    assert work =~ "It does not certify its own result."
+    assert work =~ "ready for independent verification"
     refute work =~ "pull request hardening"
     assert interface =~ "display_name:"
     assert interface =~ "short_description:"

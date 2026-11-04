@@ -8,7 +8,7 @@ metadata:
   object: skill-library
   profile: system-design
   authority: local-write
-  consumes: [skill-library]
+  consumes: [skill-library, skill-evaluation-evidence]
   produces: [resolved-library-finding, conversion-brief, work-request, verified-change]
 ---
 
@@ -24,8 +24,10 @@ its result. Unrelated library concerns remain unchanged.
 
 ## Assignment
 
-The operator can supply a finding. If no finding is supplied, inspect the
-library and select one. Work in the requested skill repository. Read its active
+The operator can supply a finding or Dojo evidence. If no finding is supplied,
+inspect the library and select one. When supplied evidence already proves the
+finding, owner, and remedy, do not repeat discovery or planning. Work in the
+requested skill repository. Read its active
 instructions, library rules, metadata conventions, current changes, and affected
 packages before an edit.
 
@@ -50,7 +52,8 @@ evidence cannot establish.
 
 ## Select one finding
 
-If the operator supplied a finding, test it before you accept it. Otherwise,
+If the operator supplied a finding, test it before you accept it. Reuse matching
+Dojo evidence only for the exact candidate and evaluation contract. Otherwise,
 compare the declared library contract with the packages, indexes, and their
 current callers. Select one issue with:
 
@@ -105,9 +108,12 @@ a reclassification, reuse the exact facet values used by equivalent work and
 keep classification in the skill frontmatter. For a route, state the required
 outcome, non-trigger, authority, taxonomy, acceptance evidence, and source
 rights. If the operator requested a report only, stop with that brief. If the
-operator requested a completed fix, pass a skill-package change to the canonical
-skill-writing workflow. Pass another local change to the canonical work-execution
-workflow. Return here with the verified result.
+operator requested a completed fix, use the canonical skill-writing workflow
+for a skill-package change. Use the canonical work-execution workflow for
+another clear local change, then use independent verification. Enter at work when
+the finding already resolved the target, scope, acceptance conditions, and
+authority; do not add understanding or planning steps. Return here with the
+verification result.
 For a conversion route, also name the behavior and resources to preserve and
 the exact contract gaps to correct. Route Kata conversions to `kata-write-skill`
 when it is available. Keep the brief complete when it is not available.

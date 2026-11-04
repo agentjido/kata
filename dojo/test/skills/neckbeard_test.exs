@@ -6,7 +6,7 @@ defmodule KataEvolve.NeckbeardTest do
   @fixtures Path.expand("../fixtures/kata-neckbeard", __DIR__)
 
   test "fixed good answers and bad answers calibrate outcome checks" do
-    examples = File.read!(Path.join(@fixtures, "calibration/manifest.json")) |> Jason.decode!()
+    examples = File.read!(Path.join(@fixtures, "calibration/manifest.json")) |> JSON.decode!()
 
     for example <- examples do
       answer = File.read!(Path.join([@fixtures, "calibration", example["file"]]))
@@ -65,7 +65,7 @@ defmodule KataEvolve.NeckbeardTest do
   test "real saved table answer passes without changing the failed execution record" do
     path = Path.join(@fixtures, "replay/train-retry-1.json")
     bytes = File.read!(path)
-    record = Jason.decode!(bytes)
+    record = JSON.decode!(bytes)
     assert record["outcome_test"]["status"] == "failed"
     checked = KataEvolve.Suite.recheck(Suite, record)
     assert checked["outcome_test"]["status"] == "passed", inspect(checked["checks"])

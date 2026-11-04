@@ -1,67 +1,79 @@
 ---
 name: kata-work
-description: Implement and locally verify one clear work request. Use when the requested change and acceptance conditions are known; use an investigation or planning workflow when the problem or intended result is still unclear, and use a commit workflow after verification.
+description: Produce one candidate result from a clear work request or plan. Use when the target, scope, acceptance conditions, and authority are known; skip understanding and planning when those contracts are already resolved, and use a separate verification step for final judgment.
 argument-hint: "[work request or plan path]"
 metadata:
   schema: kata.skill/v1
-  subject: software-engineering
-  practice: implement
-  object: project-change
+  subject: general
+  practice: execute
+  object: work-result
   profile: bounded-execution
   authority: local-write
-  consumes: [work-request, implementation-plan]
-  produces: [verified-change]
+  consumes: [work-request, work-brief, work-plan, implementation-plan]
+  produces: [candidate-result, work-evidence]
 ---
 
 # Work
 
-**Outcome:** The requested change exists in the local worktree with current
-verification evidence for the next consumer.
+**Outcome:** The requested result exists in the target context with direct work
+evidence for an independent verifier.
 
-**Done:** The accepted scope is complete, the relevant checks pass or have an
-explicit limit, the diff contains no unrelated work, and the result is ready
-for review or commit.
+**Done:** The accepted scope is complete, obvious local checks pass or have an
+explicit limit, unrelated state remains unchanged, and the candidate is ready
+for verification.
 
 ## Assignment
 
-The required input is a clear work request or an executable plan. Resolve its
-scope, acceptance conditions, target repository, and repository instructions
-before a write. Ask only when a missing decision can materially change the
-result.
+The required input is a clear work request, work brief, or executable plan.
+Before action, confirm the target result, scope, acceptance conditions, context,
+authority, and next verifier. Start here when these contracts are already
+resolved. Do not repeat an understanding or planning step for ceremony. Ask
+only when a missing decision can materially change value, result, scope, cost,
+or authority.
 
-Direct user authority or inherited caller authority permits the smallest local
-change that completes the request. Preserve existing user changes. Do not
-stage, commit, amend, push, open a pull request, change remote state, or include
-unrelated improvements. Do not add a dependency or perform a destructive
-operation unless the request or plan requires it and repository rules permit it.
+Direct user authority or inherited caller authority permits the smallest action
+that completes the request inside its target context. Preserve existing user
+state. Local writes are the normal authority. An external write, publication,
+message, purchase, destructive action, or live-system change requires explicit
+authority for that action. Do not stage, commit, amend, push, open a pull
+request, or include unrelated improvements. Do not add a dependency unless the
+request or plan requires it and the context rules permit it.
 
-This skill owns implementation and local verification. The caller owns scope
-decisions. A commit or review workflow owns the next boundary.
+This skill uses delegated judgment to execute the resolved assignment and run
+direct local checks. It does not certify its own result. The verification skill
+owns the next evidence boundary, and the next consumer owns acceptance. A
+domain-specific workflow can replace this skill when the result needs
+specialist methods or authority.
 
 ## Execute the work
 
-1. Inspect the current state, the relevant code or content, and nearby tests or
-   checks. For a plan, read the sections needed for the current work; do not
-   rewrite the plan as progress tracking.
-2. State the bounded change and its acceptance conditions. If the request still
-   needs investigation or design, stop with the missing decision instead of
-   inventing the target.
-3. Implement the smallest coherent change. Follow local patterns and preserve
-   behavior outside the accepted scope.
-4. Verify in proportion to risk. Run focused checks first. Add broader compile,
-   format, lint, test, or real-boundary checks only when the change can affect
-   them. Record an unavailable or intentionally skipped check and its reason.
-5. Inspect the final diff and worktree. Confirm that required files are present,
-   no unrelated change was absorbed, and no credential or sensitive value was
-   added.
+1. Read the active context instructions and inspect only the state needed to
+   execute the ready request. For a plan, read the relevant unit and its
+   acceptance conditions; do not turn the plan into progress storage.
+2. State the candidate result and the conditions that make it ready for
+   verification. If the current condition is not supported, return to
+   understanding. If the route still has a material decision, return to
+   planning. Do not invent the missing contract.
+3. Produce the smallest coherent result. This can be an artifact, analysis,
+   recommendation, data change, software change, or authorized operation.
+   Follow context rules and preserve state outside the accepted scope.
+4. Run fast local checks that prevent an obviously incomplete handoff. Examples
+   include opening an artifact, recalculating data, checking a diff, compiling
+   changed code, or observing an operation response. These checks are work
+   evidence, not the final verification verdict.
+5. Inspect the final target state. Confirm that the candidate is identifiable,
+   required parts exist, unrelated state was not absorbed, and no sensitive
+   value was exposed.
 
-Stop and report a blocker when the work conflicts with repository rules, needs
-new authority, has a failed check that cannot be fixed within scope, or depends
-on an unresolved product or safety decision. Keep completed local work intact.
+Stop and report a blocker when the work conflicts with context rules, needs new
+authority, has a failed local check that cannot be fixed within scope, or
+depends on an unresolved value, product, or safety decision. Keep completed
+in-scope work intact.
 
 ## Report
 
-Report the outcome, changed paths, verification commands and results, skipped or
-failed checks, remaining risks, blockers, and unrelated worktree changes. State
-that the change is ready for its next consumer. Do not claim a commit or remote
-result.
+Report the candidate identity, changed state, direct checks and results,
+skipped or failed checks, remaining risks, blockers, and preserved unrelated
+state. State that the candidate is ready for independent verification. Do not
+claim that it is verified, accepted, committed, published, or delivered unless
+another owner supplied that evidence.

@@ -104,8 +104,8 @@ defmodule KataEvolve.ProposalTest do
              &(String.length(&1.content.text) == 1_200 and &1.content.truncated)
            )
 
-    refute Jason.encode!(feedback) =~ "UNCHANGED_PROJECT_DATA"
-    refute Jason.encode!(feedback) =~ "withheld"
+    refute JSON.encode!(feedback) =~ "UNCHANGED_PROJECT_DATA"
+    refute JSON.encode!(feedback) =~ "withheld"
   end
 
   defp context,

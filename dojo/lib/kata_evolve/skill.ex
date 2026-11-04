@@ -27,7 +27,7 @@ defmodule KataEvolve.Skill do
 
   def mark_optimized(text, profile) do
     target = "#{profile.provider}/#{profile.model}/#{profile.reasoning_effort}"
-    field = "optimized_for: #{Jason.encode!(target)}"
+    field = "optimized_for: #{JSON.encode!(target)}"
 
     Regex.replace(
       @frontmatter,

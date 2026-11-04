@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Setup.Score do
       {[profile, context, candidate], [], repetitions} when repetitions in [1, 3] ->
         profile
         |> KataEvolve.Setup.Score.from_saved(context, candidate, repetitions)
-        |> Jason.encode!(pretty: true)
+        |> JSON.encode!()
         |> IO.puts()
 
       _ ->

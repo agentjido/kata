@@ -1,48 +1,55 @@
-# Initial Jido commands
+# Jido routes
 
-This file is the routing source for the initial `$jido` skill. Check explicit
-commands before inferred routes. Do not add aliases during execution.
+The human can state a goal in normal language. The names below are optional
+entry overrides and help terms. Do not ask the human to choose one when the goal
+already selects a route.
 
-| Command | Trigger | Non-trigger | Primary Kata | Default authority |
+## Value-delivery steps
+
+| Step | Trigger | Non-trigger | Primary Kata | Default authority |
 | --- | --- | --- | --- | --- |
-| `write-skill` | Create, import, convert, or revise a known skill package. | The library has a problem, but the required package change is not known. | `../kata-write-skill/SKILL.md` | `local-write` |
-| `maintain-skill` | Resolve one evidence-backed library finding when the required change is not known. | A known package must be created, imported, converted, or revised. | `../kata-maintain-skill/SKILL.md` | `local-write` |
-| `status` | Report local or remote Git workbench state for one repository or a folder of repositories. | Application health, service health, or progress on a non-Git task. | `../kata-status-report/SKILL.md` | `read-only` |
-| `investigate` | Explain how an existing system works, where behavior is implemented, or why repository evidence supports a conclusion. | A request that authorizes a fix or asks for a durable implementation plan. | `../kata-neckbeard/SKILL.md` | `read-only` |
-| `plan` | Create, revise, deepen, or break down a multi-step plan. | Exploratory discussion with no request for a plan artifact. | `../kata-plan/SKILL.md` | `local-write` |
-| `work` | Implement a supplied plan or clear work request and verify the local result. | Open-ended diagnosis, an unclear product decision, a report-only request, or a commit-only request. | `../kata-work/SKILL.md` | `local-write` |
-| `commit` | Create one local commit from an already verified, explicitly scoped change. | The change still needs implementation or verification, or the request includes push, merge, rebase, or amend. | `../kata-commit/SKILL.md` | `local-write` |
-| `help` | List the implemented Jido commands and examples. | A request to perform project work. | None | `read-only` |
+| `understand` | Establish the current condition, explain a cause, answer a domain question, or bound an unclear problem. | The current condition and work target are already supported. | `../kata-understand/SKILL.md` | `read-only` |
+| `plan` | Resolve a route with material decisions, dependencies, or several coordinated steps. | The work request is already executable, or the user only wants an answer. | `../kata-plan/SKILL.md` | `local-write` |
+| `work` | Produce a candidate from a request with known target, scope, acceptance, and authority. | A material value decision or route remains open, or a candidate already exists. | `../kata-work/SKILL.md` | `local-write` |
+| `verify` | Check an existing candidate against its acceptance conditions. | The result still needs to be produced or repaired. | `../kata-verify/SKILL.md` | `read-only` |
 
-## Inference order
+## Kaizen steps
 
-When there is no explicit command, use this order:
+| Step | Trigger | Non-trigger | Primary Kata | Default authority |
+| --- | --- | --- | --- | --- |
+| `maintain-skill` | Resolve one supported library finding when the disposition or required change is not known. | A known package change is ready to write. | `../kata-maintain-skill/SKILL.md` | `local-write` |
+| `write-skill` | Create, import, convert, or revise a skill package with a known contract. | The library concern still needs a finding or ownership decision. | `../kata-write-skill/SKILL.md` | `local-write` |
+| `dojo` | Evaluate an exact skill candidate with controlled cases or inspect its saved evaluation evidence. | The package still needs to be written, or the request asks to adopt it without evidence. | `../kata-dojo/SKILL.md` | `local-write` |
 
-1. Select `write-skill` when the request defines a skill package to create,
-   import, convert, or revise.
-2. Select `maintain-skill` when the request asks to curate the skill library but
-   the required package change is not known.
-3. Select `status` for a Git workbench status request.
-4. Select `plan` for an explicit request to create or deepen a plan.
-5. Select `investigate` for a read-only question about existing system behavior.
-6. Select `work` for an explicit plan path or a clear implementation request.
-7. Select `commit` for an explicit request to commit an already verified change.
-8. Otherwise, use `base-loop`.
+## Support steps
 
-User constraints always apply. For example, "investigate and fix" does not fit
-the read-only `investigate` route. It uses `base-loop` until a stable fix Kata
-exists, unless the user explicitly selects `work` with a clear implementation
-target.
+| Step | Trigger | Non-trigger | Primary Kata | Default authority |
+| --- | --- | --- | --- | --- |
+| `status` | Report local or remote Git workbench state for a repository or folder. | Application health, business status, or general progress. | `../kata-status-report/SKILL.md` | `read-only` |
+| `commit` | Create one local Git commit from an accepted verified change. | The change still needs work, verification, or consumer acceptance. | `../kata-commit/SKILL.md` | `local-write` |
+| `help` | Explain available routes with natural-language examples. | A request to perform work. | None | `read-only` |
 
-## Examples
+## Selection rules
+
+1. Determine what the requested result changes. A current domain result uses
+   value delivery. A reusable skill or work method uses Kaizen. Git status,
+   commit, and help use support.
+2. Honor an explicit step only as an entry request. Continue to a later step
+   only when the user's requested result and authority include it.
+3. Without an explicit step, select the first unresolved contract in
+   `loops.md`.
+4. Re-evaluate after every step. Stop for an accountable decision, missing
+   authority, failed gate, or completed requested result.
+5. Do not make the human repeat the request with an internal term.
+
+Examples:
 
 ```text
-$jido write-skill convert skills/jido to the current library contract
-$jido maintain-skill curate one finding in this skill library
-$jido status this repository
-$jido investigate where retry limits are enforced
-$jido plan the migration in docs/requirements.md
-$jido work docs/plans/migrate-storage.md
-$jido commit the verified migration changes
-$jido help
+$jido explain why customer renewals fell last quarter
+$jido prepare a launch approach from these constraints
+$jido update this report to meet the supplied acceptance rules
+$jido check whether this result meets the contract
+$jido make this repeated review process reusable
+$jido test whether this skill is ready to adopt
+$jido save the accepted verified change as a local commit
 ```

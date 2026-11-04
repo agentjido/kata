@@ -16,7 +16,7 @@ defmodule KataEvolve.SetupTest do
   for path <- Path.wildcard(Path.expand("../fixtures/setup/recorded/*.json", __DIR__)) do
     @tag :recorded
     test "recheck observed fixtures: #{Path.basename(path)}" do
-      data = Jason.decode!(File.read!(unquote(path)))
+      data = JSON.decode!(File.read!(unquote(path)))
 
       cases =
         KataEvolve.Setup.Fixture.cases()

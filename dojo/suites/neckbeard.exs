@@ -65,7 +65,7 @@ defmodule KataEvolve.NeckbeardSuite do
   end
 
   def expected(id),
-    do: Path.join([@fixture, "expected", "#{id}.json"]) |> File.read!() |> Jason.decode!()
+    do: Path.join([@fixture, "expected", "#{id}.json"]) |> File.read!() |> JSON.decode!()
 
   def check(record, item) do
     answer = record["answer"] || ""

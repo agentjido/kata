@@ -46,7 +46,7 @@ The 2026-11-03 import added these active skills from portable pstack commit
 
 - `kata-benchmark-checklist`, `kata-blast-radius`, `bro`, `kata-correct`
 - `kata-create-verification-skill`, `in-your-own-words`, `kata-interrogate`
-- `ketchup`, `ketchup-video`, `kata-no-comments`, `kata-recall`
+- `ketchup` with text and video modes, `kata-no-comments`, `kata-recall`
 - `sharpen`, `kata-show-your-work`, `kata-tdd`, `kata-technical-writing`
 - `unslop`
 

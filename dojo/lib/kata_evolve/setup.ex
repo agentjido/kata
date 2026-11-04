@@ -173,8 +173,8 @@ defmodule KataEvolve.Setup do
             "final" => Snapshot.take(workspace)
           }
         end)
-        |> Jason.encode!()
-        |> Jason.decode!()
+        |> JSON.encode!()
+        |> JSON.decode!()
         |> Store.recheck()
 
       Store.write(path, record)
@@ -205,7 +205,7 @@ defmodule KataEvolve.Setup do
 
     workspace(fn workspace ->
       File.write!(Path.join(workspace, "SKILL.md"), Store.text(ctx, parent))
-      File.write!(Path.join(workspace, "feedback.json"), Jason.encode!(feedback, pretty: true))
+      File.write!(Path.join(workspace, "feedback.json"), JSON.encode!(feedback))
 
       prompt = """
       Edit only SKILL.md to improve this kata-setup skill. Read feedback.json for observed

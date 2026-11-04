@@ -76,7 +76,7 @@ defmodule KataEvolve.Evidence do
 
   def write_new!(path, value) do
     File.mkdir_p!(Path.dirname(path))
-    bytes = if is_binary(value), do: value, else: Jason.encode!(value, pretty: true) <> "\n"
+    bytes = if is_binary(value), do: value, else: JSON.encode!(value) <> "\n"
 
     case File.open(path, [:write, :exclusive]) do
       {:ok, io} ->
@@ -93,9 +93,9 @@ defmodule KataEvolve.Evidence do
     path
   end
 
-  def read(path), do: path |> File.read!() |> Jason.decode!()
+  def read(path), do: path |> File.read!() |> JSON.decode!()
   def hash(value), do: Skill.hash(value)
-  def json(value), do: value |> Jason.encode!() |> Jason.decode!()
+  def json(value), do: value |> JSON.encode!() |> JSON.decode!()
   def identity(value), do: value |> json() |> :erlang.term_to_binary([:deterministic]) |> hash()
 
   def fingerprint(paths) do

@@ -19,8 +19,7 @@ defmodule KataEvolve.MixProject do
 
   defp deps do
     [
-      {:jido_harness, github: "agentjido/jido_harness", tag: "v3.0.0-rc.1"},
-      {:jason, "~> 1.4"}
+      {:jido_harness, github: "agentjido/jido_harness", tag: "v3.0.0-rc.1"}
     ]
   end
 end

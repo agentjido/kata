@@ -29,7 +29,7 @@ defmodule Mix.Tasks.Skill.Eval do
         # Case records contain final source files; do not print those to the console.
         if is_list(result),
           do: IO.puts("Saved #{length(result)} records."),
-          else: IO.puts(Jason.encode!(result, pretty: true))
+          else: IO.puts(JSON.encode!(result))
 
         if command == "check" and
              (result == [] or Enum.any?(result, &(&1.outcome["status"] != "passed"))),

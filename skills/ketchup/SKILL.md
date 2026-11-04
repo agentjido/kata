@@ -1,47 +1,60 @@
 ---
 name: ketchup
-description: "Use only when the user explicitly asks to catch up on what changed in this chat. Use plain words and small visuals, and list each item that waits for the user with enough context to decide from the reply alone."
+description: "Use only when the user explicitly asks to catch up on what changed in this chat. Return a plain text catch-up by default; when the user explicitly asks for video, render a short subtitled slide video and keep waiting decisions in text."
 metadata:
   schema: kata.skill/v1
   subject: general
   practice: summarize
   object: conversation-state
   profile: coordination
-  authority: read-only
-  consumes: [conversation-history, work-state]
-  produces: [decision-ready-catch-up]
+  authority: local-write
+  consumes: [conversation-history, work-state, media-evidence]
+  produces: [decision-ready-catch-up, catch-up-video, decision-list]
 ---
 
 # Ketchup
 
 **Outcome:** The user receives a plain-language catch-up that explains what
-changed and every decision or action that still belongs to them.
+changed and every decision or action that still belongs to them. An explicit
+video request returns the catch-up as a short subtitled slide video and keeps
+the waiting decisions in text.
 
 **Done:** Each material change has current evidence, each waiting item has
-enough context for a decision, unknowns are explicit, and no new work or state
-change occurs.
+enough context for a decision, and unknowns are explicit. In video mode, the
+render also passes frame, subtitle, and timing checks.
 
 ## Assignment
 
 The required inputs are the current conversation and the state of work that
-this conversation touched. Direct user authority permits read-only local and
-remote inspection needed to verify that state. Do not change code, start work,
-post messages, update remote items, or create an artifact outside the reply.
-Ask only when the requested catch-up range cannot be resolved safely.
+this conversation touched. Video mode also uses available media evidence.
+Direct user authority permits read-only local and remote inspection needed to
+verify that state. An explicit video request also permits local rendering
+outside the target repository. Do not change project files, start work, post
+messages, or update remote items. Ask only when the requested catch-up range
+cannot be resolved safely. If video rendering is unavailable, return the
+decision list and the explicit render blocker.
 
 Catch the user up on what changed in this chat since the last message they wrote before invoking this skill, and help them understand each change, not only where it stands. Then lay out every call waiting on them so they can make it from your reply alone. Notifications and delegated-worker results are not their messages. Assume the user remembers their last message and nothing after it.
 
 Use plain words, short sentences, and no jargon, like one person catching up another. Say what changed for the user, not how you did it. Say "the tests pass", not "CI is green". Leave out hashes, file paths, commands, build numbers, and test counts unless the user needs one to act. Call each pull request, branch, or worker by a name the user would know, not by a label you invented. If a fact needs context to make sense, give the context or leave the fact out.
 
+## Select the output mode
+
+Use text mode unless the user explicitly asks for a video catch-up. For video
+mode, gather and verify the same information, then read and follow
+[references/video-mode.md](references/video-mode.md). The video replaces the
+prose summary. The waiting decisions stay in text so the user can act without
+searching the video.
+
 ## Gather what changed
 
-Keep this turn read-only. Make visuals only from what you already have: do not change code, start an app or a job, or post anything. Collect your own work since that message, reports from subagents, and messages from anyone else in this chat. Check the current state of each PR, CI run, or agent this chat touched. Check each number you will show against the facts it comes from, and say so when you correct one.
+Keep the target work read-only. Do not change code, start an app or a job, or post anything. In video mode, local render artifacts outside the target repository are the only allowed state change. Collect your own work since that message, reports from subagents, and messages from anyone else in this chat. Check the current state of each PR, CI run, or agent this chat touched. Check each number you will show against the facts it comes from, and say so when you correct one.
 
 An action item is a call or step only the user can take, such as a product choice, an approval, an irreversible action, or access you lack. Include any still waiting on the user, even one raised before their last message. Work you can still do yourself is not an action item. Never make up a call to fill the reply. A step the user did not ask for and the work does not need is not an action item, unless it is irreversible and waiting on the user: give it one line and no visual.
 
 One call can cover many items, such as each PR in a set awaiting merge. For each item, collect its link, what it changes for users, the evidence behind your pick, its risk, and your pick. Write "unknown" for a fact the call needs that you do not know. Leave out a link you do not have.
 
-## Write the reply
+## Write the text reply
 
 Spend words on the calls, not on the story. Keep what happened under 100 words, not counting pictures, and shorter when less happened. Leave out work that changed nothing for the user. Give each item about 30 words. The reply grows with the number of items: two items need well under 150 words in all, not counting pictures, and thirty need far more. Never cut items or shrink them to stay under a word count: no count in place of a list, and no link in place of an item. A link can add depth, but the reply alone must be enough to decide.
 
@@ -69,4 +82,5 @@ Embed screenshots and videos inline when the change is visible and the host can 
 
 Check each status and number against its source. Confirm that the reply contains
 every user-owned decision, contains no action that the agent can still take,
-and does not repeat one fact in both text and a visual.
+and does not repeat one fact in both text and a visual. In video mode, also
+apply every check in the video-mode reference before you embed the result.

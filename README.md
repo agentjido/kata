@@ -1,24 +1,28 @@
 # Kata
 
-Personal engineering practices for coding agents.
+Personal knowledge-work practices for coding agents.
 
 [Documentation index](docs/README.md) · [Intake log](docs/inbox/README.md)
 
-Observe. Build. Verify. Improve.
+Understand. Plan. Work. Verify. Improve.
 
-Kata is a software engineering process by Mike Hostetler and Jason Allum, packaged as
-skills for coding agents. The project is being prepared for public use at
+Kata is a knowledge-work system by Mike Hostetler and Jason Allum, packaged as
+skills for coding agents. Software engineering is one supported domain. The project is being prepared for public use at
 [agentjido/kata](https://github.com/agentjido/kata). The skills are a starting
 point and will change as actual work shows what helps.
 
 ## Process
 
-Understand the current condition. Set a clear target. Make a small change. Check the result. Keep useful lessons.
+Jido translates a requester's goal into one of two internal routes. Value delivery
+uses `understand -> plan -> work -> verify`. Kaizen improves the reusable work
+system through `maintain-skill -> write-skill -> dojo`. Both end in consumer
+acceptance. A route starts at the first unresolved contract, so ready work can
+skip understanding and planning.
 
 Use the amount of planning that the work needs. A small fix can use a few lines in the conversation. A larger change can use a written plan. Specifications are one tool in the process.
 
-Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic engineering
-skills use `kata-<task>`. Small conversation commands can keep a distinctive bare
+Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills
+use `kata-<task>`. Small conversation commands can keep a distinctive bare
 name when the user approves the exception. Keep all packages in the flat
 `skills/<name>/SKILL.md` layout.
 
@@ -26,16 +30,19 @@ name when the user approves the exception. Keep all packages in the flat
 
 | Skill | Job |
 | --- | --- |
-| `jido` | Route an explicit `$jido` request through `write-skill`, `maintain-skill`, `status`, `investigate`, `plan`, `work`, `commit`, or `help`. Use a bounded base loop when no stable command fits. |
+| `jido` | Translate an explicit `$jido` goal into the smallest valid value-delivery, Kaizen, or support sequence. |
 
-`$jido` is the initial front door for Jido-Kata. It routes to one primary Kata
-and reports the selected route and authority. Direct leaf skills remain
-available.
+`$jido` is the initial front door for Jido-Kata. The requester uses normal language.
+Jido infers the internal route, enters at the first unresolved step, and reports
+the selected sequence and authority. Direct leaf skills remain available.
 
-### General engineering
+### General work
 
 | Skill | Job |
 | --- | --- |
+| `kata-understand` | Establish the current condition and bound an unclear problem with evidence. |
+| `kata-verify` | Check one candidate result against its acceptance conditions without repairing it. |
+| `kata-dojo` | Evaluate one exact skill candidate with controlled cases and independent checks. |
 | `kata-write-skill` | Write, import, or convert one package with the library contract and faceted metadata. |
 | `kata-benchmark-checklist` | Check that a performance measurement is valid, repeatable, and relevant. |
 | `kata-blast-radius` | Find and prove effects of a change outside its visible diff. |
@@ -54,7 +61,7 @@ available.
 | `kata-sync-docs` | Check current documentation against code and correct stale claims. |
 | `kata-tdd` | Use a focused failing test or executable check before a bug fix. |
 | `kata-technical-writing` | Write and review technical documents with structured, plain language. |
-| `kata-work` | Implement a plan or concrete request and verify the result. |
+| `kata-work` | Produce one candidate result from a ready request and hand it to independent verification. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-setup` | Set up Docs Kata and collect existing documents in `docs/inbox`. |
@@ -68,8 +75,7 @@ explicit request.
 | --- | --- |
 | `bro` | Restate the last response in short, plain language. |
 | `in-your-own-words` | Restate the user's goal and problem before work starts. |
-| `ketchup` | Summarize chat progress and decisions that wait for the user. |
-| `ketchup-video` | Present chat progress and decisions in a short subtitled video. |
+| `ketchup` | Summarize chat progress and waiting decisions in text or, by explicit request, a short subtitled video. |
 | `sharpen` | Rewrite a task to make it deeper without making it larger. |
 | `unslop` | Remove common AI writing patterns without changing meaning. |
 
@@ -93,7 +99,7 @@ classification metadata.
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. All 36 active packages use the
+output facets beside each skill's subject. All 38 active packages use the
 complete schema. Skill frontmatter is the canonical classification source.
 Small tools can derive catalog, workflow, and overlap candidates from it.
 
@@ -112,9 +118,10 @@ workflow.
 `kata-plan` is adapted from Compound Engineering's `ce-plan`. It keeps the
 required references, scripts, and source license. Its support scripts pass
 local contract checks, but the adapted workflow has not been tested in live
-model runs. `kata-work` is a small Kata-native boundary that implements and
-locally verifies one clear software request. It does not own non-software work,
-commits, review, pull requests, or delivery.
+model runs. `kata-work` is the general execution boundary. It produces one
+candidate result and direct work evidence, but it does not certify its own
+output. `kata-verify` owns the independent judgment boundary. Commit and remote
+delivery remain separate actions.
 
 For Durable repository plans, `kata-plan` checks for an installed `bw` command
 and an already initialized Beadwork repository. When both checks pass, it creates
@@ -132,6 +139,11 @@ destinations for later review. Setup collects material; it does not treat old
 documents as verified or create every category in advance.
 
 ## Dojo skill evaluation
+
+`kata-dojo` is the formal evaluation entry point. It selects the first missing
+evidence gate and uses the runner below when the current repository supplies it.
+It does not author or adopt a skill. The current runner evaluates skills only;
+generic play evaluation needs a later adapter.
 
 The primary Dojo evaluation profile is **Astra xhigh**: Codex, model
 `gpt-6-astra`, reasoning `xhigh`. Keep one focused source version per skill.
@@ -339,7 +351,7 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
 - `kata-benchmark-checklist`, `kata-blast-radius`, `bro`, `kata-correct`,
   `kata-create-verification-skill`, `in-your-own-words`, `kata-interrogate`,
-  `ketchup`, `ketchup-video`, `kata-no-comments`, `kata-principled`,
+  `ketchup`, `kata-no-comments`, `kata-principled`,
   `kata-recall`, `sharpen`, `kata-show-your-work`, `kata-tdd`,
   `kata-technical-writing`, and `unslop` are adapted from
   [painhardcore/pstack](https://github.com/painhardcore/pstack/tree/7f2d936bba86c2c512c4ad83e759752f4f065b7c),

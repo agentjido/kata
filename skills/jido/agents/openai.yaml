@@ -1,4 +1,4 @@
 interface:
   display_name: "Jido"
-  short_description: "Route work through focused Kata"
-  default_prompt: "Use $jido to select one Kata for this goal, report the route and authority, and verify the result."
+  short_description: "Translate a goal into the smallest valid Kata sequence"
+  default_prompt: "Use $jido to interpret this goal, enter at the first unresolved contract, and run only the Kata steps needed for evidence and consumer acceptance."

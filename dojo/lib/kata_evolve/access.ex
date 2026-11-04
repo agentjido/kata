@@ -77,6 +77,6 @@ defmodule KataEvolve.Access do
     String.trim(resolved)
   end
 
-  defp q(path), do: Jason.encode!(path)
+  defp q(path), do: JSON.encode!(path)
   defp quote_shell(path), do: "'" <> String.replace(path, "'", "'\\''") <> "'"
 end

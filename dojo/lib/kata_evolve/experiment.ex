@@ -441,7 +441,7 @@ defmodule KataEvolve.Experiment do
         File.write!(Path.join(project, "SKILL.md"), parent)
         File.write!(Path.join(project, "reference.md"), ctx.source)
         if previous, do: File.write!(Path.join(project, "previous.md"), previous.text)
-        File.write!(Path.join(project, "feedback.json"), Jason.encode!(feedback, pretty: true))
+        File.write!(Path.join(project, "feedback.json"), JSON.encode!(feedback))
         initial = Evidence.files(project)
 
         execute = Map.get(ctx, :execute, &call/5)

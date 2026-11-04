@@ -9,7 +9,7 @@ metadata:
   object: multi-step-work
   profile: direction
   authority: local-write
-  consumes: [planning-request, source-material]
+  consumes: [planning-request, source-material, understood-context]
   produces: [work-plan, implementation-plan, planning-brief, verified-change]
 ---
 

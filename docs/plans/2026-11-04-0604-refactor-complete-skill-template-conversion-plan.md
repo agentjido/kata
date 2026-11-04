@@ -14,7 +14,7 @@ execution: code
 ## Goal Capsule
 
 - **Objective:** An operator can select, run, verify, and hand off every active Kata skill through one consistent work contract.
-- **Means:** Audit all 36 active packages, then route every proven nonconforming package through `kata-maintain-skill` and `kata-write-skill` in risk order. (KTD2, KTD4)
+- **Means:** Audit all 38 active packages, then route every proven nonconforming package through `kata-maintain-skill` and `kata-write-skill` in risk order. (KTD2, KTD4)
 - **Authority:** Local reads and local repository writes only. The work does not authorize commits, remote changes, installation, release, publication, package deletion, or package rename.
 - **Execution profile:** Deep repository refactor with one package as the maintenance unit.
 - **Stop conditions:** Stop a package before its first edit when source rights are unclear. Stop when a behavior change needs an owner decision, when a required check cannot produce reliable evidence, or when the work would overlap unrelated dirty files.
@@ -32,8 +32,10 @@ Use the canonical maintenance and writing skills for each package that does not 
 
 ### Problem Frame
 
-The repository has one current skill template, but only 14 of 36 active packages declare all eight required facets.
-Four packages have partial metadata and 18 packages have no `kata.skill/v1` metadata.
+At the updated planning baseline, 17 of 38 active packages declared all eight
+required facets. The execution audit must use current source state rather than
+treat this inventory as current evidence.
+Four packages have partial metadata and 17 packages have no `kata.skill/v1` metadata.
 Complete metadata is also not proof of a complete activation, authority, completion, verification, or handoff contract.
 This mixed state causes inconsistent routing, authority, provenance, and workflow edges.
 
@@ -211,9 +213,9 @@ flowchart TB
 
 ### Assumptions
 
-- The active set is the 36 direct `skills/*/SKILL.md` packages in the live repository at planning time.
-- The current 14 full-facet packages still need a full contract audit, but they need edits only when the audit proves a gap.
-- The current 22 partial or legacy packages need conversion unless live evidence changes before execution.
+- The active set is the 38 direct `skills/*/SKILL.md` packages in the live repository at planning time.
+- The current 17 full-facet packages still need a full contract audit, but they need edits only when the audit proves a gap.
+- The current 21 partial or legacy packages need conversion unless live evidence changes before execution.
 - No source-rights decision, deletion, rename, commit, or remote action is implied by this plan.
 
 ---
@@ -222,21 +224,21 @@ flowchart TB
 
 ### U1. Stabilize the canonical contract and audit the converted baseline
 
-- **Goal:** Make the canonical conversion rules consistent, then re-audit the 14 full-facet packages.
+- **Goal:** Make the canonical conversion rules consistent, then re-audit the 17 full-facet packages.
 - **Requirements:** R1, R2, R3, R4, R5, R6, R8, R10, R11, R14.
 - **Dependencies:** None.
-- **Files:** `skills/kata-write-skill/`, `skills/kata-maintain-skill/`, and the 12 other full-facet packages in Appendix A.
-- **Approach:** Record the live package and dirty-file baseline. Audit `kata-write-skill` first. If KTD1 or KTD3 needs a canonical text change, route one finding through the same maintain-to-write loop. Audit `kata-maintain-skill` next. Then audit the other 12 full-facet packages. Convert only packages with a proven full-contract gap.
+- **Files:** `skills/kata-write-skill/`, `skills/kata-maintain-skill/`, and the 15 other full-facet packages in Appendix A.
+- **Approach:** Record the live package and dirty-file baseline. Audit `kata-write-skill` first. If KTD1 or KTD3 needs a canonical text change, route one finding through the same maintain-to-write loop. Audit `kata-maintain-skill` next. Then audit the other 15 full-facet packages. Convert only packages with a proven full-contract gap.
 - **Execution note:** Characterize current activation, authority, output types, and consumer handoffs before each edit.
 - **Test scenarios:** A full-facet package has an incomplete authority envelope and must route. A specialized committable result has no `verified-change` edge and must route. A read-only package writes only to a temporary isolated workspace and keeps the temporary-write rule inline. A fully conforming package gets no invented finding and no edit.
 - **Verification:** Re-run the full package rubric after each finding. Confirm that KTD1 and KTD3 have one canonical owner. Confirm that no excluded file hash changes.
 
 ### U2. Convert the small conversation commands
 
-- **Goal:** Convert six explicit-use conversation packages with the smallest complete contracts.
+- **Goal:** Convert five explicit-use conversation packages with the smallest complete contracts.
 - **Requirements:** R2, R3, R4, R5, R6, R7, R9, R10, R14.
 - **Dependencies:** U1.
-- **Files:** `skills/bro/`, `skills/in-your-own-words/`, `skills/ketchup/`, `skills/ketchup-video/`, `skills/sharpen/`, `skills/unslop/`.
+- **Files:** `skills/bro/`, `skills/in-your-own-words/`, `skills/ketchup/`, `skills/sharpen/`, `skills/unslop/`.
 - **Approach:** Process one package at a time through the maintain-to-write loop. Keep explicit activation and short output contracts. Preserve each license and any media or output constraint.
 - **Test scenarios:** A direct invocation selects the package and returns its stated output shape. An adjacent request does not select the package. A missing chat or media prerequisite returns a question or blocker instead of invented content.
 - **Verification:** Check frontmatter, name, outcome, done condition, explicit-use trigger, adjacent non-trigger, authority, license, and representative output for each package.
@@ -278,7 +280,7 @@ flowchart TB
 - **Requirements:** R1, R2, R7, R8, R10, R11, R12, R13, R14.
 - **Dependencies:** U5.
 - **Files:** `skills/*/SKILL.md`, package support files, `README.md`, `docs/README.md`.
-- **Approach:** Re-audit `kata-maintain-skill` and `kata-write-skill`. Audit every package from the U1 execution baseline, which has 36 packages at plan time. Update migration, attribution, and optimization claims only from current evidence. Keep frontmatter as the canonical classification source. Do not add or update a generated index as part of this unit.
+- **Approach:** Re-audit `kata-maintain-skill` and `kata-write-skill`. Audit every package from the U1 execution baseline, which has 38 packages at plan time. Update migration, attribution, and optimization claims only from current evidence. Keep frontmatter as the canonical classification source. Do not add or update a generated index as part of this unit.
 - **Test scenarios:** The audit finds a metadata-complete package with a weak contract. A stale optimization digest does not survive a text change. A broken link or missing notice prevents completion. A rerun reports every package as conforming and makes no package edit.
 - **Verification:** Run the whole-library metadata, name, link, resource, adapter, license, attribution, and workflow-edge checks. Compare excluded-file hashes with the baseline. Review the final diff and confirm that it contains no Dojo, reference, archive, install, release, remote, or unrelated changes.
 
@@ -305,10 +307,10 @@ Do not treat a passing facet scan as behavior proof.
 
 ## Definition of Done
 
-- All active packages have a full-contract audit result in the execution report. The planning baseline has 36 packages.
+- All active packages have a full-contract audit result in the execution report. The planning baseline has 38 packages.
 - Every proven nonconforming package has one maintenance finding, one `Route` brief, one Convert result, and required verification evidence.
-- All 22 packages that are partial or legacy at plan time conform, unless live evidence proves that the package no longer exists by an authorized change.
-- The 14 full-facet packages pass the same rubric, and each proven gap is resolved through the same loop.
+- All 21 packages that are partial or legacy at plan time conform, unless live evidence proves that the package no longer exists by an authorized change.
+- The 17 full-facet packages pass the same rubric, and each proven gap is resolved through the same loop.
 - Every active package declares all eight `kata.skill/v1` facets.
 - Every active package has a usable outcome, activation, authority, assignment, completion, verification, and failure contract.
 - Every committable local-write result can hand off as `verified-change` while it keeps any specialized result.
@@ -326,14 +328,14 @@ Do not treat a passing facet scan as behavior proof.
 
 ### A. Planning-time package inventory
 
-#### Full facets, full-contract audit still required (14)
+#### Full facets, full-contract audit still required (17)
 
-`jido`, `kata-benchmark-checklist`, `kata-commit`, `kata-correct`, `kata-interrogate`, `kata-maintain-skill`, `kata-neckbeard`, `kata-no-comments`, `kata-review-pr`, `kata-status-report`, `kata-sync-docs`, `kata-tdd`, `kata-work`, `kata-write-skill`.
+`jido`, `kata-benchmark-checklist`, `kata-commit`, `kata-correct`, `kata-dojo`, `kata-interrogate`, `kata-maintain-skill`, `kata-neckbeard`, `kata-no-comments`, `kata-review-pr`, `kata-status-report`, `kata-sync-docs`, `kata-tdd`, `kata-understand`, `kata-verify`, `kata-work`, `kata-write-skill`.
 
 #### Partial facets, conversion required (4)
 
 `kata-ex-coverage`, `kata-ex-design-review`, `kata-ex-hunt-dead-code`, `kata-setup`.
 
-#### No `kata.skill/v1` facets, conversion required (18)
+#### No `kata.skill/v1` facets, conversion required (17)
 
-`bro`, `in-your-own-words`, `kata-blast-radius`, `kata-create-verification-skill`, `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`, `kata-jido-testing`, `kata-plan`, `kata-principled`, `kata-recall`, `kata-show-your-work`, `kata-showme`, `kata-technical-writing`, `ketchup`, `ketchup-video`, `sharpen`, `unslop`.
+`bro`, `in-your-own-words`, `kata-blast-radius`, `kata-create-verification-skill`, `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`, `kata-jido-testing`, `kata-plan`, `kata-principled`, `kata-recall`, `kata-show-your-work`, `kata-showme`, `kata-technical-writing`, `ketchup`, `sharpen`, `unslop`.

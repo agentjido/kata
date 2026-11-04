@@ -140,7 +140,7 @@ defmodule KataEvolve.LoopTest do
     Store.write(Path.join(dir, "context-legacy.json"), identity)
 
     assert Store.save_context(dir, identity) == "legacy"
-    assert Store.save_context(dir, Jason.decode!(Jason.encode!(identity))) == "legacy"
+    assert Store.save_context(dir, JSON.decode!(JSON.encode!(identity))) == "legacy"
 
     changed = put_in(identity, ["profile", :reasoning_effort], :high)
     key = Store.save_context(dir, changed)
@@ -153,8 +153,10 @@ defmodule KataEvolve.LoopTest do
     profile = Store.profile("codex-sol-medium")
     source = skill(220)
     marked = KataEvolve.Setup.Skill.mark_optimized(source, profile)
+
     assert marked =~
              ~s(metadata: {subject: general, optimized_for: "codex/gpt-5.6-sol/medium"})
+
     assert KataEvolve.Setup.Skill.validate(marked) == :ok
     assert KataEvolve.Setup.Skill.mark_optimized(marked, profile) == marked
 

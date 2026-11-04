@@ -9,17 +9,19 @@ metadata:
   profile: system-design
   authority: local-write
   consumes: [skill-request, skill-source, conversion-brief]
-  produces: [conforming-skill-package, verified-change]
+  produces: [conforming-skill-package]
 ---
 
 # Write Skill
 
 **Outcome:** One focused skill package that fits the target library, states a
-formal work contract, and has evidence proportionate to its risk and reach.
+formal work contract, and is ready for the evidence level that its risk and
+reach require.
 
-**Done:** The package and taxonomy metadata pass their mechanical checks.
-Each route ends in a verified result or an explicit blocker. The completion
-report names any behavioral check that did not run.
+**Done:** The package and taxonomy metadata pass their mechanical checks. Each
+route ends in a conforming candidate or an explicit blocker. The completion
+report names every behavioral check that ran and the evidence still needed from
+Dojo or the acceptor.
 
 Work in the requested skill repository. Read its active instructions, package
 rules, README, and metadata conventions. Inspect current changes and preserve unrelated
@@ -129,5 +131,7 @@ prove behavior.
 
 Confirm that the output meets the assignment acceptance criteria and the skill's
 completion conditions. Report the selected route, taxonomy, changed files,
-evidence, untested behavior, and any remaining decision. Do not report success
-when required evidence is missing.
+evidence, untested behavior, and any remaining decision. When controlled cases
+are required to judge behavior or efficiency, hand the exact candidate to the
+Dojo workflow. Do not call a mechanically conforming candidate adopted, and do
+not report success when required evidence is missing.

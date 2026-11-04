@@ -105,9 +105,11 @@ defmodule KataEvolve.WriteSkillTest do
 
     assert :ok = Skill.validate(maintainer, "kata-maintain-skill")
     assert writer =~ "consumes: [skill-request, skill-source, conversion-brief]"
-    assert writer =~ "produces: [conforming-skill-package, verified-change]"
+    assert writer =~ "produces: [conforming-skill-package]"
+
     assert maintainer =~
-             "produces: [resolved-library-finding, conversion-brief, work-request]"
+             "produces: [resolved-library-finding, conversion-brief, work-request, verified-change]"
+
     assert maintainer =~ "practice: govern"
     assert maintainer =~ "object: skill-library"
     assert maintainer =~ "`kata-write-skill`"
@@ -119,7 +121,7 @@ defmodule KataEvolve.WriteSkillTest do
     assert interface =~ ~s(display_name: "Maintain Skill")
   end
 
-  test "jido routes writing and maintenance as the first library commands" do
+  test "jido routes the Kaizen sequence through maintenance, writing, and Dojo" do
     jido = File.read!(Path.join(@root, "skills/jido/SKILL.md"))
     commands = File.read!(Path.join(@root, "skills/jido/references/commands.md"))
 
@@ -132,10 +134,16 @@ defmodule KataEvolve.WriteSkillTest do
     assert commands =~ "`../kata-write-skill/SKILL.md`"
     assert commands =~ "| `maintain-skill` |"
     assert commands =~ "`../kata-maintain-skill/SKILL.md`"
+    assert commands =~ "| `dojo` |"
+    assert commands =~ "`../kata-dojo/SKILL.md`"
     assert commands =~ "| `commit` |"
     assert commands =~ "`../kata-commit/SKILL.md`"
+
+    assert :binary.match(commands, "| `maintain-skill` |") <
+             :binary.match(commands, "| `write-skill` |")
+
     assert :binary.match(commands, "| `write-skill` |") <
-             :binary.match(commands, "| `maintain-skill` |")
+             :binary.match(commands, "| `dojo` |")
   end
 
   test "source licenses and attribution stay with the adapted contract" do
