@@ -96,6 +96,7 @@ permit a commit, push, publication, live-system change, purchase, or deletion.
 | --- | --- |
 | `kata-debug` | Diagnose a reproducible failure and repair it when authorized. |
 | `kata-docs` | Set up and maintain a project knowledge base. |
+| `kata-explainer` | Produce and review an evidence-based technical explainer video. |
 | `kata-orient` | Maintain scoped `AGENTS.md` and entry-point README files. |
 | `kata-sitrep` | Report local and remote Git workbench state. |
 | `kata-showme` | Explain a topic with focused diagrams and visuals. |

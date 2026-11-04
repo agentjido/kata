@@ -6,15 +6,16 @@ Last reviewed: 2026-11-04
 
 ## Current review
 
-Direct inspection found 20 active skills with `kata.skill/v1` metadata. The
+Direct inspection found 21 active skills with `kata.skill/v1` metadata. The
 2026-11-04 curation folded focused imported methods into core packages, retired
 small commands, combined the Jido build packages, and later added `kata-debug`
 and `kata-idea`. `kata-roadmap` now owns durable multi-session decision routes
 between idea and implementation planning. `kata-verify` routes focused
 verification methods, and `kata-shipit` replaces the local-only `kata-commit`.
 The `kata-correct` method now belongs to `kata-work` and `kata-verify`. The
-catalog meets the revised hard limit of 20. Skill frontmatter and live package
-files remain the inventory authority.
+`kata-explainer` package owns the repeated technical-video production method.
+The catalog remains below the hard limit of 25. Skill frontmatter and live
+package files remain the inventory authority.
 
 ## Purpose
 
@@ -161,15 +162,14 @@ skill.
 
 ## Skill budget
 
-Use a target of 16 active skills and a hard limit of 20. The current 20-skill
-catalog meets the hard limit. Do not add another package before one existing
-package merges or retires.
+Use a target of 16 active skills and a hard limit of 25. The current 21-skill
+catalog remains below the hard limit.
 
 | Group | Active | Skills |
 | --- | ---: | --- |
 | Core work system | 10 | `jido`, understand, idea, roadmap, plan, work, verify, maintain-skill, write-skill, dojo |
 | Support | 3 | shipit, orient, sitrep |
-| Domain and focused packages | 7 | build-jido, debug, docs, ex-design-review, ex-quality, showme, technical-writing |
+| Domain and focused packages | 8 | build-jido, debug, docs, explainer, ex-design-review, ex-quality, showme, technical-writing |
 
 The target is a portfolio shape, not an immediate rename or deletion list.
 Keep a small command when its name has clear value and its behavior is narrow.

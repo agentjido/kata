@@ -8,7 +8,7 @@ Last reviewed: 2026-11-04
 
 ## Current state
 
-- Direct frontmatter inspection found 20 active skill packages. All 20 declare
+- Direct frontmatter inspection found 21 active skill packages. All 21 declare
   `kata.skill/v1` metadata. This is a point-in-time result from 2026-11-04.
 - [`jido`](../skills/jido/SKILL.md) owns work routing.
   [`kata-orient`](../skills/kata-orient/SKILL.md) owns scoped project
@@ -48,9 +48,8 @@ that a document has been verified.
   Jira `twg` adapters.
 
 The [skill library architecture](plans/skill-library-architecture.md) sets a
-20-skill hard limit. The current catalog meets that limit after the repository
-guard method moved from `kata-correct` into `kata-work` and `kata-verify`, and
-`kata-roadmap` took ownership of long-horizon decision routes.
+25-skill hard limit. The current catalog has 21 skills after `kata-explainer`
+added the repeated technical-video production method.
 
 ## Archived source material
 

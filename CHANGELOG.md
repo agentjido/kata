@@ -2,6 +2,13 @@
 
 This file records material changes to Agent Jido Kata.
 
+## [Unreleased]
+
+### Added
+
+- `kata-explainer` for source-checked technical explainer production with a
+  bundled default dark spatial-board visual profile.
+
 ## [1.0.0] - 2026-11-04
 
 ### Added

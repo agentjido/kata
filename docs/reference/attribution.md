@@ -13,6 +13,10 @@ Keep author credits here and in required license files, outside skill instructio
 
 Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 
+- `kata-explainer` adapts Mike Hostetler's Jido explainer-video production
+  rules and dark spatial-board visual profile into a general technical-video
+  workflow. The bundled profile is the default when the user and target
+  project do not select another visual style.
 - `kata-orient` is an original Kata workflow informed by the
   [AGENTS.md open format](https://agents.md/),
   [OpenAI guidance for lean repository instructions](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra),

@@ -9,12 +9,12 @@ Last reviewed: 2026-11-04
 
 ## Summary
 
-Direct inspection found 20 active skill packages.
+Direct inspection found 21 active skill packages.
 
 | Primary origin | Count | Meaning |
 | --- | ---: | --- |
 | Kata-native | 10 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
-| In-house source | 1 | Mike Hostetler wrote the earlier source. Kata adapted or migrated it. |
+| In-house source | 2 | Mike Hostetler wrote the earlier source. Kata adapted or migrated it. |
 | Hybrid | 4 | Kata owns the workflow, but it adapts ideas and methods from named external sources. |
 | External adaptation | 5 | Kata adapted the active package from an external project. |
 
@@ -43,6 +43,7 @@ license files, and current package files support this index.
 | Skill | Earlier source |
 | --- | --- |
 | `kata-build-jido` | Mike Hostetler's `agentjido/jido-skills` action, agent, runtime, AI, and test material. |
+| `kata-explainer` | Mike Hostetler's Jido explainer-video production rules and dark spatial-board visual profile. |
 
 ### Hybrid
 
