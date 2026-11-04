@@ -64,7 +64,7 @@ defmodule KataEvolve.HarnessTest do
 
   test "a shorter valid skill can improve without weakening correctness" do
     text =
-      "---\nname: kata-setup\ndescription: Set up docs.\n---\nUse templates/docs-agents.md. " <>
+      "---\nname: kata-docs\ndescription: Set up docs.\n---\nUse templates/docs-agents.md. " <>
         String.duplicate("Preserve. ", 600)
 
     assert :ok = Skill.validate(text)

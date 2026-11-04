@@ -1,6 +1,6 @@
 ---
 name: kata-dojo
-description: Evaluate one candidate skill with controlled cases and independent outcome checks. Use after a skill package exists and needs behavioral or efficiency evidence; do not use to author, adopt, commit, or publish the skill.
+description: Use only when the user explicitly requests Dojo. Inspect saved evidence or evaluate one exact skill candidate with controlled cases; do not use for ordinary skill development, verification, adoption, commits, or publication.
 argument-hint: "[skill candidate, suite, or saved evaluation context]"
 metadata:
   schema: kata.skill/v1
@@ -14,6 +14,10 @@ metadata:
 ---
 
 # Dojo
+
+Do not activate this skill from an inferred need for evidence. The user must
+explicitly name Dojo in the current request. A request to write, test, verify,
+review, or improve a skill does not activate Dojo.
 
 **Outcome:** The acceptor or next consumer receives reproducible evidence about
 one exact skill candidate and a bounded adoption recommendation.
@@ -31,8 +35,9 @@ execution.
 
 Direct user authority or inherited caller authority permits read-only
 inspection and local isolated evaluation artifacts. Live model calls require an
-explicit request, execution profile, call or token limit, and authority for the
-cost. Do not infer a paid budget. Do not edit the official source skill, adopt a
+explicit request for a live Dojo run, an execution profile, a call or token
+limit, and authority for the cost. Do not infer a paid budget from a request to
+inspect saved evidence. Do not edit the official source skill, adopt a
 candidate, commit results, publish an artifact, or change remote state.
 
 The normal profile is `bounded-execution`. Creating or repairing a reusable

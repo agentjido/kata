@@ -31,9 +31,9 @@ does not certify its own output.
 ## Kaizen
 
 ```text
-maintain-skill -> write-skill -> dojo -> consumer acceptance
-       ^                         |
-       +--- evaluation evidence-+
+maintain-skill -> write-skill -> consumer acceptance
+
+dojo -> consumer acceptance
 ```
 
 Enter at the first unresolved contract:
@@ -42,12 +42,13 @@ Enter at the first unresolved contract:
 | --- | --- | --- | --- |
 | Maintain skill | A reusable library problem or opportunity is supported, but its disposition or owner is unclear. | The required package change is already known. | A resolved finding, conversion brief, or work request |
 | Write skill | A new or changed package has a clear contract and source rights. | The exact candidate already exists. | A conforming skill package |
-| Dojo | An exact candidate needs controlled behavioral or efficiency evidence. | Current evidence for the exact candidate already supports the decision. | Skill-evaluation evidence and an adoption recommendation |
+| Dojo | The current request explicitly names Dojo and supplies an exact candidate or saved context. | Dojo was not explicitly requested. | Skill-evaluation evidence and an adoption recommendation |
 | Consumer acceptance | Adoption evidence is ready for the skill owner or next system. | The assignment already defines the adoption decision and authority. | Adopt, retain, reject, or revise |
 
-Dojo evidence can reveal a new library finding and return to maintenance. Dojo
-does not edit or adopt the source skill. Only the approved library owners can
-change it.
+Dojo is an optional side route, not a required Kaizen gate. Do not infer it from
+a request to improve, test, verify, or adopt a skill. Dojo evidence can reveal a
+new library finding and return to maintenance. Dojo does not edit or adopt the
+source skill. Only the approved library owners can change it.
 
 Consumer acceptance does not require a synchronous human checkpoint. A person,
 skill, agent, or system can consume a result. Ask the accountable owner only
@@ -57,7 +58,8 @@ material tradeoff or irreversible effect.
 A maintenance result can leave the Kaizen route. When it produces a clear
 non-package work request, enter value delivery at `work`, then run `verify`.
 Do not add `understand` or `plan` when the maintenance evidence already resolved
-those contracts. A clear skill-package change uses `write-skill -> dojo`.
+those contracts. A clear skill-package change can end after `write-skill` and
+consumer acceptance. Use Dojo only after a separate explicit request.
 
 ## Altitude rule
 

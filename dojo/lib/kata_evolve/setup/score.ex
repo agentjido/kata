@@ -1,6 +1,7 @@
 defmodule KataEvolve.Setup.Score do
   @moduledoc "Deterministic setup quality from fixed evidence; no model calls."
-  alias KataEvolve.Setup.{Fixture, Skill, Store}
+  alias KataEvolve.Skill
+  alias KataEvolve.Setup.{Fixture, Store}
 
   @version "setup-quality-v2"
 

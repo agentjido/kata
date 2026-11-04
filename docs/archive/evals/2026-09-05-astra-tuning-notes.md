@@ -1,5 +1,13 @@
 # Broader skill search for Astra xhigh
 
+> **Archived source:** This document records unverified research from
+> 2026-09-05. It is not current project authority.
+
+Status: Archived, unverified
+Original path: `evals/ASTRA_TUNING_NOTES.md`
+Archived: 2026-11-04
+Last reviewed: 2026-11-04 for placement only; claims were not rechecked.
+
 Research date: 2026-09-05. The v3 implementation now freezes an outcome contract,
 permits full rewrites, assigns three search directions, and continues after an
 unchanged proposal. The known checker faults have calibration tests. A candidate

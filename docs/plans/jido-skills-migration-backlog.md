@@ -2,7 +2,7 @@
 
 Status: active
 
-Last reviewed: 2026-09-28
+Last reviewed: 2026-11-04
 
 ## Purpose
 
@@ -43,9 +43,8 @@ The source repository remains available until every archive gate passes.
       not merge, and does not require a `ce-*` skill.
 - [ ] Test local package installation and discovery in every host still claimed
       in the root README. Use temporary project scope. Do not install globally.
-- [ ] Reconcile the remaining Compound Engineering names and fallback phrases
-      in `kata-work`. The new PR-hardening route is self-contained, but other
-      routes still contain imported `ce-*` integration text.
+- [x] Reconcile the remaining Compound Engineering names and fallback phrases
+      in `kata-work`. No `ce-*` integration references remain in that package.
 - [x] Replace the legacy default `jido_harness` path in `dojo/mix.exs` with the
       pinned public GitHub dependency. Dojo no longer needs a workspace-specific
       dependency-path override.

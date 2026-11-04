@@ -1,5 +1,9 @@
 # Kata Dojo runner
 
+Use this runner only after the user explicitly requests Dojo in the current
+task. Do not run it as a default test, catalog, formatting, or verification
+path for changes elsewhere in Kata.
+
 Read this adapter only when the current repository contains the Kata `dojo/`
 application and its `mix.exs` file.
 

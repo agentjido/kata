@@ -180,7 +180,7 @@ defmodule KataEvolve.Setup.ScoreTest do
   defp id(text), do: Skill.hash(text) |> String.slice(0, 12)
 
   defp evidence(words, protocol, factor \\ 1) do
-    prefix = "---\nname: kata-setup\ndescription: Setup.\n---\ntemplates/docs-agents.md "
+    prefix = "---\nname: kata-docs\ndescription: Setup.\n---\ntemplates/docs-agents.md "
     text = prefix <> String.duplicate("word ", words - Skill.words(prefix))
 
     records =

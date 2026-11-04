@@ -4,7 +4,7 @@ defmodule KataEvolve.GenericLoopTest do
   alias KataEvolve.{Evidence, Experiment, Profile, Skill, Suite}
 
   test "different suites load repeatedly without a registry or setup validation" do
-    for {name, id} <- [{"setup", "kata-setup"}, {"neckbeard", "kata-neckbeard"}] do
+    for {name, id} <- [{"setup", "kata-docs"}, {"neckbeard", "kata-neckbeard"}] do
       path = Path.join(KataEvolve.root(), "suites/#{name}.exs")
       module = Suite.load!(path)
       assert module == Suite.load!(path)
@@ -216,7 +216,7 @@ defmodule KataEvolve.GenericLoopTest do
       item = Enum.find(module.spec().cases, &String.contains?(prompt, module.prompt(&1)))
 
       answer =
-        if module.spec().id == "kata-setup" do
+        if module.spec().id == "kata-docs" do
           initial = Evidence.take(project)
 
           for path <- [item.source, item.asset] do
@@ -231,7 +231,7 @@ defmodule KataEvolve.GenericLoopTest do
 
           for {path, text} <- [
                 {"docs/AGENTS.md",
-                 Evidence.text(initial, ".agents/skills/kata-setup/templates/docs-agents.md")},
+                 Evidence.text(initial, ".agents/skills/kata-docs/templates/docs-agents.md")},
                 {"docs/README.md", "[Rules](AGENTS.md)\n[Inbox](inbox/README.md)"},
                 {"README.md", "[Note](docs/inbox/#{item.source})\n[Docs](docs/README.md)"},
                 {"docs/inbox/README.md",

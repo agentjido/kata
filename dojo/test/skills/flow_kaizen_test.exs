@@ -30,7 +30,7 @@ defmodule KataEvolve.FlowKaizenTest do
              "produces: [verified-result, verified-change, verification-finding]"
   end
 
-  test "Kaizen routes a candidate through Dojo without automatic adoption" do
+  test "Kaizen keeps Dojo as an explicit optional route" do
     maintain = skill("kata-maintain-skill")
     writer = skill("kata-write-skill")
     dojo = skill("kata-dojo")
@@ -47,6 +47,7 @@ defmodule KataEvolve.FlowKaizenTest do
 
     assert dojo =~ "Do not edit the official source skill"
     assert dojo =~ "It is not adoption."
+    assert dojo =~ "explicitly name Dojo"
     assert File.regular?(Path.join([@root, "skills/kata-dojo/references/kata-runner.md"]))
   end
 
@@ -64,7 +65,9 @@ defmodule KataEvolve.FlowKaizenTest do
     assert jido =~ "Do not run a step for\nceremony."
 
     assert loops =~ "understand -> plan -> work -> verify -> consumer acceptance"
-    assert loops =~ "maintain-skill -> write-skill -> dojo -> consumer acceptance"
+    assert loops =~ "maintain-skill -> write-skill -> consumer acceptance"
+    assert loops =~ "dojo -> consumer acceptance"
+    assert loops =~ "Dojo is an optional side route"
     assert loops =~ "A clear bounded change can use\n`work -> verify`."
     assert loops =~ "Do not add `understand` or `plan`"
 

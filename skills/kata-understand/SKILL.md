@@ -10,7 +10,7 @@ metadata:
   profile: bounded-execution
   authority: read-only
   consumes: [work-request, domain-context]
-  produces: [understood-context, work-brief]
+  produces: [understood-context, work-brief, project-knowledge-capture]
 ---
 
 # Understand
@@ -57,6 +57,11 @@ Choose the output that matches the request:
 - Return `understood-context` when the user asked for an answer or explanation.
 - Return a `work-brief` when another step needs the bounded problem, relevant
   evidence, constraints, and unresolved decisions.
+- When the assignment also asks to preserve durable project knowledge, return a
+  `project-knowledge-capture` for the coordinator or documentation workflow. It
+  identifies the subject, persistence value, supported content, evidence,
+  related artifacts, and granted authority. This read-only skill does not write
+  the document itself.
 
 Do not prescribe a multi-step route when the target still needs an accountable
 value decision. Do not repeat this step when supplied evidence already

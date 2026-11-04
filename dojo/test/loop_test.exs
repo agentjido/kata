@@ -155,7 +155,7 @@ defmodule KataEvolve.LoopTest do
     marked = KataEvolve.Setup.Skill.mark_optimized(source, profile)
 
     assert marked =~
-             ~s(metadata: {subject: general, optimized_for: "codex/gpt-5.6-sol/medium"})
+             ~s(optimized_for: "codex/gpt-5.6-sol/medium")
 
     assert KataEvolve.Setup.Skill.validate(marked) == :ok
     assert KataEvolve.Setup.Skill.mark_optimized(marked, profile) == marked
@@ -170,7 +170,7 @@ defmodule KataEvolve.LoopTest do
 
   defp skill(n),
     do:
-      "---\nname: kata-setup\ndescription: Set up docs.\n---\nUse templates/docs-agents.md. " <>
+      "---\nname: kata-docs\ndescription: Set up docs.\n---\nUse references/document-contracts.md, references/setup.md, and templates/docs-agents.md. " <>
         String.duplicate("Preserve. ", n)
 
   defp complete_fixture(root) do
@@ -187,7 +187,7 @@ defmodule KataEvolve.LoopTest do
       "# Example\n[Note](docs/inbox/#{item.source})\n[Docs](docs/README.md)\n"
     )
 
-    template = File.read!(Path.join(root, ".agents/skills/kata-setup/templates/docs-agents.md"))
+    template = File.read!(Path.join(root, ".agents/skills/kata-docs/templates/docs-agents.md"))
     Fixture.write(root, "docs/AGENTS.md", template)
     Fixture.write(root, "docs/README.md", "[Rules](AGENTS.md)\n[Inbox](inbox/README.md)")
 

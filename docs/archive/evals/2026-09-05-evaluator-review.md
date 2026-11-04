@@ -1,5 +1,13 @@
 # Evaluator review — 2026-09-05
 
+> **Archived source:** This document records unverified historical measurements
+> and process findings. It is not current project authority.
+
+Status: Archived, unverified
+Original path: `evals/EVALUATOR_REVIEW.md`
+Archived: 2026-11-04
+Last reviewed: 2026-11-04 for placement only; claims were not rechecked.
+
 The process spent most model calls preparing or repairing the evaluator. It did
 not establish an improved official skill. Only showme reached proposal rounds.
 The four live loops remain paused while the evaluator is repaired offline.

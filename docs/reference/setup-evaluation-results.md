@@ -1,4 +1,13 @@
-# Earlier spike
+---
+title: Setup evaluation results
+status: current
+last-reviewed: 2026-11-04
+---
+
+# Setup evaluation results
+
+Purpose: Preserve the historical setup experiments and their handoff to the
+current Dojo runner.
 
 The first spike used Codex 0.149.0 with gpt-5.4-mini at low reasoning. It tested one
 setup case through a Python CLI wrapper and a local GEPA example. Some executions
@@ -15,5 +24,6 @@ The experiment was paused before producing a candidate. Final observations are i
 profile, so they were not imported into the new loop. The new loop recorded one
 baseline and saves it for reuse on later attempts.
 
-The current process and limits are in [README.md](../../../dojo/README.md). The latest result is
-in [results/setup/report.md](../../../dojo/results/setup/report.md).
+The current process and limits are in the [Dojo guide](../../dojo/README.md).
+The latest historical result is in the
+[setup report](../../dojo/results/setup/report.md).

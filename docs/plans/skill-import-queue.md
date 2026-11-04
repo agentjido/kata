@@ -3,7 +3,7 @@
 Purpose: Keep one de-duplicated queue of external skills that can improve Kata.
 
 Status: Active TODO list
-Last reviewed: 2026-11-03
+Last reviewed: 2026-11-04
 
 ## Scope
 
@@ -81,7 +81,7 @@ These jobs are useful. They need a scope decision or a real task before import.
 | Q07 | [ ] | `kata-app-verification` | pstack `create-verification-skill`, `maintain-verification-skill`, `principle-prove-it-works`; CE `ce-dogfood`, `ce-test-browser`, `ce-test-xcode` | Define a host-neutral core for UI, CLI, service, and native-app verification. Decide whether creation and maintenance need separate skills. |
 | Q08 | [ ] | `kata-review-feedback` | CE `ce-resolve-pr-feedback`; the review-response parts of CE `ce-babysit-pr`; pstack babysit playbook | Keep this separate from Q02. It must assess existing comments, apply only justified changes, and verify each resolution. Remove the GitHub-only assumption. |
 | Q09 | [ ] | `kata-ship` | CE `ce-commit`, `ce-commit-push-pr`, `ce-babysit-pr`, `ce-worktree`; pstack babysit and shipping playbooks; Matt `implement` close-out | Set a safe boundary between local completion, commit, push, pull request, CI repair, and merge. Remote writes must remain explicit and host-neutral. |
-| Q10 | [ ] | `kata-learn` | CE `ce-compound`, `ce-compound-refresh`; pstack `reflect`, `show-me-your-work`, `principle-encode-lessons-in-structure`; Matt `retro` as secondary evidence | Join capture and refresh only if one small lifecycle stays clear. Prefer code, tests, lint, or a skill change over duplicate prose. Place verified results under Docs Kata lessons. |
+| Q10 | [x] | `kata-learn` | CE `ce-compound`, `ce-compound-refresh`; pstack `reflect`, `show-me-your-work`, `principle-encode-lessons-in-structure`; Matt `retro` as secondary evidence | Folded durable capture and maintenance into `kata-docs`. Prefer code, tests, lint, or a skill change over duplicate prose. |
 | Q11 | [ ] | `kata-handoff` | CE `ce-handoff`; pstack `recall` and pause/session-pickup playbooks; Matt `handoff` | Define one portable handoff contract. Do not duplicate task-history features supplied by a host. |
 
 ### Parked until a specific need appears
@@ -90,7 +90,7 @@ These jobs are useful. They need a scope decision or a real task before import.
 | --- | --- | --- | --- | --- |
 | Q12 | [ ] | Research and decision rationale | Matt `research`; pstack `why`; CE research support in planning | `kata-plan` and `kata-neckbeard` already cover much of this work. A real task must show the missing boundary. |
 | Q13 | [ ] | Metric-driven optimization | CE `ce-optimize`; pstack performance and hill-climb playbooks | The source procedures assume a repeatable metric and a long experiment loop. Test them on one measurable task first. |
-| Q14 | [ ] | Documentation review and maintenance | CE `ce-doc-review`; pstack `technical-writing`; Matt `writing-for-agents` | Docs Kata already supplies repository rules. First use the current process to review inbox material and identify what a skill must add. |
+| Q14 | [x] | Documentation review and maintenance | CE `ce-doc-review`; pstack `technical-writing`; Matt `writing-for-agents` | Implemented as the inbox and maintenance routes in `kata-docs`; `kata-sync-docs` keeps code-to-document reconciliation. |
 | Q15 | [ ] | Issue and feedback triage | Matt `triage` and `to-tickets`; CE `ce-sweep` and `ce-product-pulse`; pstack Benny procedures | These sources depend on trackers, messaging services, or scheduled automation. Define a local, host-neutral core before import. |
 | Q16 | [ ] | Strategy and long-range work | CE `ce-strategy`; Matt `wayfinder`; pstack multi-phase and orchestration playbooks | The job can become a large process framework. Confirm that it can remain one small personal skill. |
 | Q17 | [ ] | Merge-conflict resolution | Matt `resolving-merge-conflicts` | It has only one source and a narrow trigger. Import it when a real conflict needs the procedure. |
@@ -108,7 +108,7 @@ when the current Kata skill is revised.
 | `kata-neckbeard` | pstack `how` and parts of `why`; the investigation parts of Matt architecture skills |
 | `kata-showme` | CE `ce-explain`; pstack `teach`; visual report ideas from Matt `improve-codebase-architecture` |
 | `kata-write-skill` | CE `ce-retune`; pstack `automate-me` and skill-authoring playbook; Matt `writing-for-agents` |
-| `kata-setup` | CE `ce-setup`; pstack `setup-pstack`; Matt `setup-matt-pocock-skills` |
+| `kata-docs` | Former `kata-setup`; CE `ce-setup`, `ce-compound`, and `ce-compound-refresh`; pstack `setup-pstack`; Matt `setup-matt-pocock-skills` |
 
 The current skill can still need improvement. Overlap means revise or evaluate
 the current skill instead of adding a second entry point for the same job.

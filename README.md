@@ -2,6 +2,22 @@
 
 Personal knowledge-work practices for coding agents.
 
+## Install Agent Jido Kata
+
+Give this prompt to your coding agent:
+
+```text
+Install the Agent Jido Kata skills from https://github.com/agentjido/kata for
+my user account. Use npx skills as the default installer. Select this coding
+agent as the target. If this agent requires its native plugin installer, use
+that method instead. Confirm that the jido skill is available. Tell me if I
+must start a new session.
+```
+
+You need access to the repository while it is private. If your agent cannot
+install the plugin, use the [manual installation](#manual-installation) commands.
+
+[Manual installation](#manual-installation) · [Skill package guide](skills/README.md) ·
 [Documentation index](docs/README.md) · [Intake log](docs/inbox/README.md)
 
 Understand. Plan. Work. Verify. Improve.
@@ -15,9 +31,9 @@ point and will change as actual work shows what helps.
 
 Jido translates a requester's goal into one of two internal routes. Value delivery
 uses `understand -> plan -> work -> verify`. Kaizen improves the reusable work
-system through `maintain-skill -> write-skill -> dojo`. Both end in consumer
-acceptance. A route starts at the first unresolved contract, so ready work can
-skip understanding and planning.
+system through `maintain-skill -> write-skill`. Both end in consumer acceptance.
+Dojo is a separate, opt-in evaluation tool. A route starts at the first unresolved
+contract, so ready work can skip understanding and planning.
 
 Use the amount of planning that the work needs. A small fix can use a few lines in the conversation. A larger change can use a written plan. Specifications are one tool in the process.
 
@@ -42,7 +58,7 @@ the selected sequence and authority. Direct leaf skills remain available.
 | --- | --- |
 | `kata-understand` | Establish the current condition and bound an unclear problem with evidence. |
 | `kata-verify` | Check one candidate result against its acceptance conditions without repairing it. |
-| `kata-dojo` | Evaluate one exact skill candidate with controlled cases and independent checks. |
+| `kata-dojo` | On explicit request, inspect saved evidence or evaluate one exact skill candidate. |
 | `kata-write-skill` | Write, import, or convert one package with the library contract and faceted metadata. |
 | `kata-benchmark-checklist` | Check that a performance measurement is valid, repeatable, and relevant. |
 | `kata-blast-radius` | Find and prove effects of a change outside its visible diff. |
@@ -52,6 +68,7 @@ the selected sequence and authority. Direct leaf skills remain available.
 | `kata-interrogate` | Run an adversarial review and keep only findings proven by execution. |
 | `kata-maintain-skill` | Resolve one evidence-backed finding about skill-library ownership, overlap, classification, or contract conformance. |
 | `kata-no-comments` | Remove weak comments and identify code that needs a structural fix. |
+| `kata-orient` | Create, audit, or refresh scoped `AGENTS.md` and entry-point `README.md` files. |
 | `kata-plan` | Turn a work request into a plan and create a Beadwork graph when the repository is configured for it. |
 | `kata-principled` | Apply one of 24 focused engineering principles through a named command. |
 | `kata-recall` | Rebuild recent work context from chats, repository state, and shared records. |
@@ -60,11 +77,11 @@ the selected sequence and authority. Direct leaf skills remain available.
 | `kata-status-report` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
 | `kata-sync-docs` | Check current documentation against code and correct stale claims. |
 | `kata-tdd` | Use a focused failing test or executable check before a bug fix. |
-| `kata-technical-writing` | Write and review technical documents with structured, plain language. |
+| `kata-technical-writing` | Write or review README files and other technical prose from verified source facts. |
 | `kata-work` | Produce one candidate result from a ready request and hand it to independent verification. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
-| `kata-setup` | Set up Docs Kata and collect existing documents in `docs/inbox`. |
+| `kata-docs` | Set up and steward Docs Kata, process inbox material, record durable knowledge, and maintain document structure. |
 
 ### Conversation commands
 
@@ -99,7 +116,7 @@ classification metadata.
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. All 38 active packages use the
+output facets beside each skill's subject. All 39 active packages use the
 complete schema. Skill frontmatter is the canonical classification source.
 Small tools can derive catalog, workflow, and overlap candidates from it.
 
@@ -128,17 +145,36 @@ and an already initialized Beadwork repository. When both checks pass, it create
 and verifies an epic and task graph from the plan units. Otherwise it writes only
 the plan file. It never initializes Beadwork automatically.
 
-To adopt Docs Kata in a project, ask: "Use kata-setup in this repository."
-It creates `docs/AGENTS.md`, a documentation index, and `docs/inbox/` with an
+Use `kata-docs` with ordinary requests such as "set up project docs," "process
+this inbox note," "record this verified decision," or "tidy the docs." Setup
+creates `docs/AGENTS.md`, a documentation index, and `docs/inbox/` with an
 intake log. Existing documents move into the inbox with their original paths
 recorded. Required entry points and documents with fixed consumers stay in
 place. Links and supporting assets are preserved.
 
 The docs rules define guides, reference, decisions, plans, and lessons as the
-destinations for later review. Setup collects material; it does not treat old
-documents as verified or create every category in advance.
+destinations for reviewed knowledge. Setup collects material without treating
+it as verified. A targeted inbox request processes one item by default.
+Maintenance drains the full inbox by placing current material, archiving
+non-authoritative history, or reporting an explicit blocker. Other skills can
+pass verified durable knowledge to `kata-docs`; the caller remains responsible
+for its evidence and authority.
+
+Use `kata-orient` to create, audit, or refresh the root and nested `AGENTS.md`
+files and the entry-point `README.md` files that orient people and agents. It
+can send a `readme-brief` to `kata-technical-writing` and can return general
+project knowledge as a `project-knowledge-capture` for `kata-docs`. Each skill
+keeps a self-contained fallback and does not require another skill at runtime.
 
 ## Dojo skill evaluation
+
+> **Opt-in only.** Dojo is preserved experimental evaluation tooling. Do not run
+> it for ordinary skill development, catalog work, formatting, tests, or package
+> verification. Use it only when the current request explicitly names Dojo. A
+> live model run also requires an explicit profile and token or call budget.
+
+The implementation and saved evidence remain in `dojo/` for historical review
+and possible future experiments. They are not part of the default Kata workflow.
 
 `kata-dojo` is the formal evaluation entry point. It selects the first missing
 evidence gate and uses the runner below when the current repository supplies it.
@@ -196,7 +232,8 @@ After adoption, the new source becomes the next tuning baseline.
 One training case and five proposal rounds need at most 11 model calls before a
 verification decision. Full repeated verification starts only for a promising
 candidate. Call/token limits and `status` reports include proposals and error
-retries. See the [Dojo guide](dojo/README.md) and [process review](docs/inbox/evals/EVALUATOR_REVIEW.md).
+retries. See the [Dojo guide](dojo/README.md) and the
+[historical process review](docs/archive/evals/2026-09-05-evaluator-review.md).
 The [proposal prompt](dojo/prompts/propose_skill.md) permits full rewrites against
 a fixed outcome contract. It tries removing procedure, replacing the workflow,
 and refining the measured approach. Labeled training costs, actual outputs, and
@@ -320,12 +357,14 @@ skill and its Astra evaluation target were unchanged by that trial.
 The shared runner takes a suite file and supports any skill with its own outcome
 checks. Setup and neckbeard adapters are included; the other active suites remain
 in their optimization worktrees until integration. See [the Dojo guide](dojo/README.md)
-for the interface and [legacy setup commands](docs/inbox/evals/SETUP_LEGACY.md) for historical
+for the interface and
+[legacy setup commands](docs/reference/setup-evaluation-legacy-commands.md) for historical
 results. Testing Sol does not change the Astra target or establish support for an
 entire model family.
 
-The [Astra optimization plan](docs/inbox/evals/OPTIMIZATION_PLAN.md) defines the next round
-for coverage, dead-code hunting, neckbeard, and showme. Setup is excluded.
+The [superseded Astra optimization plan](docs/plans/2026-09-05-astra-optimization-plan.md)
+records the earlier round for coverage, dead-code hunting, neckbeard, and
+showme. Setup was excluded from that round.
 
 ## Attribution
 
@@ -333,6 +372,11 @@ Keep author credits here and in required license files, outside skill instructio
 
 Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 
+- `kata-orient` is an original Kata workflow informed by the
+  [AGENTS.md open format](https://agents.md/),
+  [OpenAI guidance for lean repository instructions](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra),
+  and
+  [OpenAI guidance for scoped repository rules](https://developers.openai.com/blog/custom-code-review-rules-for-codex).
 - `kata-write-skill` adapts skill-authoring concepts from Matt Pocock's
   [writing-for-agents](https://github.com/mattpocock/skills/tree/4ae2317ddb22b046e26455e4f9c9b3aaaf62212d/skills/productivity/writing-for-agents)
   and Every's
@@ -358,6 +402,10 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   maintained by Andrei Iurchenkov from Lauren Tan's original pstack work. The
   source is commit `7f2d936bba86c2c512c4ad83e759752f4f065b7c`. Each imported skill
   contains the source MIT license and copyright notice.
+- `kata-technical-writing` also adapts Elixir documentation guidance from Mike
+  Hostetler's *The Elixir Library Documentation Manifesto v1* and its Jido
+  style guides in `mikehostetler/jido_run`. The source files were reviewed at
+  repository commit `ed57e19f78d6a8995323310ef7cbb43eecf838df`.
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
   skills. These were not published in a public repository. Kata includes
   adaptations as `kata-ex-coverage`, `kata-neckbeard`, and `kata-ex-hunt-dead-code`.
@@ -368,7 +416,7 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   `kata-jido-testing`, `kata-review-pr`, and `kata-sync-docs`. Each affected
   skill directory contains the required Apache-2.0 license and copyright notice.
 
-## Installation
+## Manual installation
 
 The GitHub commands below are for the public repository once it is available
 and these files are pushed. Until then, use a local checkout or an account
@@ -429,7 +477,8 @@ the skill files and ask it to save each one as a private skill:
 
 1. Attach the selected `skills/kata-*/SKILL.md` file to a Bot conversation.
 2. Include the skill's support files: `coverage_tool.exs` for `kata-ex-coverage`,
-   `LICENSE` for `kata-showme`, `templates/docs-agents.md` for `kata-setup`, and
+   `LICENSE` for `kata-showme`, the complete `kata-docs` and
+   `kata-technical-writing` directories, and
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
    Include `LICENSE` with each `kata-jido-*`, `kata-review-pr`, and
    `kata-sync-docs` skill.
@@ -480,6 +529,7 @@ project installation has passed. Pi runtime behavior has not been tested.
 
 ```text
 skills/<name>/SKILL.md          Shared skill content
+skills/README.md               Skill package and maintenance guide
 plugin.json                    Root plugin metadata
 .claude-plugin/plugin.json     Claude plugin metadata
 .claude-plugin/marketplace.json Local-source marketplace entry

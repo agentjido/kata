@@ -21,8 +21,9 @@ and unresolved product intent is clearly recorded instead of guessed.
 unresolved conflict, changed links and examples have proportionate checks, and
 the final diff contains only the accepted documentation scope.
 
-This skill checks and corrects current documents. Use `kata-setup` only to
-create Docs Kata and collect unreviewed material.
+This skill checks and corrects current documents. Use `kata-docs` to establish
+Docs Kata, process its inbox, record durable knowledge, or maintain document
+structure and lifecycle.
 
 ## Set the scope
 

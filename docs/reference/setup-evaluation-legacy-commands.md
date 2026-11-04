@@ -1,7 +1,17 @@
-# Existing setup evaluations
+---
+title: Legacy setup evaluation commands
+status: current
+last-reviewed: 2026-11-04
+---
+
+# Legacy setup evaluation commands
+
+Purpose: Preserve offline access to historical `kata-setup` evidence. The
+active documentation skill is now `kata-docs`; its current text is not the
+candidate recorded by these experiments.
 
 These commands preserve the original setup experiment and its saved results.
-Use [the common runner](../../../dojo/README.md) for new skill suites. The legacy loop selects
+Use [the common runner](../../dojo/README.md) for new skill suites. The legacy loop selects
 by word count subject to correctness; it does not implement the new promotion rule.
 
 From `kata/dojo`:
@@ -17,8 +27,8 @@ and correctness required. Saved `setup-quality-v1` measurements remain historica
 Code now lives under `KataEvolve.Setup`; new score output identifies the moved
 checker paths.
 
-The [first Astra trial](../../../dojo/results/setup/report.md) remains historical evidence.
-The [Sol trial](../../../dojo/results/setup/codex-sol-medium/report.md) ran five proposal rounds
+The [first Astra trial](../../dojo/results/setup/report.md) remains historical evidence.
+The [Sol trial](../../dojo/results/setup/codex-sol-medium/report.md) ran five proposal rounds
 on `gpt-5.6-sol / medium`. Its selected text fell from 500 to 445 words, but total
 tokens rose from 698,373 to 857,248. Its exploratory cost score is **43.654704**,
 compared with the source's **50.000000**. It would not qualify for promotion under

@@ -11,8 +11,15 @@ defmodule KataEvolve.Setup.Store do
     profile = profile(profile_name)
 
     {cli, 0} = System.cmd(profile.provider_options.cli_path, ["--version"])
-    seed = File.read!(Path.expand("../skills/kata-setup/SKILL.md", root))
-    template = File.read!(Path.expand("../skills/kata-setup/templates/docs-agents.md", root))
+    seed = File.read!(Path.expand("../skills/kata-docs/SKILL.md", root))
+    template = File.read!(Path.expand("../skills/kata-docs/templates/docs-agents.md", root))
+
+    support = %{
+      ".agents/skills/kata-docs/references/document-contracts.md" =>
+        File.read!(Path.expand("../skills/kata-docs/references/document-contracts.md", root)),
+      ".agents/skills/kata-docs/references/setup.md" =>
+        File.read!(Path.expand("../skills/kata-docs/references/setup.md", root))
+    }
 
     inputs =
       Path.wildcard(Path.join(root, "test/fixtures/setup/input/**/*"))
@@ -26,6 +33,7 @@ defmodule KataEvolve.Setup.Store do
       "profile_name" => profile_name,
       "baseline" => Skill.hash(seed),
       "template" => Skill.hash(template),
+      "support" => support |> Map.values() |> Enum.sort() |> Enum.join() |> Skill.hash(),
       "inputs" => fingerprint(inputs),
       "profile" => profile,
       "cli" => String.trim(cli),
@@ -42,6 +50,7 @@ defmodule KataEvolve.Setup.Store do
       key: key,
       seed: seed,
       template: template,
+      support: support,
       profile: profile,
       profile_name: profile_name,
       execute: &Harness.execute/3,

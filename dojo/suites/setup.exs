@@ -14,9 +14,13 @@ defmodule KataEvolve.Setup.Suite do
       end
 
     %{
-      id: "kata-setup",
-      source: Path.expand("../skills/kata-setup/SKILL.md", KataEvolve.root()),
-      support: ["templates/docs-agents.md"],
+      id: "kata-docs",
+      source: Path.expand("../skills/kata-docs/SKILL.md", KataEvolve.root()),
+      support: [
+        "templates/docs-agents.md",
+        "references/document-contracts.md",
+        "references/setup.md"
+      ],
       cases: cases,
       execution_inputs: [
         __ENV__.file,
@@ -37,8 +41,15 @@ defmodule KataEvolve.Setup.Suite do
 
   def prepare(root, item) do
     source = spec().source
-    template = File.read!(Path.join(Path.dirname(source), "templates/docs-agents.md"))
-    Fixture.prepare(root, item, File.read!(source), template)
+    package = Path.dirname(source)
+    template = File.read!(Path.join(package, "templates/docs-agents.md"))
+
+    support =
+      for path <- spec().support, path != "templates/docs-agents.md", into: %{} do
+        {".agents/skills/kata-docs/" <> path, File.read!(Path.join(package, path))}
+      end
+
+    Fixture.prepare(root, item, File.read!(source), template, support)
   end
 
   def prompt(item), do: "#{item.input} Complete Docs Kata setup and check the result."
@@ -46,7 +57,7 @@ defmodule KataEvolve.Setup.Suite do
 
   def proposal_instructions do
     "Keep inspection, local edits, fixed consumers, collision-safe moves, relative links, " <>
-      "intake records, safe repeats, and the templates/docs-agents.md reference."
+      "intake records, safe repeats, and the setup support references."
   end
 
   def check(record, item) do

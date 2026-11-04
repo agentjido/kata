@@ -3,6 +3,7 @@ title: Complete Skill Template Conversion - Plan
 type: refactor
 date: 2026-11-04
 last_reviewed: 2026-11-04
+status: complete
 artifact_contract: ce-unified-plan/v1
 artifact_readiness: implementation-ready
 product_contract_source: ce-plan-bootstrap
@@ -269,8 +270,8 @@ flowchart TB
 - **Goal:** Convert the three packages with the highest reference count or repository reach after the smaller cohorts prove the contract.
 - **Requirements:** R2, R3, R4, R5, R6, R7, R9, R10, R11, R14.
 - **Dependencies:** U4.
-- **Files:** `skills/kata-principled/`, `skills/kata-setup/`, `skills/kata-plan/`.
-- **Approach:** Convert `kata-principled` and verify all 24 command references. Convert `kata-setup` and preserve its template and current evaluation-evidence boundary. Convert `kata-plan` last, inspect all references and scripts, and reconcile internal statements that conflict with the current narrow `kata-work` contract.
+- **Files:** `skills/kata-principled/`, `skills/kata-docs/` (formerly `kata-setup`), `skills/kata-plan/`.
+- **Approach:** Convert `kata-principled` and verify all 24 command references. Convert the former `kata-setup` package into `kata-docs` and preserve its template and setup evaluation-evidence boundary. Convert `kata-plan` last, inspect all references and scripts, and reconcile internal statements that conflict with the current narrow `kata-work` contract.
 - **Test scenarios:** Each named principle resolves to one existing reference. Setup preserves existing documents and does not claim unverified content. Plan routes code and knowledge work according to the current Kata boundaries. An unavailable planning dependency returns the documented fallback or blocker.
 - **Verification:** Resolve every package-relative link. Run changed scripts with safe representative input. Check positive activation, adjacent routing, authority, output readiness, and next-consumer handoff for each package.
 
@@ -334,7 +335,8 @@ Do not treat a passing facet scan as behavior proof.
 
 #### Partial facets, conversion required (4)
 
-`kata-ex-coverage`, `kata-ex-design-review`, `kata-ex-hunt-dead-code`, `kata-setup`.
+`kata-ex-coverage`, `kata-ex-design-review`, `kata-ex-hunt-dead-code`, and the
+former `kata-setup` package, now `kata-docs`.
 
 #### No `kata.skill/v1` facets, conversion required (17)
 

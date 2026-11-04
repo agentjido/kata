@@ -1,7 +1,13 @@
-> **Paused.** The evaluator review found expensive baseline restarts and false
-> checker failures. Use [the revised process](../../../dojo/README.md) for future runs. Keep the
-> old worktree evidence unchanged. Do not resume these live loops before their
-> suites are calibrated and moved to the revised evaluator.
+---
+title: Astra xhigh optimization plan
+status: superseded
+last-reviewed: 2026-11-04
+---
+
+> **Superseded.** Use [the current Dojo process](../../dojo/README.md) for future
+> runs. This plan records historical intent. Its `kata-setup` references name
+> the former source package; `kata-docs` now owns setup behavior. Keep the old
+> worktree evidence unchanged.
 
 # Astra xhigh optimization plan
 
@@ -14,7 +20,7 @@ Use `codex-astra-xhigh`: Codex through `jido_harness`, model `gpt-6-astra`, reas
 Keep attribution in README.md and required license files, never in SKILL.md.
 
 Implementation update: the main checkout now has the shared suite runner and
-setup/neckbeard adapters. See the [Dojo guide](../../../dojo/README.md). The active live
+setup/neckbeard adapters. See the [Dojo guide](../../dojo/README.md). The active live
 worktrees keep their frozen runner version; this refactor does not change their
 measurements. The remaining sections retain the original round's design.
 

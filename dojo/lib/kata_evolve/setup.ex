@@ -1,5 +1,5 @@
 defmodule KataEvolve.Setup do
-  @moduledoc "One resumable, feedback-driven loop for kata-setup."
+  @moduledoc "One resumable, feedback-driven loop for the kata-docs setup route."
   alias KataEvolve.Setup.{Fixture, Skill, Snapshot, Store}
 
   defdelegate root(), to: KataEvolve
@@ -143,10 +143,11 @@ defmodule KataEvolve.Setup do
 
       record =
         workspace(fn workspace ->
-          initial = Fixture.prepare(workspace, item, skill, ctx.template)
+          initial =
+            Fixture.prepare(workspace, item, skill, ctx.template, Map.get(ctx, :support, %{}))
 
           prompt =
-            "Use kata-setup in this repository. Read .agents/skills/kata-setup/SKILL.md and its template. #{item.input} Complete setup and check the result."
+            "Use kata-docs in this repository. Read .agents/skills/kata-docs/SKILL.md and its setup references. #{item.input} Complete Docs Kata setup and check the result."
 
           execution = ctx.execute.(limits(ctx), prompt, workspace)
 
@@ -208,10 +209,11 @@ defmodule KataEvolve.Setup do
       File.write!(Path.join(workspace, "feedback.json"), JSON.encode!(feedback))
 
       prompt = """
-      Edit only SKILL.md to improve this kata-setup skill. Read feedback.json for observed
+      Edit only SKILL.md to improve the setup route of this kata-docs skill. Read feedback.json for observed
       training checks and measurements. Use failures to correct behavior; otherwise shorten it.
       Keep the skill focused. Do not add padding or remove necessary safeguards.
-      Keep name and description frontmatter and the templates/docs-agents.md reference.
+      Keep name and description frontmatter, references/setup.md,
+      references/document-contracts.md, and templates/docs-agents.md.
       The runner sets optimized_for metadata to the active profile after this edit.
       Keep the scope and safeguards: inspect first, preserve instructions and local edits,
       fixed consumers, collision-safe moves, relative links, intake provenance, and safe repeats.
@@ -247,7 +249,7 @@ defmodule KataEvolve.Setup do
   end
 
   defp workspace(fun) do
-    path = Path.join(System.tmp_dir!(), "kata-setup-#{System.os_time(:microsecond)}")
+    path = Path.join(System.tmp_dir!(), "kata-docs-setup-#{System.os_time(:microsecond)}")
     File.mkdir_p!(path)
 
     try do

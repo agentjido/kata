@@ -19,12 +19,13 @@ already selects a route.
 | --- | --- | --- | --- | --- |
 | `maintain-skill` | Resolve one supported library finding when the disposition or required change is not known. | A known package change is ready to write. | `../kata-maintain-skill/SKILL.md` | `local-write` |
 | `write-skill` | Create, import, convert, or revise a skill package with a known contract. | The library concern still needs a finding or ownership decision. | `../kata-write-skill/SKILL.md` | `local-write` |
-| `dojo` | Evaluate an exact skill candidate with controlled cases or inspect its saved evaluation evidence. | The package still needs to be written, or the request asks to adopt it without evidence. | `../kata-dojo/SKILL.md` | `local-write` |
+| `dojo` | The request explicitly names Dojo and asks to inspect saved evidence or evaluate an exact candidate. | Any inferred need for testing, verification, efficiency evidence, or adoption support. | `../kata-dojo/SKILL.md` | `local-write` |
 
 ## Support steps
 
 | Step | Trigger | Non-trigger | Primary Kata | Default authority |
 | --- | --- | --- | --- | --- |
+| `docs` | Establish or maintain project docs, process an inbox item, or preserve durable project knowledge. | Author a plan or perform a broad code-to-document content sync. | `../kata-docs/SKILL.md` | `local-write` |
 | `status` | Report local or remote Git workbench state for a repository or folder. | Application health, business status, or general progress. | `../kata-status-report/SKILL.md` | `read-only` |
 | `commit` | Create one local Git commit from an accepted verified change. | The change still needs work, verification, or consumer acceptance. | `../kata-commit/SKILL.md` | `local-write` |
 | `help` | Explain available routes with natural-language examples. | A request to perform work. | None | `read-only` |
@@ -32,12 +33,12 @@ already selects a route.
 ## Selection rules
 
 1. Determine what the requested result changes. A current domain result uses
-   value delivery. A reusable skill or work method uses Kaizen. Git status,
-   commit, and help use support.
+   value delivery. A reusable skill or work method uses Kaizen. Project docs,
+   Git status, commit, and help use support.
 2. Honor an explicit step only as an entry request. Continue to a later step
    only when the user's requested result and authority include it.
 3. Without an explicit step, select the first unresolved contract in
-   `loops.md`.
+   `loops.md`. Never infer Dojo as that step.
 4. Re-evaluate after every step. Stop for an accountable decision, missing
    authority, failed gate, or completed requested result.
 5. Do not make the human repeat the request with an internal term.
@@ -50,6 +51,7 @@ $jido prepare a launch approach from these constraints
 $jido update this report to meet the supplied acceptance rules
 $jido check whether this result meets the contract
 $jido make this repeated review process reusable
-$jido test whether this skill is ready to adopt
+$jido dojo inspect the saved evidence for this skill
+$jido record this verified finding in the project docs
 $jido save the accepted verified change as a local commit
 ```

@@ -21,7 +21,7 @@ reach require.
 **Done:** The package and taxonomy metadata pass their mechanical checks. Each
 route ends in a conforming candidate or an explicit blocker. The completion
 report names every behavioral check that ran and the evidence still needed from
-Dojo or the acceptor.
+the acceptor. Mention Dojo only when the current request explicitly names it.
 
 Work in the requested skill repository. Read its active instructions, package
 rules, README, and metadata conventions. Inspect current changes and preserve unrelated

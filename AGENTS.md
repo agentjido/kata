@@ -17,4 +17,12 @@
   fallback.
 - Keep the name, version, and description consistent across plugin manifests.
 - Do not add install tests, release automation, or distribution tooling unless requested.
+- Treat `dojo/` as preserved, opt-in evaluation tooling. Do not run commands
+  from `dojo/`, use its catalog, run its tests, inspect its saved evaluations,
+  or change its code unless the user explicitly requests Dojo in the current
+  task. A skill change does not imply Dojo use.
+- Never start a live Dojo model evaluation unless the user explicitly requests
+  the live run and supplies or approves its profile and token or call budget.
+- Do not use Dojo as the default verification path for skill or documentation
+  changes. Use direct file inspection and checks that do not enter `dojo/`.
 - Preserve the user's existing files and work when changing a target project.

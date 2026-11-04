@@ -56,7 +56,7 @@ defmodule KataEvolve.JidoMigrationTest do
     assert review =~ "does not change code, labels, branches, or the PR"
     assert review =~ "Do not edit code"
     assert docs =~ "Edit only the selected documentation"
-    assert docs =~ "Use `kata-setup` only"
+    assert docs =~ "Use `kata-docs` to establish"
   end
 
   test "kata-work stops at a candidate for independent verification" do

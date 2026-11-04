@@ -1,6 +1,18 @@
 # Skill library architecture
 
-Status: working model
+Status: needs review
+
+Last reviewed: 2026-11-04
+
+## Current review
+
+This document remains a useful working model, but it is not a current inventory.
+Direct inspection found 38 active skills with `kata.skill/v1` metadata. The
+stated target of fewer than 20 skills is not met. Jido now also has `docs`,
+`status`, `commit`, and `help` support routes. Its current Kaizen route also
+makes Dojo optional, while the diagrams below show Dojo as a required gate. Keep
+skill frontmatter and live package files as the authority until the owner
+decides whether to revise the budget and this architecture.
 
 ## Purpose
 
@@ -14,7 +26,8 @@ Jido is the front door to two internal routes:
 
 ```text
 Value delivery: understand -> plan -> work -> verify -> consumer acceptance
-Kaizen:         maintain-skill -> write-skill -> dojo -> consumer acceptance
+Kaizen:         maintain-skill -> write-skill -> consumer acceptance
+Optional:       dojo -> consumer acceptance, only by explicit request
 ```
 
 The requester states the goal in normal language and grants authority. Jido
@@ -22,8 +35,8 @@ uses delegated judgment, selects the route, and starts at the first unresolved
 contract. The requester does not need to use the terms Value delivery, Flow, or
 Kaizen.
 
-The nucleus has eight skills: `jido` and the seven transition skills shown
-above. `commit` is an optional software support action. It is not part of either
+The nucleus has seven skills: `jido` and the six default transition skills shown
+above. `kata-dojo` and `commit` are optional actions. They are not part of either
 core route.
 
 ## Four separate dimensions
@@ -43,11 +56,10 @@ profile, and the Jido SDK lens. These three values do not require three skills.
 
 ```text
 understand -> plan -> work -> verify -> consumer acceptance
-                              |
-                              v
-maintain-skill -> write-skill -> dojo -> consumer acceptance
-       ^                          |
-       +---- evaluation evidence--+
+
+maintain-skill -> write-skill -> consumer acceptance
+
+dojo -> consumer acceptance, only by explicit request
 ```
 
 | Facet | Main question | Normal result |
@@ -58,12 +70,13 @@ maintain-skill -> write-skill -> dojo -> consumer acceptance
 | Verify | Does the result meet its contract? | Pass, fail, or an evidence gap |
 | Maintain skill | What reusable problem or opportunity exists? | A resolved finding or bounded brief |
 | Write skill | What reusable transition must change? | A conforming skill candidate |
-| Dojo | Does the candidate work across controlled cases? | Evaluation evidence and an adoption recommendation |
+| Dojo | What does an explicitly requested controlled experiment show? | Evaluation evidence and an adoption recommendation |
 
 `verify` is a first-class facet. `work` can run fast local checks, but it does
 not declare its own result verified. This keeps creation and judgment separate.
 `jido` can run `work` and `verify` as the complete route when the request is
 already ready. Altitude is the first unresolved contract, not task size.
+Dojo is not a required gate and Jido must not infer it.
 
 ## Work dispatcher
 

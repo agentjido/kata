@@ -1,6 +1,6 @@
 ---
 name: kata-technical-writing
-description: "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when writing or reviewing docs, RFCs, readmes, pull-request descriptions, or commit messages."
+description: Write or review one selected README or other technical artifact from verified source facts. Use for drafting and prose quality; use project orientation to choose README files and documentation sync to correct code drift.
 metadata:
   schema: kata.skill/v1
   subject: technical-communication
@@ -8,131 +8,118 @@ metadata:
   object: technical-document
   profile: bounded-execution
   authority: local-write
-  consumes: [technical-writing-request, source-material]
-  produces: [technical-document, writing-review, verified-change]
+  consumes: [technical-writing-request, source-material, readme-brief]
+  produces: [technical-document, verified-readme, writing-review, verified-change]
 ---
 
 # Technical writing
 
-**Outcome:** The reader receives one accurate technical artifact or one
-evidence-based writing review that fits its document mode.
+**Outcome:** The target reader receives one accurate technical document or one
+evidence-based writing review that serves its stated purpose.
 
-**Done:** The requested scope is complete, material claims match source
-evidence, one document mode controls the structure, applicable language checks
-pass, and any local edit is ready for review or commit.
+**Done:** The selected scope is complete, material claims match source evidence,
+the structure fits the document type, applicable language and repository rules
+pass, and each local edit is ready for review or commit.
 
 ## Assignment
 
-The required inputs are the requested artifact or review, its reader, its
-purpose, and the source facts needed for accuracy. Direct user authority or
-inherited caller authority permits a response-only review or local edits to the
-named writing scope. Do not change code, product behavior, staged state, Git
-history, or remote state. A commit-message request produces message text; it
-does not create a commit. Ask when missing product intent changes what the
-document must say.
+The required inputs are one target document or review, its reader, its purpose,
+and the source facts needed for accuracy. A `readme-brief` can supply the path,
+audience, required content, protected material, and verification needs.
 
-Write so a tired engineer understands on the first read. Apply all four layers.
+Direct user authority or inherited caller authority permits a response-only
+review or local edits to the named writing scope. Do not change code, product
+behavior, unrelated documents, staged state, Git history, or remote state. A
+commit-message request produces message text. It does not create a commit. Ask
+when missing product intent changes what the document must say.
 
-Three rules sit above the layers:
+Read active project instructions, the existing target when present, its local
+index or template, and the sources for material claims. Preserve useful
+structure, established terms, attribution, notices, and unrelated edits.
 
-- **Cut every word that does no work.** If the sentence survives without a word, the word goes. "In order to" is "to". "It is important to note that" is nothing.
-- **Use the short, everyday word.** "Use", not "utilize". "Help", not "facilitate". "Do", not "perform". A long word has to buy its length with precision.
-- **When a rule makes a sentence worse, fix the sentence another way or leave it alone.** A sentence that follows every rule and sounds like a machine wrote it has failed.
+Identify what the target reader already knows, why they opened the document,
+and the first result they need. Start at that point. Do not teach background
+that the selected reader already needs as a prerequisite.
 
-The codebase is the word list. Write the real symbol, file, flag, or command name, not a synonym or a description of it.
+## Select the document type
 
-Do not invent jargon. Use the words a developer would say out loud: "move", "delete", or "a budget that only decreases", not "evacuate", "ratchet", or "endgame". A named pattern is fine when the document says what it means the first time. In the reply, identify any repeated abstract metaphor and give its plain replacement.
+For a README, read and follow
+[references/readme.md](references/readme.md). A README is an entry point. It can
+combine a short explanation, a working path, and lookup details in separate
+sections.
 
-## Vary the rhythm
+For an Elixir package README, HexDocs guide, module or function document,
+public type, behaviour, or library error message, also read and follow
+[references/elixir-library-docs.md](references/elixir-library-docs.md).
 
-A doc can obey every layer and still read machine-written: every sentence clipped short, no view anywhere, nothing specific.
+For another document, choose one dominant mode:
 
-- Mix sentence lengths on purpose. Short sentences land a point. Longer ones carry a fact with its condition or consequence.
-- One thought per sentence does not mean one length per sentence. Split the sentence that carries two thoughts. Keep the long sentence that carries one.
-- Have a view where the mode allows it. Explanation weighs trade-offs, so say what you make of them instead of listing pros and cons. Reference stays dry.
-- Be specific over sterile. Not "schema changes can cause issues" but "a column rename fails the build".
+- **Tutorial:** Help a learner produce a visible result through ordered steps.
+- **How-to:** Help a competent reader complete one task.
+- **Reference:** State current facts, options, limits, and errors for lookup.
+- **Explanation:** Help the reader understand one bounded topic and its reasons.
 
-## Pick the mode first (Diátaxis)
+Follow an established project template for an RFC, decision record, issue, pull
+request, or commit message. A pull-request description is a short reviewer
+brief. A commit message states the change and its reason. These artifacts do
+not need a documentation mode.
 
-One document, one mode. Two questions pick it: does the content inform action (doing) or understanding (thinking), and does it serve learning or work?
+A review-only request produces findings and proposed text without changing the
+target.
 
-- Action + learning: **tutorial**.
-- Action + work: **how-to**.
-- Understanding + work: **reference**.
-- Understanding + learning: **explanation**.
+## Write for the reader
 
-Use the compass on a whole document or on one sentence.
+- Lead with the result, purpose, or first useful action. Put the common case
+  before exceptions and background.
+- Use current source evidence for behavior. Use an accepted decision for
+  intent. State a conflict instead of choosing one.
+- Replace broad praise with observable behavior, an exact limit, or a supported
+  example. Do not add a benchmark, status, or adoption claim without evidence.
+- Use active voice and direct commands. Put a condition before the action it
+  controls.
+- Use short, familiar words. Remove filler, repeated meaning, generic praise,
+  excess hedging, and abstract metaphors.
+- Use the exact project term, path, command, flag, symbol, and UI label. Do not
+  rename one thing as the text continues.
+- Give one instruction or thought per sentence. Split a sentence when its parts
+  can be acted on or judged separately.
+- Keep modifiers next to the words they change. Make each pronoun point to one
+  clear noun. Repeat the noun when needed.
+- Do not call a task simple, easy, obvious, or quick. Do not use "please" in an
+  instruction or "click here" as link text.
+- Use sentence-case headings without skipped levels. Use numbered lists for
+  sequences and bullets for sets. Keep list items parallel.
+- Put code, paths, commands, flags, and symbols in code font. Keep examples
+  small enough to check. Use realistic names and data, and show the expected
+  result when the example demonstrates behavior.
 
-**Tutorial: learning by doing.** The learner's success is your job, not theirs. Open by saying what the learner will build, not what they will "learn". Every step produces a visible result, early and often. Tell them what they should see: the expected output, the prompt change, the log line. Cut explanation to one clause and a link. Stay concrete. Write as "we", in commands: "First, do x. Now, do y."
+If an interface is difficult to explain accurately, report the interface
+problem. Do not hide a design problem with more prose.
 
-**How-to: steps to a goal.** Solve a problem a person has, not an operation the machine can perform. Assume competence and skip teaching. Action only: no digressions, no background, no completeness for its own sake. Link those instead. Allow forks and judgment: "If you want x, do y." Name the guide by the task: "How to calibrate the radar array", not "Radar array calibration".
+Do not follow a language rule when it makes the sentence less accurate or less
+natural. Rewrite the sentence or keep the clearer form.
 
-**Reference: facts for lookup.** Only describe. No instruction, no persuasion, no opinion. Be dry, complete, and sure. State facts, options, limits, and errors with no hedging. Mirror the structure of the thing described, so code and docs can be navigated together. Put material where readers expect it. Generate from code where possible.
+## Work in passes
 
-**Explanation: understanding and why.** One bounded topic, readable away from the product. Each title should tolerate an implicit "About..." in front. Anchor on a real why question. Give context: design decisions, history, constraints, alternatives. Opinion is allowed here and nowhere else.
+1. List the reader's starting point, task, and material claims that need
+   evidence.
+2. Choose the smallest structure that supports that task.
+3. Draft with the useful result early, exact project terms, and working
+   examples.
+4. Check facts, commands, paths, links, counts, examples, and expected results.
+5. Remove each sentence that does not help the reader act or understand.
+6. Read the final document aloud or from a new reader's point of view. Repair
+   abrupt transitions, repeated sections, hidden assumptions, and ambiguity.
 
-Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding inside reference, no arguing inside a how-to. Split and link instead.
+## Verify and report
 
-## Write sentences to the reader (Google developer style)
+Run the narrowest available check for changed links, commands, examples, or
+generated content. When practical, follow a changed procedure or quick start
+from a clean state. Do not install a checker only for this edit. Inspect the
+final diff and confirm that it contains only the selected writing scope.
 
-- Talk to the reader as "you", in the present tense. "Will" only for things that genuinely happen later.
-- Say who does what: "the compiler checks", not "is checked". Passive is fine only when the actor is unknown or beside the point.
-- Write instructions as commands: "Click Submit." State facts plainly. Never "should be done".
-- Put the condition before the instruction: "To delete the document, click Delete."
-- Put the common case first. Exceptions after.
-- Sound like a knowledgeable friend. No buzzwords, no figurative language, no "please" in instructions, and never "simply", "easy", or "quickly" in a procedure. If it were simple, the reader would not be here.
-- Don't pre-announce ("we will soon support...") and don't start consecutive sentences with the same phrase.
-- Link with words that say where the link goes: the page title or a short description. Never "click here". Prefer a sentence of context on the page over a link off it.
-- Headings carry the point, not just the topic ("Pick the mode first", not "Modes"). Sentence case. A task heading is a bare verb phrase ("Create an instance"). A concept heading is a noun phrase. One h1 per page, no skipped levels.
-- Numbered lists for sequences, bullets for everything else. Introduce a list with a complete sentence. Keep items parallel.
-- Code goes in code font. UI elements go in bold. Use serial commas. Drop "etc." and say up front that a list is partial.
-
-## Make statements load one at a time (STE rules)
-
-- One instruction per sentence. One thought per sentence everywhere else.
-- Split instructions longer than about 20 words and other sentences longer than about 25.
-- Put the warning or condition before the step it guards: "If hot oil touches your skin, injuries can occur."
-- Keep "the" and "a": "Remove backup file" reads two ways. "Remove the backup file" reads one.
-- Give each word one meaning and one job, then keep it. If "check" means inspect, don't also use it for restrain.
-- Pick one word per action and stick to it: "start", not "start" here and "initiate" there.
-- Write procedures as direct commands, never as narration and never in the passive: "Install the component", not "the component must be installed".
-- Avoid "-ing" words where you can.
-
-## Leave no sentence open to two readings (Global English)
-
-- Keep words like "only" and "not" next to the word they change: "only fails on growth" and "fails only on growth" say different things.
-- Break up long noun strings: "the proto import budget check script" becomes "the script that checks the proto-import budget".
-- Make every "it", "they", and "this" point at one obvious thing. Repeat the noun when in doubt. Never use "this" or "which" to point at a whole clause.
-- Don't drop verbs: "Phase 1 moves the converters and Phase 2 the runtime" leaves Phase 2 without one. Give it one.
-- Keep the small words that show structure, such as "that" in "Ensure that the switch is off". Never trade clarity for word count.
-- Repeat the article in a series when it prevents a misread: "the client and the host", not "the client and host", when they are two things.
-- Say which parts "and" or "or" joins when a sentence can group two ways. "Both...and", "either...or", and "if...then" are free disambiguators.
-- Use periods, not semicolons. Replace an em dash with a new sentence.
-- Make text in parentheses a full grammatical unit or its own sentence. Never form plurals with "(s)".
-- No slashes: write "a, b, or both" instead of "a/b" or "and/or".
-- Call each thing by one name, everywhere. A doc that says "the gate", "the ratchet", and "the budget check" for one thing teaches three things. Don't churn what didn't change.
-- Skip idioms, colloquialisms, Latin abbreviations, and metaphors.
-
-## Voice and repo specifics
-
-- Remove AI vocabulary, filler, excess hedging, and formatting patterns from every document this skill touches.
-- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. A PR body is a briefing that a reviewer can read in under a minute. Do not paste swarm logs, SHA lists, or metric tables. Link them.
-- Product UI strings are not documentation. Use your product's copy guidelines for those.
-- Indent code snippets with tabs. Write real paths. Make every count or tree claim true at the commit that lands it, and include the command that regenerates it.
-
-## Worked example
-
-Before:
-
-> Configuration of the proto import ratchet budget script parameters is performed via budget.json. Note that it's important to remember that running with --write, which updates the committed budget to reflect the current count, should only be done when lowering it. If exceeded, CI fails.
-
-After:
-
-> `budget.mjs` reads the committed budget from `budget.json` and counts the files that import protos. If the count exceeds the budget, CI fails. Run `budget.mjs --write` only to lower the budget.
-
-## Verify
-
-Check the result against its source facts and requested mode. Confirm that
-headings, links, commands, paths, counts, examples, and claims are accurate.
-Produce `verified-change` only when a local document edit remains and its
-applicable checks pass. A review-only route produces `writing-review`.
+Report the document type, target, sources checked, files changed, checks run,
+unverified claims, and unresolved intent. Produce `verified-readme` only when a
+README edit passes its specific checks. Produce `verified-change` only when a
+local edit remains and all applicable checks pass. A review-only route produces
+`writing-review`.

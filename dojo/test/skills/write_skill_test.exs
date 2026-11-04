@@ -138,6 +138,8 @@ defmodule KataEvolve.WriteSkillTest do
     assert commands =~ "`../kata-dojo/SKILL.md`"
     assert commands =~ "| `commit` |"
     assert commands =~ "`../kata-commit/SKILL.md`"
+    assert commands =~ "| `docs` |"
+    assert commands =~ "`../kata-docs/SKILL.md`"
 
     assert :binary.match(commands, "| `maintain-skill` |") <
              :binary.match(commands, "| `write-skill` |")
@@ -181,7 +183,7 @@ defmodule KataEvolve.WriteSkillTest do
       {"kata-write-skill", "agent-work"},
       {"kata-maintain-skill", "agent-work"},
       {"kata-status-report", "software-engineering"},
-      {"kata-setup", "general"},
+      {"kata-docs", "general"},
       {"kata-neckbeard", "software-engineering"},
       {"kata-ex-coverage", "software-engineering"},
       {"kata-ex-design-review", "software-engineering"},

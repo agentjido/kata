@@ -45,15 +45,17 @@ defmodule KataEvolve.Setup.Fixture do
     }
   end
 
-  def prepare(root, item, skill, template) do
+  def prepare(root, item, skill, template, support \\ %{}) do
     input = Path.join(KataEvolve.root(), "test/fixtures/setup/input/#{item.id}")
     files = KataEvolve.Setup.Snapshot.take_input(input)
 
     files =
-      Map.merge(files, %{
-        ".agents/skills/kata-setup/SKILL.md" => skill,
-        ".agents/skills/kata-setup/templates/docs-agents.md" => template
+      files
+      |> Map.merge(%{
+        ".agents/skills/kata-docs/SKILL.md" => skill,
+        ".agents/skills/kata-docs/templates/docs-agents.md" => template
       })
+      |> Map.merge(support)
 
     document = files[item.source]
 
@@ -87,7 +89,8 @@ defmodule KataEvolve.Setup.Fixture do
     asset_destination = "docs/inbox/" <> item.asset
     doc = read(snapshot, destination)
     log = read(snapshot, "docs/inbox/README.md")
-    template = initial.files[".agents/skills/kata-setup/templates/docs-agents.md"] || ""
+    skill_root = skill_root(initial.files)
+    template = initial.files[skill_root <> "/templates/docs-agents.md"] || ""
 
     checks = %{
       "setup_files" =>
@@ -124,9 +127,9 @@ defmodule KataEvolve.Setup.Fixture do
             "mix.exs",
             "test/test_helper.exs",
             "test/example_test.exs",
-            ".agents/skills/kata-setup/SKILL.md",
-            ".agents/skills/kata-setup/templates/docs-agents.md"
-          ],
+            skill_root <> "/SKILL.md",
+            skill_root <> "/templates/docs-agents.md"
+          ] ++ Map.keys(support_files(initial.files)),
           &(read(snapshot, &1) == initial.files[&1])
         ),
       "git_index" => snapshot.index == initial.index
@@ -164,6 +167,18 @@ defmodule KataEvolve.Setup.Fixture do
   end
 
   defp read(snapshot, path), do: KataEvolve.Setup.Snapshot.text(snapshot, path)
+
+  defp support_files(files),
+    do:
+      Map.filter(files, fn {path, _} ->
+        String.starts_with?(path, ".agents/skills/kata-docs/references/")
+      end)
+
+  defp skill_root(files) do
+    if Map.has_key?(files, ".agents/skills/kata-docs/SKILL.md"),
+      do: ".agents/skills/kata-docs",
+      else: ".agents/skills/kata-setup"
+  end
 
   defp normalize(text) do
     Regex.replace(~r/\]\([^)]*\)/, text, "](LINK)") |> String.trim_trailing("\n")

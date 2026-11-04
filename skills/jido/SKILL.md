@@ -43,7 +43,9 @@ actions. The actual authority for a step is the intersection of the live
 request, context rules, and that Kata's authority. A later step cannot inherit
 broader authority from an earlier step. Remote writes always require explicit
 authority. Only `write-skill` and `maintain-skill` can change the skill library.
-Dojo can evaluate a candidate but cannot adopt it.
+Dojo can evaluate a candidate but cannot adopt it. Never select Dojo as an
+inferred Kaizen step. Select it only when the current request explicitly names
+Dojo.
 
 Jido is the coordinator. Each selected Kata owns its procedure and completion
 checks. Jido keeps responsibility for entry selection, handoffs, authority, and
@@ -60,7 +62,7 @@ Classify the primary requested result internally:
 
 - Deliver value in the current domain through the value-delivery route.
 - Improve a reusable skill or work method through the Kaizen route.
-- Use a support route for status, commit, or help.
+- Use a support route for docs, status, commit, or help.
 
 Select the first unresolved contract, not a workflow based only on task size.
 Skip every earlier step whose output is already supplied and supported. After

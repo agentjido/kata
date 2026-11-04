@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Setup.Eval do
-  @shortdoc "Check, record, or tune kata-setup on a named Codex profile"
+  @shortdoc "Check, record, or tune the kata-docs setup route"
   use Mix.Task
 
   def run(args) do

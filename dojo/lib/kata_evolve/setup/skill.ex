@@ -1,7 +1,5 @@
 defmodule KataEvolve.Setup.Skill do
-  @moduledoc "Setup skill identity, format checks, and word counts."
-
-  @frontmatter ~r/\A(---\nname: kata-setup\ndescription: [^\n]+\n)(?:metadata: \{[^\n]+\}\n)?---\n/
+  @moduledoc "Docs skill identity, format checks, and word counts."
 
   def words(text), do: text |> String.split() |> length()
   def hash(text), do: :crypto.hash(:sha256, text) |> Base.encode16(case: :lower)
@@ -14,23 +12,22 @@ defmodule KataEvolve.Setup.Skill do
       byte_size(text) > 16_000 ->
         {:error, "Skill exceeds 16 KB"}
 
-      not Regex.match?(@frontmatter, text) ->
-        {:error, "Keep the name and description frontmatter"}
+      KataEvolve.Skill.validate(text, "kata-docs") != :ok ->
+        {:error, "Keep kata-docs name and description frontmatter"}
 
-      not String.contains?(text, "templates/docs-agents.md") ->
-        {:error, "Keep the bundled template reference"}
+      not Enum.all?(
+        [
+          "references/document-contracts.md",
+          "references/setup.md"
+        ],
+        &String.contains?(text, &1)
+      ) ->
+        {:error, "Keep the setup route references"}
 
       true ->
         :ok
     end
   end
 
-  def mark_optimized(text, profile) do
-    metadata =
-      "metadata: {subject: general, optimized_for: \"#{profile.provider}/#{profile.model}/#{profile.reasoning_effort}\"}"
-
-    Regex.replace(@frontmatter, text, fn _, fields -> fields <> metadata <> "\n---\n" end,
-      global: false
-    )
-  end
+  defdelegate mark_optimized(text, profile), to: KataEvolve.Skill
 end
