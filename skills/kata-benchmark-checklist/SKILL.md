@@ -1,9 +1,34 @@
 ---
 name: kata-benchmark-checklist
-description: "Vet a perf measurement (limiter, tuning, limits, errors, repeatability, relevance, and whether the work happened) before you report or act on it. Use when you run a benchmark or report a speedup or regression you measured."
+description: "Vet a performance measurement for its limiter, tuning, limits, errors, repeatability, relevance, and executed work. Use when running a benchmark or reporting a measured speedup or regression; do not use for unmeasured performance speculation."
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: benchmark
+  object: performance-claim
+  profile: bounded-execution
+  authority: local-write
+  consumes: [performance-claim, benchmark-harness]
+  produces: [validated-performance-result]
 ---
 
 # Benchmark checklist
+
+**Outcome:** A decision-ready performance verdict with its measured value,
+limiter, validity evidence, and uncertainty.
+
+**Done:** The checks required for the claim have run, the result states whether
+the work and outputs were valid, and any missing condition makes the verdict
+inconclusive instead of stronger than the evidence.
+
+## Assignment
+
+The required inputs are the expected claim, target system, workload, and
+measurement harness. Direct user authority or inherited caller authority
+permits benchmark execution and the smallest local harness change needed for a
+valid measurement. Do not change production behavior, tune an option beyond
+the accepted comparison, commit, publish, or change remote state without
+separate authority.
 
 Use this when you produce a performance number: a PR's before and after, a regression claim, a hillclimb harness, or a library or config choice. Answer each question with evidence from a run, not a guess about the code.
 
