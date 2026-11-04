@@ -6,7 +6,7 @@ The four live loops remain paused while the evaluator is repaired offline.
 
 These totals come from saved case/proposal records and the coverage abort record
 in the four `astra-*-20260905` worktrees. `KataEvolve.Usage.summary/1` reproduces
-them from each `evals/results/<skill>/codex-astra-xhigh` directory.
+them from each `dojo/results/<skill>/codex-astra-xhigh` directory.
 
 | Skill | Started calls | Proposals | Recorded tokens | Tool calls | Recorded seconds |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -60,7 +60,7 @@ be converted into successes to make the process look better.
   and the phrase “does not explain the choice.” Counterexamples still reject
   wrong counts, swapped subjects, unrelated evidence, and invented history.
 
-The [saved neckbeard record](../../../evals/test/fixtures/kata-neckbeard/replay/train-retry-1.json)
+The [saved neckbeard record](../../../dojo/test/fixtures/kata-neckbeard/replay/train-retry-1.json)
 still has its original failed result. The current checker passes it offline. This
 is evidence of a repaired checker, not a new execution, a reliable skill score,
 or human approval. Old combined contexts are available for diagnostic replay;

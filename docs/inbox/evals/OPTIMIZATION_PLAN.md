@@ -1,5 +1,5 @@
 > **Paused.** The evaluator review found expensive baseline restarts and false
-> checker failures. Use [the revised process](../../../evals/README.md) for future runs. Keep the
+> checker failures. Use [the revised process](../../../dojo/README.md) for future runs. Keep the
 > old worktree evidence unchanged. Do not resume these live loops before their
 > suites are calibrated and moved to the revised evaluator.
 
@@ -14,7 +14,7 @@ Use `codex-astra-xhigh`: Codex through `jido_harness`, model `gpt-6-astra`, reas
 Keep attribution in README.md and required license files, never in SKILL.md.
 
 Implementation update: the main checkout now has the shared suite runner and
-setup/neckbeard adapters. See the [evaluation guide](../../../evals/README.md). The active live
+setup/neckbeard adapters. See the [Dojo guide](../../../dojo/README.md). The active live
 worktrees keep their frozen runner version; this refactor does not change their
 measurements. The remaining sections retain the original round's design.
 
@@ -163,7 +163,7 @@ edit the main checkout or push. A no-improvement result is a valid outcome.
 | `kata-showme` | `01a07318-c595-7751-9118-c05d7ff8ec34` |
 
 Ownership paths are `test/fixtures/<skill-id>/`, skill-specific files under
-`test/skills/`, and `results/<skill-id>/codex-astra-xhigh/`, relative to `evals/`.
+`test/skills/`, and `results/<skill-id>/codex-astra-xhigh/`, relative to `dojo/`.
 Shared changes to Harness, storage, score calculation, or command dispatch belong
 to the coverage task. Use the complete skill name as its suite ID, including showme.
 

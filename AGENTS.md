@@ -3,13 +3,18 @@
 - Use ASD-STE100 Simplified Technical English.
 - Do not use skills unless the user explicitly requests them.
 - Use `kata-ex-<task>` for Elixir skills and `kata-<task>` for language-agnostic skills.
+- `jido` is the approved bare dispatcher for explicit `$jido` requests. Use
+  `jido-sdk` when a name refers specifically to the Jido Elixir SDK.
 - A small conversational or writing command can keep a distinctive bare name when the user explicitly approves the exception and the name has low collision risk. Bare commands must say that they require explicit invocation.
 - Mark Elixir skills with `metadata: {language: elixir}`. No language marker means language-agnostic.
 - Keep the plugin small. Add a skill when an actual task shows a need.
 - Keep each skill self-contained in `skills/<name>/SKILL.md`.
 - Keep author attribution in README.md, not in SKILL.md files. Preserve required license files.
 - Use standard `name` and `description` frontmatter. Match the name to its directory.
-- Use host-neutral instructions. Do not require a specific tool API or another installed skill.
+- Use host-neutral instructions. Do not require a specific tool API or another
+  installed skill. An approved dispatcher can route to sibling packages bundled
+  in the same plugin when it verifies each target and has a self-contained
+  fallback.
 - Keep the name, version, and description consistent across plugin manifests.
 - Do not add install tests, release automation, or distribution tooling unless requested.
 - Preserve the user's existing files and work when changing a target project.

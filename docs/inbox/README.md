@@ -26,13 +26,13 @@ Paths below are relative to the project root. These entries were recorded on
 | Path | Status | Reason |
 | --- | --- | --- |
 | [README.md](../../README.md) | Retained | Root entry point; includes policies and author credits. |
-| [evals/README.md](../../evals/README.md) | Retained | Evaluator entry point, used by the root README, runner handoff, and saved reports. |
-| [evals/RUNNER.md](../../evals/RUNNER.md) | Retained | Active task handoffs require this path. |
+| [dojo/README.md](../../dojo/README.md) | Retained | Dojo entry point, used by the root README, runner handoff, and saved reports. |
+| [dojo/RUNNER.md](../../dojo/RUNNER.md) | Retained | Active task handoffs use this path. |
 | [AGENTS.md](../../AGENTS.md) and all fixture instruction files | Excluded | Preserve agent instructions and their scope. |
 | [skills/](../../skills/) | Excluded | Skill instructions, support files, templates, and licenses are package inputs. |
-| [evals/prompts/](../../evals/prompts/) | Excluded | The evaluator reads these prompts at fixed paths. |
-| [evals/results/](../../evals/results/) | Excluded | Saved evaluation evidence and candidate files must keep their recorded paths and content. |
-| [evals/test/](../../evals/test/), [evals/suites/](../../evals/suites/), and evaluator source/configuration | Excluded | Tests, fixtures, preparation inputs, and source are outside documentation intake. |
+| [dojo/prompts/](../../dojo/prompts/) | Excluded | Dojo reads these prompts at fixed paths. |
+| [dojo/results/](../../dojo/results/) | Excluded | Saved evaluation evidence and candidate files must keep their recorded content. Historical path strings inside records remain unchanged. |
+| [dojo/test/](../../dojo/test/), [dojo/suites/](../../dojo/suites/), and Dojo source/configuration | Excluded | Tests, fixtures, preparation inputs, and source are outside documentation intake. |
 | Dependencies, build output, and temporary run directories | Excluded | Generated or third-party material is outside documentation intake. |
 
 ## Repeat setup

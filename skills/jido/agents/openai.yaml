@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jido"
+  short_description: "Route engineering work through focused Kata"
+  default_prompt: "Use $jido to select one Kata for this goal, report the route and authority, and verify the result."

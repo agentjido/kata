@@ -46,7 +46,7 @@ The source repository remains available until every archive gate passes.
 - [ ] Reconcile the remaining Compound Engineering names and fallback phrases
       in `kata-work`. The new PR-hardening route is self-contained, but other
       routes still contain imported `ce-*` integration text.
-- [ ] Replace the legacy default `jido_harness` path in `evals/mix.exs` with a
+- [ ] Replace the legacy default `jido_harness` path in `dojo/mix.exs` with a
       portable setup. The current workspace check needs the documented
       `JIDO_HARNESS_PATH` override.
 - [ ] Review Jido skill examples again when `jido`, `jido_action`, or `jido_ai`

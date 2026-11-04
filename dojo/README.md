@@ -1,13 +1,14 @@
-# Skill evaluation
+# Dojo
 
-Use one small suite per skill. Codex runs the skill through `jido_harness`, with
-**gpt-6-astra / xhigh** as the default. Keep the official skill in `skills/`.
-Keep fixtures, candidate text, final answers, final files, and costs in Git.
-Do not save tool transcripts or intermediate output.
+Dojo runs controlled agent executions and evaluates how Kata skills affect the
+result. Use one small suite per skill. Codex runs the skill through
+`jido_harness`, with **gpt-6-astra / xhigh** as the default. Keep the official
+skill in `skills/`. Keep fixtures, candidate text, final answers, final files,
+and costs in Git. Do not save full tool transcripts or intermediate output.
 
 ## Run an optimization
 
-Run from `kata/evals`. The default harness path is the sibling `jido_harness`
+Run from `kata/dojo`. The default harness path is the sibling `jido_harness`
 repository (`../../jido_harness`). Set `JIDO_HARNESS_PATH` if it is elsewhere.
 Run `mix deps.get` once, then:
 

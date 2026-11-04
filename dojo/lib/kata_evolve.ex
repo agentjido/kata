@@ -1,5 +1,5 @@
 defmodule KataEvolve do
-  @moduledoc "Evaluate any skill through a suite of independent outcome checks."
+  @moduledoc "Dojo evaluates agent runs through independent skill outcome checks."
 
   def root, do: Path.expand("..", __DIR__)
 

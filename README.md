@@ -22,6 +22,17 @@ skills use `kata-<task>`. Small conversation commands can keep a distinctive bar
 name when the user approves the exception. Keep all packages in the flat
 `skills/<name>/SKILL.md` layout.
 
+### Primary entry point
+
+| Skill | Job |
+| --- | --- |
+| `jido` | Route an explicit `$jido` request through the initial `status`, `investigate`, `plan`, `work`, or `help` command. Use a bounded base loop when no stable command fits. |
+
+`$jido` is the initial front door for the Jido-Kata V2 design. It routes to one
+primary Kata and reports the selected route and authority. Direct leaf skills
+remain available. See the [V2 design](README_V2.md) for the vocabulary,
+boundaries, maturity model, and migration rules.
+
 ### General engineering
 
 | Skill | Job |
@@ -117,12 +128,12 @@ The docs rules define guides, reference, decisions, plans, and lessons as the
 destinations for later review. Setup collects material; it does not treat old
 documents as verified or create every category in advance.
 
-## Skill evaluation
+## Dojo skill evaluation
 
 Our target is **Astra xhigh**: Codex, model `gpt-6-astra`, reasoning `xhigh`.
 Skills in `skills/` target this profile. Keep one focused source version per
 skill. Other models can be used for experiments; their candidates and measurements
-stay in `evals/results/`. We do not maintain separate model variants of the source
+stay in `dojo/results/`. We do not maintain separate model variants of the source
 skills.
 
 The setup and neckbeard skills record their optimization target in one frontmatter line:
@@ -135,7 +146,7 @@ This is a provenance note, not a command that selects or requires a model.
 The execution profile controls the harness, model, and reasoning level. Only add
 an optimization claim when a skill has been tuned for that target; the other
 skills share the intended target but do not yet have equivalent evaluation evidence.
-Use [`evals/`](evals/README.md) to measure and improve skills. Plugin users do not
+Use [Dojo](dojo/README.md) to measure and improve skills. Plugin users do not
 need Elixir.
 
 ### Tune, check, and adopt
@@ -159,7 +170,7 @@ need Elixir.
 Use the same runner for each skill's dedicated suite. For example:
 
 ```sh
-cd evals
+cd dojo
 mix check
 mix skill.eval suites/neckbeard.exs train
 mix skill.eval suites/neckbeard.exs tune --attempts 5 --max-calls 11
@@ -175,8 +186,8 @@ After adoption, the new source becomes the next tuning baseline.
 One training case and five proposal rounds need at most 11 model calls before a
 verification decision. Full repeated verification starts only for a promising
 candidate. Call/token limits and `status` reports include proposals and error
-retries. See the [evaluator guide](evals/README.md) and [process review](docs/inbox/evals/EVALUATOR_REVIEW.md).
-The [proposal prompt](evals/prompts/propose_skill.md) permits full rewrites against
+retries. See the [Dojo guide](dojo/README.md) and [process review](docs/inbox/evals/EVALUATOR_REVIEW.md).
+The [proposal prompt](dojo/prompts/propose_skill.md) permits full rewrites against
 a fixed outcome contract. It tries removing procedure, replacing the workflow,
 and refining the measured approach. Labeled training costs, actual outputs, and
 prior rejection reasons guide each proposal. An unchanged proposal skips its
@@ -187,7 +198,7 @@ The shared loop selects by cost score after outcome checks pass. The old setup
 command remains available for its historical experiment and selects by word count.
 A shorter skill can use more total tokens:
 the first setup trial reduced the skill from 939 to 499 words, but its training
-run used more tokens. See the [recorded comparison](evals/results/setup/report.md).
+run used more tokens. See the [recorded comparison](dojo/results/setup/report.md).
 
 ### Skill quality score
 
@@ -249,8 +260,8 @@ the selected candidate on cases excluded from proposal feedback. Promotion also
 requires a repeated full-suite score above the fixed reference and review of
 behavior the assertions do not cover.
 
-The [generic calculator](evals/lib/kata_evolve/score.ex) implements this rule.
-The [scoring guide](evals/README.md#calculate-a-quality-score) gives the command and
+The [generic calculator](dojo/lib/kata_evolve/score.ex) implements this rule.
+The [scoring guide](dojo/README.md#calculate-a-quality-score) gives the command and
 evidence contract. The common evolver uses this score and collects separate
 training and repeated verification evidence.
 
@@ -269,15 +280,15 @@ checks per case; the new checker identity and results are recorded by the scorer
 | Codex through `jido_harness` | `gpt-5.6-sol` | `medium` | Completed five tuning rounds. The source and selected candidate each passed all 30 fixture checks. |
 
 The user requested adoption of neckbeard Round 1 from the
-[three-round v3 trial](evals/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md).
+[three-round v3 trial](dojo/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md).
 The exact 290-word candidate is now in `skills/kata-neckbeard/SKILL.md`. It passed
 all 12 checks on one training case and scored **57.809727**. This is exploratory
 evidence. Repeated runs and separate final cases have not been checked. The
-[adoption record](evals/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/adoption.json)
+[adoption record](dojo/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/adoption.json)
 records this exception to the normal verification requirement.
 
 The task model and proposal model use the same profile. Astra xhigh is the default.
-For the Sol medium experiment, from `evals`:
+For the Sol medium experiment, from `dojo`:
 
 ```sh
 mix setup.eval tune --profile codex-sol-medium --attempts 5 --minutes 30
@@ -288,7 +299,7 @@ mean five independent repetitions of an unchanged skill. Each round compares its
 candidate against the best training result so far. Rejected proposals do not end
 the requested round budget. Saved state preserves that budget after an interruption.
 
-The [completed Sol trial](evals/results/setup/codex-sol-medium/report.md) reduced
+The [completed Sol trial](dojo/results/setup/codex-sol-medium/report.md) reduced
 the skill from 500 to 445 words. Total tokens across the three cases increased
 from 698,373 to 857,248, about 23%. The loop improved word count; this trial did
 not show token savings. The candidate stays in evaluation results. The source
@@ -296,7 +307,7 @@ skill and its Astra target are unchanged.
 
 The shared runner takes a suite file and supports any skill with its own outcome
 checks. Setup and neckbeard adapters are included; the other active suites remain
-in their optimization worktrees until integration. See [the evaluation guide](evals/README.md)
+in their optimization worktrees until integration. See [the Dojo guide](dojo/README.md)
 for the interface and [legacy setup commands](docs/inbox/evals/SETUP_LEGACY.md) for historical
 results. Testing Sol does not change the Astra target or establish support for an
 entire model family.
