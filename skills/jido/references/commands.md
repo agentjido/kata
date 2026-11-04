@@ -10,7 +10,7 @@ commands before inferred routes. Do not add aliases during execution.
 | `status` | Report local or remote Git workbench state for one repository or a folder of repositories. | Application health, service health, or progress on a non-Git task. | `../kata-status-report/SKILL.md` | `read-only` |
 | `investigate` | Explain how an existing system works, where behavior is implemented, or why repository evidence supports a conclusion. | A request that authorizes a fix or asks for a durable implementation plan. | `../kata-neckbeard/SKILL.md` | `read-only` |
 | `plan` | Create, revise, deepen, or break down a multi-step plan. | Exploratory discussion with no request for a plan artifact. | `../kata-plan/SKILL.md` | `local-write` |
-| `work` | Execute a supplied plan or a clear build request and verify the result. | Open-ended diagnosis, an unclear product decision, or a report-only request. | `../kata-work/SKILL.md` | `local-write` |
+| `work` | Implement a supplied plan or clear work request and verify the local result. | Open-ended diagnosis, an unclear product decision, a report-only request, or a commit-only request. | `../kata-work/SKILL.md` | `local-write` |
 | `commit` | Create one local commit from an already verified, explicitly scoped change. | The change still needs implementation or verification, or the request includes push, merge, rebase, or amend. | `../kata-commit/SKILL.md` | `local-write` |
 | `help` | List the implemented Jido commands and examples. | A request to perform project work. | None | `read-only` |
 

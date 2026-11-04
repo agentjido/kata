@@ -59,19 +59,18 @@ defmodule KataEvolve.JidoMigrationTest do
     assert docs =~ "Use `kata-setup` only"
   end
 
-  test "kata-work has a self-contained pull request hardening route" do
+  test "kata-work stops at a verified local change" do
     work = skill("kata-work")
+    interface = File.read!(Path.join(@root, "skills/kata-work/agents/openai.yaml"))
 
-    reference =
-      File.read!(Path.join(@root, "skills/kata-work/references/pull-request-hardening.md"))
-
-    license = File.read!(Path.join(@root, "skills/kata-work/LICENSE-JIDO-SKILLS"))
-
-    assert work =~ "references/pull-request-hardening.md"
-    assert reference =~ "does not by itself authorize a push"
-    assert reference =~ "Do not merge the pull request"
-    assert work =~ "does not require another skill"
-    assert license =~ "Apache License"
+    assert Skill.validate(work, "kata-work") == :ok
+    assert work =~ "consumes: [work-request, implementation-plan]"
+    assert work =~ "produces: [verified-change]"
+    assert work =~ "Do not\nstage, commit"
+    assert work =~ "A commit or review workflow owns the next boundary."
+    refute work =~ "pull request hardening"
+    assert interface =~ "display_name:"
+    assert interface =~ "short_description:"
   end
 
   defp skill(name), do: File.read!(Path.join(@root, "skills/#{name}/SKILL.md"))

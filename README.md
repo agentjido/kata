@@ -110,14 +110,11 @@ signal-based `AgentServer` calls, current state operations, and the current rule
 that an action can perform immediate I/O when its result is needed by the
 workflow.
 
-`kata-plan` and `kata-work` are direct imports of Compound Engineering's
-`ce-plan` and `ce-work`, with their bundled references and scripts. Kata names
-replace those two command names. A small integration file defines native
-fallbacks for optional CE skills and keeps the active host and model as the
-default. Existing protocol identifiers and script interfaces are preserved.
-These imports have not been tuned or tested in live model runs. Their entry
-files contain 1,176 and 1,105 words, respectively, before support files; their
-size and behavior remain future evaluation work.
+`kata-plan` is a direct import of Compound Engineering's `ce-plan`, with its
+bundled references and scripts. The imported workflow has not been tuned or
+tested in live model runs. `kata-work` is a small Kata-native boundary that
+implements and locally verifies one clear request. It does not own commits,
+review, pull requests, or delivery.
 
 For Durable repository plans, `kata-plan` checks for an installed `bw` command
 and an already initialized Beadwork repository. When both checks pass, it creates
@@ -335,12 +332,12 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   The package includes the source MIT notices:
   [Matt Pocock license](skills/kata-write-skill/LICENSE-MATT-POCOCK) and
   [Compound Engineering license](skills/kata-write-skill/LICENSE-COMPOUND-ENGINEERING).
-- `kata-plan` and `kata-work` are adapted from `ce-plan` and `ce-work` in
+- `kata-plan` is adapted from `ce-plan` in
   [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin/tree/57e409e5c8c2c472106bd7d87ac72b724b70826b),
   maintained by Kieran Klaassen and Trevin Chow with community contributions.
   The source is commit `57e409e5c8c2c472106bd7d87ac72b724b70826b`.
-  Each imported skill includes Every's original MIT license notice:
-  [plan license](skills/kata-plan/LICENSE) and [work license](skills/kata-work/LICENSE).
+  The imported skill includes Every's original
+  [MIT license notice](skills/kata-plan/LICENSE).
 - `kata-showme` is adapted from `show-me`, written by Dex Horthy and published
   in [humanlayer/skills](https://github.com/humanlayer/skills). The original
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
@@ -360,9 +357,8 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   [agentjido/jido-skills](https://github.com/agentjido/jido-skills), reviewed at
   commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges that
   material as `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`,
-  `kata-jido-testing`, `kata-review-pr`, `kata-sync-docs`, and the pull-request
-  hardening reference in `kata-work`. Each affected skill directory contains
-  the required Apache-2.0 license and copyright notice.
+  `kata-jido-testing`, `kata-review-pr`, and `kata-sync-docs`. Each affected
+  skill directory contains the required Apache-2.0 license and copyright notice.
 
 ## Installation
 
@@ -429,8 +425,8 @@ the skill files and ask it to save each one as a private skill:
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
    Include `LICENSE` with each `kata-jido-*`, `kata-review-pr`, and
    `kata-sync-docs` skill.
-   For `kata-plan` and `kata-work`, include the complete skill directory with
-   `references/`, `scripts/`, and all license files.
+   For `kata-plan`, include the complete skill directory with `references/`,
+   `scripts/`, and all license files.
    For every pstack-derived skill, include its `LICENSE`. Include the complete
    directory for `kata-create-verification-skill`, `kata-principled`, and
    `kata-show-your-work` because they have support files.
