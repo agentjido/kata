@@ -1,7 +1,16 @@
 ---
 name: kata-neckbeard
 description: Answer questions about an existing system with evidence from its source code, tests, configuration, and documentation. Use when the user asks how a feature works, where behavior is implemented, or what requirements and limits apply.
-metadata: {subject: software-engineering, optimized_for: "codex/gpt-6-astra/xhigh"}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: investigate
+  object: software-system
+  profile: bounded-execution
+  authority: read-only
+  consumes: [system-question, software-system]
+  produces: [evidence-supported-answer]
+  optimized_for: "codex/gpt-6-astra/xhigh"
 ---
 
 # Kata Neckbeard
