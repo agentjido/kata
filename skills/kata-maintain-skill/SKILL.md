@@ -9,7 +9,7 @@ metadata:
   profile: system-design
   authority: local-write
   consumes: [skill-library]
-  produces: [resolved-library-finding, conversion-brief]
+  produces: [resolved-library-finding, conversion-brief, library-change-commit]
 ---
 
 # Maintain Skill
@@ -18,8 +18,9 @@ metadata:
 target library.
 
 **Done:** Exactly one finding has one disposition. The decision has specific
-evidence, the permitted change is complete and verified, and unrelated library
-concerns remain unchanged.
+evidence. When the operator requests a fix, the permitted change is complete and
+verified. When the operator also requests a commit, that commit contains only
+the finding. Unrelated library concerns remain unchanged.
 
 ## Assignment
 
@@ -34,6 +35,11 @@ contracts, activation text, metadata, indexes, references, and documentation.
 Do not install, publish, release, or change remote state. Get explicit approval
 before a package deletion or rename, a license or provenance change, execution
 of untrusted source, or a change that expands the assignment.
+
+A request to complete the maintenance loop permits the in-scope local fix. A
+local commit is permitted only when the operator requests it. The commit must
+contain only the selected finding. This authority does not permit amend, rebase,
+push, merge, or other remote or history-changing actions.
 
 The work profile is `system-design` when the finding changes a reusable library
 contract or ownership boundary. It is `bounded-execution` when the finding only
@@ -97,13 +103,28 @@ canonical owner and update affected callers before an approved retirement. For
 a reclassification, reuse the exact facet values used by equivalent work and
 keep classification in the skill frontmatter. For a route, state the required
 outcome, non-trigger, authority, taxonomy, acceptance evidence, and source
-rights without creating the package.
+rights. If the operator requested a report only, stop with that brief. If the
+operator requested a completed fix, pass the brief to the canonical skill-writing
+workflow, apply its result inside this finding, and return here for verification.
 For a conversion route, also name the behavior and resources to preserve and
 the exact contract gaps to correct. Route Kata conversions to `kata-write-skill`
 when it is available. Keep the brief complete when it is not available.
 
 Do not fix a second finding. Mention another concern only when it blocks this
 one.
+
+## Complete the requested loop
+
+When the operator requested a fix, do not report a Route disposition as complete
+until the writing handoff is verified or has an explicit blocker.
+
+When the operator also requested a commit:
+
+1. Start from a clean worktree, or separate existing changes before the finding.
+2. Stage only files required by this finding.
+3. Inspect the staged diff and run the required checks.
+4. Create one local commit that names the finding.
+5. Report the commit hash. Do not amend, rebase, push, or merge.
 
 ## Verify and report
 
