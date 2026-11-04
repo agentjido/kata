@@ -1,7 +1,16 @@
 ---
 name: kata-ex-hunt-dead-code
 description: Find unused Elixir modules and module groups through reachability analysis. Use when auditing dead code, checking abandoned subsystems, or removing confirmed unused code and its tests.
-metadata: {subject: software-engineering, language: elixir}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: analyze
+  object: dead-code
+  profile: bounded-execution
+  authority: local-write
+  consumes: [elixir-project, production-roots]
+  produces: [dead-code-audit, verified-change]
+  language: elixir
 ---
 
 # Kata Hunt Dead Code
@@ -26,6 +35,9 @@ Do not alter shared skill files, install dependencies, change public API based
 only on internal reachability, or commit, push, or change remote state unless
 the assignment grants that authority. Ask when production roots or external
 consumers cannot be established safely.
+
+Audit-only work produces `dead-code-audit`. A changed roots file or one verified
+removal also produces `verified-change`.
 
 Treat code unreachable from declared production roots as a candidate for removal.
 Tests do not establish production reachability. A group whose only callers are

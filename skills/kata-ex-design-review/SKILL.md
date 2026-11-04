@@ -1,7 +1,16 @@
 ---
 name: kata-ex-design-review
 description: "Review an Elixir package or subsystem as a principal engineer. Find unnecessary complexity, unclear contracts, and missed Elixir or OTP patterns. Use for deep design reviews and simplification proposals, including existing code without a diff. Report by default; apply local fixes only when requested."
-metadata: {subject: software-engineering, language: elixir}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: review
+  object: software-design
+  profile: system-design
+  authority: local-write
+  consumes: [elixir-codebase, design-review-request]
+  produces: [design-assessment, verified-change]
+  language: elixir
 ---
 
 # Elixir Design Review
@@ -28,6 +37,8 @@ branch changes, commits, pushes, pull requests, publication, and live-system
 changes require separate authority. The primary reviewer owns coverage,
 cross-boundary synthesis, verification, and the final assessment. Ask the
 operator when scope, source revision, or change authority remains ambiguous.
+Report-only work produces `design-assessment`; an applied and verified local
+fix also produces `verified-change`.
 
 Arguments: `<package or paths> [ref or comparison] [focus] [apply:local]`.
 

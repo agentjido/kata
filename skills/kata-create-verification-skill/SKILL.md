@@ -1,9 +1,36 @@
 ---
 name: kata-create-verification-skill
 description: "Generate a project-local verification skill that drives an app the way a user does, in any language, framework, or platform. Use when a project has no scripted way to prove UI, CLI, or service behavior."
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: build
+  object: verification-skill
+  profile: system-design
+  authority: local-write
+  consumes: [software-repository, verification-request]
+  produces: [project-verification-skill, verified-change]
 ---
 
 # Create a verification skill
+
+**Outcome:** The project and its next agent receive one project-local skill that
+drives the real user surface and preserves observable proof.
+
+**Done:** The generated skill and feature map have no placeholders, one mapped
+feature passes launch-to-cleanup verification, evidence survives cleanup, and
+the local package is ready for review or commit.
+
+## Assignment
+
+The required inputs are one repository, its primary user surface, and the
+active host. Direct user authority or inherited caller authority permits local
+inspection, writes inside the selected project skill root, isolated verification
+scaffolding and evidence, and local app processes needed for one proof. Do not
+install a new dependency, change production behavior, access real user data,
+send an external effect, stage, commit, or change remote state without separate
+authority. If the base app is broken, fix it only when that repair is inside the
+assignment. Otherwise report the blocker.
 
 Every serious project needs a scripted way to drive the real app and prove behavior: launch it, exercise a feature the way a user would, and capture evidence. This skill generates a project-local `verify-<app>` skill tailored to the repo. Read [references/host-paths.md](references/host-paths.md), choose the active host's one project skill root, and call it `<skill-root>` below. Write for the next agent, which will read the result cold and mid-task.
 

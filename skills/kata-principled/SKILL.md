@@ -1,9 +1,36 @@
 ---
 name: kata-principled
 description: Apply one focused engineering principle by command. Use as `$kata-principled <command>` when design, debugging, testing, concurrency, migration, measurement, or delivery needs a clear decision rule.
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: decide
+  object: engineering-principle
+  profile: bounded-execution
+  authority: read-only
+  consumes: [work-request, principle-command]
+  produces: [principled-decision]
 ---
 
 # Principled engineering
+
+**Outcome:** The current executor receives one evidence-based decision rule for
+the task in progress.
+
+**Done:** The reply names one command, the task fact that selected it, the
+decision that it changes, and the evidence that supports the result.
+
+## Assignment
+
+The required input is one current task. A command is optional. Use the named
+command when the operator supplies it. Otherwise, select the narrowest command
+that matches the task facts. The work profile is `bounded-execution`.
+
+Direct user authority or inherited caller authority permits read-only use of
+the current task evidence. This skill does not grant authority to edit files,
+delegate work, change remote state, or perform a destructive action. Use only
+the caller's existing scope and authority. Ask the operator when two commands
+would change the same decision in materially different ways.
 
 Apply one principle to the current task. The word after the skill name is the command. For example:
 
@@ -49,3 +76,9 @@ The principle guides work inside the user's scope. It does not authorize edits, 
 ## Reply
 
 Name the command, the task fact that triggered it, the decision it changes, and the evidence that shows the result. Keep the reply proportional to the task.
+
+## Verify
+
+Confirm that the selected command has one matching file in `references/`, that
+the decision stays inside the current task, and that the reply does not claim
+authority or evidence that the caller did not supply.

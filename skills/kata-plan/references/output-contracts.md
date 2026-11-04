@@ -6,11 +6,11 @@ Read this when the kernel's Output Contract gate selects Direct or Chat brief. T
 
 - The result is delivered in chat, in plain sentences, and nothing is written under `<root>/plans/` unless the user asks for a file.
 - No subagent runs, no confidence check, no document review, and no Phase 5.4 menu. The result closes the run on its own.
-- `kata-plan` still never implements. A Direct result describes the change; the implementation belongs to `kata-work` or the user.
+- `kata-plan` still never implements. A Direct result describes the change. Software implementation belongs to `kata-work` or the user. Non-software execution belongs to its owning workflow or the user.
 
 ## Direct
 
-Say what changes, where, and how it is verified, in a few sentences. Then offer the handoff in one line: hand it to `kata-work` or the user makes the change. Invoke `kata-work` with that statement as its prompt only when the user accepts, or when the invocation already carried implementation intent from an orchestrator; `kata-plan` never makes the edit itself, and a planning invocation is not execution authority. A Direct result is complete when the statement and the offer are in chat.
+Say what changes, where, and how it is verified, in a few sentences. Then offer the owning executor or the user in one line. Offer `kata-work` only for software implementation. Invoke it with that statement as its prompt only when the user accepts, or when the invocation already carried implementation intent from an orchestrator. For non-software work, use the handoff in `approach-altitude.md`. `kata-plan` never makes the change itself, and a planning invocation is not execution authority. A Direct result is complete when the statement and the offer are in chat.
 
 ## Chat brief
 
@@ -20,7 +20,7 @@ Deliver, in chat:
 - the implementation units, each with its files and its test expectations;
 - one decisions line when the request or a brainstorm summary settled a choice the implementer must honor, otherwise none.
 
-Close with one line offering to save the brief to a file or hand it to `kata-work`. A Chat brief is complete when the brief and that offer are in chat. "Proceed" after a Chat brief hands the brief to `kata-work` as its prompt; `kata-work`'s session-carried resolution accepts an in-conversation brief as that prompt.
+Close with one line that offers to save the brief to a file or hand it to the owning executor. Offer `kata-work` only for software implementation. For non-software work, use the handoff in `approach-altitude.md`. A Chat brief is complete when the brief and that offer are in chat. For a software brief, "Proceed" hands the brief to `kata-work` as its prompt; `kata-work` accepts an in-conversation brief as that prompt.
 
 A brainstorm summary that carries a settled decision the implementer must honor selects Chat brief at minimum, so the decision has a line to live on.
 

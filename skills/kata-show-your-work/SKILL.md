@@ -1,9 +1,35 @@
 ---
 name: kata-show-your-work
 description: "Keep a reviewable decision trail for long-running or unattended work: a TSV log with one row per decision, reason, evidence, and result. Keep it local by default; commit it when a reviewer needs the trail to trust the result."
+metadata:
+  schema: kata.skill/v1
+  subject: general
+  practice: record
+  object: decision-trail
+  profile: coordination
+  authority: local-write
+  consumes: [work-state, decision-evidence]
+  produces: [decision-log, verified-change]
 ---
 
 # Show me your work
+
+**Outcome:** The reviewer or next executor receives one append-only decision log
+whose rows point to evidence for the important choices and results.
+
+**Done:** This run's material decisions and pivots have valid single-line rows,
+the final audit accounts for gaps or corrections, and the reply reports review
+flags. A tracked log is ready for a separate commit decision only when the
+assignment requires it.
+
+## Assignment
+
+The required inputs are one work scope, its current decisions, and resolvable
+evidence. Direct user authority or inherited caller authority permits creating
+or appending one local TSV log. Keep it untracked by default. Do not rewrite
+history, change source work, stage, commit, publish, or inspect unrelated
+private records. Ask before the choice between `decisions.tsv` and an existing
+task-specific audit path can affect another run.
 
 Keep one canonical log.
 
@@ -45,6 +71,10 @@ A run is one agent conversation, including its later turns and any summary of it
 By default the log is a working artifact, not committed. Keep it at `decisions.tsv` in the work dir, or `.audit/<task-slug>.tsv` when several efforts run at once, and leave it out of git.
 
 Commit it only when the work is ambitious enough that a reviewer needs the trail to trust the result.
+
+Produce `verified-change` only when the assignment requires a tracked log and
+this run's log audit passes. The default private working log produces only
+`decision-log`.
 
 ## Rules
 

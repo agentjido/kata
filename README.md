@@ -87,16 +87,15 @@ explicit request.
 
 Elixir skills include `language: elixir` in their metadata. Without a language
 marker, a skill is language-agnostic. `kata-neckbeard` is general system investigation;
-it does not require Elixir. Language scope is separate from the model recorded
-in `optimized_for`.
+it does not require Elixir. Model evaluation evidence is separate from skill
+classification metadata.
 
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. `jido`, `kata-write-skill`, and
-`kata-maintain-skill` use the complete schema first. Small tools can derive
-catalog, workflow, and overlap candidates from the skill frontmatter while the
-remaining packages migrate.
+output facets beside each skill's subject. All 36 active packages use the
+complete schema. Skill frontmatter is the canonical classification source.
+Small tools can derive catalog, workflow, and overlap candidates from it.
 
 `kata-principled` is one skill with 24 commands. Invoke a command as
 `$kata-principled prove-it-works` or `$kata-principled fix-root-causes`. This
@@ -110,11 +109,12 @@ signal-based `AgentServer` calls, current state operations, and the current rule
 that an action can perform immediate I/O when its result is needed by the
 workflow.
 
-`kata-plan` is a direct import of Compound Engineering's `ce-plan`, with its
-bundled references and scripts. The imported workflow has not been tuned or
-tested in live model runs. `kata-work` is a small Kata-native boundary that
-implements and locally verifies one clear request. It does not own commits,
-review, pull requests, or delivery.
+`kata-plan` is adapted from Compound Engineering's `ce-plan`. It keeps the
+required references, scripts, and source license. Its support scripts pass
+local contract checks, but the adapted workflow has not been tested in live
+model runs. `kata-work` is a small Kata-native boundary that implements and
+locally verifies one clear software request. It does not own non-software work,
+commits, review, pull requests, or delivery.
 
 For Durable repository plans, `kata-plan` checks for an installed `bw` command
 and an already initialized Beadwork repository. When both checks pass, it creates
@@ -133,25 +133,19 @@ documents as verified or create every category in advance.
 
 ## Dojo skill evaluation
 
-Our target is **Astra xhigh**: Codex, model `gpt-6-astra`, reasoning `xhigh`.
-Skills in `skills/` target this profile. Keep one focused source version per
-skill. Other models can be used for experiments; their candidates and measurements
-stay in `dojo/results/`. We do not maintain separate model variants of the source
+The primary Dojo evaluation profile is **Astra xhigh**: Codex, model
+`gpt-6-astra`, reasoning `xhigh`. Keep one focused source version per skill.
+Other models can be used for experiments; their candidates and measurements
+stay in `dojo/results/`. We do not maintain separate model variants of source
 skills.
 
-The setup and neckbeard skills include their optimization target with their
-subject metadata. For example, setup uses:
-
-```yaml
-metadata: {subject: general, optimized_for: "codex/gpt-6-astra/xhigh"}
-```
-
-This is a provenance note, not a command that selects or requires a model.
-The execution profile controls the harness, model, and reasoning level. Only add
-an optimization claim when a skill has been tuned for that target; the other
-skills share the intended target but do not yet have equivalent evaluation evidence.
-Use [Dojo](dojo/README.md) to measure and improve skills. Plugin users do not
-need Elixir.
+No active source package currently claims `optimized_for`. The saved setup and
+neckbeard evidence applies to the exact historical text in its result record.
+Both source skills changed after those trials, so that evidence does not prove
+optimization of the current files. Add an optimization claim only when the
+exact current file has sufficient saved evidence for that target. Use
+[Dojo](dojo/README.md) to measure and improve skills. Plugin users do not need
+Elixir.
 
 ### Tune, check, and adopt
 
@@ -280,14 +274,16 @@ checks per case; the new checker identity and results are recorded by the scorer
 
 | Harness | Model | Reasoning | Use and evidence |
 | --- | --- | --- | --- |
-| Codex through `jido_harness` | `gpt-6-astra` | `xhigh` | Primary tuning profile. Setup passed three live cases. Neckbeard Round 1 passed one training case; see the adoption note below. |
+| Codex through `jido_harness` | `gpt-6-astra` | `xhigh` | Primary tuning profile. Historical setup text passed three live cases. Neckbeard Round 1 passed one training case; see the adoption note below. |
 | Codex through `jido_harness` | `gpt-5.6-sol` | `medium` | Completed five tuning rounds. The source and selected candidate each passed all 30 fixture checks. |
 
 The user requested adoption of neckbeard Round 1 from the
 [three-round v3 trial](dojo/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md).
-The exact 290-word candidate is now in `skills/kata-neckbeard/SKILL.md`. It passed
-all 12 checks on one training case and scored **57.809727**. This is exploratory
-evidence. Repeated runs and separate final cases have not been checked. The
+The exact 290-word candidate was adopted at that time. The current
+`skills/kata-neckbeard/SKILL.md` has changed and no longer matches that
+candidate. The historical candidate passed all 12 checks on one training case
+and scored **57.809727**. This is exploratory evidence. Repeated runs and
+separate final cases have not been checked. The
 [adoption record](dojo/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/adoption.json)
 records this exception to the normal verification requirement.
 
@@ -307,7 +303,7 @@ The [completed Sol trial](dojo/results/setup/codex-sol-medium/report.md) reduced
 the skill from 500 to 445 words. Total tokens across the three cases increased
 from 698,373 to 857,248, about 23%. The loop improved word count; this trial did
 not show token savings. The candidate stays in evaluation results. The source
-skill and its Astra target are unchanged.
+skill and its Astra evaluation target were unchanged by that trial.
 
 The shared runner takes a suite file and supports any skill with its own outcome
 checks. Setup and neckbeard adapters are included; the other active suites remain

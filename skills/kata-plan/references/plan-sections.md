@@ -432,13 +432,12 @@ semantics so downstream tooling can rely on them:
   check substantively strengthened the plan. Presence affects Phase 0.1
   resume fast-path logic (see `references/deepening-workflow.md`).
 - **`execution`** — execution domain for downstream routing: `code`
-  (the default when absent) or `knowledge-work`. `kata-work`'s input triage
-  reads this: a plan marked `execution: knowledge-work` routes to the
-  non-code carve-out (read sources, synthesize, produce a deliverable —
-  skipping the branch/test/commit/CI lifecycle); absent or `code` routes
-  to the normal code path. Written by `kata-plan`'s approach-altitude flow
-  (`references/approach-altitude.md`) when a non-code deliverable is
-  persisted for execution.
+  (the default when absent) or `knowledge-work`. A plan marked
+  `execution: knowledge-work` routes to a suitable non-code executor. Do not
+  send it to `kata-work`, which owns software implementation. An absent value
+  or `code` routes to the normal software path. The `kata-plan`
+  approach-altitude flow writes this field when it persists a non-code
+  deliverable for execution. See `references/approach-altitude.md`.
 
 Field names are stable across plan revisions — never rename a field or
 repurpose its semantics. Agents composing new plans MUST use these exact

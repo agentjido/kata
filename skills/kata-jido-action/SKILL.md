@@ -1,13 +1,35 @@
 ---
 name: kata-jido-action
 description: Build or change Jido actions with current schemas, execution contracts, state effects, and focused tests. Use for `Jido.Action` modules or action-based tools.
-metadata: {language: elixir}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: implement
+  object: jido-action
+  profile: bounded-execution
+  authority: local-write
+  consumes: [jido-action-request, elixir-repository]
+  produces: [verified-change]
+  language: elixir
 ---
 
 # Jido Action
 
 **Outcome:** A small Jido action that follows the target repository's current
 API, validates its public contract, and has tests for success and failure.
+
+**Done:** The requested action contract is implemented, focused success and
+failure tests pass, required repository checks pass or have reported limits,
+and the local change is ready for review or commit.
+
+## Assignment
+
+The required inputs are one Jido action request and its target Elixir
+repository. Direct user authority or inherited caller authority permits local
+source and test edits for that action. Do not install dependencies, stage,
+commit, push, publish, or change remote or live state. HTTP, database, file, or
+runtime effects need authority from the task and a clear owner. Ask when the
+side-effect boundary is unclear.
 
 ## Inspect the target
 

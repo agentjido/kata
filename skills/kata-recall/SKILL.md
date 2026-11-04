@@ -1,9 +1,34 @@
 ---
 name: kata-recall
 description: "Reconstruct your recent working context from your own chat history, live state, and the shared record (user reports, prior fixes, incidents), then hand back a tight current-state brief. Use for 'recall my work on X', 'catch me up', 'what have I been working on', 'where did I leave off', before starting or resuming work."
+metadata:
+  schema: kata.skill/v1
+  subject: general
+  practice: reconstruct
+  object: work-context
+  profile: coordination
+  authority: read-only
+  consumes: [recall-request, conversation-history, shared-record]
+  produces: [current-state-brief]
 ---
 
 # Recall
+
+**Outcome:** The user or next work skill receives a current-state brief that
+reconstructs the relevant threads, problems, and next move.
+
+**Done:** The search stays inside the named topic, workspace, and time range;
+material claims match live state or a cited record; unavailable sources are
+explicit; and no work starts.
+
+## Assignment
+
+The required input is a recall topic or activity range. Resolve the workspace,
+time range, and source set before searching. Direct user authority permits
+read-only access to the in-scope conversation history, repositories, provider
+records, team records, documents, and error systems that are already available.
+Do not read another workspace, expose private context, post messages, edit
+files, or start the recalled work. Ask when the scope cannot be bounded safely.
 
 **Before you start or resume work, you rebuild the user's recent working context and hand back a tight capsule of where things stand now and what to do next.**
 

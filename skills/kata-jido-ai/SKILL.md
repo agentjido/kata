@@ -1,7 +1,16 @@
 ---
 name: kata-jido-ai
 description: Add Jido AI generation, tool use, structured output, streaming, or AI agents with current `jido_ai` and `req_llm` contracts. Use for Jido LLM integration work.
-metadata: {language: elixir}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: implement
+  object: jido-ai-integration
+  profile: bounded-execution
+  authority: local-write
+  consumes: [jido-ai-request, elixir-repository]
+  produces: [verified-change]
+  language: elixir
 ---
 
 # Jido AI
@@ -9,6 +18,21 @@ metadata: {language: elixir}
 **Outcome:** A narrow Jido AI integration that uses current local APIs, keeps
 provider settings safe, and has deterministic tests that do not need a live
 provider.
+
+**Done:** The smallest suitable Jido AI surface implements the requested
+contract, deterministic success and failure tests pass, required repository
+checks pass or have reported limits, and no secret or unapproved live request
+is part of the change.
+
+## Assignment
+
+The required inputs are one Jido AI request and its target Elixir repository.
+Direct user authority or inherited caller authority permits local source,
+configuration-template, fixture, and test edits inside that scope. Do not
+install dependencies, stage, commit, push, publish, store credentials, or use a
+live provider without separate authority. Network, shell, filesystem, and
+data-changing tools need an explicit task boundary. Ask when provider or tool
+authority is unclear.
 
 ## Inspect the target
 

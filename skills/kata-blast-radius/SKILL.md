@@ -1,9 +1,35 @@
 ---
 name: kata-blast-radius
-description: "Find what a change could break somewhere else before it ships, beyond the diff, and prove the one fact it's safe because of by running real code instead of writing it up. Use for 'blast radius of X', 'what could this break', or reviewing a small diff you don't trust."
+description: "Find what a change could break outside its visible diff and prove its key safety fact by running real code. Use for 'blast radius of X', 'what could this break', or a focused review of one change; use kata-review-pr for a complete pull-request readiness review."
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: analyze
+  object: change-set
+  profile: bounded-execution
+  authority: local-write
+  consumes: [change-set, change-intent]
+  produces: [blast-radius-report, verified-change]
 ---
 
 # Blast radius
+
+**Outcome:** The change owner receives a focused impact report with one key
+safety fact proved by execution or marked unproven.
+
+**Done:** Confirmed and cleared risks have evidence, the key fact has the
+strongest practical proof, temporary work is cleaned up, and any retained proof
+change passes its focused check.
+
+## Assignment
+
+The required inputs are one scoped change, its intended result, and the target
+repository. Direct user authority or inherited caller authority permits
+read-only impact analysis and the smallest local script or test needed to prove
+one safety fact. Keep proof work isolated when it does not belong in the
+product. Do not change production behavior, stage, commit, push, publish, or
+change remote state. Ask when the intended result or retained-proof scope is
+unclear.
 
 Find what a change breaks somewhere else, before it ships. Use for "blast radius of X", "what could this break", or reviewing a small diff you don't trust yet.
 
@@ -34,13 +60,17 @@ Step 4 is usually one small script that imports the same library the app ships a
 5. Prove the one fact. Write a script or test that runs the real code, run it, and paste what happened.
 6. For a big or wide change, use independent reviewers only when the user requests parallel review. Give them the same scope and merge their evidence. Otherwise, inspect each risk angle in sequence.
 
-## What to hand back
+## Verify and report
 
 - **What it does.** What changed, including the part that isn't obvious.
 - **The one fact it's safe because of.** State it, say which step you got it to, and show the proof. If you couldn't prove it, write unproven.
 - **Risks.** Each names how it breaks, the `file:line`, how likely and how bad, and how to check. Paste the proof for the ones that matter.
 - **Cleared.** What you checked and why it's fine.
 - **Before you merge.** The cheapest test or repro that catches the real bug, including the script you wrote.
+
+Produce `verified-change` only when an in-scope proof script or test remains in
+the repository and its focused check passes. A report with temporary proof work
+produces only `blast-radius-report`.
 
 Use plain language, cite real code, and strip anything private before it goes anywhere public.
 

@@ -9,7 +9,7 @@ metadata:
   profile: bounded-execution
   authority: local-write
   consumes: [code-scope]
-  produces: [verified-comment-cleanup]
+  produces: [verified-comment-cleanup, verified-change]
 ---
 
 # No comments

@@ -7,7 +7,7 @@ metadata:
   practice: adversarial-review
   object: change-set
   profile: coordination
-  authority: local-write
+  authority: read-only
   consumes: [change-set, design-intent]
   produces: [verified-findings]
 ---
@@ -31,6 +31,10 @@ read-only inspection of the primary workspace and local isolated worktrees,
 reproduction files, and checks needed to prove findings. Adversaries inherit
 only that scope. Do not edit the primary change, apply fixes, stage, commit,
 push, or change remote state.
+
+Keep reproduction files and writes inside isolated temporary workspaces. Remove
+those workspaces and files before the report unless the user asks to keep them.
+Report the path and blocker when cleanup fails.
 
 ## Frame
 

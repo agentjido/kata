@@ -17,9 +17,12 @@ that a document has been reviewed or its claims have been verified.
 
 ## Current plans
 
-- [Unified skill authoring Kata](plans/2026-11-03-1949-feat-unified-skill-authoring-plan.md):
-  replace separate build and import paths with one create, import, and convert
-  workflow.
+- [Skill library architecture](plans/skill-library-architecture.md): keep fewer
+  than 20 active skills through facets, work profiles, domain lenses, and a
+  first-class verification step.
+- [Complete skill template conversion](plans/2026-11-04-0604-refactor-complete-skill-template-conversion-plan.md):
+  audit every active package and convert each proven nonconforming package
+  through the maintenance and writing workflows.
 - [Jido skills migration backlog](plans/jido-skills-migration-backlog.md):
   remaining verification and the archive gate for `agentjido/jido-skills`.
 - [Skill import queue](plans/skill-import-queue.md): de-duplicated TODO list for

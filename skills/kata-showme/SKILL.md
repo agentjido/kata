@@ -1,9 +1,38 @@
 ---
 name: kata-showme
 description: Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts.
+metadata:
+  schema: kata.skill/v1
+  subject: technical-communication
+  practice: explain
+  object: current-topic
+  profile: bounded-execution
+  authority: local-write
+  consumes: [explanation-request, topic-context]
+  produces: [visual-explanation]
 ---
 
-Help the user understand the current topic of conversation visually. Skip the preamble and keep prose brief. Pick the smallest view that makes the key point clear.
+# Show me
+
+**Outcome:** The user receives the smallest accurate visual explanation that
+makes the current topic easier to understand.
+
+**Done:** The visual answers the question, each shown fact matches available
+evidence, any local HTML artifact opens or has a valid link, and no unrelated
+state changes.
+
+## Assignment
+
+The required inputs are one explanation request and enough topic context to
+verify the visual. Direct user authority permits read-only inspection of that
+context and one local HTML artifact when text-native diagrams are not enough.
+Do not change project source, invent data, start the system, publish an artifact,
+or change remote state. Ask when the question or evidence boundary is unclear.
+
+## Work
+
+Skip the preamble and keep prose brief. Pick the smallest view that makes the
+key point clear.
 
 - Show logic or an algorithm as pseudocode:
 
@@ -117,8 +146,12 @@ function expandSkill(command: string): string {
 - For a visual UI, layout, state comparison, or concept too dense for Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Then open it with the host's file preview or browser. If no preview is available,
 provide a link to the HTML file.
 
-### guidance
+## Verify
 
 Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or the options to resolve the current discussion point.
 
 You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the user.
+
+Check every label, path, relationship, and number against the source context.
+Confirm that the chosen form is smaller than an equivalent prose explanation
+and that any saved artifact exists before you link it.

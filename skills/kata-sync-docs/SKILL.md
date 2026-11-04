@@ -9,7 +9,7 @@ metadata:
   profile: bounded-execution
   authority: local-write
   consumes: [repository, documentation-scope]
-  produces: [verified-documentation-change]
+  produces: [verified-documentation-change, verified-change]
 ---
 
 # Sync Documentation to Code

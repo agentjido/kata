@@ -1,9 +1,32 @@
 ---
 name: unslop
 description: Use only when the user explicitly asks to remove AI writing patterns from text.
+metadata:
+  schema: kata.skill/v1
+  subject: technical-communication
+  practice: edit
+  object: prose
+  profile: bounded-execution
+  authority: read-only
+  consumes: [prose]
+  produces: [revised-prose]
 ---
 
 # Unslop
+
+**Outcome:** The user receives revised prose that keeps the intended meaning
+and tone without the listed AI writing patterns.
+
+**Done:** The revised text preserves supported claims, follows every applicable
+stable rule, and makes no file or external state change unless the user grants
+that separate authority.
+
+## Assignment
+
+The required inputs are the source text, its audience or intended tone when
+material, and an explicit request to remove AI patterns. Direct user authority
+permits a rewritten response only. Do not edit a source file, research new
+claims, or change the argument without separate authority.
 
 Edit text to remove AI patterns. Scan for the patterns below, then rewrite. Preserve meaning and match the intended tone.
 
@@ -59,3 +82,9 @@ Rule numbers are stable ids that other skills cite. A removed rule leaves a gap.
 31. **Prefer the plain word.** "utilize" and "leverage" become "use", "facilitate" becomes "help", "numerous" becomes "many", "in the event that" becomes "if". The fancier synonym is rarely clearer.
 32. **Mannered prose.** Metaphor or flourish where a literal phrase exists: aphorisms ("wire it or delete it"), rhetorical fragments for effect, personified code ("the plan holds it"), figurative verbs ("rides along", "stands on"), stock framing phrases. "A dial worth turning" becomes "a parameter worth varying". Say what you mean. Rule 26 covers the metaphor nouns.
 33. **Over-compression.** Dropped articles, verbless fragments, symbol-speak, and abbreviations that make the reader decode instead of read. "Parser rejects bad date → exit 2, no write" becomes "The parser rejects a bad date, exits with code 2, and writes nothing." Write whole sentences with their articles and verbs, and spell out arrows and abbreviations.
+
+## Verify
+
+Compare the revision with the source. Check that it keeps the same claims,
+qualifications, audience, and tone. State a blocker instead of inventing a
+source or changing meaning when a rule cannot be applied safely.

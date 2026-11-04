@@ -6,8 +6,8 @@ metadata:
   subject: software-engineering
   practice: report
   object: git-workbench
-  profile: coordination
-  authority: read-only
+  profile: bounded-execution
+  authority: local-write
   consumes: [git-repository, project-folder]
   produces: [git-workbench-report]
 ---
@@ -20,9 +20,10 @@ report that identifies work needing a decision.
 **Done:** Every in-scope repository has local, sync, and relevant open-work
 status or an explicit unknown, and the report names the most useful next action.
 
-**Authority:** Inspect the requested Git roots and provider state. Do not change
-files, branches, worktrees, issues, pull requests, or other remote items. One
-fetch without pruning is permitted to refresh remote-tracking state.
+**Authority:** Inspect the requested Git roots and provider state. One fetch
+without pruning is a permitted local write to remote-tracking refs. Do not
+change files, local branches, worktrees, issues, pull requests, or other remote
+items.
 
 **Work profile:** Use `bounded-execution` for one repository. Use `coordination`
 for a folder of projects because the report integrates several bounded checks.

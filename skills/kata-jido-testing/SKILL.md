@@ -1,13 +1,37 @@
 ---
 name: kata-jido-testing
 description: Add focused tests for Jido actions, agents, signals, directives, plugins, runtimes, and AI integrations. Use when Jido behavior needs test coverage or a regression test.
-metadata: {language: elixir}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: test
+  object: jido-behavior
+  profile: bounded-execution
+  authority: local-write
+  consumes: [jido-test-request, elixir-repository]
+  produces: [jido-test-suite, verified-change]
+  language: elixir
 ---
 
 # Jido Testing
 
 **Outcome:** Tests prove the requested Jido behavior at the lowest reliable
 layer and use a runtime only when the behavior depends on a process.
+
+**Done:** The requested behavior has a focused test at the lowest reliable
+layer, the new test passes, required repository checks pass or have reported
+limits, temporary resources are cleaned up, and the test change is ready for
+review or commit.
+
+## Assignment
+
+The required inputs are one Jido behavior to prove and its target Elixir
+repository. Direct user authority or inherited caller authority permits local
+test, fixture, and minimal test-support edits inside that scope. Do not weaken
+existing assertions, change production behavior, install dependencies, stage,
+commit, push, publish, or use a live provider. Starting local test processes
+and controlled adapters is allowed when the selected layer needs them. Ask
+when proof requires a production change or an external effect.
 
 ## Select the test boundary
 

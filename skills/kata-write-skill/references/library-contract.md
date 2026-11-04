@@ -103,6 +103,21 @@ does not materially change scope, cost, or authority.
 | Produces | A list of stable output-type identifiers. |
 | Execution profile | Model, tools, memory, budget, and review frequency supported by evidence. Conditional. |
 
+Facet lists name stable types. They do not encode input cardinality or route
+conditions. The work contract must state which consumed inputs are alternatives,
+which are required together, and which produced result belongs to each route.
+
+`profile` names the normal work profile. State a supported conditional profile
+and its deciding condition in the work contract. `authority` names the highest
+normal durable effect on an in-scope target. A Git ref update is a local write.
+Temporary writes that stay in an isolated workspace and are cleaned up remain
+part of the inline authority envelope; they do not raise a read-only target to
+`local-write`.
+
+A skill that leaves a verified local repository mutation ready for a commit
+decision produces `verified-change` and can also produce a specialized result.
+A route that leaves no committable mutation does not claim `verified-change`.
+
 The assignment selects the profile:
 
 - `bounded-execution` produces one result inside known scope and acceptance
@@ -120,6 +135,8 @@ outputs. Tools can derive workflow candidates where one skill's output matches
 another skill's input. Matching metadata identifies an overlap candidate, not a
 duplicate; compare the outcome, activation, authority, and next consumer before
 changing ownership.
+An input and output type match is also only a workflow candidate. The receiving
+skill must still confirm its full assignment contract.
 
 ## 8. Information contract
 

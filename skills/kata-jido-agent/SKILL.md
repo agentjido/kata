@@ -1,13 +1,36 @@
 ---
 name: kata-jido-agent
 description: Build or change Jido agents with current state, action, route, directive, plugin, and AgentServer contracts. Use for `Jido.Agent` modules and runtime wiring.
-metadata: {language: elixir}
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: implement
+  object: jido-agent
+  profile: bounded-execution
+  authority: local-write
+  consumes: [jido-agent-request, elixir-repository]
+  produces: [verified-change]
+  language: elixir
 ---
 
 # Jido Agent
 
 **Outcome:** A Jido agent whose pure command behavior and runtime signal
 behavior use the target repository's installed APIs and have focused tests.
+
+**Done:** The requested state, command, route, and runtime contracts are
+implemented at the correct boundary, focused tests pass, required repository
+checks pass or have reported limits, and the change is ready for review or
+commit.
+
+## Assignment
+
+The required inputs are one Jido agent request and its target Elixir repository.
+Direct user authority or inherited caller authority permits local agent,
+action, plugin, runtime, and test edits inside that scope. Do not install
+dependencies, stage, commit, push, publish, or change remote or live state.
+Starting a local test process is allowed when verification requires it. Ask
+when runtime ownership or an external effect is unclear.
 
 ## Inspect the target
 

@@ -9,7 +9,7 @@ metadata:
   profile: system-design
   authority: local-write
   consumes: [skill-library]
-  produces: [resolved-library-finding, conversion-brief, work-request]
+  produces: [resolved-library-finding, conversion-brief, work-request, verified-change]
 ---
 
 # Maintain Skill
@@ -123,6 +123,10 @@ until the writing handoff is verified or has an explicit blocker.
 When the operator also requested a commit, pass the verified change to the
 canonical commit workflow. In Kata, use `kata-commit`. Do not stage or commit
 inside this skill. Report the returned commit hash or blocker.
+
+Produce `verified-change` only when this invocation leaves a verified local
+library mutation. A report-only, rejected, deferred, or routed finding does not
+produce it.
 
 ## Verify and report
 

@@ -1,13 +1,22 @@
 ---
 name: kata-setup
 description: Set up Docs Kata in a project. Create docs/inbox and docs/AGENTS.md, inspect existing documentation, and move unprocessed documents into the inbox without losing content or breaking known consumers. Use when the user requests Kata setup or adoption of Docs Kata.
-metadata: {subject: general, optimized_for: "codex/gpt-6-astra/xhigh"}
+metadata:
+  schema: kata.skill/v1
+  subject: general
+  practice: setup
+  object: docs-kata
+  profile: bounded-execution
+  authority: local-write
+  consumes: [project]
+  produces: [docs-kata-intake, verified-change]
 ---
 
 # Kata Setup
 
 **Outcome:** A project has the Docs Kata intake structure and its unprocessed
-documentation is safely collected for later reviewers.
+documentation is safely collected for later reviewers. A completed setup
+produces `docs-kata-intake` and a `verified-change` for the next consumer.
 
 **Done:** The setup files, move inventory, intake records, assets, links, and
 fixed-path consumers reconcile, or each unresolved item has an explicit blocker.

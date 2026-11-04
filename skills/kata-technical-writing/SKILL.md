@@ -1,9 +1,35 @@
 ---
 name: kata-technical-writing
 description: "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when writing or reviewing docs, RFCs, readmes, pull-request descriptions, or commit messages."
+metadata:
+  schema: kata.skill/v1
+  subject: technical-communication
+  practice: write
+  object: technical-document
+  profile: bounded-execution
+  authority: local-write
+  consumes: [technical-writing-request, source-material]
+  produces: [technical-document, writing-review, verified-change]
 ---
 
 # Technical writing
+
+**Outcome:** The reader receives one accurate technical artifact or one
+evidence-based writing review that fits its document mode.
+
+**Done:** The requested scope is complete, material claims match source
+evidence, one document mode controls the structure, applicable language checks
+pass, and any local edit is ready for review or commit.
+
+## Assignment
+
+The required inputs are the requested artifact or review, its reader, its
+purpose, and the source facts needed for accuracy. Direct user authority or
+inherited caller authority permits a response-only review or local edits to the
+named writing scope. Do not change code, product behavior, staged state, Git
+history, or remote state. A commit-message request produces message text; it
+does not create a commit. Ask when missing product intent changes what the
+document must say.
 
 Write so a tired engineer understands on the first read. Apply all four layers.
 
@@ -103,3 +129,10 @@ Before:
 After:
 
 > `budget.mjs` reads the committed budget from `budget.json` and counts the files that import protos. If the count exceeds the budget, CI fails. Run `budget.mjs --write` only to lower the budget.
+
+## Verify
+
+Check the result against its source facts and requested mode. Confirm that
+headings, links, commands, paths, counts, examples, and claims are accurate.
+Produce `verified-change` only when a local document edit remains and its
+applicable checks pass. A review-only route produces `writing-review`.

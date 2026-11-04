@@ -10,7 +10,6 @@ metadata:
   authority: read-only
   consumes: [system-question, software-system]
   produces: [evidence-supported-answer]
-  optimized_for: "codex/gpt-6-astra/xhigh"
 ---
 
 # Kata Neckbeard

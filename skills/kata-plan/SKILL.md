@@ -2,6 +2,15 @@
 name: kata-plan
 description: "Create structured plans for multi-step work, including software and non-software tasks. For durable repository plans, create a Beadwork graph when the repository is already initialized for Beadwork; otherwise create the plan file only. Use when asked to plan, break down implementation, plan from requirements, or deepen an existing plan; prefer ce-brainstorm for exploratory framing."
 argument-hint: "[optional: feature description, requirements doc path, plan path to deepen, or any task to plan] [output:html]"
+metadata:
+  schema: kata.skill/v1
+  subject: general
+  practice: plan
+  object: multi-step-work
+  profile: direction
+  authority: local-write
+  consumes: [planning-request, source-material]
+  produces: [work-plan, implementation-plan, planning-brief, verified-change]
 ---
 
 # Create Technical Plan
@@ -13,7 +22,38 @@ CE integration steps below: use the active host and model, honor existing user
 authorization, and use the defined native fallbacks for absent companion skills.
 The source workflow and its bundled references remain the basis for this skill.
 
-**Outcome:** a plan an implementer can start from confidently — a few sentences in chat, a chat brief, or a durable plan artifact — handed off through its owning terminal workflow. For a Durable repository plan, create a Beadwork epic and task graph automatically when `bw` is available and already initialized in that repository; otherwise keep the plan as the only artifact. `ce-brainstorm` defines **WHAT** to build as a requirements-only unified plan; `kata-plan` enriches it with **HOW**; `kata-work` executes it. A prior brainstorm is useful but never required.
+**Outcome:** The next executor receives a plan that it can start with confidence.
+The result can be a few sentences in chat, a chat brief, or a durable plan
+artifact. For a Durable repository plan, create a Beadwork epic and task graph
+when `bw` is available and already initialized in that repository. Otherwise,
+keep the plan as the only artifact. For software work, `ce-brainstorm` defines
+**WHAT** to build as a requirements-only unified plan, `kata-plan` enriches it
+with **HOW**, and `kata-work` executes it. A prior brainstorm is useful but is
+not required.
+
+**Done:** The selected output contract is complete, the result has its required
+handoff or explicit blocker, and each durable local artifact passes its format
+and consistency checks.
+
+## Assignment
+
+The required input is one planning request. Source material is optional. Resolve
+the target, output contract, acceptance conditions, time horizon, and next
+executor before you write a durable artifact. The normal work profile is
+`direction`. A Direct or Chat brief route uses `bounded-execution`.
+
+Direct user authority or inherited caller authority permits read-only research
+and the local plan artifacts that this workflow requires. It also permits a
+local Beadwork graph only when Beadwork is already initialized in the target
+repository. Do not implement the plan, install a dependency, initialize or
+repair Beadwork, change a branch, create a commit, change remote state, publish
+an artifact, or change a live system. Ask the operator when a missing product
+decision changes scope, cost, risk, or the next executor.
+
+A response-only Direct or Chat brief route produces `planning-brief`. A durable
+software route produces `implementation-plan` and `verified-change`. A durable
+non-software route produces `work-plan` and `verified-change`. Durable outputs
+are ready only after their local artifacts pass their checks.
 
 **An explicit invocation always produces a plan.** Never classify a direct invocation as "not a planning task" and route out. It may select any output contract below, and the smallest valid plan is a few sentences in chat.
 
@@ -25,7 +65,7 @@ communicate design; changing code to see what happens belongs in `kata-work`.
 
 ## Mandatory Completion Contract
 
-A run is complete when its output contract's done condition is met. Every normal interactive branch that produces a plan artifact or checkpoint is incomplete until its owning handoff question is presented: for a Durable software implementation-plan run that continues past Phase 0.1b, Beadwork detection and any required graph creation have completed, the Phase 5.4 menu is presented, and any selected action has actually fired. For Direct, the change stated and the handoff offered; for a Chat brief, the brief and its one-line save-or-`kata-work` offer in chat. Neither presents the Phase 5.4 menu or creates Beadwork issues. Non-software and approach-altitude routes use their reference workflow's terminal handoff. Answer-seeking may end after the answer unless its owner requires save/share.
+A run is complete when its output contract's done condition is met. Every normal interactive branch that produces a plan artifact or checkpoint is incomplete until its owning handoff question is presented: for a Durable software implementation-plan run that continues past Phase 0.1b, Beadwork detection and any required graph creation have completed, the Phase 5.4 menu is presented, and any selected action has actually fired. For Direct, the change is stated and the correct executor handoff is offered. For a Chat brief, the brief and its one-line save-or-execute offer are in chat. A software handoff can offer `kata-work`; a non-software handoff must use its owning workflow. Neither presents the Phase 5.4 menu or creates Beadwork issues. Non-software and approach-altitude routes use their reference workflow's terminal handoff. Answer-seeking may end after the answer unless its owner requires save/share.
 
 Writing the file, checking confidence, and running or explicitly skipping `ce-doc-review` are intermediate milestones. Pipeline mode is complete only when the plan, confidence check, and non-interactive document-review state are returned to its caller; the caller owns the next action.
 
@@ -44,7 +84,7 @@ stable artifact for Beadwork detection, ticket mapping, or later execution. Use
 Direct or Chat brief only for work with no repository, or when the user explicitly
 requests chat-only output. A chat-only override creates no Beadwork graph.
 
-- **Direct** — the work can be stated, done, and verified in one pass with no decision the user would weigh. State the change in a few sentences and offer the handoff to `kata-work` or the user; execution starts only with implementation authority, which `references/output-contracts.md` defines.
+- **Direct** — the work can be stated, done, and verified in one pass with no decision the user would weigh. State the change in a few sentences and offer the owning executor or the user. Offer `kata-work` only for software implementation. Execution starts only with implementation authority, which `references/output-contracts.md` defines.
 - **Chat brief** — bounded work with at most one decision the user would weigh and no risk surface. Deliver it in chat and stop.
 - **Durable** — everything else. Continue the workflow below.
 

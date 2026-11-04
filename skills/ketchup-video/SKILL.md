@@ -1,9 +1,33 @@
 ---
 name: ketchup-video
 description: "Use only when the user explicitly asks for a video catch-up. Show what happened in a short subtitled slide video and put the waiting decisions in text under it."
+metadata:
+  schema: kata.skill/v1
+  subject: general
+  practice: present
+  object: conversation-state
+  profile: coordination
+  authority: local-write
+  consumes: [conversation-history, work-state, media-evidence]
+  produces: [catch-up-video, decision-list]
 ---
 
 # Ketchup video
+
+**Outcome:** The user receives a verified catch-up video and a text list of the
+decisions or actions that still belong to them.
+
+**Done:** The video passes frame, subtitle, and timing checks, the decision list
+is complete, and no state changes except the local render artifacts.
+
+## Assignment
+
+The required inputs are the current conversation, the state of touched work,
+available media evidence, and an explicit request for video. Direct user
+authority permits read-only inspection and local video rendering outside the
+target repository. Do not change project files, start work, post messages, or
+change remote state. If rendering is unavailable, return the decision list and
+the explicit render blocker.
 
 Catch the user up on changes since their last message, but show what happened in a short subtitled video instead of a prose summary. Writing and rendering the video outside the repository is the only allowed state change. The reply has one opening sentence, the embedded video, one line that names work you can still do, and the action items. When the video shows a decision's options, use the same option names in the action items. If the render fails, say so in one line and give only the decisions.
 

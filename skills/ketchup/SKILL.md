@@ -1,9 +1,33 @@
 ---
 name: ketchup
 description: "Use only when the user explicitly asks to catch up on what changed in this chat. Use plain words and small visuals, and list each item that waits for the user with enough context to decide from the reply alone."
+metadata:
+  schema: kata.skill/v1
+  subject: general
+  practice: summarize
+  object: conversation-state
+  profile: coordination
+  authority: read-only
+  consumes: [conversation-history, work-state]
+  produces: [decision-ready-catch-up]
 ---
 
 # Ketchup
+
+**Outcome:** The user receives a plain-language catch-up that explains what
+changed and every decision or action that still belongs to them.
+
+**Done:** Each material change has current evidence, each waiting item has
+enough context for a decision, unknowns are explicit, and no new work or state
+change occurs.
+
+## Assignment
+
+The required inputs are the current conversation and the state of work that
+this conversation touched. Direct user authority permits read-only local and
+remote inspection needed to verify that state. Do not change code, start work,
+post messages, update remote items, or create an artifact outside the reply.
+Ask only when the requested catch-up range cannot be resolved safely.
 
 Catch the user up on what changed in this chat since the last message they wrote before invoking this skill, and help them understand each change, not only where it stands. Then lay out every call waiting on them so they can make it from your reply alone. Notifications and delegated-worker results are not their messages. Assume the user remembers their last message and nothing after it.
 
@@ -40,3 +64,9 @@ When something is easier to grasp as a picture than as sentences, draw it: how a
 Keep each visual small enough to read at a glance: at most six boxes, with at most eight words in each. Write labels as plain words a person would say, not tags like "Tests: pass". A fact that needs a sentence belongs in the text, or nowhere.
 
 Embed screenshots and videos inline when the change is visible and the host can render them. Otherwise link the saved file. If a visible change has none, mark its summary line "No screenshot yet," and say there what changed on screen. Draw diagrams and charts from facts you have: a Mermaid diagram for how things connect and a chart from the host's charting or plotting tool for numbers. Never invent a number, and never draw or generate a picture of a screen you did not capture. Link only artifacts that exist.
+
+## Verify
+
+Check each status and number against its source. Confirm that the reply contains
+every user-owned decision, contains no action that the agent can still take,
+and does not repeat one fact in both text and a visual.
