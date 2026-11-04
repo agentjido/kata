@@ -26,12 +26,11 @@ name when the user approves the exception. Keep all packages in the flat
 
 | Skill | Job |
 | --- | --- |
-| `jido` | Route an explicit `$jido` request through the initial `status`, `investigate`, `plan`, `work`, or `help` command. Use a bounded base loop when no stable command fits. |
+| `jido` | Route an explicit `$jido` request through `write-skill`, `maintain-skill`, `status`, `investigate`, `plan`, `work`, or `help`. Use a bounded base loop when no stable command fits. |
 
-`$jido` is the initial front door for the Jido-Kata V2 design. It routes to one
-primary Kata and reports the selected route and authority. Direct leaf skills
-remain available. See the [V2 design](README_V2.md) for the vocabulary,
-boundaries, maturity model, and migration rules.
+`$jido` is the initial front door for Jido-Kata. It routes to one primary Kata
+and reports the selected route and authority. Direct leaf skills remain
+available.
 
 ### General engineering
 
@@ -93,7 +92,7 @@ in `optimized_for`.
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. `kata-write-skill` and
+output facets beside each skill's subject. `jido`, `kata-write-skill`, and
 `kata-maintain-skill` use the complete schema first. Small tools can derive
 catalog, workflow, and overlap candidates from the skill frontmatter while the
 remaining packages migrate.

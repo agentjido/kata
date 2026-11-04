@@ -114,6 +114,23 @@ defmodule KataEvolve.WriteSkillTest do
     assert interface =~ ~s(display_name: "Maintain Skill")
   end
 
+  test "jido routes writing and maintenance as the first library commands" do
+    jido = File.read!(Path.join(@root, "skills/jido/SKILL.md"))
+    commands = File.read!(Path.join(@root, "skills/jido/references/commands.md"))
+
+    assert :ok = Skill.validate(jido, "jido")
+    assert jido =~ "schema: kata.skill/v1"
+    assert jido =~ "practice: route"
+    assert jido =~ "profile: coordination"
+    assert jido =~ "Only `write-skill` and `maintain-skill` can"
+    assert commands =~ "| `write-skill` |"
+    assert commands =~ "`../kata-write-skill/SKILL.md`"
+    assert commands =~ "| `maintain-skill` |"
+    assert commands =~ "`../kata-maintain-skill/SKILL.md`"
+    assert :binary.match(commands, "| `write-skill` |") <
+             :binary.match(commands, "| `maintain-skill` |")
+  end
+
   test "source licenses and attribution stay with the adapted contract" do
     matt = File.read!(Path.join(@package, "LICENSE-MATT-POCOCK"))
     compound = File.read!(Path.join(@package, "LICENSE-COMPOUND-ENGINEERING"))
@@ -144,6 +161,7 @@ defmodule KataEvolve.WriteSkillTest do
       end)
 
     migrated = [
+      {"jido", "agent-work"},
       {"kata-write-skill", "agent-work"},
       {"kata-maintain-skill", "agent-work"},
       {"kata-status-report", "software-engineering"},

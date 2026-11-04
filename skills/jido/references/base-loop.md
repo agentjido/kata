@@ -16,6 +16,11 @@ Classify the maximum authority:
 
 Do not turn a read-only request into an implementation task.
 
+Do not change the skill library through the base loop. A known package change
+belongs to `write-skill`. An unknown library-maintenance need belongs to
+`maintain-skill`. Ask one boundary question when neither route can be selected
+safely.
+
 If the result depends on a running Jidoka BEAM system, read
 [runtime-client.md](runtime-client.md) and use the optional client only when it
 can supply relevant evidence.

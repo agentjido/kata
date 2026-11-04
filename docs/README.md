@@ -8,8 +8,6 @@ current plans section lists reviewed active plans.
 ## Documents kept at fixed paths
 
 - [Project README](../README.md): project entry point, skill list, and attribution.
-- [Jido-Kata V2 design](../README_V2.md): proposed `$jido` front door, Kata
-  contract, Dojo lifecycle, and incremental migration rules.
 - [Project instructions](../AGENTS.md): rules for the whole repository.
 - [Dojo guide](../dojo/README.md): entry point for skill and agent-trace evaluation.
 - [Dojo runner handoff](../dojo/RUNNER.md): path used by active task handoffs.
