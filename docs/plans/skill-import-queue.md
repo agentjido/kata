@@ -11,10 +11,12 @@ This queue uses only these local reference sources:
 
 | Source | Snapshot | Skill entries reviewed | License |
 | --- | --- | ---: | --- |
-| [Compound Engineering](../../../references/compound-engineering-plugin/skills/) | `57e409e5c8c2c472106bd7d87ac72b724b70826b` | 33 | MIT, Copyright Every |
+| [Compound Engineering](../../../references/compound-engineering-plugin/skills/) | `406b85c4562de3d415927fccc5e614c6554aab00` | 37 | MIT, Copyright Every |
 | [Original pstack](../../../references/cursor-plugins/pstack/skills/) | Cursor plug-ins snapshot `6ea74587e384e1a8035c09ae33a46fe3f881eb9b` | 58 | MIT, Copyright Lauren Tan |
 | [Portable pstack](../../../references/pstack/skills/) | `7f2d936bba86c2c512c4ad83e759752f4f065b7c` | 53 | MIT, Copyright Lauren Tan |
-| [Matt Pocock skills](../../../references/mattpocock-skills/skills/) | `3cca18b368ae95cdbdebbff572ccafa662551015` | 37 | MIT, Copyright Matt Pocock |
+| [Matt Pocock skills](../../../references/mattpocock-skills/skills/) | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | 39 | MIT, Copyright Matt Pocock |
+| [Addy Osmani agent skills](../../../references/addyosmani-agent-skills/skills/) | `301b02b12bff98e4688e6984af6556802322bbde` | 25 | MIT, Copyright Addy Osmani |
+| [Superpowers](../../../references/superpowers/skills/) | `22f0b463e7a5e579904dd6211a520321035526f7` | 15 | MIT, Copyright Jesse Vincent |
 
 The pstack counts include 24 small principle skills. The original collection
 also has host-specific packages that the portable fork omits. The Matt Pocock count includes eight skills under
@@ -43,10 +45,12 @@ separate Kata skills.
 
 The 2026-11-03 import added skills from portable pstack commit
 `7f2d936bba86c2c512c4ad83e759752f4f065b7c`. The 2026-11-04 curation kept
-`kata-correct` and `kata-technical-writing` as active adaptations.
+`kata-technical-writing` as an active adaptation.
 
 It folded focused methods into current owners:
 
+- repository-guard creation into `kata-work` and its independent proof into
+  `kata-verify`;
 - benchmark, blast-radius, adversarial-review, and comment-review methods into
   `kata-verify`;
 - recent-work recall into `kata-understand`;
@@ -69,11 +73,12 @@ These jobs have broad use, clear source agreement, and no focused Kata skill.
 
 | ID | TODO | Candidate | De-duplicated source set | Main ideas to retain |
 | --- | --- | --- | --- | --- |
-| Q01 | [ ] | `kata-debug` | CE `ce-debug`; Matt `diagnosing-bugs`; pstack bug-fix and performance playbooks, `principle-fix-root-causes` | Build a tight reproduction loop, trace a complete causal chain, test one hypothesis at a time, redact evidence, and separate diagnosis from an authorized fix. |
-| Q02 | [ ] | `kata-code-review` | CE `ce-code-review`; Matt `code-review`; pstack `interrogate`, `blast-radius` | Review intent, requirements, repository rules, correctness, security, maintainability, and effects outside the diff. De-duplicate findings and require evidence for important safety claims. |
+| Q01 | [x] | `kata-debug` | CE `ce-debug`; Matt `diagnosing-bugs`; pstack bug-fix and performance playbooks, `principle-fix-root-causes` | Implemented as `kata-debug` with diagnosis-only and authorized-repair boundaries. |
+| Q02 | [x] | Code review | CE `ce-code-review`; Matt `code-review`; pstack `interrogate`, `blast-radius` | Folded into the compound `kata-verify` router as a focused code-review method. |
 | Q03 | [x] | Test-first defect repair | Matt `tdd`; pstack `tdd`; the fix loop in CE `ce-debug` | Folded the focused method into `kata-work`. Future evaluation can compare the other sources. |
-| Q04 | [ ] | `kata-brainstorm` | CE `ce-brainstorm`; Matt `grilling` and `grill-with-docs`; pstack `architect` and `principle-exhaust-the-design-space` | Settle product behavior before implementation planning. Find facts in the environment, ask only decision questions, compare real alternatives, and leave a small requirements handoff for `kata-plan`. |
+| Q04 | [x] | `kata-idea` | CE `ce-brainstorm`; Matt `grilling` and `grill-with-docs`; pstack `interrogate` and architecture principles | Implemented with Explore, Grill, and Challenge methods and a requirements-only Product Contract handoff to `kata-roadmap` or `kata-plan`. |
 | Q05 | [ ] | `kata-prototype` | CE `ce-prototype`; Matt `prototype`; pstack prototype playbook, `arena`, and `principle-exhaust-the-design-space` | State the question first, choose a prototype that can answer it, compare alternatives when useful, let the user judge the result, and keep the prototype separate from production code. |
+| Q16 | [x] | `kata-roadmap` | Matt `wayfinder` | Implemented as a durable decision roadmap with Beadwork or single-writer CSV state. Removed required companion skills, automatic branches, pushes, and generic issue-tracker setup. |
 
 ### Next candidates
 
@@ -84,7 +89,7 @@ These jobs are useful. They need a scope decision or a real task before import.
 | Q06 | [ ] | `kata-architecture` | Matt `codebase-design`, `domain-modeling`, `improve-codebase-architecture`; pstack `architect` and architecture principles | Decide whether domain language and module design belong in one skill or two focused skills. Keep repository audit separate from design advice. |
 | Q07 | [ ] | `kata-app-verification` | pstack `create-verification-skill`, `maintain-verification-skill`, `principle-prove-it-works`; CE `ce-dogfood`, `ce-test-browser`, `ce-test-xcode` | Creation is now a `kata-write-skill` specialization. A real task must show that verification execution or maintenance needs a separate active skill. |
 | Q08 | [ ] | `kata-review-feedback` | CE `ce-resolve-pr-feedback`; the review-response parts of CE `ce-babysit-pr`; pstack babysit playbook | Keep this separate from Q02. It must assess existing comments, apply only justified changes, and verify each resolution. Remove the GitHub-only assumption. |
-| Q09 | [ ] | `kata-ship` | CE `ce-commit`, `ce-commit-push-pr`, `ce-babysit-pr`, `ce-worktree`; pstack babysit and shipping playbooks; Matt `implement` close-out | Set a safe boundary between local completion, commit, push, pull request, CI repair, and merge. Remote writes must remain explicit and host-neutral. |
+| Q09 | [x] | `kata-shipit` | CE `ce-commit-push-pr`; Superpowers `finishing-a-development-branch`; Kata `kata-commit` | Replaced `kata-commit` with separate Commit, Ship, Watch, and Land authority routes. |
 | Q10 | [x] | `kata-learn` | CE `ce-compound`, `ce-compound-refresh`; pstack `reflect`, `show-me-your-work`, `principle-encode-lessons-in-structure`; Matt `retro` as secondary evidence | Folded durable capture and maintenance into `kata-docs`. Prefer code, tests, lint, or a skill change over duplicate prose. |
 | Q11 | [ ] | `kata-handoff` | CE `ce-handoff`; pstack `recall` and pause/session-pickup playbooks; Matt `handoff` | Define one portable handoff contract. Do not duplicate task-history features supplied by a host. |
 
@@ -92,11 +97,10 @@ These jobs are useful. They need a scope decision or a real task before import.
 
 | ID | TODO | Candidate job | Sources | Reason to wait |
 | --- | --- | --- | --- | --- |
-| Q12 | [ ] | Research and decision rationale | Matt `research`; pstack `why`; CE research support in planning | `kata-plan` and `kata-neckbeard` already cover much of this work. A real task must show the missing boundary. |
+| Q12 | [ ] | Research and decision rationale | Matt `research`; pstack `why`; CE research support in planning | `kata-plan` and `kata-understand` already cover much of this work. A real task must show the missing boundary. |
 | Q13 | [ ] | Metric-driven optimization | CE `ce-optimize`; pstack performance and hill-climb playbooks | The source procedures assume a repeatable metric and a long experiment loop. Test them on one measurable task first. |
 | Q14 | [x] | Documentation review and maintenance | CE `ce-doc-review`; pstack `technical-writing`; Matt `writing-for-agents` | Implemented as the inbox and maintenance routes in `kata-docs`, including bounded code-to-document reconciliation. |
-| Q15 | [ ] | Issue and feedback triage | Matt `triage` and `to-tickets`; CE `ce-sweep` and `ce-product-pulse`; pstack Benny procedures | These sources depend on trackers, messaging services, or scheduled automation. Define a local, host-neutral core before import. |
-| Q16 | [ ] | Strategy and long-range work | CE `ce-strategy`; Matt `wayfinder`; pstack multi-phase and orchestration playbooks | The job can become a large process framework. Confirm that it can remain one small personal skill. |
+| Q15 | [ ] | Issue and feedback triage | Matt `triage` and `to-tickets`; CE `ce-sweep` and `ce-product-pulse`; pstack Benny procedures | Use the queued `docs/agents/issues.md` contract first. Support GitHub only through `gh` and Jira only through tested `twg` guidance. Keep messaging and schedules separate. |
 | Q17 | [ ] | Merge-conflict resolution | Matt `resolving-merge-conflicts` | It has only one source and a narrow trigger. Import it when a real conflict needs the procedure. |
 | Q18 | [ ] | Human-only runbook generator | Matt `wizard` | It is useful for credentials and external dashboards, but it is not a common Kata job yet. |
 
@@ -107,11 +111,13 @@ when the current Kata skill is revised.
 
 | Current Kata skill | Source entries that overlap it |
 | --- | --- |
-| `kata-plan` | CE `ce-plan`; Matt `to-spec`, `to-tickets`, `wayfinder`; pstack multi-phase planning playbook |
-| `kata-work` | CE `ce-work` and `lfg`; Matt `implement` and `implement-spec`; pstack `figure-it-out`, autonomous-run, and feature playbooks |
-| `kata-verify` | pstack `benchmark-checklist`, `blast-radius`, `interrogate`, and `no-comments` |
-| `kata-understand` | pstack `recall`; the context-reconstruction part of CE `ce-handoff` |
-| `kata-neckbeard` | pstack `how` and parts of `why`; the investigation parts of Matt architecture skills |
+| `kata-roadmap` | Matt `wayfinder`; CE strategy and pstack orchestration remain unadopted reference evidence. |
+| `kata-plan` | CE `ce-plan`; Matt `to-spec` and `to-tickets`; pstack multi-phase planning playbook. The current package uses these only as source evidence for one deep software-planning suite. |
+| `kata-idea` | CE `ce-brainstorm`; Matt `grilling` and `grill-with-docs`; pstack `interrogate` |
+| `kata-work` | CE `ce-work` and `lfg`; Matt `implement` and `implement-spec`; pstack `correct`, `figure-it-out`, autonomous-run, and feature playbooks |
+| `kata-verify` | CE and Matt code review; Addy Osmani security review; pstack `correct`, `benchmark-checklist`, `blast-radius`, `interrogate`, and `no-comments` |
+| `kata-shipit` | CE `ce-commit-push-pr`; Superpowers `finishing-a-development-branch`; the former `kata-commit` boundary |
+| `kata-understand` | pstack `recall`, `how`, and parts of `why`; the context-reconstruction part of CE `ce-handoff`; the investigation parts of Matt architecture skills |
 | `kata-showme` | CE `ce-explain`; pstack `teach`; visual report ideas from Matt `improve-codebase-architecture` |
 | `kata-write-skill` | CE `ce-retune`; pstack `automate-me` and skill-authoring playbook; Matt `writing-for-agents` |
 | `kata-docs` | Former `kata-setup`; CE `ce-setup`, `ce-compound`, and `ce-compound-refresh`; pstack `setup-pstack`; Matt `setup-matt-pocock-skills` |

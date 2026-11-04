@@ -9,14 +9,14 @@ Last reviewed: 2026-11-04
 
 ## Summary
 
-Direct inspection found 19 active skill packages.
+Direct inspection found 20 active skill packages.
 
 | Primary origin | Count | Meaning |
 | --- | ---: | --- |
-| Kata-native | 12 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
-| In-house source | 2 | Mike Hostetler or Jason Allum wrote the earlier source. Kata adapted or migrated it. |
-| Hybrid | 1 | Kata owns the workflow, but it adapts ideas and methods from named external sources. |
-| External adaptation | 4 | Kata adapted the active package from an external project. |
+| Kata-native | 10 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
+| In-house source | 1 | Mike Hostetler wrote the earlier source. Kata adapted or migrated it. |
+| Hybrid | 4 | Kata owns the workflow, but it adapts ideas and methods from named external sources. |
+| External adaptation | 5 | Kata adapted the active package from an external project. |
 
 The root [README attribution section](../../README.md#attribution), package
 license files, and current package files support this index.
@@ -28,38 +28,39 @@ license files, and current package files support this index.
 | Skill | Current job | Folded source method |
 | --- | --- | --- |
 | `jido` | Select the smallest Kata route for an explicit request. | None. |
-| `kata-commit` | Create one local commit from verified work. | None. |
 | `kata-docs` | Set up and maintain Docs Kata, including bounded code-to-document reconciliation. | Earlier Jido docs-sync material. |
 | `kata-dojo` | Run an explicitly requested skill evaluation. | None. |
 | `kata-ex-design-review` | Review Elixir and OTP design. | None. |
 | `kata-ex-quality` | Find, backlog, batch, and fix bounded Elixir quality findings. | Jason Allum's focused coverage and dead-code methods and analyzers. |
 | `kata-maintain-skill` | Resolve one skill-library maintenance finding. | None. |
 | `kata-orient` | Maintain scoped `AGENTS.md` and entry-point `README.md` files. | None. |
-| `kata-status-report` | Report local and remote Git workbench state. | None. |
-| `kata-understand` | Establish current condition or reconstruct recent work context. | pstack `recall`. |
-| `kata-verify` | Judge one candidate and run selected focused verification methods. | pstack `benchmark-checklist`, `blast-radius`, `interrogate`, and `no-comments`. |
-| `kata-work` | Produce one candidate result with optional test-first or decision-log methods. | pstack `tdd` and `show-me-your-work`. |
+| `kata-sitrep` | Report local and remote Git workbench state. | None. |
+| `kata-understand` | Establish current condition, explain existing software, or reconstruct recent work context. | pstack `recall` and Jason Allum's private `neckbeard` method. |
+| `kata-work` | Produce one candidate result with optional repository-guard, test-first, or decision-log methods. | pstack `correct`, `tdd`, and `show-me-your-work`. |
 
 ### In-house source
 
 | Skill | Earlier source |
 | --- | --- |
 | `kata-build-jido` | Mike Hostetler's `agentjido/jido-skills` action, agent, runtime, AI, and test material. |
-| `kata-neckbeard` | Jason Allum's private `neckbeard` skill. |
 
 ### Hybrid
 
 | Skill | Source relationship |
 | --- | --- |
 | `kata-write-skill` | Kata owns the workflow. It adapts authoring ideas from Matt Pocock and Compound Engineering and the pstack project-verification-skill method. |
+| `kata-verify` | Kata owns the compound router. Its methods adapt pstack repository-guard and verification practices, Compound Engineering and Matt Pocock code review, and Addy Osmani security review. |
+| `kata-shipit` | Kata's former scoped-commit boundary now includes authorized branch, push, pull-request, watch, and land methods adapted from Compound Engineering and Superpowers. |
+| `kata-plan` | Kata owns the deep software-planning workflow and its Markdown, HTML, and Beadwork adapters. It retains planning methods and the license from Compound Engineering `ce-plan`. |
 
 ### External adaptations kept
 
 | Skill | External source | Decision reason |
 | --- | --- | --- |
-| `kata-plan` | Compound Engineering `ce-plan` | Planning is a core Kata step with a distinct result. |
+| `kata-debug` | Compound Engineering `ce-debug` and Matt Pocock `diagnosing-bugs` | Reproducible diagnosis and a bounded repair are a distinct job. |
+| `kata-idea` | Compound Engineering `ce-brainstorm`, Matt Pocock `grilling`, and pstack `interrogate` | Product exploration, decision grilling, and idea challenge happen before implementation planning. |
+| `kata-roadmap` | Matt Pocock `wayfinder` | Durable decision resolution across several review cycles is a separate result between idea and implementation planning. |
 | `kata-showme` | HumanLayer `show-me` | Visual explanation is a distinct job that prose does not replace well. |
-| `kata-correct` | pstack `correct` | It turns repeated mistakes into structural controls. |
 | `kata-technical-writing` | pstack `technical-writing` and Mike Hostetler's Elixir documentation guidance | It owns one document-writing job and now contains the former `unslop` cleanup mode. |
 
 ## Applied folds
@@ -69,9 +70,11 @@ license files, and current package files support this index.
 | `kata-benchmark-checklist` | `kata-verify` benchmark reference. |
 | `kata-blast-radius` | `kata-verify` blast-radius reference. |
 | `kata-create-verification-skill` | `kata-write-skill` Create specialization. |
+| `kata-correct` | `kata-work` repository-guard creation reference and `kata-verify` repository-guard verification reference. |
 | `kata-ex-coverage` | `kata-ex-quality` coverage rules and analyzer. |
 | `kata-ex-hunt-dead-code` | `kata-ex-quality` dead-code rules, analyzer, roots template, and false-positive reference. |
-| `kata-interrogate` | `kata-verify` adversarial-review reference. |
+| `kata-neckbeard` | `kata-understand` software-system explanation mode. |
+| `kata-interrogate` | `kata-verify` adversarial-review reference and `kata-idea` Challenge method. |
 | `kata-no-comments` | `kata-verify` comment-review reference. |
 | `kata-recall` | `kata-understand` recall mode. |
 | `kata-show-your-work` | `kata-work` decision-log method. |
@@ -92,6 +95,8 @@ license files, and current package files support this index.
 
 - `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`, and
   `kata-jido-testing` became `kata-build-jido`.
+- `kata-commit` became `kata-shipit`; the strict local commit route remains and
+  remote delivery uses separate explicit authority.
 - `kata-review-pr` retired.
 - `kata-sync-docs` retired. `kata-docs` maintenance now owns bounded
   code-to-document reconciliation.

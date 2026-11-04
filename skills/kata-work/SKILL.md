@@ -47,6 +47,10 @@ specialist methods or authority.
 
 Load a focused method only when its trigger applies:
 
+- For an explicit request to prevent a repeated repository mistake, when
+  evidence identifies at least two occurrences, read
+  [references/repository-guard.md](references/repository-guard.md). If the
+  repeated evidence is not established, return to understanding.
 - For an explicitly requested failing test, regression test, or a defect with
   an obvious cheap local test, read
   [references/tdd.md](references/tdd.md).

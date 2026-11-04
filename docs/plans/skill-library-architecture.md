@@ -1,6 +1,6 @@
 # Skill library architecture
 
-Status: needs review
+Status: Current
 
 Last reviewed: 2026-11-04
 
@@ -8,23 +8,25 @@ Last reviewed: 2026-11-04
 
 Direct inspection found 20 active skills with `kata.skill/v1` metadata. The
 2026-11-04 curation folded focused imported methods into core packages, retired
-five small imported commands, retired two Jido migration packages, and combined
-four Jido build packages as `kata-build-jido`. The library is one package above
-the stated hard limit of 19. Skill frontmatter and live package files remain the
-inventory authority.
+small commands, combined the Jido build packages, and later added `kata-debug`
+and `kata-idea`. `kata-roadmap` now owns durable multi-session decision routes
+between idea and implementation planning. `kata-verify` routes focused
+verification methods, and `kata-shipit` replaces the local-only `kata-commit`.
+The `kata-correct` method now belongs to `kata-work` and `kata-verify`. The
+catalog meets the revised hard limit of 20. Skill frontmatter and live package
+files remain the inventory authority.
 
 ## Purpose
 
-Keep Kata useful as it grows. Keep fewer than 20 active skills. Make `jido` the
-main entry point. Add a skill only when real work proves that a separate package
-is useful.
+Keep Kata useful as it grows. Make `jido` the main entry point. Add a skill only
+when real work proves that a separate package is useful.
 
 ## Nucleus
 
 Jido is the front door to two internal routes:
 
 ```text
-Value delivery: understand -> plan -> work -> verify -> consumer acceptance
+Value delivery: understand -> idea? -> roadmap? -> plan -> work -> verify -> consumer acceptance
 Kaizen:         maintain-skill -> write-skill -> consumer acceptance
 Optional:       dojo -> consumer acceptance, only by explicit request
 ```
@@ -34,9 +36,9 @@ uses delegated judgment, selects the route, and starts at the first unresolved
 contract. The requester does not need to use the terms Value delivery, Flow, or
 Kaizen.
 
-The nucleus has seven skills: `jido` and the six default transition skills shown
-above. `kata-dojo` and `commit` are optional actions. They are not part of either
-core route.
+The nucleus has nine skills: `jido` and the eight default transition skills
+shown above. `kata-dojo` and `kata-shipit` are optional actions. They are not
+part of either core route.
 
 ## Four separate dimensions
 
@@ -54,7 +56,7 @@ profile, and the Jido SDK lens. These three values do not require three skills.
 ## Work-system routes
 
 ```text
-understand -> plan -> work -> verify -> consumer acceptance
+understand -> idea? -> roadmap? -> plan -> work -> verify -> consumer acceptance
 
 maintain-skill -> write-skill -> consumer acceptance
 
@@ -64,7 +66,9 @@ dojo -> consumer acceptance, only by explicit request
 | Facet | Main question | Normal result |
 | --- | --- | --- |
 | Understand | What is true now? | Evidence and a bounded problem |
-| Plan | What sequence can reach the target? | A decision-ready plan |
+| Idea | What should exist, for whom, and why? | A decision-ready idea brief or Product Contract |
+| Roadmap | Which dependent decisions must become clear across several review cycles? | A durable decision roadmap and planning handoff |
+| Plan | What technical sequence can deliver the software target? | A software implementation plan |
 | Work | What change or result must be made? | A candidate result with local checks |
 | Verify | Does the result meet its contract? | Pass, fail, or an evidence gap |
 | Maintain skill | What reusable problem or opportunity exists? | A resolved finding or bounded brief |
@@ -97,6 +101,8 @@ It selects one profile:
 Each profile belongs in a small reference inside the `work` package. A profile
 is not a new skill. If the target is unclear, `work` routes to understand or plan.
 If the request is only to judge an existing result, it routes to `verify`.
+The repository-guard reference is a focused work method. It produces a
+candidate guard and work evidence after two occurrences are established.
 
 ## Verify dispatcher
 
@@ -110,26 +116,33 @@ If the request is only to judge an existing result, it routes to `verify`.
 | Operation | Observed final state, scope, failure handling, and recovery evidence |
 | Skill | Trigger behavior, outcome checks, boundaries, and live-task evidence |
 
-Focused methods such as coverage review, blast-radius checks, adversarial
-review, and benchmark checks can first be commands or references under
-`verify`. Promote one to a full skill only when it has a distinct trigger,
-method, result, and repeated use.
+Focused methods such as repository-guard proof, coverage review, blast-radius
+checks, adversarial review, and benchmark checks can first be commands or
+references under `verify`. Promote one to a full skill only when it has a
+distinct trigger, method, result, and repeated use.
 
 ## Domain map
 
 Track domains as rows and facets as columns. Do not use package count as the
 coverage measure.
 
-| Domain | Understand | Plan | Work | Verify | Kaizen |
-| --- | --- | --- | --- | --- | --- |
-| Skill library | Core | Core | Skill writing | Dojo | Specialist |
-| General software | Core | Core | Software profile | Software profile | Core |
-| Elixir and OTP | Lens | Core | Lens | Lens | Core |
-| Jido SDK | Lens | Core | Lens | Lens | Core |
-| AI and LLM systems | Lens | Core | Lens | Gap to assess | Core |
-| Documentation | Core | Core | Artifact profile | Artifact profile | Core |
-| Operations and homelab | Lens | Core | Operation profile | Operation profile | Core |
-| Research and decisions | Core | Core | Research profile | Research profile | Core |
+| Domain | Understand | Idea | Roadmap | Plan | Work | Verify | Kaizen |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Skill library | Core | Core | Core | Gap | Skill writing | Dojo | Specialist |
+| General software | Core | Core | Core | Core | Software profile | Software profile | Core |
+| Elixir and OTP | Lens | Lens | Core | Core | Lens | Lens | Core |
+| Jido SDK | Lens | Lens | Core | Core | Lens | Lens | Core |
+| AI and LLM systems | Lens | Lens | Core | Core | Lens | Gap to assess | Core |
+| Documentation | Core | Core | Core | Gap | Artifact profile | Artifact profile | Core |
+| Operations and homelab | Lens | Lens | Core | Gap | Operation profile | Operation profile | Core |
+| Research and decisions | Core | Core | Core | Gap | Research profile | Research profile | Core |
+
+The first `kata-plan` implementation covers software only. It is one deep
+planning suite with a canonical Markdown artifact and optional HTML and
+Beadwork adapters. `kata-roadmap` is domain-agnostic and owns decisions that
+span several review cycles before this technical planning step. Do not route
+non-software implementation planning through `kata-plan`. Add another planning
+domain only after real work proves its method and result.
 
 Use four states in a generated map:
 
@@ -141,19 +154,22 @@ Use four states in a generated map:
 An empty or weak cell does not require a skill. It becomes a skill candidate
 only after real tasks show repeated friction or failure.
 
-The map belongs to library maintenance. Add a `map` command to
-`maintain-skill`, and expose it as `$jido map`. Do not add a separate mapping
+The catalog coverage map belongs to library maintenance. Add a `map` command to
+`maintain-skill`, and expose it as `$jido map`. This is not the initiative
+decision roadmap owned by `kata-roadmap`. Do not add a separate catalog-mapping
 skill.
 
 ## Skill budget
 
-Use a target of 16 active skills and a hard limit of 19.
+Use a target of 16 active skills and a hard limit of 20. The current 20-skill
+catalog meets the hard limit. Do not add another package before one existing
+package merges or retires.
 
 | Group | Active | Skills |
 | --- | ---: | --- |
-| Core work system | 8 | `jido`, understand, plan, work, verify, maintain-skill, write-skill, dojo |
-| Support | 3 | commit, orient, status-report |
-| Domain and focused packages | 9 | build-jido, correct, docs, three Elixir skills, neckbeard, showme, technical-writing |
+| Core work system | 10 | `jido`, understand, idea, roadmap, plan, work, verify, maintain-skill, write-skill, dojo |
+| Support | 3 | shipit, orient, sitrep |
+| Domain and focused packages | 7 | build-jido, debug, docs, ex-design-review, ex-quality, showme, technical-writing |
 
 The target is a portfolio shape, not an immediate rename or deletion list.
 Keep a small command when its name has clear value and its behavior is narrow.
@@ -168,7 +184,11 @@ Applied consolidation paths include:
 - Put benchmark, blast-radius, adversarial, and comment-review methods under
   `kata-verify`.
 - Put recall under `kata-understand`.
+- Put existing-software explanation under `kata-understand`.
+- Put coverage and dead-code analysis under `kata-ex-quality`.
 - Put test-first repair and decision logging under `kata-work`.
+- Put repository-guard creation under `kata-work` and its independent proof
+  under `kata-verify`.
 - Put project verification-skill creation under `kata-write-skill`.
 
 ## Admission and retirement rules
@@ -192,5 +212,7 @@ retirement.
 2. Add the four `work` profiles as references, not as skills.
 3. Add the coverage map to `maintain-skill` without a new mapping package.
 4. Design a play contract before Dojo claims generic play evaluation.
-5. Decide whether the 19-skill hard limit still applies and, if it does, select
-   one more active package for consolidation or retirement.
+5. Complete the shared repository issue-backend contract before issue-producing
+   skills add GitHub or Jira writes.
+6. Use real task evidence before the next package addition, consolidation, or
+   retirement decision.

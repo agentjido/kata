@@ -6,7 +6,7 @@ words that the human must use.
 ## Value delivery
 
 ```text
-understand -> plan -> work -> verify -> consumer acceptance
+understand -> idea? -> roadmap? -> plan -> work -> verify -> consumer acceptance
 ```
 
 Each skill is one transition. Enter at the first unresolved contract:
@@ -14,15 +14,18 @@ Each skill is one transition. Enter at the first unresolved contract:
 | Step | Enter when | Skip when | Result |
 | --- | --- | --- | --- |
 | Understand | The current condition, problem, cause, or limit lacks support. | Supplied evidence bounds the problem and current state. | `understood-context` or `work-brief` |
-| Plan | The target is clear, but the route has material decisions or dependent steps. | The target, scope, acceptance, and action are already clear. | `work-plan` or `implementation-plan` |
+| Idea | The problem is understood, but the desired behavior, product direction, scope, or success signal needs an accountable decision. | What to build and why are already clear. | `idea-brief` or `product-contract` |
+| Roadmap | The destination is clear, but dependent decisions must be resolved across several review cycles or agent sessions before implementation planning. | The route is clear enough for one planning session, or a completed roadmap already supplies the decisions. | `decision-roadmap` and, when complete, `planning-request` |
+| Plan | A software target is clear, but the technical route has material decisions or dependent steps. | The request is non-software, or target, scope, acceptance, and action are already clear. | `implementation-plan` |
 | Work | The target, scope, acceptance conditions, and authority are resolved. | A candidate result already exists. | `candidate-result` and `work-evidence` |
 | Verify | A candidate result exists and its acceptance needs evidence. | Current matching evidence already proves each material condition. | `verified-result`, `verified-change`, or `verification-finding` |
 | Consumer acceptance | Evidence is ready for the result's next consumer. | The assignment or downstream contract already defines acceptance. | Acceptance, rejection, or new direction |
 
-An answer can use `understand -> verify`. A clear bounded change can use
-`work -> verify`. An existing candidate can use `verify` only. A multi-step
-request can use the full route. Re-evaluate readiness after every step because
-new evidence can expose a missing decision.
+An answer can use `understand -> verify`. A vague long-horizon request can use
+`idea -> roadmap -> plan`. A clear bounded change can use `work -> verify`. An
+existing candidate can use `verify` only. A multi-step request can use the full
+route. Re-evaluate readiness after every step because new evidence can expose a
+missing decision.
 
 The verification step does not repair its candidate. A failure returns a
 finding to the work owner. The work step can run direct local checks, but it

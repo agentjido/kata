@@ -127,7 +127,7 @@ When the operator requested a fix, do not report a Route disposition as complete
 until the writing handoff is verified or has an explicit blocker.
 
 When the operator also requested a commit, pass the verified change to the
-canonical commit workflow. In Kata, use `kata-commit`. Do not stage or commit
+canonical delivery workflow. In Kata, use `kata-shipit` in Commit mode. Do not stage or commit
 inside this skill. Report the returned commit hash or blocker.
 
 Produce `verified-change` only when this invocation leaves a verified local

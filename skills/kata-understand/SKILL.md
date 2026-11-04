@@ -1,6 +1,6 @@
 ---
 name: kata-understand
-description: Understand the current condition of a domain with evidence. Use when the facts, problem, cause, or limits are unclear; skip when the target and acceptance conditions are already supported well enough to plan or work.
+description: Understand the current condition of a domain with evidence. Use when facts, a problem, cause, limits, recent work, or existing software behavior are unclear; skip when the target and acceptance conditions are already supported well enough to plan or work.
 argument-hint: "[question, condition, or unclear work request]"
 metadata:
   schema: kata.skill/v1
@@ -9,8 +9,8 @@ metadata:
   object: domain-context
   profile: bounded-execution
   authority: read-only
-  consumes: [work-request, domain-context, recall-request, conversation-history]
-  produces: [understood-context, work-brief, current-state-brief, project-knowledge-capture]
+  consumes: [work-request, domain-context, recall-request, conversation-history, system-question, software-system]
+  produces: [understood-context, work-brief, current-state-brief, project-knowledge-capture, evidence-supported-answer]
 ---
 
 # Understand
@@ -68,6 +68,11 @@ context across chats and live state, read and follow
 [references/recall.md](references/recall.md). Recall is an understanding mode,
 not a separate skill and not authority to resume the work.
 
+When the user asks how existing software works, where behavior is implemented,
+or what its requirements and limits are, read and follow
+[references/software-system.md](references/software-system.md). System
+explanation is an understanding mode, not authority to change the system.
+
 Do not prescribe a multi-step route when the target still needs an accountable
 value decision. Do not repeat this step when supplied evidence already
 establishes the current condition well enough for planning or work.
@@ -75,6 +80,7 @@ establishes the current condition well enough for planning or work.
 ## Report
 
 Answer the blocking question first. Then report the evidence, important limits,
-and any inference. When another step follows, state what is now known, what
-remains open, and why the next step is ready. A missing source or inaccessible
-system is an explicit evidence limit, not permission to guess.
+and any inference. Cite stable evidence locations when the context provides
+them. When another step follows, state what is now known, what remains open,
+and why the next step is ready. A missing source or inaccessible system is an
+explicit evidence limit, not permission to guess.
