@@ -34,17 +34,17 @@ Hold at the approach. Use the host's blocking question tool already in the curre
 
 ## Stage 4: Route
 
-**Save for later.** Persist the approach-plan to `<root>/plans/` so it survives. If the deliverable is non-code, write the marker (`execution: knowledge-work`, see `references/plan-sections.md`) at persist time — so a later `kata-work` invocation on the saved plan routes to the carve-out, not the code path. Do not label an approach-plan as `artifact_contract: ce-unified-plan/v1` unless it also contains Product Contract, Planning Contract, Implementation Units, Verification Contract, and Definition of Done for a software implementation. A plan-for-a-plan is usually not suitable for `/goal`; its job is to guide a later planning or knowledge-work pass, not to execute code. Offer to deepen it. Keep the plan **agent-agnostic** (no `kata-work`-specific choreography in the body) so any agent can execute it later.
+**Save for later.** Persist the approach-plan to `<root>/plans/` so it survives. If the deliverable is non-code, write the marker (`execution: knowledge-work`, see `references/plan-sections.md`) at persist time so a later executor does not treat it as a software implementation plan. Do not label an approach-plan as `artifact_contract: ce-unified-plan/v1` unless it also contains Product Contract, Planning Contract, Implementation Units, Verification Contract, and Definition of Done for a software implementation. A plan-for-a-plan is usually not suitable for `/goal`; its job is to guide a later planning or knowledge-work pass, not to execute code. Offer to deepen it. Keep the plan **agent-agnostic** (no executor-specific choreography in the body) so any suitable agent can execute it later.
 
 **Execute now -- code deliverable.** The approach-plan's job is done; continue into the normal `kata-plan` flow (Phase 0.1b onward) to produce the implementation plan, then hand off to `kata-work` for the code. `kata-plan` never writes the code itself.
 
-**Execute now -- non-code deliverable.** This is the knowledge-work path with no `kata-work` equivalent, so it routes to `kata-work`'s carve-out:
+**Execute now -- non-code deliverable.** Kata has no general knowledge-work executor:
 
 1. Write the marker `execution: knowledge-work` into the plan frontmatter.
 2. **Persist** the marked plan to `<root>/plans/` (the marker needs a file to live in so it can travel — R7's file-optional governs the user keeping a chat-only copy, but non-code *execution* forces a persist).
-3. Invoke the `kata-work` skill with the plan path using the host's normal skill-invocation mechanism. Do not substitute a generic Task, Agent, or subagent. If `kata-work` cannot be invoked, say execution did not start and print a copyable handoff prompt instructing the next agent to invoke `kata-work` with the plan path.
+3. Say that execution did not start. Return the plan path and a copyable prompt that asks a suitable knowledge-work executor to complete the marked plan. Do not invoke `kata-work`, which owns software implementation.
 
-`kata-plan` itself does not execute the deliverable in any path — it produces the approach-plan and hands off. The portable plan is also runnable by any other agent without `kata-work`.
+`kata-plan` itself does not execute the deliverable in any path — it produces the approach-plan and hands off. The portable plan is runnable by a suitable executor without a Kata execution package.
 
 ## Boundaries: not the other approach surfaces
 
