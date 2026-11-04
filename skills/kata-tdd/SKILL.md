@@ -1,9 +1,33 @@
 ---
 name: kata-tdd
 description: "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested."
+metadata:
+  schema: kata.skill/v1
+  subject: software-engineering
+  practice: repair
+  object: software-defect
+  profile: bounded-execution
+  authority: local-write
+  consumes: [bug-report, software-repository]
+  produces: [verified-change, regression-test]
 ---
 
 # TDD Bug Fix
+
+**Outcome:** A focused defect fix with failing-before and passing-after evidence,
+or the closest practical regression check when a new test is not suitable.
+
+**Done:** The intended behavior is explicit, the smallest accepted fix is in
+the local worktree, the selected regression evidence passes after the fix, and
+any missing failing-before evidence has a stated reason.
+
+## Assignment
+
+The required inputs are one defect, its intended behavior, and the target
+repository. Direct user authority or inherited caller authority permits the
+smallest local test and production changes needed for that defect. Preserve
+unrelated work. Do not stage, commit, push, change remote state, weaken correct
+assertions, or expand into nearby coverage without separate authority.
 
 When fixing a bug with a clear, cheap test path, make the broken behavior executable before changing production code. The goal is a focused regression test that fails before the fix and passes after it.
 
