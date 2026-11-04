@@ -16,7 +16,7 @@
 # deleting live code is not.
 #
 # Usage:
-#   elixir "<skill-directory>/scripts/dead_code.exs" [--json] [--root DIR] [--roots FILE]
+#   elixir "<quality-skill-directory>/scripts/dead_code.exs" [--json] [--root DIR] [--roots FILE]
 
 defmodule DeadCode.Source do
   @moduledoc "Parses one source file into the facts the graph needs."
@@ -240,7 +240,10 @@ defmodule DeadCode.Source do
 
   defp scoped_refs({a, _, b}, prefix), do: scoped_refs(a, prefix) ++ scoped_refs(b, prefix)
   defp scoped_refs({a, b}, prefix), do: scoped_refs(a, prefix) ++ scoped_refs(b, prefix)
-  defp scoped_refs(list, prefix) when is_list(list), do: Enum.flat_map(list, &scoped_refs(&1, prefix))
+
+  defp scoped_refs(list, prefix) when is_list(list),
+    do: Enum.flat_map(list, &scoped_refs(&1, prefix))
+
   defp scoped_refs(_, _), do: []
 
   def behaviours(ast, aliases) do
@@ -448,19 +451,28 @@ defmodule DeadCode.CLI do
       do: raise(ArgumentError, "Use [--json] [--root DIR] [--roots FILE]")
 
     root = opts |> Keyword.get(:root, File.cwd!()) |> Path.expand()
-    project_manifest_path = Path.join(root, ".agents/skills/kata-ex-hunt-dead-code/roots.exs")
+
+    project_manifest_paths = [
+      Path.join(root, ".kata/dead-code-roots.exs"),
+      Path.join(root, ".agents/skills/kata-ex-hunt-dead-code/roots.exs")
+    ]
 
     installed_manifest_path =
       __ENV__.file
       |> Path.dirname()
-      |> Path.join("../roots.exs")
+      |> Path.join("../assets/dead-code-roots.exs")
       |> Path.expand()
 
     manifest_path =
       cond do
-        opts[:roots] -> Path.expand(opts[:roots], root)
-        File.exists?(project_manifest_path) -> project_manifest_path
-        true -> installed_manifest_path
+        opts[:roots] ->
+          Path.expand(opts[:roots], root)
+
+        project_manifest_path = Enum.find(project_manifest_paths, &File.exists?/1) ->
+          project_manifest_path
+
+        true ->
+          installed_manifest_path
       end
 
     if opts[:roots] && not File.regular?(manifest_path),
@@ -495,6 +507,7 @@ defmodule DeadCode.CLI do
       |> Map.get(:roots, [])
       |> Enum.map(&elem(&1, 0))
       |> Enum.flat_map(&expand_root(root, &1))
+
     public_api = Map.get(manifest, :public_api, [])
 
     # Mix tasks are invoked from the CLI and never aliased.
@@ -768,7 +781,11 @@ defmodule DeadCode.CLI do
 
     Report.line("")
     Report.line("## Unused public API (#{length(unused_public)}) -- ADVISORY, human judgement")
-    Report.line("   Cannot be proven dead from inside a library; downstream users may call these.")
+
+    Report.line(
+      "   Cannot be proven dead from inside a library; downstream users may call these."
+    )
+
     Report.thin()
 
     if unused_public == [],
@@ -834,7 +851,11 @@ defmodule DeadCode.CLI do
       |> JSON.encode!()
       |> IO.puts()
     else
-      IO.puts(:stderr, "--json needs Elixir 1.18+ (stdlib JSON). Re-run without it for the text report.")
+      IO.puts(
+        :stderr,
+        "--json needs Elixir 1.18+ (stdlib JSON). Re-run without it for the text report."
+      )
+
       System.halt(1)
     end
   end

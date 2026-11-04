@@ -3,7 +3,7 @@
 The examples and measurements below describe the source Bedrock project.
 They are historical observations, not current Kata evaluation results.
 
-Reference for the triage step in [SKILL.md](SKILL.md). Every class below was
+Reference for the dead-code rule in [the quality skill](../SKILL.md). Every class below was
 confirmed in this codebase, not hypothesised.
 
 ## Why not `mix xref`

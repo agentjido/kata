@@ -12,52 +12,68 @@ defmodule CoverageTool do
   """
 
   @processed_files_path ".coverage_progress.txt"
-  @coverage_threshold 90.0
+  @default_coverage_threshold 90.0
 
   def run(argv) do
-    {root, args} = extract_root(argv, nil, [])
+    {root, threshold, args} =
+      extract_options(argv, nil, @default_coverage_threshold, [])
 
     if root do
-      File.cd!(root, fn -> main(args) end)
+      File.cd!(root, fn -> main(args, threshold) end)
     else
-      main(args)
+      main(args, threshold)
     end
   end
 
-  def main(["find" | opts]) do
+  def main(["find" | opts], threshold) do
     commits = parse_commits_opt(opts, 30)
-    find_modules(commits)
+    find_modules(commits, threshold)
   end
 
-  def main(["analyze", module_path]) do
+  def main(["analyze", module_path], _threshold) do
     analyze_module(module_path)
   end
 
-  def main(["suggest"]) do
-    suggest_next()
+  def main(["suggest"], threshold) do
+    suggest_next(threshold)
   end
 
-  def main(["mark" | files]) when files != [] do
+  def main(["mark" | files], _threshold) when files != [] do
     mark_processed(files)
   end
 
-  def main(_) do
+  def main(_, _threshold) do
     IO.puts("""
     Usage:
-      coverage_tool.exs [--root DIR] find [--commits N]     Find modules needing coverage
-      coverage_tool.exs [--root DIR] analyze <module_path>  Detailed coverage for a module
-      coverage_tool.exs [--root DIR] suggest                Suggest next unprocessed modules
-      coverage_tool.exs [--root DIR] mark <path> [path...]  Mark module(s) as processed
+      coverage.exs [--root DIR] [--threshold PERCENT] find [--commits N]
+      coverage.exs [--root DIR] analyze <module_path>
+      coverage.exs [--root DIR] [--threshold PERCENT] suggest
+      coverage.exs [--root DIR] mark <path> [path...]
     """)
   end
 
-  defp extract_root([], root, args), do: {root, Enum.reverse(args)}
-  defp extract_root(["--root", root | rest], _current, args), do: extract_root(rest, root, args)
-  defp extract_root([arg | rest], root, args), do: extract_root(rest, root, [arg | args])
+  defp extract_options([], root, threshold, args),
+    do: {root, threshold, Enum.reverse(args)}
+
+  defp extract_options(["--root", root | rest], _current, threshold, args),
+    do: extract_options(rest, root, threshold, args)
+
+  defp extract_options(["--threshold", value | rest], root, _threshold, args),
+    do: extract_options(rest, root, parse_threshold!(value), args)
+
+  defp extract_options([arg | rest], root, threshold, args),
+    do: extract_options(rest, root, threshold, [arg | args])
+
+  defp parse_threshold!(value) do
+    case Float.parse(value) do
+      {number, ""} when number >= 0.0 and number <= 100.0 -> number
+      _ -> raise ArgumentError, "--threshold must be a number from 0 through 100"
+    end
+  end
 
   # --- Find Mode ---
 
-  defp find_modules(commits) do
+  defp find_modules(commits, threshold) do
     with {:ok, coverage_data} <- load_coverage_data(),
          {:ok, git_files} <- get_recently_changed_files(commits) do
       modules = compute_module_stats(coverage_data)
@@ -72,13 +88,13 @@ defmodule CoverageTool do
           end
         end)
         |> Enum.reject(&is_nil/1)
-        |> Enum.reject(fn m -> m.percentage >= @coverage_threshold end)
+        |> Enum.reject(fn m -> m.percentage >= threshold end)
         |> Enum.sort_by(fn m -> m.percentage end)
 
       processed = read_processed_files()
 
       if results == [] do
-        IO.puts("No recently-changed modules found below #{@coverage_threshold}% coverage.")
+        IO.puts("No recently-changed modules found below #{threshold}% coverage.")
       else
         IO.puts("FIND_RESULTS")
         IO.puts("commits_scanned=#{commits}")
@@ -148,7 +164,7 @@ defmodule CoverageTool do
 
   # --- Suggest Mode ---
 
-  defp suggest_next do
+  defp suggest_next(threshold) do
     with {:ok, coverage_data} <- load_coverage_data() do
       modules = compute_module_stats(coverage_data)
       processed = read_processed_files()
@@ -156,15 +172,13 @@ defmodule CoverageTool do
       candidates =
         modules
         |> Enum.reject(fn m -> m.name in processed end)
-        |> Enum.reject(fn m -> m.percentage >= @coverage_threshold end)
+        |> Enum.reject(fn m -> m.percentage >= threshold end)
         |> Enum.reject(fn m -> m.uncovered_count < 5 end)
         |> Enum.sort_by(fn m -> m.percentage end)
         |> Enum.take(10)
 
       if candidates == [] do
-        IO.puts(
-          "No unprocessed modules below #{@coverage_threshold}% coverage with 5+ uncovered lines."
-        )
+        IO.puts("No unprocessed modules below #{threshold}% coverage with 5+ uncovered lines.")
       else
         IO.puts("SUGGEST_RESULTS")
 

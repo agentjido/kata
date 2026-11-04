@@ -78,9 +78,8 @@ the selected sequence and authority. Direct leaf skills remain available.
 | Skill | Job |
 | --- | --- |
 | `kata-build-jido` | Build and test Jido actions, agents, runtime behavior, and AI integrations. |
-| `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
 | `kata-ex-design-review` | Review Elixir design, contracts, and OTP ownership with selectable Phoenix, Ash, and Jido package lenses. |
-| `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
+| `kata-ex-quality` | Backlog, batch, and fix bounded Elixir package-quality findings without weakening protected measures. |
 
 Elixir skills include `language: elixir` in their metadata. Without a language
 marker, a skill is language-agnostic. `kata-neckbeard` is general system investigation;
@@ -90,7 +89,7 @@ classification metadata.
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. All 20 active packages use the
+output facets beside each skill's subject. All 19 active packages use the
 complete schema. Skill frontmatter is the canonical classification source.
 Small tools can derive catalog, workflow, and overlap candidates from it.
 
@@ -359,6 +358,12 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   The source is commit `57e409e5c8c2c472106bd7d87ac72b724b70826b`.
   The imported skill includes Every's original
   [MIT license notice](skills/kata-plan/LICENSE).
+- `kata-ex-quality` is an original Kata workflow informed by James Edward Gray,
+  II and Bruce A. Tate's
+  [Designing Elixir Systems with OTP](https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/),
+  especially its sequence of data, functional core, tests, boundaries,
+  lifecycle, and workers. Its coverage, reachability, and design questions also
+  adapt Jason Allum's earlier private `coverage` and `hunt-dead-code` skills.
 - `kata-showme` is adapted from `show-me`, written by Dex Horthy and published
   in [humanlayer/skills](https://github.com/humanlayer/skills). The original
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
@@ -377,8 +382,9 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   style guides in `mikehostetler/jido_run`. The source files were reviewed at
   repository commit `ed57e19f78d6a8995323310ef7cbb43eecf838df`.
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
-  skills. These were not published in a public repository. Kata includes
-  adaptations as `kata-ex-coverage`, `kata-neckbeard`, and `kata-ex-hunt-dead-code`.
+  skills. These were not published in a public repository. Kata keeps
+  `kata-neckbeard`; the coverage and dead-code methods and analyzers now live in
+  `kata-ex-quality`.
 - Mike Hostetler wrote the source material migrated from
   [agentjido/jido-skills](https://github.com/agentjido/jido-skills), reviewed at
   commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges the
@@ -409,7 +415,9 @@ These commands install skills at project scope. A local project-scope Codex
 installation from this checkout passed on 2026-09-28. That check predates the
 current skill set. Claude Code and Cursor installation still need direct checks.
 
-Ask the host to use a skill by name. For example: "Use kata-ex-coverage to inspect test coverage." Skill invocation syntax depends on the host.
+Ask the host to use a skill by name. For example: "Use kata-ex-quality with
+`rule:coverage-gap` to inspect test coverage." Skill invocation syntax depends
+on the host.
 
 ### Grok Build CLI
 
@@ -446,13 +454,14 @@ above do not install skills into that library. For personal use, give the Bot
 the skill files and ask it to save each one as a private skill:
 
 1. Attach the selected `skills/kata-*/SKILL.md` file to a Bot conversation.
-2. Include the skill's support files: `coverage_tool.exs` for `kata-ex-coverage`,
-   `LICENSE` for `kata-showme`, the complete `kata-docs` and
-   `kata-technical-writing` directories, and
-   `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
+2. Include the skill's support files: `LICENSE` for `kata-showme`, the complete
+   `kata-docs` and `kata-technical-writing` directories.
    Include `LICENSE` with `kata-build-jido`.
    For `kata-plan`, include the complete skill directory with `references/`,
    `scripts/`, and all license files.
+   For `kata-ex-quality`, include the complete skill directory with its rule
+   playbooks, CSV templates, backlog tool, coverage analyzer, dead-code analyzer,
+   roots template, and analyzer reference.
    Include each pstack `LICENSE` or `LICENSE-PSTACK` file with its affected
    skill directory.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
@@ -462,9 +471,10 @@ the skill files and ask it to save each one as a private skill:
    Select it from the `/` menu.
 
 Repeat for each skill you want to use. These are saved
-copies; repeat the import when the source changes. Coverage needs Elixir and
-access to the target project's coverage files on the Bot computer. Do not treat
-coverage as ready if the Bot cannot retain or run its support script.
+copies; repeat the import when the source changes. The quality coverage route
+needs Elixir and access to the target project's coverage files on the Bot
+computer. Do not treat coverage as ready if the Bot cannot retain or run the
+quality support scripts.
 
 This uses the documented [Grok Bot private skill workflow](https://docs.x.ai/grok-bot/skills-routines-and-automations).
 Support file retention and execution have not been tested. A direct Git

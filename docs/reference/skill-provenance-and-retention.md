@@ -9,12 +9,12 @@ Last reviewed: 2026-11-04
 
 ## Summary
 
-Direct inspection found 20 active skill packages.
+Direct inspection found 19 active skill packages.
 
 | Primary origin | Count | Meaning |
 | --- | ---: | --- |
-| Kata-native | 11 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
-| In-house source | 4 | Mike Hostetler or Jason Allum wrote the earlier source. Kata adapted or migrated it. |
+| Kata-native | 12 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
+| In-house source | 2 | Mike Hostetler or Jason Allum wrote the earlier source. Kata adapted or migrated it. |
 | Hybrid | 1 | Kata owns the workflow, but it adapts ideas and methods from named external sources. |
 | External adaptation | 4 | Kata adapted the active package from an external project. |
 
@@ -32,6 +32,7 @@ license files, and current package files support this index.
 | `kata-docs` | Set up and maintain Docs Kata, including bounded code-to-document reconciliation. | Earlier Jido docs-sync material. |
 | `kata-dojo` | Run an explicitly requested skill evaluation. | None. |
 | `kata-ex-design-review` | Review Elixir and OTP design. | None. |
+| `kata-ex-quality` | Find, backlog, batch, and fix bounded Elixir quality findings. | Jason Allum's focused coverage and dead-code methods and analyzers. |
 | `kata-maintain-skill` | Resolve one skill-library maintenance finding. | None. |
 | `kata-orient` | Maintain scoped `AGENTS.md` and entry-point `README.md` files. | None. |
 | `kata-status-report` | Report local and remote Git workbench state. | None. |
@@ -44,8 +45,6 @@ license files, and current package files support this index.
 | Skill | Earlier source |
 | --- | --- |
 | `kata-build-jido` | Mike Hostetler's `agentjido/jido-skills` action, agent, runtime, AI, and test material. |
-| `kata-ex-coverage` | Jason Allum's private `coverage` skill. |
-| `kata-ex-hunt-dead-code` | Jason Allum's private `hunt-dead-code` skill. |
 | `kata-neckbeard` | Jason Allum's private `neckbeard` skill. |
 
 ### Hybrid
@@ -70,6 +69,8 @@ license files, and current package files support this index.
 | `kata-benchmark-checklist` | `kata-verify` benchmark reference. |
 | `kata-blast-radius` | `kata-verify` blast-radius reference. |
 | `kata-create-verification-skill` | `kata-write-skill` Create specialization. |
+| `kata-ex-coverage` | `kata-ex-quality` coverage rules and analyzer. |
+| `kata-ex-hunt-dead-code` | `kata-ex-quality` dead-code rules, analyzer, roots template, and false-positive reference. |
 | `kata-interrogate` | `kata-verify` adversarial-review reference. |
 | `kata-no-comments` | `kata-verify` comment-review reference. |
 | `kata-recall` | `kata-understand` recall mode. |
