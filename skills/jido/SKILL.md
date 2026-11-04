@@ -62,7 +62,7 @@ Classify the primary requested result internally:
 
 - Deliver value in the current domain through the value-delivery route.
 - Improve a reusable skill or work method through the Kaizen route.
-- Use a support route for docs, status, commit, or help.
+- Use a support route for docs, status, shipping, or help.
 
 Select the first unresolved contract, not a workflow based only on task size.
 Skip every earlier step whose output is already supplied and supported. After

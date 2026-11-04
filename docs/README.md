@@ -15,10 +15,10 @@ Last reviewed: 2026-11-04
   orientation through `AGENTS.md` and entry-point `README.md` files.
   [`kata-docs`](../skills/kata-docs/SKILL.md) owns Docs Kata setup, inbox
   processing, durable capture, and maintenance.
-- Dojo has current suite adapters for
-  [the `kata-docs` setup route](../dojo/suites/setup.exs) and
-  [`kata-neckbeard`](../dojo/suites/neckbeard.exs). The other live-suite work
-  remains pending. Dojo is opt-in and runs only after an explicit request.
+- Dojo has a current suite adapter for
+  [the `kata-docs` setup route](../dojo/suites/setup.exs) and preserves a
+  historical Neckbeard adapter. The other live-suite work remains pending. Dojo
+  is opt-in and runs only after an explicit request.
 
 ## Documents kept at fixed paths
 
@@ -35,13 +35,16 @@ that a document has been verified.
 - [Jido skills migration backlog](plans/jido-skills-migration-backlog.md):
   remaining verification and the archive gate for `agentjido/jido-skills`.
 - [Skill import queue](plans/skill-import-queue.md): de-duplicated TODO list for
-  possible imports from Compound Engineering, pstack, and Matt Pocock.
+  possible imports from Compound Engineering, pstack, Matt Pocock, Addy Osmani,
+  and Superpowers.
+- [Repository issue backend support](plans/issue-backend-support.md): queued
+  shared `docs/agents/issues.md` contract and Beadwork, CSV, GitHub `gh`, and
+  Jira `twg` adapters.
 
-## Needs review
-
-- [Skill library architecture](plans/skill-library-architecture.md): useful
-  working model with a 19-skill hard limit that the current catalog exceeds by
-  one.
+The [skill library architecture](plans/skill-library-architecture.md) sets a
+20-skill hard limit. The current catalog meets that limit after the repository
+guard method moved from `kata-correct` into `kata-work` and `kata-verify`, and
+`kata-roadmap` took ownership of long-horizon decision routes.
 
 ## Archived source material
 

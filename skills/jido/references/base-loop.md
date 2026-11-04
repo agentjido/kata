@@ -13,6 +13,10 @@ to name that class.
 Use the first unresolved contract:
 
 - Understand when the current condition or problem lacks evidence.
+- Idea when the problem is understood but product behavior, direction, or scope
+  still needs an accountable decision.
+- Roadmap when the destination is clear but dependent decisions need several
+  review cycles before one implementation plan can be written.
 - Plan when the target is clear but the route has a material decision.
 - Work when target, scope, acceptance, and authority are clear.
 - Verify when a candidate exists and needs evidence.
@@ -33,8 +37,8 @@ belongs to `write-skill`. An unknown library-maintenance need belongs to
 `maintain-skill`. Ask one boundary question when neither route can be selected
 safely.
 
-Do not create a Git commit through the base loop. Route an explicit commit
-request for a verified change to `commit`.
+Do not deliver a Git change through the base loop. Route an explicit commit,
+pull request, watch, or merge request for a verified change to `shipit`.
 
 If the result depends on a running Jidoka BEAM system, read
 [runtime-client.md](runtime-client.md) and use the optional client only when it

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ship It"
+  short_description: "Commit, publish, watch, or land a verified change"
+  default_prompt: "Use $kata-shipit to deliver this verified Git change only to the boundary I requested."

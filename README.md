@@ -21,7 +21,7 @@ install the plugin, use the [manual installation](#manual-installation) commands
 [Live skill catalog](skills/README.md#browse-the-catalog) ·
 [Documentation index](docs/README.md) · [Intake log](docs/inbox/README.md)
 
-Understand. Plan. Work. Verify. Improve.
+Understand. Explore. Roadmap. Plan. Work. Verify. Ship. Improve.
 
 Kata is a knowledge-work system by Mike Hostetler and Jason Allum, packaged as
 skills for coding agents. Software engineering is one supported domain. The project is being prepared for public use at
@@ -30,11 +30,12 @@ point and will change as actual work shows what helps.
 
 ## Process
 
-Jido translates a requester's goal into one of two internal routes. Value delivery
-uses `understand -> plan -> work -> verify`. Kaizen improves the reusable work
-system through `maintain-skill -> write-skill`. Both end in consumer acceptance.
-Dojo is a separate, opt-in evaluation tool. A route starts at the first unresolved
-contract, so ready work can skip understanding and planning.
+Jido translates a requester's goal into one of two internal routes. Value
+delivery uses `understand -> idea? -> roadmap? -> plan -> work -> verify`.
+Kaizen improves the reusable work system through `maintain-skill ->
+write-skill`. Both end in consumer acceptance. Dojo is a separate, opt-in
+evaluation tool. A route starts at the first unresolved contract, so ready work
+can skip earlier steps.
 
 Use the amount of planning that the work needs. A small fix can use a few lines in the conversation. A larger change can use a written plan. Specifications are one tool in the process.
 
@@ -57,19 +58,20 @@ the selected sequence and authority. Direct leaf skills remain available.
 
 | Skill | Job |
 | --- | --- |
-| `kata-understand` | Establish the current condition and bound an unclear problem with evidence. |
-| `kata-verify` | Check one candidate result against its acceptance conditions without repairing it. |
+| `kata-understand` | Establish the current condition, explain existing systems, and bound an unclear problem with evidence. |
+| `kata-idea` | Explore, grill, or challenge what to build and produce a decision-ready brief before planning. |
+| `kata-roadmap` | Resolve a long-horizon initiative as a durable Beadwork or CSV decision roadmap before implementation planning. |
+| `kata-debug` | Reproduce and diagnose one software failure, then apply a minimal test-first repair when authorized. |
+| `kata-verify` | Route one candidate to context-specific verification methods and return a supported verdict without repairing it. |
 | `kata-dojo` | On explicit request, inspect saved evidence or evaluate one exact skill candidate. |
 | `kata-write-skill` | Write, import, or convert one package with the library contract and faceted metadata. |
-| `kata-commit` | Create one local Git commit from an already verified, explicitly scoped change. |
-| `kata-correct` | Turn repeated repository mistakes into structural checks. |
+| `kata-shipit` | Commit, publish, watch, or land a verified Git change to the exact boundary the user requests. |
 | `kata-maintain-skill` | Resolve one evidence-backed finding about skill-library ownership, overlap, classification, or contract conformance. |
 | `kata-orient` | Create, audit, or refresh scoped `AGENTS.md` and entry-point `README.md` files. |
-| `kata-plan` | Turn a work request into a plan and create a Beadwork graph when the repository is configured for it. |
-| `kata-status-report` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
+| `kata-plan` | Create a deep, repository-grounded software implementation plan with canonical Markdown and optional HTML and Beadwork adapters. |
+| `kata-sitrep` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
 | `kata-technical-writing` | Write or review README files and other technical prose from verified source facts. |
 | `kata-work` | Produce one candidate result from a ready request and hand it to independent verification. |
-| `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-docs` | Set up and steward Docs Kata, process inbox material, record durable knowledge, and maintain document structure. |
 
@@ -82,14 +84,13 @@ the selected sequence and authority. Direct leaf skills remain available.
 | `kata-ex-quality` | Backlog, batch, and fix bounded Elixir package-quality findings without weakening protected measures. |
 
 Elixir skills include `language: elixir` in their metadata. Without a language
-marker, a skill is language-agnostic. `kata-neckbeard` is general system investigation;
-it does not require Elixir. Model evaluation evidence is separate from skill
-classification metadata.
+marker, a skill is language-agnostic. Model evaluation evidence is separate
+from skill classification metadata.
 
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. All 19 active packages use the
+output facets beside each skill's subject. All 20 active packages use the
 complete schema. Skill frontmatter is the canonical classification source.
 Small tools can derive catalog, workflow, and overlap candidates from it.
 
@@ -100,18 +101,30 @@ It combines action, agent, runtime, AI, and test guidance rewritten from
 calls, current state operations, and the current rule that an action can
 perform immediate I/O when its result is needed by the workflow.
 
-`kata-plan` is adapted from Compound Engineering's `ce-plan`. It keeps the
-required references, scripts, and source license. Its support scripts pass
-local contract checks, but the adapted workflow has not been tested in live
-model runs. `kata-work` is the general execution boundary. It produces one
-candidate result and direct work evidence, but it does not certify its own
-output. `kata-verify` owns the independent judgment boundary. Commit and remote
-delivery remain separate actions.
+`kata-plan` is a self-contained software planning suite adapted from useful
+parts of Compound Engineering's `ce-plan`. It grounds the current system,
+selects a technical design, builds a dependency-ordered work graph, and defines
+the verification contract. Markdown is canonical. HTML is an optional derived
+view, and Beadwork is an optional issue-graph adapter. `kata-work` is the
+general execution boundary. It produces one candidate result and direct work
+evidence, but it does not certify its own output. `kata-verify` owns the
+independent judgment boundary and routes each candidate to focused methods.
+`kata-shipit` owns local commit and authorized remote delivery as separate
+modes.
 
-For Durable repository plans, `kata-plan` checks for an installed `bw` command
-and an already initialized Beadwork repository. When both checks pass, it creates
-and verifies an epic and task graph from the plan units. Otherwise it writes only
-the plan file. It never initializes Beadwork automatically.
+`kata-plan` uses Beadwork only when the user requests it. The adapter requires
+an installed `bw` command and an already initialized repository. It creates and
+verifies an epic and task graph from the canonical plan units. It never
+initializes or repairs Beadwork automatically. CSV output is not part of the
+first software-planning version.
+
+`kata-roadmap` owns long-horizon decision resolution between idea and
+implementation planning. Every roadmap uses either local Beadwork or one CSV
+file. Beadwork supports parallel writers; CSV is a single-writer fallback. A
+completed roadmap hands fixed decisions to `kata-plan` and does not create
+implementation units. The repository-wide issue-store selection belongs in
+`docs/agents/issues.md`. GitHub support through `gh` and Jira support through
+tested `twg` guidance are queued for all issue-producing skills.
 
 Use `kata-docs` with ordinary requests such as "set up project docs," "process
 this inbox note," "record this verified decision," or "tidy the docs." Setup
@@ -156,10 +169,11 @@ stay in `dojo/results/`. We do not maintain separate model variants of source
 skills.
 
 No active source package currently claims `optimized_for`. The saved setup and
-neckbeard evidence applies to the exact historical text in its result record.
-Both source skills changed after those trials, so that evidence does not prove
-optimization of the current files. Add an optimization claim only when the
-exact current file has sufficient saved evidence for that target. Use
+Neckbeard evidence applies only to the exact historical text in each result
+record. The Neckbeard package is retired, and its method now lives in
+`kata-understand`; its saved evidence does not prove optimization of the current
+Understand package. Add an optimization claim only when the exact current file
+has sufficient saved evidence for that target. Use
 [Dojo](dojo/README.md) to measure and improve skills. Plugin users do not need
 Elixir.
 
@@ -181,7 +195,8 @@ Elixir.
    that it matches the tested file. Commit the skill, fixtures, and result records
    together. This updates the source package; it does not install a plugin.
 
-Use the same runner for each skill's dedicated suite. For example:
+Use the same runner for each skill's dedicated suite. This historical
+Neckbeard example still addresses its preserved adapter:
 
 ```sh
 cd dojo
@@ -296,11 +311,11 @@ checks per case; the new checker identity and results are recorded by the scorer
 
 The user requested adoption of neckbeard Round 1 from the
 [three-round v3 trial](dojo/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/report.md).
-The exact 290-word candidate was adopted at that time. The current
-`skills/kata-neckbeard/SKILL.md` has changed and no longer matches that
-candidate. The historical candidate passed all 12 checks on one training case
-and scored **57.809727**. This is exploratory evidence. Repeated runs and
-separate final cases have not been checked. The
+The exact 290-word candidate was adopted at that time. That source package is
+now retired and its method is folded into `kata-understand`. The historical
+candidate passed all 12 checks on one training case and scored **57.809727**.
+This is exploratory evidence and does not apply to the current Understand
+package. Repeated runs and separate final cases have not been checked. The
 [adoption record](dojo/results/kata-neckbeard/codex-astra-xhigh/trials/proposal-v3-three-rounds-20260905/adoption.json)
 records this exception to the normal verification requirement.
 
@@ -323,8 +338,9 @@ not show token savings. The candidate stays in evaluation results. The source
 skill and its Astra evaluation target were unchanged by that trial.
 
 The shared runner takes a suite file and supports any skill with its own outcome
-checks. Setup and neckbeard adapters are included; the other active suites remain
-in their optimization worktrees until integration. See [the Dojo guide](dojo/README.md)
+checks. Setup and historical Neckbeard adapters are preserved; the other active
+suites remain in their optimization worktrees until integration. See
+[the Dojo guide](dojo/README.md)
 for the interface and
 [legacy setup commands](docs/reference/setup-evaluation-legacy-commands.md) for historical
 results. Testing Sol does not change the Astra target or establish support for an
@@ -352,11 +368,63 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   The package includes the source MIT notices:
   [Matt Pocock license](skills/kata-write-skill/LICENSE-MATT-POCOCK) and
   [Compound Engineering license](skills/kata-write-skill/LICENSE-COMPOUND-ENGINEERING).
+- `kata-debug` adapts the reproducible feedback-loop, reduction, hypothesis,
+  instrumentation, and regression-test method from Matt Pocock's
+  [diagnosing-bugs](https://github.com/mattpocock/skills/tree/4ae2317ddb22b046e26455e4f9c9b3aaaf62212d/skills/engineering/diagnosing-bugs)
+  and the causal-chain, evidence-safety, bounded-repair, and handoff rules from
+  Compound Engineering's
+  [ce-debug](https://github.com/EveryInc/compound-engineering-plugin/tree/406b85c4562de3d415927fccc5e614c6554aab00/skills/ce-debug).
+  The Kata adaptation removes host modes, automatic branches, commits, pushes,
+  Compound Packs, and source scripts. It adds Kata metadata and a diagnosis-only
+  authority boundary. The package includes the source
+  [Matt Pocock license](skills/kata-debug/LICENSE-MATT-POCOCK) and
+  [Compound Engineering license](skills/kata-debug/LICENSE-COMPOUND-ENGINEERING).
+- `kata-idea` adapts requirements exploration and product-pressure methods from
+  Compound Engineering's
+  [ce-brainstorm](https://github.com/EveryInc/compound-engineering-plugin/tree/406b85c4562de3d415927fccc5e614c6554aab00/skills/ce-brainstorm),
+  dependency-ordered decision grilling from Matt Pocock's
+  [grilling](https://github.com/mattpocock/skills/tree/4ae2317ddb22b046e26455e4f9c9b3aaaf62212d/skills/productivity/grilling),
+  and evidence-based challenge methods from pstack's
+  [interrogate](https://github.com/painhardcore/pstack/tree/7f2d936bba86c2c512c4ad83e759752f4f065b7c/skills/interrogate).
+  The Kata adaptation uses Explore, Grill, and Challenge methods and produces a
+  Product Contract that `kata-roadmap` can resolve or `kata-plan` can enrich.
+  The package includes the source
+  [Compound Engineering](skills/kata-idea/LICENSE-COMPOUND-ENGINEERING),
+  [Matt Pocock](skills/kata-idea/LICENSE-MATT-POCOCK), and
+  [pstack](skills/kata-idea/LICENSE-PSTACK) license notices.
+- `kata-roadmap` adapts the destination, decision frontier, fog, decision kinds,
+  and one-decision review cycle from Matt Pocock's
+  [wayfinder](https://github.com/mattpocock/skills/tree/4ae2317ddb22b046e26455e4f9c9b3aaaf62212d/skills/engineering/wayfinder).
+  Kata replaces issue-tracker setup, required companion-skill calls, automatic
+  subagents, research branches, and pushes with a host-neutral decision
+  contract and required local Beadwork or CSV state. The package includes the
+  source [MIT license notice](skills/kata-roadmap/LICENSE-MATT-POCOCK).
+- `kata-verify` is a Kata-owned compound verifier. Its code-review method adapts
+  ideas from Compound Engineering's
+  [ce-code-review](https://github.com/EveryInc/compound-engineering-plugin/tree/406b85c4562de3d415927fccc5e614c6554aab00/skills/ce-code-review)
+  and Matt Pocock's
+  [code-review](https://github.com/mattpocock/skills/tree/4ae2317ddb22b046e26455e4f9c9b3aaaf62212d/skills/engineering/code-review).
+  Its security method is informed by Addy Osmani's
+  [security-and-hardening](https://github.com/addyosmani/agent-skills/tree/301b02b12bff98e4688e6984af6556802322bbde/skills/security-and-hardening).
+  The package preserves its pstack notice and adds the
+  [Compound Engineering](skills/kata-verify/LICENSE-COMPOUND-ENGINEERING),
+  [Matt Pocock](skills/kata-verify/LICENSE-MATT-POCOCK), and
+  [Addy Osmani](skills/kata-verify/LICENSE-ADDY-OSMANI) notices.
+- `kata-shipit` keeps Kata's strict scoped-commit boundary and adapts safe branch,
+  push, pull-request, and completion ideas from Compound Engineering's
+  [ce-commit-push-pr](https://github.com/EveryInc/compound-engineering-plugin/tree/406b85c4562de3d415927fccc5e614c6554aab00/skills/ce-commit-push-pr)
+  and Jesse Vincent's
+  [finishing-a-development-branch](https://github.com/obra/superpowers/tree/22f0b463e7a5e579904dd6211a520321035526f7/skills/finishing-a-development-branch).
+  The package includes the source
+  [Compound Engineering](skills/kata-shipit/LICENSE-COMPOUND-ENGINEERING) and
+  [Superpowers](skills/kata-shipit/LICENSE-SUPERPOWERS) license notices.
 - `kata-plan` is adapted from `ce-plan` in
   [Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin/tree/57e409e5c8c2c472106bd7d87ac72b724b70826b),
   maintained by Kieran Klaassen and Trevin Chow with community contributions.
   The source is commit `57e409e5c8c2c472106bd7d87ac72b724b70826b`.
-  The imported skill includes Every's original
+  Kata replaces the imported orchestration, model dispatch, companion-skill
+  calls, and multi-domain workflow with one deep software planning method and
+  Markdown, HTML, and Beadwork adapters. The package includes Every's original
   [MIT license notice](skills/kata-plan/LICENSE).
 - `kata-ex-quality` is an original Kata workflow informed by James Edward Gray,
   II and Bruce A. Tate's
@@ -367,24 +435,26 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 - `kata-showme` is adapted from `show-me`, written by Dex Horthy and published
   in [humanlayer/skills](https://github.com/humanlayer/skills). The original
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
-- `kata-correct` and `kata-technical-writing` are adapted from
+- `kata-technical-writing` is adapted from
   [painhardcore/pstack](https://github.com/painhardcore/pstack/tree/7f2d936bba86c2c512c4ad83e759752f4f065b7c),
   maintained by Andrei Iurchenkov from Lauren Tan's original pstack work. The
   source is commit `7f2d936bba86c2c512c4ad83e759752f4f065b7c`.
   `kata-technical-writing` also contains the former `unslop` editing method.
-  Focused pstack methods for benchmarks, blast radius, adversarial review,
-  comment review, recent-work recall, test-first repair, decision logs, and
-  verification-skill creation now live as conditional references in
-  `kata-verify`, `kata-understand`, `kata-work`, and `kata-write-skill`. Each
-  affected package contains the source MIT license and copyright notice.
+  The pstack `correct` repository-guard method now belongs to `kata-work` for
+  candidate creation and `kata-verify` for independent proof. Focused pstack
+  methods for benchmarks, blast radius, adversarial review, comment review,
+  recent-work recall, test-first repair, decision logs, and verification-skill
+  creation also live as conditional references in `kata-verify`,
+  `kata-understand`, `kata-work`, and `kata-write-skill`. Each affected package
+  contains the source MIT license and copyright notice.
 - `kata-technical-writing` also adapts Elixir documentation guidance from Mike
   Hostetler's *The Elixir Library Documentation Manifesto v1* and its Jido
   style guides in `mikehostetler/jido_run`. The source files were reviewed at
   repository commit `ed57e19f78d6a8995323310ef7cbb43eecf838df`.
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
-  skills. These were not published in a public repository. Kata keeps
-  `kata-neckbeard`; the coverage and dead-code methods and analyzers now live in
-  `kata-ex-quality`.
+  skills. These were not published in a public repository. The coverage and
+  dead-code methods and analyzers now live in `kata-ex-quality`; the system
+  explanation method now lives in `kata-understand`.
 - Mike Hostetler wrote the source material migrated from
   [agentjido/jido-skills](https://github.com/agentjido/jido-skills), reviewed at
   commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges the
@@ -457,8 +527,11 @@ the skill files and ask it to save each one as a private skill:
 2. Include the skill's support files: `LICENSE` for `kata-showme`, the complete
    `kata-docs` and `kata-technical-writing` directories.
    Include `LICENSE` with `kata-build-jido`.
-   For `kata-plan`, include the complete skill directory with `references/`,
-   `scripts/`, and all license files.
+   Include both license files with `kata-debug`.
+   Include all license files and references with `kata-idea`, `kata-roadmap`,
+   `kata-verify`, and `kata-shipit`.
+   For `kata-plan`, include the complete skill directory with `references/`
+   and all license files.
    For `kata-ex-quality`, include the complete skill directory with its rule
    playbooks, CSV templates, backlog tool, coverage analyzer, dead-code analyzer,
    roots template, and analyzer reference.
