@@ -58,6 +58,22 @@ value tradeoff or missing authority.
 5. Record unavailable checks and the exact limit. Do not turn missing evidence
    into a pass.
 
+For software verification, load only the focused method that the acceptance
+condition needs:
+
+- [references/benchmark.md](references/benchmark.md) for a measured performance
+  claim;
+- [references/blast-radius.md](references/blast-radius.md) for effects outside
+  the visible change;
+- [references/adversarial-review.md](references/adversarial-review.md) when the
+  user asks to challenge, stress test, or interrogate a change; and
+- [references/comment-review.md](references/comment-review.md) when comment or
+  suppression quality is an acceptance condition.
+
+These methods can create temporary isolated proof files. Remove them after the
+check. A retained test, harness repair, comment edit, or production fix belongs
+to a work assignment, not verification.
+
 ## Return the verdict
 
 Return one status:

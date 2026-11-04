@@ -6,13 +6,12 @@ Last reviewed: 2026-11-04
 
 ## Current review
 
-This document remains a useful working model, but it is not a current inventory.
-Direct inspection found 38 active skills with `kata.skill/v1` metadata. The
-stated target of fewer than 20 skills is not met. Jido now also has `docs`,
-`status`, `commit`, and `help` support routes. Its current Kaizen route also
-makes Dojo optional, while the diagrams below show Dojo as a required gate. Keep
-skill frontmatter and live package files as the authority until the owner
-decides whether to revise the budget and this architecture.
+Direct inspection found 20 active skills with `kata.skill/v1` metadata. The
+2026-11-04 curation folded focused imported methods into core packages, retired
+five small imported commands, retired two Jido migration packages, and combined
+four Jido build packages as `kata-build-jido`. The library is one package above
+the stated hard limit of 19. Skill frontmatter and live package files remain the
+inventory authority.
 
 ## Purpose
 
@@ -150,32 +149,27 @@ skill.
 
 Use a target of 16 active skills and a hard limit of 19.
 
-| Group | Target | Examples |
+| Group | Active | Skills |
 | --- | ---: | --- |
 | Core work system | 8 | `jido`, understand, plan, work, verify, maintain-skill, write-skill, dojo |
-| Conversation | 4 | `bro`, `sharpen`, `ketchup`, `showme` |
-| Domain packages | 3 | Jido SDK, Elixir, documentation |
-| Principle library | 1 | `principled` with internal commands |
-| Reserve | 3 | New capabilities proven by real work |
+| Support | 3 | commit, orient, status-report |
+| Domain and focused packages | 9 | build-jido, correct, docs, three Elixir skills, neckbeard, showme, technical-writing |
 
 The target is a portfolio shape, not an immediate rename or deletion list.
 Keep a small command when its name has clear value and its behavior is narrow.
 Merge variants into commands or modes when they use the same method and produce
 the same type of result.
 
-Likely consolidation paths include:
+Applied consolidation paths include:
 
-- Keep video catch-ups under `ketchup` as an explicit output mode.
-- Put `in-your-own-words` under `sharpen` or an understand command.
-- Put `unslop`, documentation checks, and technical-writing rules in one
-  documentation package.
-- Put Jido action, agent, AI, and testing methods in one Jido SDK package with
-  focused commands or references.
-- Put coverage, dead-code, design, pull-request, benchmark, blast-radius, and
-  adversarial checks behind `verify` commands. Keep a separate package only
-  when its context or procedure cannot stay small.
-- Put recall and repository status behind understand or `$jido status` when their
-  work contracts overlap.
+- Retire `bro`, `in-your-own-words`, `ketchup`, `kata-principled`, and `sharpen`.
+- Put `unslop` under `kata-technical-writing`.
+- Put Jido action, agent, AI, and testing methods in `kata-build-jido`.
+- Put benchmark, blast-radius, adversarial, and comment-review methods under
+  `kata-verify`.
+- Put recall under `kata-understand`.
+- Put test-first repair and decision logging under `kata-work`.
+- Put project verification-skill creation under `kata-write-skill`.
 
 ## Admission and retirement rules
 
@@ -198,5 +192,5 @@ retirement.
 2. Add the four `work` profiles as references, not as skills.
 3. Add the coverage map to `maintain-skill` without a new mapping package.
 4. Design a play contract before Dojo claims generic play evaluation.
-5. Classify the current 38 packages as keep, command, lens, merge, or retire.
-6. Move toward 16 active skills through normal maintenance, not one bulk edit.
+5. Decide whether the 19-skill hard limit still applies and, if it does, select
+   one more active package for consolidation or retirement.

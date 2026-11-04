@@ -28,6 +28,24 @@ General packages use `kata-<task>`. Elixir-specific packages use
 `kata-ex-<task>`. A package keeps a bare name only when the project approves a
 small conversation command or dispatcher as an exception.
 
+## Browse the catalog
+
+Run the live catalog from the repository root:
+
+```sh
+iex skills/catalog.exs
+```
+
+The Phoenix Playground reads each package's current `SKILL.md` frontmatter.
+Use **Reload source** after a file change. Set `KATA_CATALOG_PORT` to use another
+port or `KATA_CATALOG_OPEN_BROWSER=false` to keep the browser closed.
+
+Check the catalog without starting the server:
+
+```sh
+elixir skills/catalog.exs --check
+```
+
 ## Change a package
 
 1. Read the [project instructions](../AGENTS.md) and the complete target

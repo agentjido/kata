@@ -45,6 +45,17 @@ owns the next evidence boundary, and the next consumer owns acceptance. A
 domain-specific workflow can replace this skill when the result needs
 specialist methods or authority.
 
+Load a focused method only when its trigger applies:
+
+- For an explicitly requested failing test, regression test, or a defect with
+  an obvious cheap local test, read
+  [references/tdd.md](references/tdd.md).
+- For explicitly requested long-running or unattended decision logging, read
+  [references/decision-log.md](references/decision-log.md).
+
+These methods do not change the assignment authority or let this skill verify
+its own result.
+
 ## Execute the work
 
 1. Read the active context instructions and inspect only the state needed to

@@ -20,8 +20,10 @@ Check:
 
 Make only repairs that do not choose product intent: repair proven local paths,
 remove duplicate index links, add a missing current page to the index, reconcile
-an intake record with an existing move, and apply a status change that direct
-evidence proves. Preserve useful index text and established document formats.
+an intake record with an existing move, apply a status change that direct
+evidence proves, and correct selected documentation claims when current code or
+tests prove the replacement. Preserve useful index text and established
+document formats.
 
 Do not use the inbox as an archive for material that is merely old, superseded,
 or unverified. Move that material to `docs/archive/` with a non-authoritative
@@ -31,9 +33,10 @@ Do not select between conflicting documents, rewrite disputed content, archive
 history, or delete a page without accountable direction. Report those items
 with the evidence and the decision needed.
 
-This route maintains the document system. It does not perform an unbounded
-claim-by-claim comparison with source code. Report the exact pages that need a
-documentation-sync workflow and the likely authoritative sources.
+This route does not perform an unbounded claim-by-claim comparison with source
+code. For a broad request, inventory the selected pages and their likely
+authoritative sources before editing. Report any page whose correct content
+needs a product decision.
 
 Verify changed links, statuses, index entries, intake records, and the final
 diff. Verify that `docs/inbox/` contains only `README.md`, or list each named

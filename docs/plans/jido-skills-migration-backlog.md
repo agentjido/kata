@@ -9,20 +9,16 @@ Last reviewed: 2026-11-04
 Track the work that must finish before `agentjido/jido-skills` can archive.
 The source repository remains available until every archive gate passes.
 
-## Implemented in the first migration change
+## Implemented migration and consolidation
 
-- [x] Rewrite Jido action guidance for the current action and execution contract.
-- [x] Rewrite Jido agent guidance for current routes, state operations,
-      directives, and signal-based runtime calls.
-- [x] Rewrite Jido AI guidance for current agents, actions, requests, and
-      deterministic offline tests.
-- [x] Add a focused Jido testing skill.
-- [x] Replace the old Jido hub prerequisite with self-contained skills.
-- [x] Merge README refresh and docs-to-code work into `kata-sync-docs`.
-- [x] Add a read-only, host-neutral `kata-review-pr` skill.
+- [x] Rewrite Jido action, agent, runtime, AI, and test guidance for current
+      contracts.
+- [x] Combine that guidance in the self-contained `kata-build-jido` skill.
+- [x] Retire `kata-review-pr` and move bounded code-to-document reconciliation
+      into `kata-docs` maintenance.
 - [x] Merge focused pull-request hardening into `kata-work` without a required
       companion skill.
-- [x] Preserve source attribution and Apache-2.0 license text in each affected
+- [x] Preserve source attribution and Apache-2.0 license text in the consolidated
       skill package.
 - [x] Add one small integration test that checks skill discovery, format,
       licenses, current Jido API markers, and safe write boundaries.
@@ -33,11 +29,10 @@ The source repository remains available until every archive gate passes.
 
 ## Required follow-up
 
-- [ ] Add small live task cases for the four Jido skills after the first release.
-      Keep one training case and separate final cases. Confirm current API use,
-      focused tests, and safe tool boundaries.
-- [ ] Add a live task case for `kata-review-pr` and `kata-sync-docs`. Confirm
-      their read/write boundaries against actual final files.
+- [ ] Add small live task cases for the action, agent/runtime, AI, and test
+      routes in `kata-build-jido` after the first release. Keep one training
+      case and separate final cases. Confirm current API use, focused tests, and
+      safe tool boundaries.
 - [ ] Add a live task case for the `kata-work` pull-request hardening route.
       Confirm that it fixes only supplied blockers, adds regression tests, does
       not merge, and does not require a `ce-*` skill.
@@ -62,8 +57,8 @@ The source repository remains available until every archive gate passes.
 
 Do not archive `agentjido/jido-skills` until all conditions are true:
 
-1. The six new Kata skills and the `kata-work` hardening route are on the stable
-   Kata branch or release that users install.
+1. `kata-build-jido` and the `kata-work` hardening route are on the stable Kata
+   branch or release that users install.
 2. The first-release integration test passes. The deeper live task cases in
    this backlog pass before the old repository archives. Saved evidence includes
    the exact source hash, outcome checks, and complete final files.

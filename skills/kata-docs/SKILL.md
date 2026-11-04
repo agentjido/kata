@@ -1,6 +1,6 @@
 ---
 name: kata-docs
-description: Set up and steward a project's Docs Kata knowledge base. Use natural-language requests to establish docs, process inbox material, record durable verified project knowledge, or maintain document structure and status; use a documentation-sync workflow when the main task is to reconcile current docs with code.
+description: Set up and steward a project's Docs Kata knowledge base. Use natural-language requests to establish docs, process inbox material, record durable verified project knowledge, maintain document structure, or reconcile selected current docs with code.
 metadata:
   schema: kata.skill/v1
   subject: general
@@ -68,13 +68,13 @@ command name.
 - **Maintain:** The request asks to check, tidy, conform, or refresh the document
   system. Read and follow [references/maintain.md](references/maintain.md).
   Respect a check-only request. Maintenance owns structure, links, ownership,
-  index entries, intake state, document lifecycle, and draining the inbox.
+  index entries, intake state, document lifecycle, bounded code-to-document
+  reconciliation, and draining the inbox.
 
 If the primary task is to create a plan, use the project's planning workflow.
-If the primary task is to check many current claims against code and correct
-their content, use the project's documentation-sync workflow. When the owning
-workflow is unavailable, return a concise handoff with the target, scope,
-evidence, and required authority. Do not make another skill a required runtime
+For a broad content rewrite, bound the selected documents and authoritative
+sources before editing. Return a concise handoff when the requested scope or
+authority is not resolved. Do not make another skill a required runtime
 dependency.
 
 ## Shared rules
@@ -108,5 +108,4 @@ that a repeat will not duplicate setup sections, moves, records, or index links.
 
 Report the selected operation, target root, created, moved, and updated files,
 evidence checked, exceptions, unresolved items, and commands run. Name any
-content route that still needs planning, synchronization, or an accountable
-decision.
+content route that still needs planning or an accountable decision.

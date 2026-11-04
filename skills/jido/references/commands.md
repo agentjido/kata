@@ -25,7 +25,7 @@ already selects a route.
 
 | Step | Trigger | Non-trigger | Primary Kata | Default authority |
 | --- | --- | --- | --- | --- |
-| `docs` | Establish or maintain project docs, process an inbox item, or preserve durable project knowledge. | Author a plan or perform a broad code-to-document content sync. | `../kata-docs/SKILL.md` | `local-write` |
+| `docs` | Establish or maintain project docs, process an inbox item, preserve durable project knowledge, or reconcile selected docs with code. | Author a plan or make a product decision about disputed content. | `../kata-docs/SKILL.md` | `local-write` |
 | `status` | Report local or remote Git workbench state for a repository or folder. | Application health, business status, or general progress. | `../kata-status-report/SKILL.md` | `read-only` |
 | `commit` | Create one local Git commit from an accepted verified change. | The change still needs work, verification, or consumer acceptance. | `../kata-commit/SKILL.md` | `local-write` |
 | `help` | Explain available routes with natural-language examples. | A request to perform work. | None | `read-only` |

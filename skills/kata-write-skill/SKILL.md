@@ -69,6 +69,11 @@ An external or unclear conversion must complete the import preflight before any
 target change or source execution. Read only the selected route reference, plus
 the import reference when that preflight applies.
 
+When the requested package must drive a real application and preserve user-level
+proof, also read and follow
+[references/create-verification-skill.md](references/create-verification-skill.md).
+This is a specialized Create route, not a separate library skill.
+
 ## Author from the library contract
 
 Read [references/library-contract.md](references/library-contract.md) and

@@ -8,7 +8,7 @@ Last reviewed: 2026-11-04
 
 ## Current state
 
-- Direct frontmatter inspection found 39 active skill packages. All 39 declare
+- Direct frontmatter inspection found 20 active skill packages. All 20 declare
   `kata.skill/v1` metadata. This is a point-in-time result from 2026-11-04.
 - [`jido`](../skills/jido/SKILL.md) owns work routing.
   [`kata-orient`](../skills/kata-orient/SKILL.md) owns scoped project
@@ -40,8 +40,8 @@ that a document has been verified.
 ## Needs review
 
 - [Skill library architecture](plans/skill-library-architecture.md): useful
-  working model with a skill-budget target and support-route details that do not
-  match the current library.
+  working model with a 19-skill hard limit that the current catalog exceeds by
+  one.
 
 ## Archived source material
 
@@ -59,6 +59,9 @@ that a document has been verified.
 
 ## Evaluation reference
 
+- [Skill provenance and retention index](reference/skill-provenance-and-retention.md):
+  current origin groups and proposed keep, fold, or retire actions for imported
+  skills.
 - [Setup evaluation results](reference/setup-evaluation-results.md): historical
   outcomes and the handoff to the common runner.
 - [Legacy setup evaluation commands](reference/setup-evaluation-legacy-commands.md):

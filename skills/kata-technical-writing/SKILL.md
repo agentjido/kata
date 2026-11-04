@@ -1,6 +1,6 @@
 ---
 name: kata-technical-writing
-description: Write or review one selected README or other technical artifact from verified source facts. Use for drafting and prose quality; use project orientation to choose README files and documentation sync to correct code drift.
+description: Write, review, or clean one selected technical artifact from verified source facts. Use for drafting, prose quality, or an explicit request to remove AI writing patterns; use project orientation to choose README files and Docs Kata maintenance to correct code drift.
 metadata:
   schema: kata.skill/v1
   subject: technical-communication
@@ -9,7 +9,7 @@ metadata:
   profile: bounded-execution
   authority: local-write
   consumes: [technical-writing-request, source-material, readme-brief]
-  produces: [technical-document, verified-readme, writing-review, verified-change]
+  produces: [technical-document, verified-readme, writing-review, revised-prose, verified-change]
 ---
 
 # Technical writing
@@ -66,6 +66,11 @@ not need a documentation mode.
 
 A review-only request produces findings and proposed text without changing the
 target.
+
+For an explicit request to remove AI writing patterns, also read and follow
+[references/remove-ai-patterns.md](references/remove-ai-patterns.md). Preserve
+the source meaning, claims, audience, and tone. Do not use that mode to change
+the argument or add unsupported facts.
 
 ## Write for the reader
 

@@ -9,8 +9,8 @@ metadata:
   object: domain-context
   profile: bounded-execution
   authority: read-only
-  consumes: [work-request, domain-context]
-  produces: [understood-context, work-brief, project-knowledge-capture]
+  consumes: [work-request, domain-context, recall-request, conversation-history]
+  produces: [understood-context, work-brief, current-state-brief, project-knowledge-capture]
 ---
 
 # Understand
@@ -62,6 +62,11 @@ Choose the output that matches the request:
   identifies the subject, persistence value, supported content, evidence,
   related artifacts, and granted authority. This read-only skill does not write
   the document itself.
+
+When the user asks to recall recent work, find where work stopped, or rebuild
+context across chats and live state, read and follow
+[references/recall.md](references/recall.md). Recall is an understanding mode,
+not a separate skill and not authority to resume the work.
 
 Do not prescribe a multi-step route when the target still needs an accountable
 value decision. Do not repeat this step when supplied evidence already

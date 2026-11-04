@@ -18,6 +18,7 @@ You need access to the repository while it is private. If your agent cannot
 install the plugin, use the [manual installation](#manual-installation) commands.
 
 [Manual installation](#manual-installation) · [Skill package guide](skills/README.md) ·
+[Live skill catalog](skills/README.md#browse-the-catalog) ·
 [Documentation index](docs/README.md) · [Intake log](docs/inbox/README.md)
 
 Understand. Plan. Work. Verify. Improve.
@@ -60,50 +61,23 @@ the selected sequence and authority. Direct leaf skills remain available.
 | `kata-verify` | Check one candidate result against its acceptance conditions without repairing it. |
 | `kata-dojo` | On explicit request, inspect saved evidence or evaluate one exact skill candidate. |
 | `kata-write-skill` | Write, import, or convert one package with the library contract and faceted metadata. |
-| `kata-benchmark-checklist` | Check that a performance measurement is valid, repeatable, and relevant. |
-| `kata-blast-radius` | Find and prove effects of a change outside its visible diff. |
 | `kata-commit` | Create one local Git commit from an already verified, explicitly scoped change. |
 | `kata-correct` | Turn repeated repository mistakes into structural checks. |
-| `kata-create-verification-skill` | Create a project-local skill that drives and verifies the real application. |
-| `kata-interrogate` | Run an adversarial review and keep only findings proven by execution. |
 | `kata-maintain-skill` | Resolve one evidence-backed finding about skill-library ownership, overlap, classification, or contract conformance. |
-| `kata-no-comments` | Remove weak comments and identify code that needs a structural fix. |
 | `kata-orient` | Create, audit, or refresh scoped `AGENTS.md` and entry-point `README.md` files. |
 | `kata-plan` | Turn a work request into a plan and create a Beadwork graph when the repository is configured for it. |
-| `kata-principled` | Apply one of 24 focused engineering principles through a named command. |
-| `kata-recall` | Rebuild recent work context from chats, repository state, and shared records. |
-| `kata-review-pr` | Review a pull request without changing code or remote state. |
-| `kata-show-your-work` | Keep a reviewable TSV decision trail for long-running work. |
 | `kata-status-report` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
-| `kata-sync-docs` | Check current documentation against code and correct stale claims. |
-| `kata-tdd` | Use a focused failing test or executable check before a bug fix. |
 | `kata-technical-writing` | Write or review README files and other technical prose from verified source facts. |
 | `kata-work` | Produce one candidate result from a ready request and hand it to independent verification. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-docs` | Set up and steward Docs Kata, process inbox material, record durable knowledge, and maintain document structure. |
 
-### Conversation commands
-
-These small commands keep their distinctive source names. Use them only by
-explicit request.
-
-| Skill | Job |
-| --- | --- |
-| `bro` | Restate the last response in short, plain language. |
-| `in-your-own-words` | Restate the user's goal and problem before work starts. |
-| `ketchup` | Summarize chat progress and waiting decisions in text or, by explicit request, a short subtitled video. |
-| `sharpen` | Rewrite a task to make it deeper without making it larger. |
-| `unslop` | Remove common AI writing patterns without changing meaning. |
-
 ### Elixir engineering
 
 | Skill | Job |
 | --- | --- |
-| `kata-jido-action` | Build and test actions with the current `Jido.Action` contract. |
-| `kata-jido-agent` | Build and test agents, routes, state operations, directives, and runtime signals. |
-| `kata-jido-ai` | Add Jido AI agents, tools, generation, and structured output with offline tests. |
-| `kata-jido-testing` | Add focused tests for Jido action, agent, runtime, and AI behavior. |
+| `kata-build-jido` | Build and test Jido actions, agents, runtime behavior, and AI integrations. |
 | `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
 | `kata-ex-design-review` | Review Elixir design, contracts, and OTP ownership with selectable Phoenix, Ash, and Jido package lenses. |
 | `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
@@ -116,21 +90,16 @@ classification metadata.
 Use a skill by name when you need it. Each skill can run separately.
 
 `kata.skill/v1` metadata adds practice, object, profile, authority, input, and
-output facets beside each skill's subject. All 39 active packages use the
+output facets beside each skill's subject. All 20 active packages use the
 complete schema. Skill frontmatter is the canonical classification source.
 Small tools can derive catalog, workflow, and overlap candidates from it.
 
-`kata-principled` is one skill with 24 commands. Invoke a command as
-`$kata-principled prove-it-works` or `$kata-principled fix-root-causes`. This
-keeps the principle catalog out of the main skill list while preserving each
-focused rule in the package references.
-
-The four Jido skills are self-contained. They do not require a separate hub
-skill. They were rewritten from `agentjido/jido-skills` against current local
-`jido`, `jido_action`, and `jido_ai` APIs. They use `Jido.Agent.Directive`,
-signal-based `AgentServer` calls, current state operations, and the current rule
-that an action can perform immediate I/O when its result is needed by the
-workflow.
+`kata-build-jido` is self-contained. It does not require a separate hub skill.
+It combines action, agent, runtime, AI, and test guidance rewritten from
+`agentjido/jido-skills` against current local `jido`, `jido_action`, and
+`jido_ai` APIs. It uses `Jido.Agent.Directive`, signal-based `AgentServer`
+calls, current state operations, and the current rule that an action can
+perform immediate I/O when its result is needed by the workflow.
 
 `kata-plan` is adapted from Compound Engineering's `ce-plan`. It keeps the
 required references, scripts, and source license. Its support scripts pass
@@ -393,15 +362,16 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 - `kata-showme` is adapted from `show-me`, written by Dex Horthy and published
   in [humanlayer/skills](https://github.com/humanlayer/skills). The original
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
-- `kata-benchmark-checklist`, `kata-blast-radius`, `bro`, `kata-correct`,
-  `kata-create-verification-skill`, `in-your-own-words`, `kata-interrogate`,
-  `ketchup`, `kata-no-comments`, `kata-principled`,
-  `kata-recall`, `sharpen`, `kata-show-your-work`, `kata-tdd`,
-  `kata-technical-writing`, and `unslop` are adapted from
+- `kata-correct` and `kata-technical-writing` are adapted from
   [painhardcore/pstack](https://github.com/painhardcore/pstack/tree/7f2d936bba86c2c512c4ad83e759752f4f065b7c),
   maintained by Andrei Iurchenkov from Lauren Tan's original pstack work. The
-  source is commit `7f2d936bba86c2c512c4ad83e759752f4f065b7c`. Each imported skill
-  contains the source MIT license and copyright notice.
+  source is commit `7f2d936bba86c2c512c4ad83e759752f4f065b7c`.
+  `kata-technical-writing` also contains the former `unslop` editing method.
+  Focused pstack methods for benchmarks, blast radius, adversarial review,
+  comment review, recent-work recall, test-first repair, decision logs, and
+  verification-skill creation now live as conditional references in
+  `kata-verify`, `kata-understand`, `kata-work`, and `kata-write-skill`. Each
+  affected package contains the source MIT license and copyright notice.
 - `kata-technical-writing` also adapts Elixir documentation guidance from Mike
   Hostetler's *The Elixir Library Documentation Manifesto v1* and its Jido
   style guides in `mikehostetler/jido_run`. The source files were reviewed at
@@ -411,10 +381,10 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   adaptations as `kata-ex-coverage`, `kata-neckbeard`, and `kata-ex-hunt-dead-code`.
 - Mike Hostetler wrote the source material migrated from
   [agentjido/jido-skills](https://github.com/agentjido/jido-skills), reviewed at
-  commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges that
-  material as `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`,
-  `kata-jido-testing`, `kata-review-pr`, and `kata-sync-docs`. Each affected
-  skill directory contains the required Apache-2.0 license and copyright notice.
+  commit `fb832fc5ccb84b45a101d49fbf78d94f89abb0a5`. Kata rewrites and merges the
+  current action, agent, runtime, AI, and test material as `kata-build-jido`.
+  The skill directory contains the required Apache-2.0 license and copyright
+  notice.
 
 ## Manual installation
 
@@ -480,13 +450,11 @@ the skill files and ask it to save each one as a private skill:
    `LICENSE` for `kata-showme`, the complete `kata-docs` and
    `kata-technical-writing` directories, and
    `scripts/dead_code.exs`, `roots.exs`, and `reference.md` for `kata-ex-hunt-dead-code`.
-   Include `LICENSE` with each `kata-jido-*`, `kata-review-pr`, and
-   `kata-sync-docs` skill.
+   Include `LICENSE` with `kata-build-jido`.
    For `kata-plan`, include the complete skill directory with `references/`,
    `scripts/`, and all license files.
-   For every pstack-derived skill, include its `LICENSE`. Include the complete
-   directory for `kata-create-verification-skill`, `kata-principled`, and
-   `kata-show-your-work` because they have support files.
+   Include each pstack `LICENSE` or `LICENSE-PSTACK` file with its affected
+   skill directory.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
    the instructions and support files, including license notices. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."
@@ -530,6 +498,7 @@ project installation has passed. Pi runtime behavior has not been tested.
 ```text
 skills/<name>/SKILL.md          Shared skill content
 skills/README.md               Skill package and maintenance guide
+skills/catalog.exs             Phoenix Playground live skill catalog
 plugin.json                    Root plugin metadata
 .claude-plugin/plugin.json     Claude plugin metadata
 .claude-plugin/marketplace.json Local-source marketplace entry
@@ -543,8 +512,10 @@ The package follows the root skills layout used by [Compound Engineering](https:
 
 [`npx skills`](https://github.com/vercel-labs/skills) installs the skill files. The small host manifests provide a base for native plugin use later. Native host loading has not been tested.
 
-There is no plugin build step, runtime service, or hook. The coverage skill
-includes an Elixir script that reads coverage data from a target project.
+The plugin has no build step, runtime service, or hook. `skills/catalog.exs` is
+an optional local development app; it is not part of plugin execution. The
+coverage skill includes an Elixir script that reads coverage data from a target
+project.
 The dead-code skill includes an Elixir analyzer for source references and declared
 entry points. Its JSON output needs Elixir 1.18+. Keep project root declarations
 in the target repository and pass their path with `--roots`.
