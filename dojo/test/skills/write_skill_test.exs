@@ -105,14 +105,15 @@ defmodule KataEvolve.WriteSkillTest do
 
     assert :ok = Skill.validate(maintainer, "kata-maintain-skill")
     assert writer =~ "consumes: [skill-request, skill-source, conversion-brief]"
+    assert writer =~ "produces: [conforming-skill-package, verified-change]"
     assert maintainer =~
-             "produces: [resolved-library-finding, conversion-brief, library-change-commit]"
+             "produces: [resolved-library-finding, conversion-brief, work-request]"
     assert maintainer =~ "practice: govern"
     assert maintainer =~ "object: skill-library"
     assert maintainer =~ "`kata-write-skill`"
-    assert maintainer =~ "pass the brief to the canonical skill-writing"
-    assert maintainer =~ "Stage only files required by this finding"
-    assert maintainer =~ "Report the commit hash"
+    assert maintainer =~ "canonical skill-writing workflow"
+    assert maintainer =~ "canonical work-execution workflow"
+    assert maintainer =~ "use `kata-commit`"
 
     interface = File.read!(Path.join(@maintenance, "agents/openai.yaml"))
     assert interface =~ ~s(display_name: "Maintain Skill")
@@ -131,6 +132,8 @@ defmodule KataEvolve.WriteSkillTest do
     assert commands =~ "`../kata-write-skill/SKILL.md`"
     assert commands =~ "| `maintain-skill` |"
     assert commands =~ "`../kata-maintain-skill/SKILL.md`"
+    assert commands =~ "| `commit` |"
+    assert commands =~ "`../kata-commit/SKILL.md`"
     assert :binary.match(commands, "| `write-skill` |") <
              :binary.match(commands, "| `maintain-skill` |")
   end
@@ -166,6 +169,7 @@ defmodule KataEvolve.WriteSkillTest do
 
     migrated = [
       {"jido", "agent-work"},
+      {"kata-commit", "software-engineering"},
       {"kata-write-skill", "agent-work"},
       {"kata-maintain-skill", "agent-work"},
       {"kata-status-report", "software-engineering"},

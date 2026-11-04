@@ -1,7 +1,7 @@
 ---
 name: jido
-description: "Use only when the user explicitly invokes `$jido`. Route the goal through write-skill, maintain-skill, status, investigate, plan, work, or help, or use the base loop when no stable command fits."
-argument-hint: "[write-skill|maintain-skill|status|investigate|plan|work|help] [goal]"
+description: "Use only when the user explicitly invokes `$jido`. Route the goal through write-skill, maintain-skill, status, investigate, plan, work, commit, or help, or use the base loop when no stable command fits."
+argument-hint: "[write-skill|maintain-skill|status|investigate|plan|work|commit|help] [goal]"
 metadata:
   schema: kata.skill/v1
   subject: agent-work

@@ -11,6 +11,7 @@ commands before inferred routes. Do not add aliases during execution.
 | `investigate` | Explain how an existing system works, where behavior is implemented, or why repository evidence supports a conclusion. | A request that authorizes a fix or asks for a durable implementation plan. | `../kata-neckbeard/SKILL.md` | `read-only` |
 | `plan` | Create, revise, deepen, or break down a multi-step plan. | Exploratory discussion with no request for a plan artifact. | `../kata-plan/SKILL.md` | `local-write` |
 | `work` | Execute a supplied plan or a clear build request and verify the result. | Open-ended diagnosis, an unclear product decision, or a report-only request. | `../kata-work/SKILL.md` | `local-write` |
+| `commit` | Create one local commit from an already verified, explicitly scoped change. | The change still needs implementation or verification, or the request includes push, merge, rebase, or amend. | `../kata-commit/SKILL.md` | `local-write` |
 | `help` | List the implemented Jido commands and examples. | A request to perform project work. | None | `read-only` |
 
 ## Inference order
@@ -25,7 +26,8 @@ When there is no explicit command, use this order:
 4. Select `plan` for an explicit request to create or deepen a plan.
 5. Select `investigate` for a read-only question about existing system behavior.
 6. Select `work` for an explicit plan path or a clear implementation request.
-7. Otherwise, use `base-loop`.
+7. Select `commit` for an explicit request to commit an already verified change.
+8. Otherwise, use `base-loop`.
 
 User constraints always apply. For example, "investigate and fix" does not fit
 the read-only `investigate` route. It uses `base-loop` until a stable fix Kata
@@ -41,5 +43,6 @@ $jido status this repository
 $jido investigate where retry limits are enforced
 $jido plan the migration in docs/requirements.md
 $jido work docs/plans/migrate-storage.md
+$jido commit the verified migration changes
 $jido help
 ```

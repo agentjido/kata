@@ -21,6 +21,9 @@ belongs to `write-skill`. An unknown library-maintenance need belongs to
 `maintain-skill`. Ask one boundary question when neither route can be selected
 safely.
 
+Do not create a Git commit through the base loop. Route an explicit commit
+request for a verified change to `commit`.
+
 If the result depends on a running Jidoka BEAM system, read
 [runtime-client.md](runtime-client.md) and use the optional client only when it
 can supply relevant evidence.

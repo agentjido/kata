@@ -26,7 +26,7 @@ name when the user approves the exception. Keep all packages in the flat
 
 | Skill | Job |
 | --- | --- |
-| `jido` | Route an explicit `$jido` request through `write-skill`, `maintain-skill`, `status`, `investigate`, `plan`, `work`, or `help`. Use a bounded base loop when no stable command fits. |
+| `jido` | Route an explicit `$jido` request through `write-skill`, `maintain-skill`, `status`, `investigate`, `plan`, `work`, `commit`, or `help`. Use a bounded base loop when no stable command fits. |
 
 `$jido` is the initial front door for Jido-Kata. It routes to one primary Kata
 and reports the selected route and authority. Direct leaf skills remain
@@ -39,6 +39,7 @@ available.
 | `kata-write-skill` | Write, import, or convert one package with the library contract and faceted metadata. |
 | `kata-benchmark-checklist` | Check that a performance measurement is valid, repeatable, and relevant. |
 | `kata-blast-radius` | Find and prove effects of a change outside its visible diff. |
+| `kata-commit` | Create one local Git commit from an already verified, explicitly scoped change. |
 | `kata-correct` | Turn repeated repository mistakes into structural checks. |
 | `kata-create-verification-skill` | Create a project-local skill that drives and verifies the real application. |
 | `kata-interrogate` | Run an adversarial review and keep only findings proven by execution. |

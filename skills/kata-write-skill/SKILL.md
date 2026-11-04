@@ -9,7 +9,7 @@ metadata:
   profile: system-design
   authority: local-write
   consumes: [skill-request, skill-source, conversion-brief]
-  produces: [conforming-skill-package]
+  produces: [conforming-skill-package, verified-change]
 ---
 
 # Write Skill
