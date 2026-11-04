@@ -1,10 +1,21 @@
 # Agent Jido Kata
 
+[![Validate](https://github.com/agentjido/kata/actions/workflows/ci.yml/badge.svg)](https://github.com/agentjido/kata/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/agentjido/kata?display_name=tag&sort=semver)](https://github.com/agentjido/kata/releases)
+[![License](https://img.shields.io/github/license/agentjido/kata)](LICENSE)
+[![skills.sh](https://img.shields.io/badge/skills.sh-agentjido%2Fkata-black)](https://skills.sh/agentjido/kata)
+
 An evidence-based knowledge-work system for coding agents.
 
 Give `$jido` a normal-language goal. Jido selects the smallest useful route
 through understanding, product decisions, planning, work, verification,
 delivery, and reusable improvement. You can also use each Kata skill directly.
+
+Agent Jido Kata complements the
+[Jido Elixir framework](https://github.com/agentjido/jido), but it is a separate
+project. Use the Jido framework to build distributed agent applications in
+Elixir. Use Kata to guide the engineering work around those applications or
+any other software project. Kata does not depend on the Jido runtime.
 
 ## Install
 
