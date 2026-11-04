@@ -56,6 +56,12 @@ Read [review lenses](references/review-lenses.md). Apply relevant lenses to the
 implementation and its callers. A long function, large module, one implementation
 of a behaviour, or many tests is a clue, not proof of poor design.
 
+Read [the package lens index](references/package-index.md). Inspect the target's
+locked dependencies and scope, then read each matching file under
+`references/packages/`. Apply several package lenses when an integration crosses
+their boundaries. Package lenses refine the review questions; installed source
+and official versioned documentation remain the authority.
+
 For each candidate, establish the requirement served, the concrete cost or
 failure, and the guarantees it must preserve. Compare alternatives in this order:
 remove redundant work or structure; simplify in place with ordinary Elixir/OTP;
@@ -153,6 +159,8 @@ Lead with the assessment, then give:
 - Scope, reviewed revision, compact coverage table, limits, and sound decisions
   to preserve. Include material rejected hypotheses and why they were rejected;
   do not list every search or routine check.
+- Package-specific assessments for each selected lens. Report only the sections
+  that materially affect the reviewed scope.
 - Findings ordered by priority. Use `F1`, `F2`, etc. For each: class, priority,
   confidence, `file:line`, evidence and impact, concrete alternative, compatibility
   risk, and a focused verification method. Name what can be removed. If the

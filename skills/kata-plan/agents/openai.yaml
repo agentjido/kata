@@ -1,3 +1,4 @@
 interface:
-  display_name: "Plan"
-  short_description: "Create a clear plan for multi-step work"
+  display_name: "Kata Plan"
+  short_description: "Create a plan and use Beadwork when configured"
+  default_prompt: "Use $kata-plan to research this work, write the plan, and create its Beadwork graph when this repository is initialized for Beadwork."

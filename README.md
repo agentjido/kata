@@ -17,8 +17,10 @@ Understand the current condition. Set a clear target. Make a small change. Check
 
 Use the amount of planning that the work needs. A small fix can use a few lines in the conversation. A larger change can use a written plan. Specifications are one tool in the process.
 
-Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills use
-`kata-<task>`. Keep both in the flat `skills/<name>/SKILL.md` layout.
+Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic engineering
+skills use `kata-<task>`. Small conversation commands can keep a distinctive bare
+name when the user approves the exception. Keep all packages in the flat
+`skills/<name>/SKILL.md` layout.
 
 ### General engineering
 
@@ -26,14 +28,39 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 | --- | --- |
 | `kata-build-skill` | Create or revise an original skill from a real task. |
 | `kata-import-skill` | Import and adapt a licensed external skill with attribution. |
-| `kata-plan` | Turn a work request or requirements document into an implementation plan. |
+| `kata-benchmark-checklist` | Check that a performance measurement is valid, repeatable, and relevant. |
+| `kata-blast-radius` | Find and prove effects of a change outside its visible diff. |
+| `kata-correct` | Turn repeated repository mistakes into structural checks. |
+| `kata-create-verification-skill` | Create a project-local skill that drives and verifies the real application. |
+| `kata-interrogate` | Run an adversarial review and keep only findings proven by execution. |
+| `kata-no-comments` | Remove weak comments and identify code that needs a structural fix. |
+| `kata-plan` | Turn a work request into a plan and create a Beadwork graph when the repository is configured for it. |
+| `kata-principled` | Apply one of 24 focused engineering principles through a named command. |
+| `kata-recall` | Rebuild recent work context from chats, repository state, and shared records. |
 | `kata-review-pr` | Review a pull request without changing code or remote state. |
+| `kata-show-your-work` | Keep a reviewable TSV decision trail for long-running work. |
 | `kata-status-report` | Give a quick local and remote Git workbench status for one project or a folder of projects. |
 | `kata-sync-docs` | Check current documentation against code and correct stale claims. |
+| `kata-tdd` | Use a focused failing test or executable check before a bug fix. |
+| `kata-technical-writing` | Write and review technical documents with structured, plain language. |
 | `kata-work` | Implement a plan or concrete request and verify the result. |
 | `kata-neckbeard` | Explain the current system with evidence from code and documentation. |
 | `kata-showme` | Explain the current topic with diagrams and focused visuals. |
 | `kata-setup` | Set up Docs Kata and collect existing documents in `docs/inbox`. |
+
+### Conversation commands
+
+These small commands keep their distinctive source names. Use them only by
+explicit request.
+
+| Skill | Job |
+| --- | --- |
+| `bro` | Restate the last response in short, plain language. |
+| `in-your-own-words` | Restate the user's goal and problem before work starts. |
+| `ketchup` | Summarize chat progress and decisions that wait for the user. |
+| `ketchup-video` | Present chat progress and decisions in a short subtitled video. |
+| `sharpen` | Rewrite a task to make it deeper without making it larger. |
+| `unslop` | Remove common AI writing patterns without changing meaning. |
 
 ### Elixir engineering
 
@@ -44,7 +71,7 @@ Use `kata-ex-<task>` for skills that require Elixir. Language-agnostic skills us
 | `kata-jido-ai` | Add Jido AI agents, tools, generation, and structured output with offline tests. |
 | `kata-jido-testing` | Add focused tests for Jido action, agent, runtime, and AI behavior. |
 | `kata-ex-coverage` | Find and explain gaps in Elixir test coverage. |
-| `kata-ex-design-review` | Review Elixir design, contracts, and OTP ownership. Report findings or apply requested local fixes. |
+| `kata-ex-design-review` | Review Elixir design, contracts, and OTP ownership with selectable Phoenix, Ash, and Jido package lenses. |
 | `kata-ex-hunt-dead-code` | Find unused Elixir modules and verify removal of confirmed unused groups. |
 
 Elixir skills declare `metadata: {language: elixir}`. Without a language marker,
@@ -53,6 +80,11 @@ it does not require Elixir. Language scope is separate from the model recorded
 in `optimized_for`.
 
 Use a skill by name when you need it. Each skill can run separately.
+
+`kata-principled` is one skill with 24 commands. Invoke a command as
+`$kata-principled prove-it-works` or `$kata-principled fix-root-causes`. This
+keeps the principle catalog out of the main skill list while preserving each
+focused rule in the package references.
 
 The four Jido skills are self-contained. They do not require a separate hub
 skill. They were rewritten from `agentjido/jido-skills` against current local
@@ -69,6 +101,11 @@ default. Existing protocol identifiers and script interfaces are preserved.
 These imports have not been tuned or tested in live model runs. Their entry
 files contain 1,176 and 1,105 words, respectively, before support files; their
 size and behavior remain future evaluation work.
+
+For Durable repository plans, `kata-plan` checks for an installed `bw` command
+and an already initialized Beadwork repository. When both checks pass, it creates
+and verifies an epic and task graph from the plan units. Otherwise it writes only
+the plan file. It never initializes Beadwork automatically.
 
 To adopt Docs Kata in a project, ask: "Use kata-setup in this repository."
 It creates `docs/AGENTS.md`, a documentation index, and `docs/inbox/` with an
@@ -282,6 +319,15 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 - `kata-showme` is adapted from `show-me`, written by Dex Horthy and published
   in [humanlayer/skills](https://github.com/humanlayer/skills). The original
   [MIT license notice](skills/kata-showme/LICENSE) is included with the skill.
+- `kata-benchmark-checklist`, `kata-blast-radius`, `bro`, `kata-correct`,
+  `kata-create-verification-skill`, `in-your-own-words`, `kata-interrogate`,
+  `ketchup`, `ketchup-video`, `kata-no-comments`, `kata-principled`,
+  `kata-recall`, `sharpen`, `kata-show-your-work`, `kata-tdd`,
+  `kata-technical-writing`, and `unslop` are adapted from
+  [painhardcore/pstack](https://github.com/painhardcore/pstack/tree/7f2d936bba86c2c512c4ad83e759752f4f065b7c),
+  maintained by Andrei Iurchenkov from Lauren Tan's original pstack work. The
+  source is commit `7f2d936bba86c2c512c4ad83e759752f4f065b7c`. Each imported skill
+  contains the source MIT license and copyright notice.
 - Jason Allum wrote the original `coverage`, `neckbeard`, and `hunt-dead-code`
   skills. These were not published in a public repository. Kata includes
   adaptations as `kata-ex-coverage`, `kata-neckbeard`, and `kata-ex-hunt-dead-code`.
@@ -313,8 +359,8 @@ npx skills add /path/to/kata --agent codex
 ```
 
 These commands install skills at project scope. A local project-scope Codex
-installation from this checkout passed on 2026-09-28 and discovered all 16
-skills. Claude Code and Cursor installation still need direct checks.
+installation from this checkout passed on 2026-09-28. That check predates the
+current skill set. Claude Code and Cursor installation still need direct checks.
 
 Ask the host to use a skill by name. For example: "Use kata-ex-coverage to inspect test coverage." Skill invocation syntax depends on the host.
 
@@ -360,6 +406,9 @@ the skill files and ask it to save each one as a private skill:
    `kata-sync-docs` skill.
    For `kata-plan` and `kata-work`, include the complete skill directory with
    `references/`, `scripts/`, and all license files.
+   For every pstack-derived skill, include its `LICENSE`. Include the complete
+   directory for `kata-create-verification-skill`, `kata-principled`, and
+   `kata-show-your-work` because they have support files.
 3. Ask: "Save these files as a private skill. Keep the name from SKILL.md,
    the instructions and support files, including license notices. Resolve support file
    paths from the saved skill directory. Tell me if you cannot retain a file."

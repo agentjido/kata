@@ -165,4 +165,4 @@ After structuring the plan, ask the user how they want to receive it using the h
 
 3. **Save to disk AND publish to Proof** — Do both: write the markdown file to disk and publish a shareable Proof copy for review. The local file stays canonical.
 
-Do not offer `kata-work` (software-only) or issue creation (not applicable to non-software plans).
+Do not offer `kata-work` or create a Beadwork graph for a non-software plan.

@@ -29,6 +29,18 @@ The report separates defects, safe refinements, design decisions, and open
 investigations. Each finding needs code evidence and a concrete next step.
 The skill does not install tools, change branches, or publish results by default.
 
+## Package lenses
+
+The review reads `references/package-index.md` and selects package-specific
+lenses from the target's locked dependencies and named scope. The package set
+currently includes Phoenix, Ash, and Jido. Several lenses can apply to one
+integration. Add another package by creating one file under
+`references/packages/` and one detection row in the index.
+
+Package lenses supply focused questions, not fixed conclusions. The installed
+package source and official documentation for its locked version remain the
+authority.
+
 ## Review teams
 
 Broad package reviews use two or three native subagents when responsibilities

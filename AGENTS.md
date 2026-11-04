@@ -3,6 +3,7 @@
 - Use ASD-STE100 Simplified Technical English.
 - Do not use skills unless the user explicitly requests them.
 - Use `kata-ex-<task>` for Elixir skills and `kata-<task>` for language-agnostic skills.
+- A small conversational or writing command can keep a distinctive bare name when the user explicitly approves the exception and the name has low collision risk. Bare commands must say that they require explicit invocation.
 - Mark Elixir skills with `metadata: {language: elixir}`. No language marker means language-agnostic.
 - Keep the plugin small. Add a skill when an actual task shows a need.
 - Keep each skill self-contained in `skills/<name>/SKILL.md`.

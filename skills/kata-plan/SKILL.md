@@ -1,6 +1,6 @@
 ---
 name: kata-plan
-description: "Create structured plans for multi-step work, including software and non-software tasks. Use when asked to plan, break down implementation, plan from requirements, or deepen an existing plan; prefer ce-brainstorm for exploratory framing."
+description: "Create structured plans for multi-step work, including software and non-software tasks. For durable repository plans, create a Beadwork graph when the repository is already initialized for Beadwork; otherwise create the plan file only. Use when asked to plan, break down implementation, plan from requirements, or deepen an existing plan; prefer ce-brainstorm for exploratory framing."
 argument-hint: "[optional: feature description, requirements doc path, plan path to deepen, or any task to plan] [output:html]"
 ---
 
@@ -13,15 +13,19 @@ CE integration steps below: use the active host and model, honor existing user
 authorization, and use the defined native fallbacks for absent companion skills.
 The source workflow and its bundled references remain the basis for this skill.
 
-**Outcome:** a plan an implementer can start from confidently — a few sentences in chat, a chat brief, or a durable plan artifact — handed off through its owning terminal workflow. `ce-brainstorm` defines **WHAT** to build as a requirements-only unified plan; `kata-plan` enriches it with **HOW**; `kata-work` executes it. A prior brainstorm is useful but never required.
+**Outcome:** a plan an implementer can start from confidently — a few sentences in chat, a chat brief, or a durable plan artifact — handed off through its owning terminal workflow. For a Durable repository plan, create a Beadwork epic and task graph automatically when `bw` is available and already initialized in that repository; otherwise keep the plan as the only artifact. `ce-brainstorm` defines **WHAT** to build as a requirements-only unified plan; `kata-plan` enriches it with **HOW**; `kata-work` executes it. A prior brainstorm is useful but never required.
 
 **An explicit invocation always produces a plan.** Never classify a direct invocation as "not a planning task" and route out. It may select any output contract below, and the smallest valid plan is a few sentences in chat.
 
-**Research, decide, and write the plan — never implement.** Do not write production code, run tests, or learn from execution-time results. Directional pseudo-code and grammar sketches may communicate design; changing code to see what happens belongs in `kata-work`.
+**Research, decide, and write the plan — never implement.** Creating the plan
+and its Beadwork epic, tasks, and dependency edges is planning output, not product
+implementation. Do not write production code, run implementation tests, or learn
+from execution-time results. Directional pseudo-code and grammar sketches may
+communicate design; changing code to see what happens belongs in `kata-work`.
 
 ## Mandatory Completion Contract
 
-A run is complete when its output contract's done condition is met. Every normal interactive branch that produces a plan artifact or checkpoint is incomplete until its owning handoff question is presented: for a Durable software implementation-plan run that continues past Phase 0.1b, the Phase 5.4 menu presented and any selected action has actually fired. For Direct, the change stated and the handoff offered; for a Chat brief, the brief and its one-line save-or-`kata-work` offer in chat. Neither presents the Phase 5.4 menu. Non-software and approach-altitude routes use their reference workflow's terminal handoff. Answer-seeking may end after the answer unless its owner requires save/share.
+A run is complete when its output contract's done condition is met. Every normal interactive branch that produces a plan artifact or checkpoint is incomplete until its owning handoff question is presented: for a Durable software implementation-plan run that continues past Phase 0.1b, Beadwork detection and any required graph creation have completed, the Phase 5.4 menu is presented, and any selected action has actually fired. For Direct, the change stated and the handoff offered; for a Chat brief, the brief and its one-line save-or-`kata-work` offer in chat. Neither presents the Phase 5.4 menu or creates Beadwork issues. Non-software and approach-altitude routes use their reference workflow's terminal handoff. Answer-seeking may end after the answer unless its owner requires save/share.
 
 Writing the file, checking confidence, and running or explicitly skipping `ce-doc-review` are intermediate milestones. Pipeline mode is complete only when the plan, confidence check, and non-interactive document-review state are returned to its caller; the caller owns the next action.
 
@@ -32,6 +36,13 @@ Ask one question at a time through the host's blocking question tool already in 
 ## Output Contract
 
 The gate resolves at the start of Phase 0.6, before depth and the scoping synthesis. It applies only when no Phase 0.1 route fired and Phase 0.2 found no upstream artifact. Ground it with bounded inline reads of the surfaces the request names; dispatch no subagent. Select one:
+
+An explicit `kata-plan` invocation that targets a Git repository always selects
+**Durable** and writes a plan file under the configured artifact root, normally
+`docs/plans/`. This is true even for a small change. Repository planning needs a
+stable artifact for Beadwork detection, ticket mapping, or later execution. Use
+Direct or Chat brief only for work with no repository, or when the user explicitly
+requests chat-only output. A chat-only override creates no Beadwork graph.
 
 - **Direct** — the work can be stated, done, and verified in one pass with no decision the user would weigh. State the change in a few sentences and offer the handoff to `kata-work` or the user; execution starts only with implementation authority, which `references/output-contracts.md` defines.
 - **Chat brief** — bounded work with at most one decision the user would weigh and no risk surface. Deliver it in chat and stop.
@@ -48,18 +59,19 @@ Phases run in order unless an owner routes out or short-circuits. Read a phase's
 1. **Output first.** Read `references/output-mode.md` before interpreting any phase. It owns token parsing, output and confirmation precedence, renderer selection, artifact-root rules, and when a repository may be resolved.
 2. **Resume, deepen, approach, and domain.** Read `references/resume.md` before acting. It owns repo-backed resume discovery, requirements-only enrichment, deepen fast paths, approach-altitude routing, and the software/non-software split. Follow any terminal route it selects; otherwise continue.
 3. **Source and scope.** Read `references/intake.md` before Phase 0.2 and follow it through Phase 0.7. It owns upstream-contract discovery, preservation, bootstrap route-outs, blocking questions, depth, named-resource handling, and solo scoping synthesis; the Output Contract gate above resolves inside it. Do not cross a required gate that has not resolved.
+4. **Beadwork mode.** For a Durable repository plan, read `references/beadwork.md` after the Git root is known and run only its read-only detection step. Record `active` or `plan-only`. Do not initialize or repair Beadwork.
 
 ### Phases 1-4: Research and Compose
 
-4. Read `references/research.md` before gathering context. It owns local and external research, agent-native triage, consolidation, depth reclassification, and flow analysis.
-5. Read `references/structure.md` before resolving questions or structuring the plan. It owns settled-decision handling, stable U-IDs, technical design, depth, and planning boundaries.
-6. Compose from `references/plan-sections.md` plus the format-rendering reference selected by `output-mode.md`.
+5. Read `references/research.md` before gathering context. It owns local and external research, agent-native triage, consolidation, depth reclassification, and flow analysis.
+6. Read `references/structure.md` before resolving questions or structuring the plan. It owns settled-decision handling, stable U-IDs, technical design, depth, and planning boundaries.
+7. Compose from `references/plan-sections.md` plus the format-rendering reference selected by `output-mode.md`.
 
 ### Phase 5: Review, Write, Deepen, and Hand Off
 
-7. Read `references/final-review.md` before pre-write review. It owns Phase 5.1 through 5.3.2, including scoping synthesis, write-path mechanics, unified-plan metadata, confidence mode, and the deepening gate. When directed, read `references/deepening-workflow.md` for steps 5.3.3-5.3.7.
-8. **Model elevation.** Immediately before authoring, read `references/reasoning-elevation.md`, resolve the choice at this boundary, and follow it. Do not author until activation resolution has completed and any selected dispatch or transparent fallback has settled.
-9. In pipeline mode, invalidating evidence against a session-settled decision stops the write. Return the exact token `settled-decision-invalidated`, the decision, and the reason; do not resolve it silently.
-10. Write the plan before presenting options, then complete the confidence path owned by `final-review.md`.
+8. Read `references/final-review.md` before pre-write review. It owns Phase 5.1 through 5.3.2, including scoping synthesis, write-path mechanics, unified-plan metadata, confidence mode, and the deepening gate. When directed, read `references/deepening-workflow.md` for steps 5.3.3-5.3.7.
+9. **Model elevation.** Immediately before authoring, read `references/reasoning-elevation.md`, resolve the choice at this boundary, and follow it. Do not author until activation resolution has completed and any selected dispatch or transparent fallback has settled.
+10. In pipeline mode, invalidating evidence against a session-settled decision stops the write. Return the exact token `settled-decision-invalidated`, the decision, and the reason; do not resolve it silently.
+11. Write the plan before presenting options, then complete the confidence path owned by `final-review.md`.
 
-**STOP. Read `references/plan-handoff.md` immediately before Phase 5.3.8 and 5.4.** Document review is mandatory for a Durable plan and the default is non-interactive (`mode:non-interactive`). The reference owns final checks, menu visibility and rendering, every selected route, and issue creation. In interactive software runs, ask exactly: "Plan ready at `<absolute path to plan>`. What would you like to do next?" Present the owner-defined menu and wait. If the selection arrives after a user turn, reload `references/plan-handoff.md` before acting. Rendering the menu, receiving a selection, or announcing a route is not completion; execute the selected action.
+**STOP. Read `references/plan-handoff.md` immediately before Phase 5.3.8 and 5.4.** Document review is mandatory for a Durable plan and the default is non-interactive (`mode:non-interactive`). The reference owns final checks, automatic Beadwork materialization, menu visibility, and every selected route. In interactive software runs, ask exactly: "Plan ready at `<absolute path to plan>`. What would you like to do next?" Present the owner-defined menu and wait. If the selection arrives after a user turn, reload `references/plan-handoff.md` before acting. Rendering the menu, receiving a selection, or announcing a route is not completion; execute the selected action.

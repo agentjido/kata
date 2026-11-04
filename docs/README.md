@@ -19,3 +19,5 @@ that a document has been reviewed or its claims have been verified.
 
 - [Jido skills migration backlog](plans/jido-skills-migration-backlog.md):
   remaining verification and the archive gate for `agentjido/jido-skills`.
+- [Skill import queue](plans/skill-import-queue.md): de-duplicated TODO list for
+  possible imports from Compound Engineering, pstack, and Matt Pocock.
