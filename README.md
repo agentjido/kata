@@ -98,6 +98,7 @@ permit a commit, push, publication, live-system change, purchase, or deletion.
 | `kata-docs` | Set up and maintain a project knowledge base. |
 | `kata-explainer` | Produce and review an evidence-based technical explainer video. |
 | `kata-orient` | Maintain scoped `AGENTS.md` and entry-point README files. |
+| `kata-security` | Give security guidance or run a source-first software security audit. |
 | `kata-sitrep` | Report local and remote Git workbench state. |
 | `kata-showme` | Explain a topic with focused diagrams and visuals. |
 | `kata-technical-writing` | Write or review one technical artifact. |

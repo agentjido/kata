@@ -13,6 +13,12 @@ Keep author credits here and in required license files, outside skill instructio
 
 Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
 
+- `kata-security` adapts Cloudflare's
+  [security-audit skill](https://github.com/cloudflare/security-audit-skill/tree/c1c8a8c1471069fb0e188eeaff69b8e8db6564a8/skills/security-audit).
+  Kata changes the package name and adds catalog metadata. The audit workflow,
+  domain guides, schemas, validators, and tests remain from the reviewed source
+  commit `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8`. The package includes
+  Cloudflare's [MIT license notice](../../skills/kata-security/LICENSE-CLOUDFLARE).
 - `kata-explainer` adapts Mike Hostetler's Jido explainer-video production
   rules and dark spatial-board visual profile into a general technical-video
   workflow. The bundled profile is the default when the user and target
