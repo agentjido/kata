@@ -23,6 +23,22 @@ real use case, and easy to review.
 - Add or update direct checks for changed scripts and public contracts.
 - Do not run Dojo unless the work explicitly requires a controlled evaluation.
 
+For every public skill change:
+
+- Keep one clear user goal, trigger boundary, expected input, work method,
+  output, stop condition, and authority boundary.
+- State both what the skill does and when to use it in the description.
+- Keep `SKILL.md` below 500 lines. Put selected detail in linked references,
+  deterministic work in scripts, and reusable output material in assets.
+- Link support files from `SKILL.md` and explain when to read or run them.
+  Avoid deep reference chains.
+- Test direct and indirect requests, missing input, near-miss requests that
+  must not activate the skill, and high-risk edge cases.
+- Review every bundled file for unexpected network access, file access, writes,
+  secrets, executable content, and license requirements.
+- Keep explicit user instructions and host safety controls above skill
+  guidance. A skill must not expand the authority in the current request.
+
 Run the Elixir release validator:
 
 ```sh
@@ -34,6 +50,23 @@ If the change affects the local catalog, also run:
 ```sh
 elixir skills/catalog.exs --check
 ```
+
+## Use Conventional Commits
+
+Use a Conventional Commit subject for each direct commit and pull request
+title. The allowed types are `build`, `chore`, `ci`, `docs`, `feat`, `fix`,
+`perf`, `refactor`, `revert`, `style`, and `test`.
+
+Use this form:
+
+```text
+type(optional-scope): short description
+```
+
+Examples are `feat(skills): add a delegation workflow` and
+`docs: clarify the release process`. The `Validate` workflow enforces this
+format for pull request titles. The shared `Jido Review` workflow also reports
+the result in its review packet.
 
 ## Submit a pull request
 

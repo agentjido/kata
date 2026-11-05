@@ -27,6 +27,8 @@ Start a new agent session if your host requires it.
 See the [installation guide](docs/guides/installation.md) for more detail.
 List optional installed skills in `<user-home>/.jido/extra-skills.md`; Jido reads
 this file only when no included skill matches and ignores it when it is absent.
+Review any optional skill before you list it. Kata does not validate private or
+third-party skills.
 
 ## Give Jido a task
 
@@ -81,9 +83,9 @@ Kata does not require the Jido runtime.
 - [Changelog](CHANGELOG.md)
 - [Attribution](docs/reference/attribution.md)
 - [Security policy](SECURITY.md)
+- [Privacy](PRIVACY.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 
-Agent Jido Kata is authored by Mike Hostetler and
-[Jason Allum](https://github.com/jallum). It is licensed under
-[Apache-2.0](LICENSE). Adapted material keeps its required package-specific
-license notices and attribution.
+Agent Jido Kata is authored by [Jidoka Labs](https://jidokahq.com) and licensed
+contributors. It is licensed under [Apache-2.0](LICENSE). Adapted material keeps
+its required package-specific license notices and attribution.

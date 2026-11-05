@@ -43,6 +43,23 @@ Dojo does not author, adopt, install, commit, publish, or continuously optimize
 skills. It is not a required Kaizen stage. Ordinary skill acceptance does not
 require a Dojo result.
 
+## Automated maintenance
+
+Dependabot checks the Mix dependencies in this directory each week. The
+separate `Dojo Maintenance` workflow runs `mix maintenance` for Dojo dependency
+changes, Dojo source changes, and a weekly schedule. This command checks
+formatting, compilation, and the stable offline tests. It does not run a live
+model evaluation. New tests join this gate by default.
+
+The full `mix check` command remains the complete local gate. It also runs
+legacy skill-contract and generic-loop tests. Those tests currently refer to
+removed skill packages or an older suite contract, so they are not in the
+automated maintenance gate. They use the `legacy_contract` test tag. Keep this
+exclusion explicit until those contracts are updated or removed.
+
+Dojo maintenance is separate from the Kata release process. A Kata release does
+not run Dojo, package it as an artifact, use its version, or require its checks.
+
 ## Current status
 
 The code, fixtures, suites, and historical results remain in this directory.

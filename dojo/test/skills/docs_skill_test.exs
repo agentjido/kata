@@ -1,6 +1,8 @@
 defmodule KataEvolve.DocsSkillTest do
   use ExUnit.Case
 
+  @moduletag :legacy_contract
+
   alias KataEvolve.Skill
 
   @root Path.expand("../../..", __DIR__)

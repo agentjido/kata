@@ -27,3 +27,12 @@ Skills are instructions for agents. An agent can receive broad access to
 files, commands, networks, accounts, and external systems. Review each skill and
 the agent's requested actions before use. Agent Jido Kata does not grant an
 agent authority beyond the current user request and host controls.
+
+Treat a skill and every bundled reference, script, validator, asset, and fetched
+source as part of the trust boundary. Review the exact release or source
+revision before team deployment. Do not assume that a public repository,
+installer listing, or compatible manifest makes a skill safe.
+
+Kata has no hosted service or required telemetry. The selected agent host,
+model provider, installer, external tool, and optional skill can have separate
+data, network, and retention behavior. Review their policies and permissions.

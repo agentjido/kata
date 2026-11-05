@@ -1,6 +1,6 @@
 ---
 name: kata-roadmap
-description: "Create and advance a durable decision roadmap for a clear initiative whose route is too uncertain or long for one planning session. Require Beadwork or CSV; use idea work when the destination is unsettled and implementation planning when the decisions are already resolved."
+description: "Create and advance a durable decision roadmap. Use when the destination is clear but dependent decisions are too uncertain or long for one planning session. Require Beadwork or CSV; use implementation planning when the decisions are resolved."
 metadata:
   kata-argument-hint: "[initiative, Product Contract, or roadmap ID/path] [backend:beadwork|csv] [operation:create|advance|status]"
   schema: kata.skill/v1

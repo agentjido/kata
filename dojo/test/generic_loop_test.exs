@@ -1,5 +1,8 @@
 defmodule KataEvolve.GenericLoopTest do
   use ExUnit.Case
+
+  @moduletag :legacy_contract
+
   import ExUnit.CaptureIO
   alias KataEvolve.{Evidence, Experiment, Profile, Skill, Suite}
 

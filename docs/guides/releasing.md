@@ -2,7 +2,7 @@
 
 Status: Current
 
-Last reviewed: 2026-11-04
+Last reviewed: 2026-11-05
 
 This guide defines the maintainer process for one repository-wide release. A
 release is a remote write. Do not push a tag or create a release without explicit
@@ -12,9 +12,15 @@ maintainer authority.
 
 - `VERSION` is the canonical semantic version.
 - All six versioned manifests must equal `VERSION`.
+- `CHANGELOG.md` must have a dated section for `VERSION`.
 - A release tag is `v<VERSION>`.
-- A tag creates a GitHub Release only after validation passes.
+- A release tag must be annotated and must point to the reviewed release source.
+- A tag creates a GitHub Release from its changelog section only after
+  validation passes.
 - Kata does not publish an npm package or another registry artifact.
+- Dojo is an internal support tool. It has separate maintenance automation. It
+  is not a release gate, release artifact, version source, or release-notes
+  source.
 
 ## Prepare the release change
 
@@ -30,10 +36,16 @@ Run the repository checks from the repository root:
 elixir scripts/validate_release.exs
 elixir skills/catalog.exs --check
 elixir scripts/validate_release.exs --tag "v$(cat VERSION)"
+elixir scripts/release_notes.exs "$(cat VERSION)"
 ```
 
-Open and merge a reviewed pull request. Confirm that the `Validate` workflow
-passes on the release source.
+Use a Conventional Commit title for the pull request, such as
+`chore(release): prepare 0.5.0`. Open and merge a reviewed pull request. Confirm
+that the `Validate` and `Jido Review` workflows pass on the release source.
+
+Do not add Dojo checks to the release pull request or release workflow. The
+separate `Dojo Maintenance` workflow owns scheduled and dependency checks for
+that tool.
 
 ## Create the release
 
@@ -45,8 +57,8 @@ git tag -a "v${version}" -m "Agent Jido Kata ${version}"
 git push origin "v${version}"
 ```
 
-The `Release` workflow validates the tagged source and uses GitHub-generated
-release notes. Confirm the result:
+The `Release` workflow validates the tagged source and extracts its notes from
+the matching `CHANGELOG.md` section. It does not run Dojo. Confirm the result:
 
 ```sh
 gh run list --workflow Release --limit 5

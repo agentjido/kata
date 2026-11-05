@@ -1,6 +1,6 @@
 ---
 name: kata-idea
-description: Turn a vague idea, disputed product direction, or untested design assumption into a decision-ready idea brief. Explore alternatives, grill unresolved decisions, or challenge the idea before planning; do not implement the result.
+description: Turn a vague idea, disputed product direction, or untested design assumption into a decision-ready idea brief. Use when product intent or success criteria need exploration, decision grilling, or challenge before planning.
 metadata:
   kata-argument-hint: "[idea, decision, or design to explore] [mode:explore|grill|challenge]"
   schema: kata.skill/v1

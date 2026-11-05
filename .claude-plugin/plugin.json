@@ -1,7 +1,14 @@
 {
   "name": "kata",
-  "version": "1.0.0",
+  "displayName": "Agent Jido Kata",
+  "version": "0.5.0",
   "description": "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido.",
-  "author": { "name": "Mike Hostetler and Jason Allum" },
-  "repository": "https://github.com/agentjido/kata"
+  "author": {
+    "name": "Jidoka Labs and licensed contributors",
+    "url": "https://jidokahq.com"
+  },
+  "homepage": "https://github.com/agentjido/kata#readme",
+  "repository": "https://github.com/agentjido/kata",
+  "license": "Apache-2.0",
+  "keywords": ["agent-skills", "productivity", "software-engineering"]
 }

@@ -87,6 +87,12 @@ skills/<name>/
 Only `SKILL.md` is required. Add another file only when the skill has a clear
 reason to read, run, preserve, or produce it.
 
+Keep `SKILL.md` below 500 lines. Its description must say what the skill does
+and when it applies. Link each support file from `SKILL.md`, explain when to use
+it, and avoid deep reference chains. Treat scripts and fetched content as a
+security boundary. Public packages must not hide network calls, file writes,
+credential access, or another high-impact action.
+
 General packages use `kata-<task>`. Elixir-specific packages use
 `kata-ex-<task>`. A package keeps a bare name only when the project approves a
 small conversation command or dispatcher as an exception.
@@ -133,3 +139,5 @@ includes that work.
 
 - [Project documentation](../docs/README.md)
 - [Agent Skills specification](https://agentskills.io/specification)
+- [OpenAI skill guidance](https://developers.openai.com/plugins/build/skills)
+- [Anthropic skill guidance](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)

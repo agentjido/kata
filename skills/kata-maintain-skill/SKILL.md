@@ -1,6 +1,6 @@
 ---
 name: kata-maintain-skill
-description: "Capture feedback on a skill or resolve one evidence-backed skill-library finding. Use feedback when a skill misses the user's intent, needs improvement, or should retain useful behavior. Keep feedback local by default; support optional sharing through available channels. Use a skill-writing workflow when the package change is already defined. Do not use for feedback on an unrelated artifact."
+description: "Capture feedback on a skill or resolve one evidence-backed skill-library finding. Use when a skill misses the user's intent, needs improvement, or should retain useful behavior. Keep feedback local by default; use a skill-writing workflow when the package change is already defined."
 metadata:
   schema: kata.skill/v1
   subject: agent-work

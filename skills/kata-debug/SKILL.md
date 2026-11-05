@@ -1,6 +1,6 @@
 ---
 name: kata-debug
-description: Diagnose software bugs, test failures, flaky behavior, performance regressions, and failed agent executions with a reproducible feedback loop and a complete causal chain. Apply a minimal test-first repair only when the assignment authorizes a fix; use kata-understand for an explanation with no executable failure and kata-work when the required change is already known.
+description: Diagnose software bugs, test failures, flaky behavior, performance regressions, and failed agent executions. Use when a reproducible failure needs a complete causal chain; apply a minimal test-first repair only when the assignment authorizes a fix.
 metadata:
   schema: kata.skill/v1
   subject: software-engineering

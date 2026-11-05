@@ -1,6 +1,6 @@
 ---
 name: kata-shipit
-description: "Ship a verified Git change. A bare invocation means commit, push, and create or update a pull request. Honor a requested direct push, local commit only, watch, or merge. Preserve unrelated work and obey repository rules."
+description: "Ship a verified Git change. Use when the user asks to commit, push, open or update a pull request, watch checks, or merge. A bare invocation means commit, push, and create or update a pull request."
 metadata:
   kata-argument-hint: "[commit|ship|open-pr|update-pr|watch|land] [scope or PR]"
   schema: kata.skill/v1

@@ -1,6 +1,6 @@
 ---
 name: kata-showme
-description: Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts.
+description: Help the user understand a topic with concise diagrams, code-shape sketches, and focused HTML artifacts. Use when a visual explanation makes an important relationship easier to understand.
 metadata:
   schema: kata.skill/v1
   subject: technical-communication

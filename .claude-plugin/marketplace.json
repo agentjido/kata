@@ -1,6 +1,6 @@
 {
   "name": "agentjido-kata",
-  "owner": { "name": "Mike Hostetler and Jason Allum" },
+  "owner": { "name": "Jidoka Labs" },
   "plugins": [
     {
       "name": "kata",

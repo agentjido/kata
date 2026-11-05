@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Check out tagged source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Set up Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
@@ -21,14 +23,20 @@ jobs:
           otp-version: "28.1"
           elixir-version: "1.20.4"
 
+      - name: Require an annotated release tag
+        run: test "$(git cat-file -t "$GITHUB_REF_NAME")" = "tag"
+
       - name: Validate tagged source
         run: elixir scripts/validate_release.exs --tag "$GITHUB_REF_NAME"
 
-      - name: Check validator formatting
-        run: mix format --check-formatted scripts/validate_release.exs
+      - name: Check script formatting
+        run: mix format --check-formatted scripts/*.exs
 
       - name: Validate Kata catalog
         run: elixir skills/catalog.exs --check
+
+      - name: Extract release notes
+        run: elixir scripts/release_notes.exs "$(cat VERSION)" > "$RUNNER_TEMP/release-notes.md"
 
       - name: Create GitHub release
         env:
@@ -37,5 +45,5 @@ jobs:
           version="$(cat VERSION)"
           gh release create "$GITHUB_REF_NAME" \
             --verify-tag \
-            --generate-notes \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
             --title "Agent Jido Kata ${version}"

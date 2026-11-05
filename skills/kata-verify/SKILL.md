@@ -1,6 +1,6 @@
 ---
 name: kata-verify
-description: Route one existing candidate to the smallest set of verification methods that fit its result type, claims, and risks. Return pass, fail, unknown, or blocked with direct evidence; do not create, repair, or improve the candidate.
+description: Verify one existing candidate with methods that fit its result type, claims, and risks. Use when a result needs independent acceptance evidence; return pass, fail, unknown, or blocked without repairing the candidate.
 metadata:
   kata-argument-hint: "[candidate result, claims, and acceptance conditions]"
   schema: kata.skill/v1
