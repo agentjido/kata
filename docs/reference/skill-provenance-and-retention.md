@@ -5,18 +5,18 @@ retention decisions.
 
 Status: Current
 
-Last reviewed: 2026-11-04
+Last reviewed: 2026-11-05
 
 ## Summary
 
-Direct inspection found 21 active skill packages.
+Direct inspection found 23 active public skill packages on 2026-11-05.
 
 | Primary origin | Count | Meaning |
 | --- | ---: | --- |
-| Kata-native | 10 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
-| In-house source | 2 | Mike Hostetler wrote the earlier source. Kata adapted or migrated it. |
+| Kata-native | 12 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
+| In-house source | 1 | Mike Hostetler wrote the earlier source. Kata adapted or migrated it. |
 | Hybrid | 4 | Kata owns the workflow, but it adapts ideas and methods from named external sources. |
-| External adaptation | 5 | Kata adapted the active package from an external project. |
+| External adaptation | 6 | Kata adapted the active package from an external project. |
 
 The root [README attribution section](../../README.md#attribution), package
 license files, and current package files support this index.
@@ -28,22 +28,23 @@ license files, and current package files support this index.
 | Skill | Current job | Folded source method |
 | --- | --- | --- |
 | `jido` | Select the smallest Kata route for an explicit request. | None. |
-| `kata-docs` | Set up and maintain Docs Kata, including bounded code-to-document reconciliation. | Earlier Jido docs-sync material. |
+| `kata-docs` | Set up and maintain Docs Kata and scoped project orientation. | Earlier Jido docs-sync and `kata-orient` material. |
 | `kata-dojo` | Run an explicitly requested skill evaluation. | None. |
 | `kata-ex-design-review` | Review Elixir and OTP design. | None. |
 | `kata-ex-quality` | Find, backlog, batch, and fix bounded Elixir quality findings. | Jason Allum's focused coverage and dead-code methods and analyzers. |
 | `kata-maintain-skill` | Resolve one skill-library maintenance finding. | None. |
-| `kata-orient` | Maintain scoped `AGENTS.md` and entry-point `README.md` files. | None. |
 | `kata-sitrep` | Report local and remote Git workbench state. | None. |
 | `kata-understand` | Establish current condition, explain existing software, or reconstruct recent work context. | pstack `recall` and Jason Allum's private `neckbeard` method. |
 | `kata-work` | Produce one candidate result with optional repository-guard, test-first, or decision-log methods. | pstack `correct`, `tdd`, and `show-me-your-work`. |
+| `kata-tutor` | Teach agentic leadership through real work with adaptive support. | None. |
+| `kata-scope` | Turn rough requests into bounded delivery work. | None. |
+| `kata-delegate` | Assign defined work and manage its return. | None. |
 
 ### In-house source
 
 | Skill | Earlier source |
 | --- | --- |
 | `kata-build-jido` | Mike Hostetler's `agentjido/jido-skills` action, agent, runtime, AI, and test material. |
-| `kata-explainer` | Mike Hostetler's Jido explainer-video production rules and dark spatial-board visual profile. |
 
 ### Hybrid
 
@@ -61,6 +62,7 @@ license files, and current package files support this index.
 | `kata-debug` | Compound Engineering `ce-debug` and Matt Pocock `diagnosing-bugs` | Reproducible diagnosis and a bounded repair are a distinct job. |
 | `kata-idea` | Compound Engineering `ce-brainstorm`, Matt Pocock `grilling`, and pstack `interrogate` | Product exploration, decision grilling, and idea challenge happen before implementation planning. |
 | `kata-roadmap` | Matt Pocock `wayfinder` | Durable decision resolution across several review cycles is a separate result between idea and implementation planning. |
+| `kata-security` | Cloudflare `security-audit` | Security guidance and source-first audits need a broad specialist method and preserved source notices. |
 | `kata-showme` | HumanLayer `show-me` | Visual explanation is a distinct job that prose does not replace well. |
 | `kata-technical-writing` | pstack `technical-writing` and Mike Hostetler's Elixir documentation guidance | It owns one document-writing job and now contains the former `unslop` cleanup mode. |
 
@@ -81,6 +83,7 @@ license files, and current package files support this index.
 | `kata-show-your-work` | `kata-work` decision-log method. |
 | `kata-tdd` | `kata-work` test-first method. |
 | `unslop` | `kata-technical-writing` AI-pattern cleanup mode. |
+| `kata-orient` | `kata-docs` project-orientation operation. |
 
 ## Retired external skills
 
@@ -101,6 +104,7 @@ license files, and current package files support this index.
 - `kata-review-pr` retired.
 - `kata-sync-docs` retired. `kata-docs` maintenance now owns bounded
   code-to-document reconciliation.
+- Technical explainer production was removed from the public pack.
 
 ## Admission rule
 

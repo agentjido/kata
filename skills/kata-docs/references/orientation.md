@@ -1,18 +1,8 @@
----
-name: kata-orient
-description: Create, audit, or refresh the scoped AGENTS.md and entry-point README.md files that orient people and agents. Use when a project needs aligned orientation files; do not use for one document's prose, a wider docs-to-code sync, or general knowledge capture.
-metadata:
-  schema: kata.skill/v1
-  subject: agent-work
-  practice: orient
-  object: project-orientation
-  profile: system-design
-  authority: local-write
-  consumes: "project, project-orientation-request, project-knowledge-capture, verified-readme"
-  produces: "project-orientation-audit, verified-project-orientation, readme-brief, project-knowledge-capture, verified-change"
----
+# Project orientation
 
-# Orient
+Read this reference when the documentation request is to set up, audit,
+refresh, or capture the scoped `AGENTS.md` and entry-point `README.md` files.
+The `kata-docs` package owns this operation.
 
 **Outcome:** One project's applicable `AGENTS.md` and entry-point `README.md`
 files give people and coding agents a small, verified path into the project and

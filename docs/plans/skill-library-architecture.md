@@ -2,20 +2,22 @@
 
 Status: Current
 
-Last reviewed: 2026-11-04
+Last reviewed: 2026-11-05
 
 ## Current review
 
-Direct inspection found 21 active skills with `kata.skill/v1` metadata. The
+Direct inspection found 23 active skills with `kata.skill/v1` metadata. The
 2026-11-04 curation folded focused imported methods into core packages, retired
 small commands, combined the Jido build packages, and later added `kata-debug`
 and `kata-idea`. `kata-roadmap` now owns durable multi-session decision routes
 between idea and implementation planning. `kata-verify` routes focused
 verification methods, and `kata-shipit` replaces the local-only `kata-commit`.
 The `kata-correct` method now belongs to `kata-work` and `kata-verify`. The
-`kata-explainer` package owns the repeated technical-video production method.
-The catalog remains below the hard limit of 25. Skill frontmatter and live
-package files remain the inventory authority.
+2026-11-05 leadership design added `kata-tutor`, `kata-scope`, and
+`kata-delegate`. Project orientation later became an operation in `kata-docs`,
+and technical explainer production left the public pack. The public catalog has
+23 skills, two below the hard limit of 25. Skill frontmatter and live package
+files remain the inventory authority.
 
 ## Purpose
 
@@ -24,10 +26,11 @@ when real work proves that a separate package is useful.
 
 ## Nucleus
 
-Jido is the front door to two internal routes:
+Jido is the front door to three internal routes:
 
 ```text
-Value delivery: understand -> idea? -> roadmap? -> plan -> work -> verify -> consumer acceptance
+Value delivery: understand -> idea? -> roadmap? -> scope? -> plan? -> delegate? -> work -> verify -> consumer acceptance
+Learning:       tutor -> optional work handoff -> learner reflection
 Kaizen:         maintain-skill -> write-skill -> consumer acceptance
 Optional:       dojo -> consumer acceptance, only by explicit request
 ```
@@ -37,9 +40,9 @@ uses delegated judgment, selects the route, and starts at the first unresolved
 contract. The requester does not need to use the terms Value delivery, Flow, or
 Kaizen.
 
-The nucleus has nine skills: `jido` and the eight default transition skills
-shown above. `kata-dojo` and `kata-shipit` are optional actions. They are not
-part of either core route.
+The nucleus has twelve skills: `jido`, the eight value-delivery transitions,
+the tutor, and the two Kaizen transitions shown above. `kata-dojo` and
+`kata-shipit` are optional actions. They are not required in a core route.
 
 ## Four separate dimensions
 
@@ -57,7 +60,9 @@ profile, and the Jido SDK lens. These three values do not require three skills.
 ## Work-system routes
 
 ```text
-understand -> idea? -> roadmap? -> plan -> work -> verify -> consumer acceptance
+understand -> idea? -> roadmap? -> scope? -> plan? -> delegate? -> work -> verify -> consumer acceptance
+
+tutor -> optional work handoff -> learner reflection
 
 maintain-skill -> write-skill -> consumer acceptance
 
@@ -69,9 +74,12 @@ dojo -> consumer acceptance, only by explicit request
 | Understand | What is true now? | Evidence and a bounded problem |
 | Idea | What should exist, for whom, and why? | A decision-ready idea brief or Product Contract |
 | Roadmap | Which dependent decisions must become clear across several review cycles? | A durable decision roadmap and planning handoff |
+| Scope | What result and boundary can enter delivery? | A bounded work brief |
 | Plan | What technical sequence can deliver the software target? | A software implementation plan |
+| Delegate | Who can do the defined work, within which authority, and who owns the return? | Assignments and an integration handoff |
 | Work | What change or result must be made? | A candidate result with local checks |
 | Verify | Does the result meet its contract? | Pass, fail, or an evidence gap |
+| Tutor | Which leadership action can the human practise on real work? | Learning feedback, a work brief, or a practice result |
 | Maintain skill | What reusable problem or opportunity exists? | A resolved finding or bounded brief |
 | Write skill | What reusable transition must change? | A conforming skill candidate |
 | Dojo | What does an explicitly requested controlled experiment show? | Evaluation evidence and an adoption recommendation |
@@ -162,14 +170,14 @@ skill.
 
 ## Skill budget
 
-Use a target of 16 active skills and a hard limit of 25. The current 21-skill
-catalog remains below the hard limit.
+Use a target of 16 active skills and a hard limit of 25. The current public
+catalog has 23 skills.
 
 | Group | Active | Skills |
 | --- | ---: | --- |
-| Core work system | 10 | `jido`, understand, idea, roadmap, plan, work, verify, maintain-skill, write-skill, dojo |
-| Support | 3 | shipit, orient, sitrep |
-| Domain and focused packages | 8 | build-jido, debug, docs, explainer, ex-design-review, ex-quality, showme, technical-writing |
+| Core work and learning system | 13 | `jido`, tutor, understand, idea, roadmap, scope, plan, delegate, work, verify, maintain-skill, write-skill, dojo |
+| Support | 2 | shipit, sitrep |
+| Domain and focused packages | 8 | build-jido, debug, docs, ex-design-review, ex-quality, security, showme, technical-writing |
 
 The target is a portfolio shape, not an immediate rename or deletion list.
 Keep a small command when its name has clear value and its behavior is narrow.
@@ -190,6 +198,8 @@ Applied consolidation paths include:
 - Put repository-guard creation under `kata-work` and its independent proof
   under `kata-verify`.
 - Put project verification-skill creation under `kata-write-skill`.
+- Put scoped project orientation under `kata-docs`.
+- Remove technical explainer production from the public pack.
 
 ## Admission and retirement rules
 

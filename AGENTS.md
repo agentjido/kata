@@ -25,9 +25,9 @@
   the live run and supplies or approves its profile and token or call budget.
 - Do not use Dojo as the default verification path for skill or documentation
   changes. Use direct file inspection and checks that do not enter `dojo/`.
-- Keep this repository public-only. Private skills and `jido-local` stay in a
-  separate repository. Do not add them, or links to them, under `skills/`. Public
-  files can describe the local extension point but must not name a private route
-  or skill.
+- Keep this repository public-only. Private skills stay in a separate
+  repository. Do not add them, or links to them, under `skills/`. Public files
+  can describe the optional extra-skills index but must not name a private
+  skill.
 - Keep marketing material outside this repository.
 - Preserve the user's existing files and work when changing a target project.

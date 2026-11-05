@@ -1,6 +1,6 @@
 ---
 name: kata-docs
-description: Set up and steward a project's Docs Kata knowledge base. Use natural-language requests to establish docs, process inbox material, record durable verified project knowledge, maintain document structure, or reconcile selected current docs with code.
+description: Set up and steward a project's documentation and orientation. Use to establish Docs Kata, process inbox material, record verified knowledge, maintain document structure, reconcile selected docs with code, or create, audit, and refresh scoped AGENTS.md and entry-point README.md files.
 metadata:
   schema: kata.skill/v1
   subject: general
@@ -8,31 +8,32 @@ metadata:
   object: project-documentation
   profile: bounded-execution
   authority: local-write
-  consumes: "project, documentation-request, project-knowledge-capture"
-  produces: "docs-kata-intake, documented-project-knowledge, verified-documentation-change, verified-change"
+  consumes: "project, documentation-request, project-orientation-request, project-knowledge-capture, verified-readme"
+  produces: "docs-kata-intake, documented-project-knowledge, project-orientation-audit, verified-project-orientation, readme-brief, verified-documentation-change, verified-change"
 ---
 
 # Docs Kata
 
-**Outcome:** One project has a usable documentation knowledge base, or one
-bounded intake, capture, or maintenance request is complete. Project
-contributors and other skills can use the result without reconstructing the
-source conversation.
+**Outcome:** One project has a usable documentation knowledge base and clear
+orientation entry points, or one bounded intake, capture, orientation, or
+maintenance request is complete. Project contributors and other skills can use
+the result without reconstructing the source conversation.
 
 **Done:** The selected operation follows the project's document rules; its
-files, evidence, links, index, intake record, and local diff reconcile; and each
-unresolved content or authority decision is explicit. After inbox processing or
-maintenance, `docs/inbox/` contains only its `README.md` unless a named blocker
-requires an accountable owner or new authority.
+files, scope, evidence, links, index, intake record, and local diff reconcile;
+and each unresolved content or authority decision is explicit. After inbox
+processing or maintenance, `docs/inbox/` contains only its `README.md` unless a
+named blocker requires an accountable owner or new authority.
 
 ## Assignment
 
 The required inputs are one target project and either a natural-language
-documentation request or a `project-knowledge-capture`. A capture supplies its
-purpose, content, evidence, related artifacts, and granted authority. Resolve
-the project from the request and current context. Ask only when more than one
-target remains possible or a missing accountable decision can materially change
-content, behavior, a required path, or authority.
+documentation or orientation request, a `project-knowledge-capture`, or a
+`verified-readme`. A capture supplies its purpose, content, evidence, related
+artifacts, and granted authority. Resolve the project from the request and
+current context. Ask only when more than one target remains possible or a
+missing accountable decision can materially change content, behavior, a
+required path, or authority.
 
 Direct user authority or inherited caller authority permits the requested local
 documentation operation inside the target project. Preserve unrelated and
@@ -70,6 +71,19 @@ command name.
   Respect a check-only request. Maintenance owns structure, links, ownership,
   index entries, intake state, document lifecycle, bounded code-to-document
   reconciliation, and draining the inbox.
+- **Orient project:** The request asks to create, audit, refresh, or capture the
+  scoped `AGENTS.md` and entry-point `README.md` files that orient people and
+  agents. Read and follow
+  [references/orientation.md](references/orientation.md). This operation owns
+  the orientation set and its scope. A request to write or review one selected
+  README without deciding the orientation set belongs to technical writing.
+- **Refresh orientation (`docs refresh`):** An explicit `docs refresh` request
+  selects the Refresh route in
+  [references/orientation.md](references/orientation.md). Reconcile the scoped
+  `README.md` and `AGENTS.md` files with current project evidence. Preserve
+  useful structure, local rules, protected content, and unrelated edits. Do not
+  refresh orientation files from a general maintenance request unless the user
+  directs it.
 
 If the primary task is to create a plan, use the project's planning workflow.
 For a broad content rewrite, bound the selected documents and authoritative

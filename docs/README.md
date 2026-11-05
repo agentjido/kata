@@ -16,13 +16,12 @@ Last reviewed: 2026-11-05 (entry links; dated project records retained)
 
 ## Current state
 
-- Direct frontmatter inspection found 21 active skill packages. All 21 declare
-  `kata.skill/v1` metadata. This is a point-in-time result from 2026-11-04.
+- Direct frontmatter inspection found 23 active skill packages. All 23 declare
+  `kata.skill/v1` metadata. This is a point-in-time result from 2026-11-05.
 - [`jido`](../skills/jido/SKILL.md) owns work routing.
-  [`kata-orient`](../skills/kata-orient/SKILL.md) owns scoped project
-  orientation through `AGENTS.md` and entry-point `README.md` files.
   [`kata-docs`](../skills/kata-docs/SKILL.md) owns Docs Kata setup, inbox
-  processing, durable capture, and maintenance.
+  processing, durable capture, maintenance, and scoped project orientation
+  through `AGENTS.md` and entry-point `README.md` files.
 - Dojo has a current suite adapter for
   [the `kata-docs` setup route](../dojo/suites/setup.exs) and preserves a
   historical Neckbeard adapter. The other live-suite work remains pending. Dojo
@@ -54,8 +53,9 @@ that a document has been verified.
   Jira `twg` adapters.
 
 The [skill library architecture](plans/skill-library-architecture.md) sets a
-25-skill hard limit. The current catalog has 21 skills after `kata-explainer`
-added the repeated technical-video production method.
+25-skill hard limit. The current catalog has 23 skills after adding the tutor,
+scope, and delegation methods, removing technical explainer production from
+the public pack, and merging project orientation into Docs Kata.
 
 ## Archived source material
 
@@ -66,6 +66,9 @@ added the repeated technical-video production method.
 
 ## Completed and superseded plans
 
+- [Leadership and productivity design brief](plans/2026-11-05-leadership-productivity-design-brief.md):
+  implemented the initial `kata-tutor`, `kata-scope`, and `kata-delegate`
+  packages and their Jido routes. External resources remain deferred.
 - [Existing skill improvement backlog](plans/2026-11-04-existing-skill-improvement-backlog.md):
   completed seven bounded refinements in the existing skill owners; it did not
   add `kata-prototype`, and it sends visual-design work to Impeccable.

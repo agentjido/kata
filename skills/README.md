@@ -21,6 +21,14 @@ classification metadata.
 | `kata-verify` | Judge a candidate against its acceptance contract. |
 | `kata-shipit` | Commit, publish, watch, or land an accepted change. |
 
+### Agentic leadership and learning
+
+| Skill | Result |
+| --- | --- |
+| `kata-tutor` | Teach one agentic-leadership action through real work with adaptive support. |
+| `kata-scope` | Turn a rough request into bounded delivery work. |
+| `kata-delegate` | Assign defined work and manage its return. |
+
 ### Decision altitudes
 
 | Skill | Result |
@@ -32,7 +40,7 @@ classification metadata.
 
 | Skill | Result |
 | --- | --- |
-| `kata-maintain-skill` | Resolve one evidence-backed library finding. |
+| `kata-maintain-skill` | Capture skill feedback locally, resolve a library finding, or prepare optional sharing. |
 | `kata-write-skill` | Create, import, or convert one skill package. |
 | `kata-dojo` | Evaluate an exact candidate only on explicit Dojo request. |
 
@@ -41,9 +49,7 @@ classification metadata.
 | Skill | Result |
 | --- | --- |
 | `kata-debug` | Diagnose a reproducible failure and repair it when authorized. |
-| `kata-docs` | Set up and maintain a project knowledge base. |
-| `kata-explainer` | Produce and review an evidence-based technical explainer video. |
-| `kata-orient` | Maintain scoped `AGENTS.md` and entry-point README files. |
+| `kata-docs` | Set up and maintain project documentation and scoped orientation files. |
 | `kata-security` | Give security guidance or run a source-first software security audit. |
 | `kata-sitrep` | Report local and remote Git workbench state. |
 | `kata-showme` | Explain a topic with focused diagrams and visuals. |
@@ -61,14 +67,10 @@ General skills use `kata-<task>`. Skills that require Elixir use
 `kata-ex-<task>`. You can use each skill directly or give `$jido` a goal.
 Dojo requires an explicit request; normal use does not run model evaluations.
 
-## Public and local skills
+## Public and extra skills
 
-This directory contains public skills only. Keep private skills and the optional
-`jido-local` route index in a separate package, and install them next to `jido`.
-Do not add them or links to them here. `scripts/validate_release.exs` fails if
-this directory contains `jido-local` or a symbolic link. Public files can
-describe the [extension point](jido/references/local-extension.md), but they must
-not name a private route or skill.
+This directory contains public skills only. Keep private skills in a separate
+package. List optional installed skills in `<user-home>/.jido/extra-skills.md`.
 
 ## Package layout
 

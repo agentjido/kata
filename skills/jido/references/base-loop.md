@@ -17,7 +17,11 @@ Use the first unresolved contract:
   still needs an accountable decision.
 - Roadmap when the destination is clear but dependent decisions need several
   review cycles before one implementation plan can be written.
+- Scope when the outcome is clear but the delivery boundary, exclusions,
+  dependencies, or completion evidence are unresolved.
 - Plan when the target is clear but the route has a material decision.
+- Delegate when defined work benefits from separate ownership or supervised
+  follow-through and a suitable worker route is available.
 - Work when target, scope, acceptance, and authority are clear.
 - Verify when a candidate exists and needs evidence.
 

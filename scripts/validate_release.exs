@@ -150,9 +150,8 @@ defmodule Kata.ReleaseValidator do
     |> Enum.reduce(errors, fn path, acc ->
       name = Path.basename(path)
 
-      acc
-      |> require(name != "jido-local", "skills/#{name}: local package in public repository")
-      |> require(
+      require(
+        acc,
         match?({:ok, %File.Stat{type: type}} when type != :symlink, File.lstat(path)),
         "skills/#{name}: symbolic link in public repository"
       )

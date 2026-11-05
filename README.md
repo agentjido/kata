@@ -25,6 +25,8 @@ Select your agent host. Install `jido` and the Kata skills you want it to use.
 Start a new agent session if your host requires it.
 
 See the [installation guide](docs/guides/installation.md) for more detail.
+List optional installed skills in `<user-home>/.jido/extra-skills.md`; Jido reads
+this file only when no included skill matches and ignores it when it is absent.
 
 ## Give Jido a task
 
@@ -42,6 +44,9 @@ permit a commit, push, publication, live-system change, purchase, or deletion.
 
 You can also ask Jido to:
 
+- Teach you how to turn one real task into a clear first assignment.
+- Scope a rough request into bounded work with completion evidence.
+- Delegate defined work and manage its return.
 - Compare proposals against your requirements.
 - Turn meeting notes into a report with decisions and next actions.
 - Prepare launch content and check its product claims.
@@ -55,6 +60,12 @@ the work steps when new facts change the problem. An automation can use the same
 process when it defines its inputs, allowed actions, outputs, and checks. Your
 host or automation system provides model access, delegation tools, and
 scheduling.
+
+Start with [`kata-tutor`](skills/kata-tutor/SKILL.md) when you want guided
+practice. Use [`kata-scope`](skills/kata-scope/SKILL.md) to bound a rough
+request and [`kata-delegate`](skills/kata-delegate/SKILL.md) to assign defined
+work. These steps are optional. Jido skips them when the work is already clear
+or one direct worker is enough.
 
 General Kata skills work across languages and domains. The pack also includes
 specialist skills for Elixir and the [Jido framework](https://github.com/agentjido/jido).

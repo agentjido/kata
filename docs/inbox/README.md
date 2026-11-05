@@ -10,6 +10,7 @@ is clear.
 
 | Original path | Current destination | Intake date | Status | Review result |
 | --- | --- | --- | --- | --- |
+| November 5 leadership and productivity design discussion | [Design brief](../plans/2026-11-05-leadership-productivity-design-brief.md) | 2026-11-05 | Placed: implemented design | Implemented the initial tutor, scope, and delegation packages and Jido routes. The map, work handoffs, supervision, and maintenance-feedback boundary are present. External resource delivery remains deferred. Static validation is recorded in the brief; live teaching behavior is not evaluated. |
 | `evals/ASTRA_TUNING_NOTES.md` | [docs/archive/evals/2026-09-05-astra-tuning-notes.md](../archive/evals/2026-09-05-astra-tuning-notes.md) | 2026-09-05 | Archived: unverified history | The fixed links were updated. The claims were not rechecked. |
 | `evals/EVALUATOR_REVIEW.md` | [docs/archive/evals/2026-09-05-evaluator-review.md](../archive/evals/2026-09-05-evaluator-review.md) | 2026-09-05 | Archived: unverified history | The fixed links were updated. The measurements were not rechecked. |
 | `evals/OPTIMIZATION_PLAN.md` | [docs/plans/2026-09-05-astra-optimization-plan.md](../plans/2026-09-05-astra-optimization-plan.md) | 2026-09-05 | Placed: superseded plan | The current Dojo guide replaced its execution process. |

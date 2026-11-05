@@ -1,6 +1,6 @@
 ---
 name: kata-shipit
-description: "Finish a verified Git change through the exact delivery boundary the user requests: create a scoped local commit, push and open or update a pull request, monitor requested checks, or land an approved change. Preserve unrelated work and require explicit authority for each remote or merge action."
+description: "Ship a verified Git change. A bare invocation means commit, push, and create or update a pull request. Honor a requested direct push, local commit only, watch, or merge. Preserve unrelated work and obey repository rules."
 metadata:
   kata-argument-hint: "[commit|ship|open-pr|update-pr|watch|land] [scope or PR]"
   schema: kata.skill/v1
@@ -36,15 +36,24 @@ The request sets the highest permitted route:
   local commits only. It does not permit a push or pull request.
 - **Ship:** “ship it,” “push this,” “open a PR,” or equivalent permits scoped
   commits, a normal push, and creation or update of one pull request.
+  A bare `shipit`, `kata-shipit`, or `$kata-shipit` selects this route for the
+  accepted change in the current conversation. This is permission to publish;
+  do not ask for separate push or PR approval. Stop only if the change, target,
+  or required evidence is unclear, or a repository rule prevents delivery.
+  A request to push directly to a named branch selects that delivery state
+  instead of a PR. Permission to work on `main` alone does not select a direct
+  push.
 - **Watch:** “watch,” “monitor,” “babysit,” or “wait for CI” permits observation
   and requested in-scope CI or review follow-up. It does not permit a merge
   unless the request also says to land or merge.
 - **Land:** “land,” “merge,” or equivalent permits the named merge after its
   gates pass. It does not permit a force push, review dismissal, or check bypass
   unless the operator grants that exact authority.
-- **Bare invocation:** A bare `kata-shipit` with no delivery outcome permits
-  inspection only. Report the available delivery states and ask which one is
-  wanted.
+
+Read the complete request and its current context. Keep explicit limits such
+as “commit only” or “do not push.” Do not treat `shipit` as a local-only reply
+to an earlier commit question unless the user states that limit. A Ship request
+does not permit a merge.
 
 Authority can narrow during the run and never expands by implication. Do not
 amend, rebase, reset, force push, delete a branch, remove a worktree, close a
@@ -61,7 +70,7 @@ without explicit authority for that exact action.
    intended files cannot be separated from unrelated staged or unstaged work.
 4. Select the smallest route that reaches the requested delivery state:
    - local commit;
-   - push and pull request;
+   - push and pull request, or a requested direct push;
    - watch an existing pull request; or
    - land an approved pull request.
 5. State the route, target repository, branch, base branch, included paths, and
@@ -89,15 +98,23 @@ Before any commit or push:
 Do not hide a failed check in the pull request description. Do not weaken a
 hook, assertion, or branch rule to make delivery pass.
 
-## Publish a pull request
+## Publish the change
 
 Read [references/pull-request.md](references/pull-request.md) when the selected
 route includes a push, pull request, or pull request description update.
 
-If the current branch is the default branch and the Ship route has work to
-publish, create a feature branch before committing or pushing. Check for local
-commits not present on the remote base. Ask whether to carry them when their
-ownership is unclear. Do not push directly to the default branch.
+For the default Ship route, if the current branch is the default branch,
+create a feature branch before committing or pushing. Check for local commits
+not present on the remote base. Carry accepted commits from this task without
+asking again; ask when their ownership or scope is unclear. An existing local
+commit is a starting state, not a reason to stop before publication.
+
+If the user requested a direct push to a named branch, use that branch when
+repository rules permit it. This includes the default branch. Do not ask for
+the same permission again. Check that the push is a fast-forward and includes
+only accepted commits. If a rule blocks the direct push, report the exact rule
+and the available PR route. Do not bypass protections or silently change the
+requested delivery state. Recent direct commits alone do not grant permission.
 
 Use the repository forge's supported CLI. For GitHub, prefer `gh`. Before a
 normal push, confirm the live branch and push `HEAD` without force. Before
@@ -136,3 +153,15 @@ Report:
 
 Do not say “shipped” when the requested delivery state was not reached. A local
 commit, an open pull request, and a merged change are different results.
+
+## Delivery examples
+
+- `shipit` after verification: commit if needed, push a feature branch, and
+  create or update its PR. Finish with the PR URL.
+- `shipit` after a local commit on `main`: carry that accepted commit to a
+  feature branch, push, and create or update its PR. Do not reset `main`.
+- `shipit, push this directly to main`: make a normal fast-forward push to
+  `main` if repository rules permit it. No second approval is needed.
+- `commit only, do not push`: make the scoped local commit and stop.
+- `shipit` with no identifiable accepted change: inspect, then ask which
+  change to publish. Do not select unrelated work.

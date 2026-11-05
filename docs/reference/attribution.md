@@ -2,7 +2,7 @@
 
 Status: Current
 
-Last reviewed: 2026-11-04
+Last reviewed: 2026-11-05
 
 Agent Jido Kata preserves source authorship and required license notices. This
 page records the current sources and adaptations. The root project uses
@@ -19,11 +19,8 @@ Kata is authored by Mike Hostetler and [Jason Allum](https://github.com/jallum).
   domain guides, schemas, validators, and tests remain from the reviewed source
   commit `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8`. The package includes
   Cloudflare's [MIT license notice](../../skills/kata-security/LICENSE-CLOUDFLARE).
-- `kata-explainer` adapts Mike Hostetler's Jido explainer-video production
-  rules and dark spatial-board visual profile into a general technical-video
-  workflow. The bundled profile is the default when the user and target
-  project do not select another visual style.
-- `kata-orient` is an original Kata workflow informed by the
+- The project-orientation operation in `kata-docs` is an original Kata workflow
+  informed by the
   [AGENTS.md open format](https://agents.md/),
   [OpenAI guidance for lean repository instructions](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra),
   and

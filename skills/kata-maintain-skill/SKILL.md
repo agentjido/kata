@@ -1,6 +1,6 @@
 ---
 name: kata-maintain-skill
-description: Maintain a skill library by resolving one evidence-backed finding about ownership, overlap, classification, contract conformance, or retirement. Use when the required library change is not yet known; use a skill-writing workflow when the package change is already defined.
+description: "Capture feedback on a skill or resolve one evidence-backed skill-library finding. Use feedback when a skill misses the user's intent, needs improvement, or should retain useful behavior. Keep feedback local by default; support optional sharing through available channels. Use a skill-writing workflow when the package change is already defined. Do not use for feedback on an unrelated artifact."
 metadata:
   schema: kata.skill/v1
   subject: agent-work
@@ -8,45 +8,51 @@ metadata:
   object: skill-library
   profile: system-design
   authority: local-write
-  consumes: "skill-library, skill-evaluation-evidence, conversation-history"
-  produces: "resolved-library-finding, conversion-brief, workflow-learning-brief, work-request, verified-change"
+  consumes: "skill-library, skill-feedback, skill-evaluation-evidence, conversation-history"
+  produces: "feedback-brief, resolved-library-finding, conversion-brief, workflow-learning-brief, work-request, verified-change"
 ---
 
 # Maintain Skill
 
-**Outcome:** One resolved library finding and the smallest safe change for the
-target library.
+**Outcome:** One actionable feedback brief or resolved library finding, with the
+next owner and any permitted change clear.
 
-**Done:** Exactly one finding has one disposition. The decision has specific
-evidence. When the operator requests a fix, the permitted change is complete and
-verified. When the operator also requests a commit, the commit workflow reports
+**Done:** Exactly one feedback item or finding has a disposition supported by
+evidence or an explicit evidence gap. Feedback ends in a local brief, a shareable
+draft, or a confirmed submission under explicit authority. When the operator
+requests a fix, the permitted change is complete and verified. When the operator also requests a commit, the commit workflow reports
 its result. Unrelated library concerns remain unchanged.
 
 ## Assignment
 
-The operator can supply a finding or Dojo evidence. If no finding is supplied,
-inspect the library and select one. When supplied evidence already proves the
-finding, owner, and remedy, do not repeat discovery or planning. Work in the
-requested skill repository. Read its active
-instructions, library rules, metadata conventions, current changes, and affected
-packages before an edit.
+The operator can supply feedback, a finding, or Dojo evidence. A request such as
+"feedback on shipit" selects the feedback entry below, not a library audit.
+If neither feedback nor a finding is supplied, inspect the library and select
+one. When supplied evidence already proves the finding, owner, and remedy,
+do not repeat discovery or planning. Feedback can proceed without a source
+checkout. For maintenance edits, work in the requested skill repository. Read
+its active instructions, library rules, metadata conventions, current changes,
+and affected packages before an edit.
 
 Direct user authority or inherited caller authority permits local inspection
 and the smallest local edit that resolves the finding. This can include skill
 contracts, activation text, metadata, indexes, references, and documentation.
-Do not install, publish, release, or change remote state. Get explicit approval
-before a package deletion or rename, a license or provenance change, execution
-of untrusted source, or a change that expands the assignment.
+Do not install, publish, release, or change remote state, except for a feedback
+submission explicitly authorized for its channel and destination. Get
+explicit approval before a package deletion or rename, a license or provenance
+change, execution of untrusted source, or a change that expands the assignment.
 
 A request to complete the maintenance loop permits the in-scope local fix and
 the required handoffs. This skill does not stage or commit changes. A commit
 requires an explicit operator request and the canonical commit workflow. This
-authority does not permit amend, rebase, push, merge, or other remote or
-history-changing actions.
+maintenance authority does not permit amend, rebase, push, merge, or other
+remote or history-changing actions. The feedback entry has its own limited
+feedback-submission authority.
 
 The work profile is `system-design` when the finding changes a reusable library
 contract or ownership boundary. It is `bounded-execution` when the finding only
-repairs an established classification or index rule. Ask the accountable owner
+repairs an established classification or index rule, or captures one feedback
+brief without changing the library. Ask the accountable owner
 when the decision depends on intent, rights, or authority that repository
 evidence cannot establish.
 
@@ -54,6 +60,36 @@ When the operator explicitly asks to learn a reusable workflow or preference
 from named conversations or a named date range, read
 [references/chat-evidence.md](references/chat-evidence.md). Do not mine chat
 history without that explicit source and range.
+
+## Feedback entry
+
+Use `feedback` as the entry word when the subject is a skill or its workflow.
+Direct use: "Use kata-maintain-skill: feedback on this skill." A request to
+review a report, design, or other unrelated result belongs to its own workflow.
+
+Read [references/feedback.md](references/feedback.md) for every feedback request.
+Capture the expected and observed results, relevant evidence, affected skill,
+and next owner. Distinguish a reusable defect, execution failure, stale installed
+copy, local preference, and useful behavior to preserve. Do not assume that
+feedback proves a defect. Ask only for missing information needed to make the
+feedback actionable; record unknown versions or unavailable source as unknown.
+
+Feedback alone permits inspection and a brief in the current conversation.
+It does not authorize changing a skill, updating an installed copy, storing a
+personal preference, or sending feedback elsewhere. If the operator requests
+a fix, continue through the existing finding and authoring routes below.
+
+Keep the local brief as the default result. Do not assume the operator uses
+GitHub. A local skill correction is a remedy, not a submission: explain which
+copy changed, that the maintainer was not notified and the public pack was not
+changed, and that updates may replace the edit. Account for linked sources.
+
+Offer a copyable summary before external channels. If the operator wants to
+share, use an available email address, GitHub issue, or verified feedback form.
+Do not invent a recipient or offer a planned form as available. Prepare the
+exact content and destination before the submission decision. Only explicit
+opt-in permits sending; declining leaves the local feedback complete. Do not
+create a separate feedback package.
 
 ## Select one finding
 
@@ -146,6 +182,7 @@ and subject entry that applies. Test changed activation, execution, or authority
 behavior when the finding affects it. Use static checks only for a static index
 or metadata repair. State the exact reason for any check that did not run.
 
-Report the finding, disposition, canonical owner, evidence, changed files,
-checks, and any blocker. Do not claim that the library is healthy as a whole;
-the result covers one finding only.
+Report the feedback or finding, disposition, canonical owner, evidence, changed
+files, checks, and any blocker. For feedback, distinguish a local brief, an
+unsubmitted draft, an authorized local remedy, and confirmed delivery evidence. Do not claim that the library is
+healthy as a whole; the result covers one feedback item or finding only.
