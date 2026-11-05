@@ -4,7 +4,7 @@
   "plugins": [
     {
       "name": "kata",
-      "description": "An evidence-based knowledge-work system for coding agents.",
+      "description": "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido.",
       "source": "./"
     }
   ]

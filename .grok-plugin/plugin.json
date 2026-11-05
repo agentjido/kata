@@ -1,7 +1,7 @@
 {
   "name": "kata",
   "version": "1.0.0",
-  "description": "An evidence-based knowledge-work system for coding agents.",
+  "description": "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido.",
   "author": {
     "name": "Mike Hostetler and Jason Allum"
   },

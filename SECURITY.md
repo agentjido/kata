@@ -23,7 +23,7 @@ disclosure and a fix when the issue is valid.
 
 ## Security boundary
 
-Skills are instructions for coding agents. An agent can receive broad access to
+Skills are instructions for agents. An agent can receive broad access to
 files, commands, networks, accounts, and external systems. Review each skill and
 the agent's requested actions before use. Agent Jido Kata does not grant an
 agent authority beyond the current user request and host controls.

@@ -29,6 +29,10 @@ execution: code
 
 ### Summary
 
+> Update 2026-11-05: Kata is now positioned for agentic productivity in general,
+> not only for coding agents. The marketing plan is outside this repository.
+> This plan keeps the original 1.0 contract as a dated record.
+
 Agent Jido Kata is an open knowledge-work system for coding agents. A user gives
 `$jido` a normal-language goal. Jido selects the smallest useful sequence from
 understanding through delivery and improvement. Advanced users can invoke the
@@ -460,21 +464,20 @@ additions remain present in the new locations.
 #### U5 — Add release operation and launch material
 
 - **Outcome:** A maintainer has a complete 1.0 release checklist, changelog,
-  directory decision, and demonstration-led marketing plan.
+  and directory decision. Marketing is outside this repository.
 - **Requirements:** R8-R13.
 - **Dependencies:** U2, U3, U4.
 - **Affected surfaces:** New `CHANGELOG.md`, `docs/guides/releasing.md`, and
-  `docs/plans/2026-11-04-agent-jido-kata-1-0-marketing-plan.md`; README and docs
-  index links.
+  marketing material maintained outside this repository; README and docs
+  index links. Marketing was removed from source scope on 2026-11-05 at the
+  maintainer's request.
 - **Implementation direction:** Document preflight, release change, tag, action,
   skills.sh verification or refresh request, rollback, and post-release checks.
-  The marketing plan defines audience, message, one recorded or written demo,
-  canonical GitHub announcement, channel adaptations, schedule, owner slots,
-  success measures, and a two-week feedback loop. Record skills.sh as the first
+  Record skills.sh as the first
   directory. Record `VoltAgent/awesome-agent-skills` as a later candidate after
   community-use evidence exists.
 - **Test scenarios:** A maintainer can follow the release guide without an
-  unstated command; every marketing claim is supported by 1.0 behavior; each
+  unstated command; each
   remote action has a named approval boundary.
 - **Verification:** Dry-run the local preflight through the tag check without
   creating a tag. Review the plan against the Product Contract and current
@@ -594,7 +597,8 @@ first executable unit.
 - Local validation, CI, and release workflows implement the same gates.
 - A matching tag dry run passes and a mismatch dry run fails.
 - The README, installation guide, community files, attribution, changelog,
-  release guide, and marketing plan satisfy R1-R14 with valid links.
+  and release guide satisfy their requirements with valid links. R12 and R13
+  now apply to the marketing material outside this repository.
 - A temporary source install or discovery check finds the current 20 packages
   and `jido`.
 - No Dojo run, remote change, tag, release, directory submission, or

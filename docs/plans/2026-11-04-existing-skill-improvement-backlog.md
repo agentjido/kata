@@ -65,8 +65,8 @@ coverage alone as proof.
 
 **Source evidence:**
 
-- [gstack `test-audit`](../../../references/gstack/test-audit/SKILL.md)
-- [ECC `test-collaboration`](../../../references/everything-claude-code/.agents/skills/test-collaboration/SKILL.md)
+- [gstack `test-audit`](../../../references/software-delivery/gstack/test-audit/SKILL.md)
+- [ECC `test-collaboration`](../../../references/agent-engineering/everything-claude-code/.agents/skills/test-collaboration/SKILL.md)
 
 **Implemented changes:**
 
@@ -107,8 +107,8 @@ IDE, or Electron application and can verify behavior through that harness.
 
 **Source evidence:**
 
-- [Cursor `control-cli`](../../../references/cursor-plugins/cursor-team-kit/skills/control-cli/SKILL.md)
-- [Cursor `control-ui`](../../../references/cursor-plugins/cursor-team-kit/skills/control-ui/SKILL.md)
+- [Cursor `control-cli`](../../../references/agent-engineering/cursor-plugins/cursor-team-kit/skills/control-cli/SKILL.md)
+- [Cursor `control-ui`](../../../references/agent-engineering/cursor-plugins/cursor-team-kit/skills/control-ui/SKILL.md)
 
 **Implemented changes:**
 
@@ -152,7 +152,7 @@ causal standard that it uses for a software failure.
 
 **Source evidence:**
 
-- [ECC `agent-introspection-debugging`](../../../references/everything-claude-code/.agents/skills/agent-introspection-debugging/SKILL.md)
+- [ECC `agent-introspection-debugging`](../../../references/agent-engineering/everything-claude-code/.agents/skills/agent-introspection-debugging/SKILL.md)
 
 **Implemented changes:**
 
@@ -190,7 +190,7 @@ workflow improvement without treating one comment as a stable preference.
 
 **Source evidence:**
 
-- [Cursor `workflow-from-chats`](../../../references/cursor-plugins/cursor-team-kit/skills/workflow-from-chats/SKILL.md)
+- [Cursor `workflow-from-chats`](../../../references/agent-engineering/cursor-plugins/cursor-team-kit/skills/workflow-from-chats/SKILL.md)
 
 **Implemented changes:**
 
@@ -229,8 +229,8 @@ cases, suitable graders, repeated runs, and visible uncertainty.
 
 **Source evidence:**
 
-- [ECC `eval-harness`](../../../references/everything-claude-code/.agents/skills/eval-harness/SKILL.md)
-- [K-Dense `experimental-design`](../../../references/scientific-agent-skills/skills/experimental-design/SKILL.md)
+- [ECC `eval-harness`](../../../references/agent-engineering/everything-claude-code/.agents/skills/eval-harness/SKILL.md)
+- [K-Dense `experimental-design`](../../../references/science-and-research/scientific-agent-skills/skills/experimental-design/SKILL.md)
 
 **Implemented changes:**
 
@@ -273,8 +273,8 @@ server.
 
 **Source evidence:**
 
-- [ECC `mcp-dependency-review`](../../../references/everything-claude-code/.agents/skills/mcp-dependency-review/SKILL.md)
-- [Addy Osmani `security-and-hardening`](../../../references/addyosmani-agent-skills/skills/security-and-hardening/SKILL.md)
+- [ECC `mcp-dependency-review`](../../../references/agent-engineering/everything-claude-code/.agents/skills/mcp-dependency-review/SKILL.md)
+- [Addy Osmani `security-and-hardening`](../../../references/agent-engineering/addyosmani-agent-skills/skills/security-and-hardening/SKILL.md)
 
 **Implemented changes:**
 
@@ -312,7 +312,7 @@ and `kata-verify` can check the resulting claims and source coverage.
 
 **Source evidence:**
 
-- [K-Dense `literature-review`](../../../references/scientific-agent-skills/skills/literature-review/SKILL.md)
+- [K-Dense `literature-review`](../../../references/science-and-research/scientific-agent-skills/skills/literature-review/SKILL.md)
 
 **Implemented changes:**
 

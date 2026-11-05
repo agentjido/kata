@@ -8,6 +8,21 @@ This file records material changes to Agent Jido Kata.
 
 - `kata-explainer` for source-checked technical explainer production with a
   bundled default dark spatial-board visual profile.
+- `kata-security` for security guidance and source-first security audits.
+- An optional `jido-local` extension point so that an operator can add private
+  Jido routes from a separate package.
+- A release check that keeps local skill packages out of this repository.
+
+### Changed
+
+- Kata is now positioned for agentic productivity in general, not only for
+  coding agents.
+- The README is shorter. The skill list moved to the package guide, and host
+  details moved to a host compatibility reference.
+
+### Removed
+
+- The marketing plan. Marketing material is kept outside this repository.
 
 ## [1.0.0] - 2026-11-04
 

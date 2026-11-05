@@ -1,10 +1,18 @@
 # Documentation
 
-Use the [Docs Kata rules](AGENTS.md) to collect, review, and maintain documents.
-The [inbox and intake log](inbox/README.md) record source material and its
-disposition.
+## Start here
 
-Last reviewed: 2026-11-04
+1. [Install Kata](guides/installation.md) with `npx skills`.
+2. [Give Jido a task](../README.md#give-jido-a-task).
+3. [Browse the skills](../skills/README.md#skill-list).
+
+See [host compatibility](reference/host-compatibility.md) for advanced install
+options. The sections below contain project and maintenance records.
+
+Use the [Docs Kata rules](AGENTS.md) for documentation changes. The
+[inbox and intake log](inbox/README.md) record source material.
+
+Last reviewed: 2026-11-05 (entry links; dated project records retained)
 
 ## Current state
 
@@ -35,8 +43,6 @@ that a document has been verified.
 - [Public 1.0 release plan](plans/2026-11-04-1504-idea-public-1-0-release-plan.md):
   product and implementation contract for legal, package, release, directory,
   README, and launch preparation.
-- [Public 1.0 marketing plan](plans/2026-11-04-agent-jido-kata-1-0-marketing-plan.md):
-  positioning, demonstration, directory strategy, launch schedule, and measures.
 
 - [Jido skills migration backlog](plans/jido-skills-migration-backlog.md):
   remaining verification and the archive gate for `agentjido/jido-skills`.
@@ -70,8 +76,9 @@ added the repeated technical-video production method.
 
 ## Evaluation reference
 
-- [Installation guide](guides/installation.md): primary and host-specific
-  installation paths and compatibility limits.
+- [Installation guide](guides/installation.md): first use through `npx skills`.
+- [Host compatibility](reference/host-compatibility.md): advanced host instructions
+  and package details.
 - [Release guide](guides/releasing.md): version, validation, tag, GitHub Release,
   directory, and recovery process.
 - [Attribution](reference/attribution.md): current sources, adaptations, and

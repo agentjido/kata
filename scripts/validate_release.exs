@@ -1,6 +1,6 @@
 defmodule Kata.ReleaseValidator do
   @root Path.expand("..", __DIR__)
-  @description "An evidence-based knowledge-work system for coding agents."
+  @description "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido."
   @semver ~r/^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/
   @identifier ~r/^[a-z0-9]+(?:-[a-z0-9]+)*$/
   @allowed_frontmatter ~w(name description license compatibility metadata allowed-tools)
@@ -89,6 +89,7 @@ defmodule Kata.ReleaseValidator do
     |> validate_manifests(version)
     |> validate_required_files()
     |> validate_skills()
+    |> validate_public_boundary()
     |> validate_markdown_links()
   end
 
@@ -139,6 +140,22 @@ defmodule Kata.ReleaseValidator do
         [] -> acc
         skill_errors -> Enum.reduce(skill_errors, acc, &[&1 | &2])
       end
+    end)
+  end
+
+  defp validate_public_boundary(errors) do
+    @root
+    |> Path.join("skills/*")
+    |> Path.wildcard()
+    |> Enum.reduce(errors, fn path, acc ->
+      name = Path.basename(path)
+
+      acc
+      |> require(name != "jido-local", "skills/#{name}: local package in public repository")
+      |> require(
+        match?({:ok, %File.Stat{type: type}} when type != :symlink, File.lstat(path)),
+        "skills/#{name}: symbolic link in public repository"
+      )
     end)
   end
 

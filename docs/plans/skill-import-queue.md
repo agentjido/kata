@@ -11,12 +11,12 @@ This queue uses only these local reference sources:
 
 | Source | Snapshot | Skill entries reviewed | License |
 | --- | --- | ---: | --- |
-| [Compound Engineering](../../../references/compound-engineering-plugin/skills/) | `406b85c4562de3d415927fccc5e614c6554aab00` | 37 | MIT, Copyright Every |
-| [Original pstack](../../../references/cursor-plugins/pstack/skills/) | Cursor plug-ins snapshot `6ea74587e384e1a8035c09ae33a46fe3f881eb9b` | 58 | MIT, Copyright Lauren Tan |
-| [Portable pstack](../../../references/pstack/skills/) | `7f2d936bba86c2c512c4ad83e759752f4f065b7c` | 53 | MIT, Copyright Lauren Tan |
-| [Matt Pocock skills](../../../references/mattpocock-skills/skills/) | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | 39 | MIT, Copyright Matt Pocock |
-| [Addy Osmani agent skills](../../../references/addyosmani-agent-skills/skills/) | `301b02b12bff98e4688e6984af6556802322bbde` | 25 | MIT, Copyright Addy Osmani |
-| [Superpowers](../../../references/superpowers/skills/) | `22f0b463e7a5e579904dd6211a520321035526f7` | 15 | MIT, Copyright Jesse Vincent |
+| [Compound Engineering](../../../references/agent-engineering/compound-engineering-plugin/skills/) | `406b85c4562de3d415927fccc5e614c6554aab00` | 37 | MIT, Copyright Every |
+| [Original pstack](../../../references/agent-engineering/cursor-plugins/pstack/skills/) | Cursor plug-ins snapshot `6ea74587e384e1a8035c09ae33a46fe3f881eb9b` | 58 | MIT, Copyright Lauren Tan |
+| [Portable pstack](../../../references/agent-engineering/pstack/skills/) | `7f2d936bba86c2c512c4ad83e759752f4f065b7c` | 53 | MIT, Copyright Lauren Tan |
+| [Matt Pocock skills](../../../references/agent-engineering/mattpocock-skills/skills/) | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | 39 | MIT, Copyright Matt Pocock |
+| [Addy Osmani agent skills](../../../references/agent-engineering/addyosmani-agent-skills/skills/) | `301b02b12bff98e4688e6984af6556802322bbde` | 25 | MIT, Copyright Addy Osmani |
+| [Superpowers](../../../references/agent-engineering/superpowers/skills/) | `22f0b463e7a5e579904dd6211a520321035526f7` | 15 | MIT, Copyright Jesse Vincent |
 
 The pstack counts include 24 small principle skills. The original collection
 also has host-specific packages that the portable fork omits. The Matt Pocock count includes eight skills under
