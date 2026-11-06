@@ -29,6 +29,10 @@ jobs:
       - name: Validate tagged source
         run: elixir scripts/validate_release.exs --tag "$GITHUB_REF_NAME"
 
+      - name: Read package version
+        id: package
+        run: echo "version=$(node --print 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+
       - name: Check script formatting
         run: mix format --check-formatted scripts/*.exs
 
@@ -36,14 +40,16 @@ jobs:
         run: elixir skills/catalog.exs --check
 
       - name: Extract release notes
-        run: elixir scripts/release_notes.exs "$(cat VERSION)" > "$RUNNER_TEMP/release-notes.md"
+        env:
+          RELEASE_VERSION: ${{ steps.package.outputs.version }}
+        run: elixir scripts/release_notes.exs "$RELEASE_VERSION" > "$RUNNER_TEMP/release-notes.md"
 
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.package.outputs.version }}
         run: |
-          version="$(cat VERSION)"
           gh release create "$GITHUB_REF_NAME" \
             --verify-tag \
             --notes-file "$RUNNER_TEMP/release-notes.md" \
-            --title "Agent Jido Kata ${version}"
+            --title "Agent Jido Kata ${RELEASE_VERSION}"

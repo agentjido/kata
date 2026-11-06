@@ -12,10 +12,14 @@ Otherwise use the forge CLI with a bounded wait. Observe:
 - new review comments that require an accountable decision; and
 - whether the head commit changed since verification.
 
-Do not report unchanged state unless the user asked for periodic updates. Stop
-when checks pass, a failure needs repair, a review needs a decision, the head
-changes, or the requested bound is reached. A changed head invalidates evidence
-that named the old commit.
+Do not report unchanged state unless the user asked for periodic updates. For
+observation-only work, stop when checks pass, a failure needs repair, a review
+needs a decision, the head changes, or the requested bound is reached. A changed
+head invalidates evidence that named the old commit.
+
+If authorized follow-through includes repair, pause observation, send the failed
+condition to its work owner, verify the repaired head, and resume the selected
+delivery route. Keep the original delivery target and resource limit.
 
 ## Land
 

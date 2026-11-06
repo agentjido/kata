@@ -155,3 +155,8 @@ You may use one of these, you may use several, it is unlikely you will use all o
 Check every label, path, relationship, and number against the source context.
 Confirm that the chosen form is smaller than an equivalent prose explanation
 and that any saved artifact exists before you link it.
+
+Correct unsupported labels, broken output, and missing artifacts, then check
+again. If the selected tool fails, use another visual form only when it still
+answers the request. Report limits. Do not invent data or claim that a missing
+artifact was delivered.

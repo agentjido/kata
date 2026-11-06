@@ -87,6 +87,9 @@ Use `artifact_readiness: implementation-ready` only when:
 - no missing fact can change architecture, data safety, public contracts, or
   the first executable unit.
 
+Repair in-scope plan defects and repeat affected checks before setting
+readiness.
+
 Otherwise use `artifact_readiness: planning-blocked`. List each blocker, owner,
 affected sections, and the next action that can resolve it. A detailed blocked
 plan is useful, but it is not implementation-ready.

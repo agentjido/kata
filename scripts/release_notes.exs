@@ -9,7 +9,7 @@ defmodule Kata.ReleaseNotes do
     end
   end
 
-  def run(_args), do: fail("usage: elixir scripts/release_notes.exs VERSION")
+  def run(_args), do: fail("usage: elixir scripts/release_notes.exs <version>")
 
   defp print_notes(version) do
     changelog = File.read!(Path.expand("../CHANGELOG.md", __DIR__))

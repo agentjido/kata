@@ -28,7 +28,10 @@ and unrelated work remains unchanged.
 The required inputs are one Git repository, one verified change, its scope, and
 a delivery request. Verification must apply to the exact source state that will
 be delivered. This skill does not implement or repair the change. A failed or
-stale check returns to the work owner.
+stale check returns to the work owner. When the request includes authorized
+repair follow-through, retain the delivery target across that handoff and
+resume after verification applies to the repaired state. Otherwise return the
+exact failed condition and next owner without claiming delivery is complete.
 
 The request sets the highest permitted route:
 
@@ -93,7 +96,9 @@ Before any commit or push:
 - inspect the diff for unrelated content, generated noise, credentials, tokens,
   personal data, and access-bearing URLs;
 - preserve existing user staging and all unrelated files; and
-- stop when a required check fails or the scope cannot be isolated.
+- pause delivery when a required check fails, return it to the work owner, and
+  resume only after verification applies to the current state. Stop when the
+  scope cannot be isolated.
 
 Do not hide a failed check in the pull request description. Do not weaken a
 hook, assertion, or branch rule to make delivery pass.
@@ -129,7 +134,10 @@ Land.
 
 Watching is complete at the user's requested stop condition: all required
 checks finish, a failure needs work, review needs a decision, or a defined time
-or iteration limit is reached. Stay quiet while state is unchanged unless the
+or iteration limit is reached. When the request also includes repair and
+continued follow-through, coordinate that work through its owner and resume
+observation at the verified new head. Do not infer repair or merge authority
+from observation alone. Stay quiet while state is unchanged unless the
 user asked for periodic updates.
 
 Landing requires current evidence that the intended pull request is mergeable,

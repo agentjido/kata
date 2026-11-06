@@ -13,8 +13,7 @@ This file records material changes to Agent Jido Kata.
   direction, planning, implementation, verification, delivery, documentation,
   security, and Elixir work.
 - Agent Skills, Claude, Codex, Cursor, Grok, and Pi package metadata.
-- Apache-2.0 project licensing, contribution guidance, a security policy, and a
-  code of conduct.
+- Apache-2.0 project licensing, contribution guidance, and a code of conduct.
 - `kata-tutor` for adaptive agentic-leadership teaching through real work.
 - `kata-scope` for bounded, portable work briefs.
 - `kata-delegate` for clear assignments and check, watch, or drive follow-through.
@@ -25,7 +24,7 @@ This file records material changes to Agent Jido Kata.
 - A changelog-driven, tag-based GitHub Release workflow.
 - A shared Jido pull request review that reports conventional commit titles and
   workflow risks.
-- A public privacy statement and installation trust guidance.
+- Installation trust guidance.
 
 ### Changed
 

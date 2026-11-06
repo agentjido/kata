@@ -21,7 +21,12 @@ Select one mode from the request. State the mode before supervision begins.
 - Use the host's wait or notification mechanism when available. Do not create a
   recurring automation or background service for a finite active assignment.
 - Check whether an uncertain submission or start succeeded before retrying.
-- Stop after an unchanged failure. Report the failure and the decision needed.
+- In `drive`, do not retry an unchanged failure. Select another authorized
+  approach. Stop at a checked return, an explicit review point, cancellation,
+  a resource limit, or a specific blocker. Do not broaden `check` or `watch`
+  into repair.
+- A checked return completes the delegated unit. The integration owner keeps
+  responsibility for any larger requested outcome.
 
 Report the last observed state, new evidence, stop reason, and next owner. Do
 not report unchanged polls as progress.

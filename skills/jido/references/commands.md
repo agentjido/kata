@@ -50,8 +50,11 @@ already selects a route.
    only when the user's requested result and authority include it.
 3. Without an explicit step, select the first unresolved contract in
    `loops.md`. Never infer Dojo as that step.
-4. Re-evaluate after every step. Stop for an accountable decision, missing
-   authority, failed gate, or completed requested result.
+4. Re-evaluate against the whole request after every step. Return a failed gate
+   to its repair owner within the granted authority, then verify again. Stop at
+   the requested result, an explicit review point, cancellation, an execution
+   limit, or an unavailable decision, authority, capability, or dependency that
+   prevents further authorized progress.
 5. Do not make the human repeat the request with an internal term.
 
 `$jido feedback ...` selects the feedback entry in `maintain-skill` when the

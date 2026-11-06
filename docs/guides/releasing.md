@@ -10,10 +10,10 @@ maintainer authority.
 
 ## Release contract
 
-- `VERSION` is the canonical semantic version.
-- All six versioned manifests must equal `VERSION`.
-- `CHANGELOG.md` must have a dated section for `VERSION`.
-- A release tag is `v<VERSION>`.
+- `package.json` contains the canonical semantic version.
+- The other five versioned manifests must match `package.json`.
+- `CHANGELOG.md` must have a dated section for that version.
+- A release tag is `v<version>`.
 - A release tag must be annotated and must point to the reviewed release source.
 - A tag creates a GitHub Release from its changelog section only after
   validation passes.
@@ -25,18 +25,20 @@ maintainer authority.
 ## Prepare the release change
 
 1. Confirm the worktree and preserve unrelated changes.
-2. Update `VERSION`, all versioned manifests, and `CHANGELOG.md`.
+2. Update the version in `package.json`, the other five versioned manifests,
+   and `CHANGELOG.md`.
 3. Confirm that the changelog date is the intended release date.
-4. Review the README, installation guide, license, notice, and attribution.
+4. Review the README, installation guide, license, and attribution.
 5. Run the same Elixir release validator used by CI.
 
 Run the repository checks from the repository root:
 
 ```sh
+version="$(node --print 'require("./package.json").version')"
 elixir scripts/validate_release.exs
 elixir skills/catalog.exs --check
-elixir scripts/validate_release.exs --tag "v$(cat VERSION)"
-elixir scripts/release_notes.exs "$(cat VERSION)"
+elixir scripts/validate_release.exs --tag "v${version}"
+elixir scripts/release_notes.exs "${version}"
 ```
 
 Use a Conventional Commit title for the pull request, such as
@@ -52,7 +54,7 @@ that tool.
 With explicit authority, create and push an annotated matching tag:
 
 ```sh
-version="$(cat VERSION)"
+version="$(node --print 'require("./package.json").version')"
 git tag -a "v${version}" -m "Agent Jido Kata ${version}"
 git push origin "v${version}"
 ```
@@ -61,8 +63,9 @@ The `Release` workflow validates the tagged source and extracts its notes from
 the matching `CHANGELOG.md` section. It does not run Dojo. Confirm the result:
 
 ```sh
+version="$(node --print 'require("./package.json").version')"
 gh run list --workflow Release --limit 5
-gh release view "v$(cat VERSION)"
+gh release view "v${version}"
 ```
 
 Do not move a published release tag. If released source is wrong, stop the

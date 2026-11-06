@@ -480,8 +480,7 @@ defmodule DeadCode.CLI do
 
     manifest =
       if File.exists?(manifest_path) do
-        {m, _} = Code.eval_file(manifest_path)
-        m
+        load_manifest!(manifest_path)
       else
         %{roots: [], public_api: []}
       end
@@ -537,6 +536,42 @@ defmodule DeadCode.CLI do
       emit_text(graph, clusters, test_index, unused_public, dead_fns, roots, live)
     end
   end
+
+  # Parse only the roots data format. Never evaluate project configuration.
+  defp load_manifest!(path) do
+    with {:ok, {:%{}, _, entries}} <-
+           Code.string_to_quoted(File.read!(path), existing_atoms_only: true),
+         true <- valid_manifest_entries?(entries) do
+      Map.new(entries)
+    else
+      _ ->
+        raise ArgumentError,
+              "Invalid roots file: #{path}. Expected a literal map. Optional keys are " <>
+                "public_api: [\"path\"] and roots: [{\"path or glob\", \"reason\"}]. " <>
+                "Use each key at most once. Code expressions are not allowed."
+    end
+  end
+
+  defp valid_manifest_entries?(entries) do
+    if Enum.all?(entries, &valid_manifest_entry?/1) do
+      keys = Enum.map(entries, &elem(&1, 0))
+      Enum.uniq(keys) == keys
+    else
+      false
+    end
+  end
+
+  defp valid_manifest_entry?({:public_api, paths}) when is_list(paths),
+    do: Enum.all?(paths, &is_binary/1)
+
+  defp valid_manifest_entry?({:roots, roots}) when is_list(roots) do
+    Enum.all?(roots, fn
+      {path, reason} when is_binary(path) and is_binary(reason) -> true
+      _ -> false
+    end)
+  end
+
+  defp valid_manifest_entry?(_), do: false
 
   # A declared root may be a glob, so a whole dynamically-dispatched family
   # (the order state workers, the per-context `events.ex`) is one manifest entry

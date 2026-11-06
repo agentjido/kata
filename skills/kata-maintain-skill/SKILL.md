@@ -17,11 +17,11 @@ metadata:
 **Outcome:** One actionable feedback brief or resolved library finding, with the
 next owner and any permitted change clear.
 
-**Done:** Exactly one feedback item or finding has a disposition supported by
-evidence or an explicit evidence gap. Feedback ends in a local brief, a shareable
-draft, or a confirmed submission under explicit authority. When the operator
-requests a fix, the permitted change is complete and verified. When the operator also requests a commit, the commit workflow reports
-its result. Unrelated library concerns remain unchanged.
+**Done:** Exactly one feedback item or finding has a supported disposition or
+an explicit evidence gap. Feedback ends in a local brief, shareable draft, or
+confirmed authorized submission. A requested fix is complete and verified; a
+handoff, failed check, or evidence gap does not complete it. A requested commit
+workflow also reports its result. Unrelated concerns remain unchanged.
 
 ## Assignment
 
@@ -103,6 +103,12 @@ current callers. Select one issue with:
 - evidence in specific files or observed behavior; and
 - a remedy that fits the granted authority.
 
+If the finding concerns an early stop or incomplete follow-through, compare it
+with the canonical continuation rules. Check recovery, unchanged retries,
+completion claims, scope, authority, review points, and resource limits. One
+finding can affect several packages when they share the same cause and the
+requested scope includes them.
+
 Prefer the finding with the highest likely harm and strongest evidence, then
 prefer the smaller remedy. Do not select a style preference, a speculative gap,
 or an issue that requires a broad audit to prove.
@@ -164,12 +170,18 @@ one.
 
 ## Complete the requested loop
 
-When the operator requested a fix, do not report a Route disposition as complete
-until the writing handoff is verified or has an explicit blocker.
+When the operator requests a fix, a disposition or authoring brief is not
+completion. Finish and verify the change. Repair failed checks within the
+selected finding and authority, and change the approach when evidence rejects
+the current one. Stop at an explicit review point, cancellation, a resource
+limit, or an unavailable decision, authority, capability, or dependency that
+prevents progress. Report the unmet condition, recovery attempted, and next
+owner. Feedback-only and report-only requests end at the requested brief or
+finding.
 
 When the operator also requested a commit, pass the verified change to the
-canonical delivery workflow. In Kata, use `kata-shipit` in Commit mode. Do not stage or commit
-inside this skill. Report the returned commit hash or blocker.
+canonical delivery workflow. In Kata, use `kata-shipit` in Commit mode. Do not
+stage or commit inside this skill. Report the returned commit hash or blocker.
 
 Produce `verified-change` only when this invocation leaves a verified local
 library mutation. A report-only, rejected, deferred, or routed finding does not

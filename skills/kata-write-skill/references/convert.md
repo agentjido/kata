@@ -12,6 +12,8 @@ when a canonical skill needs a bounded revision.
 3. Map the existing behavior to the reusable work specification in
    `library-contract.md`. Preserve useful behavior. Remove duplication and
    accidental host assumptions. Do not change scope only to fit the template.
+   Check early handoffs, failed-check branches, and retry limits against the
+   continuation rules. Preserve review points, authority, and resource limits.
 4. Identify participant roles only when their authority or relationship matters.
    Separate the reusable skill boundaries from authority granted by a specific
    invocation.

@@ -1,6 +1,10 @@
 # Declared roots for the transitive dead-code analyzer.
 # This bundled file is a template.
 # Save project entries in the target repository and select it with --roots FILE.
+# Keep a literal map. Its optional keys are public_api paths and roots
+# {path, reason} pairs. Use each key at most once and use only strings.
+# Comments and path globs are supported.
+# Code expressions, including function calls and interpolation, are rejected.
 #
 # A root is code reachable from outside this repository -- by a downstream user,
 # by the BEAM, by a CLI, or by runtime wiring no static analysis can follow.

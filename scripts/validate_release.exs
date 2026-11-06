@@ -57,7 +57,7 @@ defmodule Kata.ReleaseValidator do
 
     case errors do
       [] ->
-        version = read!("VERSION") |> String.trim()
+        version = version!()
         skill_count = @root |> Path.join("skills/*/SKILL.md") |> Path.wildcard() |> length()
         IO.puts("Validated Agent Jido Kata #{version}: #{skill_count} skills")
         if options[:tag], do: IO.puts("Validated release tag: #{options[:tag]}")
@@ -76,16 +76,16 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp validate_repository(errors, tag) do
-    version = read!("VERSION") |> String.trim()
+    version = version!()
 
     errors
     |> require(
       Regex.match?(@semver, version),
-      "VERSION: invalid semantic version #{inspect(version)}"
+      "package.json: invalid semantic version #{inspect(version)}"
     )
     |> require(
       is_nil(tag) or tag == "v#{version}",
-      "tag #{inspect(tag)} does not match VERSION #{inspect(version)}"
+      "tag #{inspect(tag)} does not match package.json version #{inspect(version)}"
     )
     |> validate_manifests(version)
     |> validate_changelog(version)
@@ -171,7 +171,7 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp validate_required_files(errors) do
-    required = ["LICENSE", "NOTICE", "VERSION" | @required_licenses]
+    required = ["LICENSE" | @required_licenses]
 
     Enum.reduce(required, errors, fn path, acc ->
       require(acc, File.regular?(Path.join(@root, path)), "missing required file: #{path}")
@@ -324,7 +324,7 @@ defmodule Kata.ReleaseValidator do
 
   defp markdown_files do
     root_files =
-      ~w(README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md PRIVACY.md CODE_OF_CONDUCT.md)
+      ~w(README.md CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md)
       |> Enum.map(&Path.join(@root, &1))
       |> Enum.filter(&File.regular?/1)
 
@@ -357,6 +357,7 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp json!(path), do: path |> read!() |> JSON.decode!()
+  defp version!, do: json!("package.json") |> Map.fetch!("version")
   defp read!(path), do: File.read!(Path.join(@root, path))
   defp relative(path), do: Path.relative_to(path, @root)
   defp require(errors, true, _message), do: errors

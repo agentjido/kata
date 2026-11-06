@@ -66,6 +66,10 @@ Any change to the candidate, task inputs, prompt, support files, profile, or
 execution settings invalidates execution comparability. A checker repair can
 reassess saved output, but it is not a new execution.
 
+Within the approved budget, repair evaluation setup failures and rerun affected
+cases without changing the candidate or evaluation contract. Report a missing
+capability or exhausted budget as a blocker.
+
 When the target repository contains the Kata Dojo runner, read
 [references/kata-runner.md](references/kata-runner.md) before using it. If no
 compatible runner exists, return the missing capability or prepare a separate

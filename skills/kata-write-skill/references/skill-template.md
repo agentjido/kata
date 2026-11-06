@@ -15,15 +15,15 @@ metadata:
   object: <primary-object>
   profile: <work-profile>
   authority: <action-class>
-  consumes: [<input-type>]
-  produces: [<output-type>]
+  consumes: "<input-type>"
+  produces: "<output-type>"
 ---
 
 # <Skill Name>
 
 **Outcome:** <result> for <next consumer>.
 
-**Done:** <one observable completion condition or explicit blocker>.
+**Done:** <one observable condition that proves the assigned result is complete>.
 
 ## Assignment
 
@@ -35,12 +35,13 @@ metadata:
 ## Work
 
 <Required context and falsifiable protocol. Leave valid implementation choices
-to judgment. Put conditional detail behind a pointer at its decision point.>
+to judgment. State what happens after a failed check and when work must stop.
+Put conditional detail behind a pointer at its decision point.>
 
 ## Verify
 
 <Mechanical checks and behavioral evidence required by the risk and reach of
-this skill. State the exact result or blocker.>
+this skill. State the exact result or unmet condition.>
 ```
 
 Before completion, confirm that each metadata value agrees with the skill

@@ -6,12 +6,21 @@ instruction to add and where to put it.
 ## Start with the outcome
 
 Write the result, next consumer, and one observable done condition before any
-workflow. Include intent only when it changes the approach. Every route ends in
-a result, required question, routed action, or explicit blocker.
+workflow. Include intent only when it changes the approach. Distinguish the
+completed assigned result from an intermediate step, handoff, or blocked result.
 
 Use conditions instead of case lists. State the property that decides behavior.
 Keep a list only when every item is required coverage. Add a local done check
 only at an unsafe or fragile transition.
+
+## Make continuation explicit
+
+Apply the continuation rules in `library-contract.md`. Place the next recovery
+action at the failure branch that needs it. Remove unconditional stops at
+recoverable failures and do not make a handoff complete a larger request.
+Keep genuine authority gates, review points, read-only boundaries, and resource
+limits. Add only the rules needed by this skill's role; do not copy a generic
+autonomous loop into every package.
 
 ## Separate protocol from judgment
 
@@ -83,6 +92,10 @@ Select behavioral checks for the largest risks introduced by the change:
    risk;
 4. a capable layer when added prose can reduce judgment or restraint; and
 5. the next consumer's ability to use the result without clarification.
+
+When continuation or stopping behavior changes, check a recoverable failure,
+an unchanged failure that needs a new approach, and a real authority or resource
+limit. Confirm that report-only requests and verifier independence still hold.
 
 Use an isolated boundary for side effects. Size the checks to the skill's reach,
 mutation risk, and contract change. Record the exact skip reason for a required

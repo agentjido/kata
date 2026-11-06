@@ -187,6 +187,10 @@ In full audit mode, follow all six phases in order:
 
 Do not end the run before one of exactly two terminal states: (a) all Phase 6 artifacts are written and both validators pass, or (b) `run_status: "incomplete"` is recorded with its exact reason and the gap is disclosed in the report. Never stop mid-phase.
 
+In full audit mode, reassign incomplete worker returns and repair invalid output
+records within the selected profile and budget. If capability or budget prevents
+recovery, record the run as incomplete with the exact gap and recovery attempted.
+
 ## Anti-patterns
 
 1. Checklist deviations presented as vulnerabilities.

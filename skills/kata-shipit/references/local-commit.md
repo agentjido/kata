@@ -18,8 +18,10 @@ known.
 7. Write a concise imperative message that matches repository conventions.
 8. Commit only the named paths. Do not absorb unrelated paths that were already
    staged.
-9. If a hook fails or changes files, stop and inspect the new state. Do not
-   bypass the hook or retry automatically.
+9. If a hook fails or changes files, pause the commit and inspect the new state.
+   Return any required repair to its work owner. Resume only after the repair
+   is complete and verification applies to the current staged state. Do not
+   bypass the hook or retry an unchanged failure.
 10. Verify each new hash, subject, changed path list, and the remaining worktree
     state.
 

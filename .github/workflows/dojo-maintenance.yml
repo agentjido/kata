@@ -25,7 +25,8 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    # Dojo access tests use the macOS sandbox-exec command.
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: dojo

@@ -15,6 +15,7 @@ Limits: <time, calls, cost, tools, or other relevant limits>
 Done when: <completion checks and evidence>
 Return with: <result, evidence, changes, risks, and open questions>
 Report when: <progress point, blocker, decision limit, or failure>
+Recovery: <next authorized action and repair owner when separate>
 Stop when: <completion, blocker, limit, cancellation, or other condition>
 ```
 

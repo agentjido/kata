@@ -8,13 +8,20 @@ Read a package's `SKILL.md` before its support files. The frontmatter in that
 file is the canonical source for the package name, selection description, and
 classification metadata.
 
+Each skill owns its assigned result. Jido owns the requested outcome across
+selected skills. It returns failed checks to the correct owner and continues
+within the granted authority. Report-only requests, review points, and resource
+limits remain valid boundaries. The skill-writing
+[library contract](kata-write-skill/references/library-contract.md) owns these
+continuation rules for new and maintained packages.
+
 ## Skill list
 
 ### Primary workflow
 
 | Skill | Result |
 | --- | --- |
-| `jido` | Route an explicit `$jido` goal to the smallest valid sequence. |
+| `jido` | Carry an explicit `$jido` goal through the smallest necessary sequence to a supported result. |
 | `kata-understand` | Establish the current condition with evidence. |
 | `kata-plan` | Create a grounded software implementation plan. |
 | `kata-work` | Produce one candidate result from ready work. |

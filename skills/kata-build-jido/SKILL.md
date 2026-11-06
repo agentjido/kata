@@ -142,6 +142,11 @@ Run the focused test first. Run concurrency tests more than once. Then run the
 repository's documented checks. When no stronger command is documented, run
 the applicable focused test, `mix compile --warnings-as-errors`, and `mix test`.
 
+Fix failures caused by the change and rerun the affected checks. Before you
+retry an unchanged failure, investigate its cause or select another in-scope
+approach. If a required check cannot run within the assignment limits, report
+the unmet condition and the recovery attempted.
+
 Report the contract, selected Jido boundary, state and effect choices, test
 layers, commands, offline or live provider use, and each API assumption that
 you could not verify.

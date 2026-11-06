@@ -55,8 +55,13 @@ can supply relevant evidence.
 3. Re-evaluate the next unresolved contract.
 4. Continue only when the requested outcome and authority include the next
    phase.
-5. Stop when the result is supported, an accountable decision is required, or
-   a specific blocker prevents further in-scope progress.
+5. After a failed check, use an authorized repair or another evidence-based
+   approach, then check again. Do not repeat an unchanged failure or lower the
+   completion bar.
+6. Continue required in-scope work. Stop when the requested result is supported,
+   a stated limit is reached, or an unavailable decision, authority, capability,
+   or dependency prevents further authorized progress. Report the unmet
+   condition and the recovery attempted.
 
 Do not add a long generic workflow. Use the host's normal tools and the
 repository's existing checks.
