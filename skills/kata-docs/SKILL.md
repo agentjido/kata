@@ -120,6 +120,11 @@ and affected fixed-path consumer. Run the narrowest existing documentation
 check that applies; do not install a checker. Inspect the final diff and confirm
 that a repeat will not duplicate setup sections, moves, records, or index links.
 
+For an edit request, fix in-scope document, link, index, and intake defects,
+then rerun the affected checks. Do not change code. Route unresolved content
+decisions to their owners. Respect check-only requests and report each unmet
+condition.
+
 Report the selected operation, target root, created, moved, and updated files,
 evidence checked, exceptions, unresolved items, and commands run. Name any
 content route that still needs planning or an accountable decision.

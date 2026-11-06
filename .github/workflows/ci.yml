@@ -21,11 +21,17 @@ jobs:
           otp-version: "28.1"
           elixir-version: "1.20.4"
 
+      - name: Validate pull request title
+        if: github.event_name == 'pull_request'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: elixir scripts/validate_conventional_commit.exs "$PR_TITLE"
+
       - name: Validate repository
         run: elixir scripts/validate_release.exs
 
-      - name: Check validator formatting
-        run: mix format --check-formatted scripts/validate_release.exs
+      - name: Check script formatting
+        run: mix format --check-formatted scripts/*.exs
 
       - name: Validate Kata catalog
         run: elixir skills/catalog.exs --check

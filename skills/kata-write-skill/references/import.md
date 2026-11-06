@@ -44,5 +44,9 @@ source, author, source path, exact revision, license, and local changes in the
 target attribution document. In Kata, record author attribution in `README.md`,
 not in `SKILL.md`.
 
+Remove instructions that repeat unchanged failures, end before an authorized
+recovery is complete, or expand scope in the name of autonomy. Preserve review
+points and resource limits.
+
 Verify naming, links, resources, notices, attribution, safety changes, and the
 observable outcome. A blocked preflight must leave the target unchanged.

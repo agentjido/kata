@@ -13,8 +13,26 @@ conditional. Do not create empty sections to display the contract.
 | Done | One observable skill-level completion condition. |
 | Intent | A non-obvious purpose, only when it changes the approach. |
 
-Every route must end in a result, required question, routed action, or explicit
-blocker.
+Every route must produce its assigned result or report the exact unmet
+condition. A question, routed action, or blocker completes the assignment only
+when it is the assigned result.
+
+### Continue within the assignment
+
+Continue while an authorized action can advance or verify the assigned result.
+After a failed check or incomplete return, gather evidence, repair within the
+assigned scope and authority, or change the approach. Retry only with new
+evidence or a different approach. Do not lower the acceptance bar.
+
+Resolve only discovered work that is needed for the assigned result and stays
+within scope and authority. Coordinators own integration across handoffs.
+Workers own their assigned result. Verifiers return failures to the repair
+owner and do not edit the candidate. A report, review, plan, or brief can be
+the complete assigned result. It does not authorize later execution.
+
+Stop at completion, an explicit review point, cancellation, a resource limit,
+or an unavailable decision, authority, capability, or dependency that prevents
+progress. Report the unmet condition and the recovery attempted.
 
 ## 2. Activation contract
 
@@ -33,7 +51,7 @@ blocker.
 | Protocol | Falsifiable fields, gates, order, counts, scope, evidence, coverage, failure, and handoff rules. |
 | Judgment | Valid choices left to the executor, plus only demonstrated guidance. |
 | Capability | Specialist knowledge and methods needed to judge the work. |
-| Failure direction | The safe result when a required input, capability, permission, or check is unavailable. |
+| Failure direction | The next authorized action after failure, a repair owner when separate, and the exact stop condition. |
 
 ## 4. Authority contract
 
@@ -157,7 +175,7 @@ pointer that states when to read it. Keep each rule in one authoritative place.
 | --- | --- |
 | Mechanical | Frontmatter, names, paths, links, stable fields, scripts, licenses, packaging, and taxonomy metadata that apply. |
 | Behavioral | Targeted checks for changed activation, execution, authority, restraint, or consumer behavior. Conditional on change risk. |
-| Completion | Exact results, untested behavior, and blockers. |
+| Completion | Evidence for the assigned result, untested behavior, unmet conditions, recovery attempted, and next owner. |
 
 Verification must be proportionate to the skill's reach, mutation risk, and
 contract change. A passing mechanical check does not prove behavior.

@@ -8,7 +8,8 @@ shows a reusable need.
 2. Check the current library for the same outcome or a conflicting trigger.
    Revise the canonical skill when it already owns the job.
 3. Define the observable output, acceptance evidence, selection boundary,
-   discretion, authority limits, escalation conditions, and required capability.
+   discretion, authority limits, escalation conditions, required capability,
+   recovery after failure, and stop conditions.
 4. Write the faceted metadata from the library contract. Select the subject by
    the knowledge needed to judge the result. Keep practice, object, profile,
    authority, inputs, and outputs separate.

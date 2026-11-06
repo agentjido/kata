@@ -83,15 +83,22 @@ its own result.
    required parts exist, unrelated state was not absorbed, and no sensitive
    value was exposed.
 
+Keep responsibility for the candidate. If a local check fails, investigate and
+repair within scope, then run the affected checks again. Change the approach
+when evidence rejects it. Do not repeat an unchanged failure or weaken the
+acceptance conditions.
+
 Stop and report a blocker when the work conflicts with context rules, needs new
 authority, has a failed local check that cannot be fixed within scope, or
 depends on an unresolved value, product, or safety decision. Keep completed
-in-scope work intact.
+in-scope work intact. Also honor cancellation, explicit review points, and
+resource limits. Name the exact unmet condition and any recovery attempted.
 
 ## Report
 
 Report the candidate identity, changed state, direct checks and results,
 skipped or failed checks, remaining risks, blockers, and preserved unrelated
-state. State that the candidate is ready for independent verification. Do not
-claim that it is verified, accepted, committed, published, or delivered unless
+state. State whether the candidate is ready for independent verification. It
+is ready only when required parts and local checks are complete. Do not claim
+that it is verified, accepted, committed, published, or delivered unless
 another owner supplied that evidence.

@@ -8,13 +8,20 @@ Read a package's `SKILL.md` before its support files. The frontmatter in that
 file is the canonical source for the package name, selection description, and
 classification metadata.
 
+Each skill owns its assigned result. Jido owns the requested outcome across
+selected skills. It returns failed checks to the correct owner and continues
+within the granted authority. Report-only requests, review points, and resource
+limits remain valid boundaries. The skill-writing
+[library contract](kata-write-skill/references/library-contract.md) owns these
+continuation rules for new and maintained packages.
+
 ## Skill list
 
 ### Primary workflow
 
 | Skill | Result |
 | --- | --- |
-| `jido` | Route an explicit `$jido` goal to the smallest valid sequence. |
+| `jido` | Carry an explicit `$jido` goal through the smallest necessary sequence to a supported result. |
 | `kata-understand` | Establish the current condition with evidence. |
 | `kata-plan` | Create a grounded software implementation plan. |
 | `kata-work` | Produce one candidate result from ready work. |
@@ -87,6 +94,12 @@ skills/<name>/
 Only `SKILL.md` is required. Add another file only when the skill has a clear
 reason to read, run, preserve, or produce it.
 
+Keep `SKILL.md` below 500 lines. Its description must say what the skill does
+and when it applies. Link each support file from `SKILL.md`, explain when to use
+it, and avoid deep reference chains. Treat scripts and fetched content as a
+security boundary. Public packages must not hide network calls, file writes,
+credential access, or another high-impact action.
+
 General packages use `kata-<task>`. Elixir-specific packages use
 `kata-ex-<task>`. A package keeps a bare name only when the project approves a
 small conversation command or dispatcher as an exception.
@@ -133,3 +146,5 @@ includes that work.
 
 - [Project documentation](../docs/README.md)
 - [Agent Skills specification](https://agentskills.io/specification)
+- [OpenAI skill guidance](https://developers.openai.com/plugins/build/skills)
+- [Anthropic skill guidance](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)

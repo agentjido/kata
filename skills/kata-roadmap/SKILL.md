@@ -1,6 +1,6 @@
 ---
 name: kata-roadmap
-description: "Create and advance a durable decision roadmap for a clear initiative whose route is too uncertain or long for one planning session. Require Beadwork or CSV; use idea work when the destination is unsettled and implementation planning when the decisions are already resolved."
+description: "Create and advance a durable decision roadmap. Use when the destination is clear but dependent decisions are too uncertain or long for one planning session. Require Beadwork or CSV; use implementation planning when the decisions are resolved."
 metadata:
   kata-argument-hint: "[initiative, Product Contract, or roadmap ID/path] [backend:beadwork|csv] [operation:create|advance|status]"
   schema: kata.skill/v1
@@ -151,7 +151,8 @@ partial substitute.
    - **Discussion:** Put the accountable choice to the human. Do not answer for
      the human.
    - **Research:** Gather direct evidence from authoritative sources. Record
-     sources and limits with the answer.
+     sources and limits with the answer. If one evidence method fails, use
+     another supported method within the decision scope and resource limit.
    - **Prototype:** Produce only the smallest authorized throwaway artifact
      that can answer the stated question. Record the verdict, not prototype
      code, as the decision.
@@ -163,7 +164,8 @@ partial substitute.
 6. Recompute the route. Add newly sharp decisions, graduate clarified fog,
    update invalidated dependencies, and move work beyond the destination to
    out of scope.
-7. Read state back and verify the new frontier. Stop after this decision.
+7. Read state back, repair in-scope record defects, and verify the new frontier.
+   Stop after this decision.
 
 When the selected decision needs a human answer that is not available, leave
 it claimed only when the backend can preserve that claim safely. Otherwise,

@@ -1,0 +1,19 @@
+name: Jido Review
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  review:
+    uses: agentjido/github-actions/.github/workflows/jido-review.yml@fa16d77ff51210b52c1c283e96875eb9d5ca668c # v5.2.6
+    with:
+      conventional_commits: true
+      fail_on_error: false
+      post_comment: true

@@ -1,6 +1,6 @@
 ---
 name: kata-verify
-description: Route one existing candidate to the smallest set of verification methods that fit its result type, claims, and risks. Return pass, fail, unknown, or blocked with direct evidence; do not create, repair, or improve the candidate.
+description: Verify one existing candidate with methods that fit its result type, claims, and risks. Use when a result needs independent acceptance evidence; return pass, fail, unknown, or blocked without repairing the candidate.
 metadata:
   kata-argument-hint: "[candidate result, claims, and acceptance conditions]"
   schema: kata.skill/v1
@@ -105,6 +105,10 @@ equivalent check without a reason.
 6. Record unavailable checks and their exact limit. Missing evidence is unknown,
    not pass.
 
+If the check method or temporary setup fails, correct it within read-only
+authority or use another valid check. Keep the acceptance condition fixed. Do
+not treat a failed check method as a failed candidate.
+
 Stop when a direct check proves a material failure unless later methods can
 show that the condition was wrong or the evidence was invalid. Do not spend
 time proving additional failures that do not change the next action.
@@ -116,13 +120,17 @@ Return one overall status:
 - **Pass:** Every material condition has sufficient current evidence.
 - **Fail:** At least one material condition is proved false.
 - **Unknown:** A required condition lacks reliable evidence.
-- **Blocked:** A check needs authority, access, or an accountable decision that
-  is unavailable.
+- **Blocked:** A check needs authority, access, capability, resources, or an
+  accountable decision that is unavailable.
 
 Produce `verified-change` only for a passing local mutation that is ready for a
 Git consumer. Other passing candidates produce `verified-result`. Fail,
 unknown, and blocked results produce a `verification-finding` for the work
 owner.
+
+For Fail, Unknown, or Blocked, identify the failed or unproved condition, the
+next owner, and the check needed after any repair. The verdict completes
+verification only; it does not complete a larger goal that still needs repair.
 
 Report the candidate identity, conditions, selected methods, commands or
 observations, evidence, status, missing evidence, and next owner. De-duplicate

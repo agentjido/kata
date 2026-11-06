@@ -64,6 +64,10 @@ Read [references/work-brief.md](references/work-brief.md) for the portable
 output and compact form. Use the compact form when it can carry the full
 contract.
 
+Resolve available facts before handoff. If an owner decision is unavailable,
+state the blocker. Do not start delivery or weaken acceptance conditions to
+make the brief ready.
+
 ## Respect adjacent owners
 
 - Use idea work when the desired behavior, beneficiary, or success signal still

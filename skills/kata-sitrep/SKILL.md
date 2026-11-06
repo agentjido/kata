@@ -58,7 +58,9 @@ Fetch the primary remote once when available. Check the Git provider only for
 open pull requests authored by the current user, review requests for that user,
 pull requests for local branches, and issues assigned to that user. Do not count
 all upstream issues, pull requests, or remote branches. If access is unavailable,
-mark remote status as unknown and continue. Do not retry the same failed check.
+mark remote status as unknown and continue with the remaining checks. Do not
+repeat the same check unchanged. Report the evidence limit. Do not repair the
+repositories.
 
 Do not run tests, builds, or history analysis.
 

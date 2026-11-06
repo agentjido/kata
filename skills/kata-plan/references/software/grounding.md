@@ -113,7 +113,9 @@ generic section for an irrelevant surface.
 
 ## Grounding limits
 
-Stop and record a blocker when:
+Use available repository evidence or another authorized source before you
+report a blocker. Do not repeat a failed query unchanged. Stop and record the
+exact unmet condition when:
 
 - the target repository or version is unavailable;
 - required private or external documentation cannot be accessed;

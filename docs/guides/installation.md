@@ -16,6 +16,23 @@ npx skills add agentjido/kata
 Select your agent host when prompted. Install `jido` and the Kata skills you
 want it to use. This is the main install path.
 
+## Review the trust boundary
+
+Skills are agent instructions and can include scripts or supporting files.
+Treat an installed skill pack like installed software:
+
+1. Review the selected `SKILL.md` files and their support files.
+2. Use a reviewed release or source revision for team deployment.
+3. Confirm the requested file, command, network, and account access before use.
+4. Require explicit approval for writes, publication, deletion, purchases, or
+   other high-impact actions.
+5. Review every entry in `<user-home>/.jido/extra-skills.md`. Kata does not
+   validate those optional skills.
+
+Kata has no hosted service, MCP server, or required network connection. A host,
+model provider, installer, or tool can have its own data and network behavior.
+Review those systems separately.
+
 ## 2. Start an agent session
 
 Start a new session if your host requires it. Ask the agent to confirm that

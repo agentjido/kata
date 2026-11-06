@@ -123,6 +123,10 @@ generated content. When practical, follow a changed procedure or quick start
 from a clean state. Do not install a checker only for this edit. Inspect the
 final diff and confirm that it contains only the selected writing scope.
 
+For an edit request, fix in-scope defects and repeat affected checks before
+handoff. A review-only request ends with the review. Report unmet conditions
+and limits. Do not claim that an incomplete document is complete.
+
 Report the document type, target, sources checked, files changed, checks run,
 unverified claims, and unresolved intent. Produce `verified-readme` only when a
 README edit passes its specific checks. Produce `verified-change` only when a

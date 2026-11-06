@@ -2,7 +2,7 @@
 
 Status: Current
 
-Last reviewed: 2026-11-04
+Last reviewed: 2026-11-05
 
 This guide defines the maintainer process for one repository-wide release. A
 release is a remote write. Do not push a tag or create a release without explicit
@@ -10,47 +10,62 @@ maintainer authority.
 
 ## Release contract
 
-- `VERSION` is the canonical semantic version.
-- All six versioned manifests must equal `VERSION`.
-- A release tag is `v<VERSION>`.
-- A tag creates a GitHub Release only after validation passes.
+- `package.json` contains the canonical semantic version.
+- The other five versioned manifests must match `package.json`.
+- `CHANGELOG.md` must have a dated section for that version.
+- A release tag is `v<version>`.
+- A release tag must be annotated and must point to the reviewed release source.
+- A tag creates a GitHub Release from its changelog section only after
+  validation passes.
 - Kata does not publish an npm package or another registry artifact.
+- Dojo is an internal support tool. It has separate maintenance automation. It
+  is not a release gate, release artifact, version source, or release-notes
+  source.
 
 ## Prepare the release change
 
 1. Confirm the worktree and preserve unrelated changes.
-2. Update `VERSION`, all versioned manifests, and `CHANGELOG.md`.
+2. Update the version in `package.json`, the other five versioned manifests,
+   and `CHANGELOG.md`.
 3. Confirm that the changelog date is the intended release date.
-4. Review the README, installation guide, license, notice, and attribution.
+4. Review the README, installation guide, license, and attribution.
 5. Run the same Elixir release validator used by CI.
 
 Run the repository checks from the repository root:
 
 ```sh
+version="$(node --print 'require("./package.json").version')"
 elixir scripts/validate_release.exs
 elixir skills/catalog.exs --check
-elixir scripts/validate_release.exs --tag "v$(cat VERSION)"
+elixir scripts/validate_release.exs --tag "v${version}"
+elixir scripts/release_notes.exs "${version}"
 ```
 
-Open and merge a reviewed pull request. Confirm that the `Validate` workflow
-passes on the release source.
+Use a Conventional Commit title for the pull request, such as
+`chore(release): prepare 0.5.0`. Open and merge a reviewed pull request. Confirm
+that the `Validate` and `Jido Review` workflows pass on the release source.
+
+Do not add Dojo checks to the release pull request or release workflow. The
+separate `Dojo Maintenance` workflow owns scheduled and dependency checks for
+that tool.
 
 ## Create the release
 
 With explicit authority, create and push an annotated matching tag:
 
 ```sh
-version="$(cat VERSION)"
+version="$(node --print 'require("./package.json").version')"
 git tag -a "v${version}" -m "Agent Jido Kata ${version}"
 git push origin "v${version}"
 ```
 
-The `Release` workflow validates the tagged source and uses GitHub-generated
-release notes. Confirm the result:
+The `Release` workflow validates the tagged source and extracts its notes from
+the matching `CHANGELOG.md` section. It does not run Dojo. Confirm the result:
 
 ```sh
+version="$(node --print 'require("./package.json").version')"
 gh run list --workflow Release --limit 5
-gh release view "v$(cat VERSION)"
+gh release view "v${version}"
 ```
 
 Do not move a published release tag. If released source is wrong, stop the

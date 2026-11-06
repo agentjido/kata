@@ -1,6 +1,6 @@
 ---
 name: kata-debug
-description: Diagnose software bugs, test failures, flaky behavior, performance regressions, and failed agent executions with a reproducible feedback loop and a complete causal chain. Apply a minimal test-first repair only when the assignment authorizes a fix; use kata-understand for an explanation with no executable failure and kata-work when the required change is already known.
+description: Diagnose software bugs, test failures, flaky behavior, performance regressions, and failed agent executions. Use when a reproducible failure needs a complete causal chain; apply a minimal test-first repair only when the assignment authorizes a fix.
 metadata:
   schema: kata.skill/v1
   subject: software-engineering
@@ -124,9 +124,9 @@ unique marker. For performance work, use a profiler, stage timings, or a query
 plan instead of broad logs.
 
 When a probe rejects a hypothesis, record the evidence before the next one.
-After three supported hypotheses fail, stop. Report whether the remaining gap
-comes from the mental model, conflicting evidence, the environment, or the
-system design. Do not continue with speculative changes.
+After three hypotheses fail, stop testing variations of the same model.
+Reassess the evidence and form a new model before another probe. If the evidence
+cannot support one, report the exact gap. Do not make speculative changes.
 
 ## 5. Confirm the cause
 
@@ -165,8 +165,8 @@ Do not mix those changes into the repair without explicit authority.
 
 Do not weaken an assertion, hide an error, or add a fallback only to make the
 check pass. If a repair fails, invalidate its hypothesis before another
-attempt. Stop after three failed repair attempts and report the unresolved
-cause or design decision.
+attempt. After three failed repairs, stop editing and return to causal analysis.
+Make another edit only when new evidence supports a different cause or repair.
 
 ## Report
 

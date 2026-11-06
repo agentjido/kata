@@ -1,6 +1,8 @@
 defmodule KataEvolve.FlowKaizenTest do
   use ExUnit.Case, async: true
 
+  @moduletag :legacy_contract
+
   alias KataEvolve.Skill
 
   @root Path.expand("../../..", __DIR__)

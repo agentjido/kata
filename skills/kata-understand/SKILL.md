@@ -52,6 +52,10 @@ accountable owner.
 5. Stop when the next step no longer depends on more investigation. Do not seek
    complete knowledge of the domain.
 
+If a source or probe fails, use another relevant read-only method when it can
+answer the question. Do not repeat the same failure or guess. Report missing
+evidence when no authorized route remains.
+
 Choose the output that matches the request:
 
 - Return `understood-context` when the user asked for an answer or explanation.

@@ -1,6 +1,7 @@
 defmodule Kata.ReleaseValidator do
   @root Path.expand("..", __DIR__)
   @description "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido."
+  @plugin_schema "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
   @semver ~r/^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/
   @identifier ~r/^[a-z0-9]+(?:-[a-z0-9]+)*$/
   @allowed_frontmatter ~w(name description license compatibility metadata allowed-tools)
@@ -56,7 +57,7 @@ defmodule Kata.ReleaseValidator do
 
     case errors do
       [] ->
-        version = read!("VERSION") |> String.trim()
+        version = version!()
         skill_count = @root |> Path.join("skills/*/SKILL.md") |> Path.wildcard() |> length()
         IO.puts("Validated Agent Jido Kata #{version}: #{skill_count} skills")
         if options[:tag], do: IO.puts("Validated release tag: #{options[:tag]}")
@@ -75,22 +76,65 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp validate_repository(errors, tag) do
-    version = read!("VERSION") |> String.trim()
+    version = version!()
 
     errors
     |> require(
       Regex.match?(@semver, version),
-      "VERSION: invalid semantic version #{inspect(version)}"
+      "package.json: invalid semantic version #{inspect(version)}"
     )
     |> require(
       is_nil(tag) or tag == "v#{version}",
-      "tag #{inspect(tag)} does not match VERSION #{inspect(version)}"
+      "tag #{inspect(tag)} does not match package.json version #{inspect(version)}"
     )
     |> validate_manifests(version)
+    |> validate_changelog(version)
     |> validate_required_files()
     |> validate_skills()
     |> validate_public_boundary()
     |> validate_markdown_links()
+  end
+
+  defp validate_changelog(errors, version) do
+    changelog = read!("CHANGELOG.md")
+
+    release_pattern =
+      Regex.compile!("^## \\[#{Regex.escape(version)}\\] - (\\d{4}-\\d{2}-\\d{2})$", "m")
+
+    release_dates =
+      release_pattern
+      |> Regex.scan(changelog, capture: :all_but_first)
+      |> List.flatten()
+
+    valid_date =
+      case release_dates do
+        [date] -> match?({:ok, _date}, Date.from_iso8601(date))
+        _other -> false
+      end
+
+    release_section_pattern =
+      Regex.compile!(
+        "^## \\[#{Regex.escape(version)}\\] - \\d{4}-\\d{2}-\\d{2}$\\n(?<notes>.*?)(?=^## \\[|\\z)",
+        "ms"
+      )
+
+    release_notes =
+      case Regex.named_captures(release_section_pattern, changelog) do
+        %{"notes" => notes} -> String.trim(notes)
+        _other -> ""
+      end
+
+    errors
+    |> require(
+      length(Regex.scan(~r/^## \[Unreleased\]$/m, changelog)) == 1,
+      "CHANGELOG.md: must contain one Unreleased section"
+    )
+    |> require(
+      length(release_dates) == 1,
+      "CHANGELOG.md: must contain one release heading for #{version}"
+    )
+    |> require(valid_date, "CHANGELOG.md: release #{version} must have a valid ISO date")
+    |> require(release_notes != "", "CHANGELOG.md: release #{version} has no notes")
   end
 
   defp validate_manifests(errors, version) do
@@ -112,11 +156,14 @@ defmodule Kata.ReleaseValidator do
       end)
 
     package = json!("package.json")
+    plugin = json!("plugin.json")
     marketplace = json!(".claude-plugin/marketplace.json")
     plugins = marketplace["plugins"] || []
 
     errors
     |> require(package["private"] == true, "package.json: private must remain true")
+    |> require(plugin["$schema"] == @plugin_schema, "plugin.json: portable schema is missing")
+    |> require(plugin["license"] == "Apache-2.0", "plugin.json: license must be Apache-2.0")
     |> require(
       length(plugins) == 1 and hd(plugins)["description"] == @description,
       ".claude-plugin/marketplace.json: description is inconsistent"
@@ -124,7 +171,7 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp validate_required_files(errors) do
-    required = ["LICENSE", "NOTICE", "VERSION" | @required_licenses]
+    required = ["LICENSE" | @required_licenses]
 
     Enum.reduce(required, errors, fn path, acc ->
       require(acc, File.regular?(Path.join(@root, path)), "missing required file: #{path}")
@@ -277,7 +324,7 @@ defmodule Kata.ReleaseValidator do
 
   defp markdown_files do
     root_files =
-      ~w(README.md CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md)
+      ~w(README.md CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md)
       |> Enum.map(&Path.join(@root, &1))
       |> Enum.filter(&File.regular?/1)
 
@@ -310,6 +357,7 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp json!(path), do: path |> read!() |> JSON.decode!()
+  defp version!, do: json!("package.json") |> Map.fetch!("version")
   defp read!(path), do: File.read!(Path.join(@root, path))
   defp relative(path), do: Path.relative_to(path, @root)
   defp require(errors, true, _message), do: errors

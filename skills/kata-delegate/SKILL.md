@@ -72,6 +72,12 @@ sequence. More workers are not a success measure.
    authority. Send a completed candidate to the identified verifier or
    integration owner. Do not declare final acceptance from worker self-report.
 
+In `drive` mode, retain responsibility through repair and the next checked
+return. Change the approach within the assignment when a worker fails. Report
+a blocker only when no further authorized action can make progress. Complete
+the requested supervision result without claiming that a larger goal is
+complete.
+
 Jido owns integration when Jido called this skill. A direct caller must name an
 integration owner or receive that responsibility in the handoff. Material scope
 changes return to the scope owner. Consequential decisions return to the human.

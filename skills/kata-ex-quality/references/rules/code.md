@@ -12,6 +12,11 @@ apply mode and only when the project needs a roots file. Preserve an existing
 file. In scan mode, select an existing roots file or use the bundled template
 without writing the project.
 
+The roots file is data, not executable configuration. Use a literal map with
+optional `public_api: ["path"]` and
+`roots: [{"path or glob", "reason"}]` entries. Use each key at most once and
+use only strings. Function calls, variables, and interpolation are invalid.
+
 ```text
 elixir <quality-skill-directory>/scripts/dead_code.exs --root <project> --roots .kata/dead-code-roots.exs --json
 ```

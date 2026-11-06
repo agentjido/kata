@@ -18,15 +18,16 @@ metadata:
 formal work contract, and is ready for the evidence level that its risk and
 reach require.
 
-**Done:** The package and taxonomy metadata pass their mechanical checks. Each
-route ends in a conforming candidate or an explicit blocker. The completion
-report names every behavioral check that ran and the evidence still needed from
-the acceptor. Mention Dojo only when the current request explicitly names it.
+**Done:** The package and taxonomy metadata pass their mechanical checks.
+Required behavior has evidence proportionate to its risk and reach. The report
+names each check and any unmet evidence. A blocked or partially checked
+candidate remains incomplete. Mention Dojo only when the current request
+explicitly names it.
 
 Work in the requested skill repository. Read its active instructions, package
-rules, README, and metadata conventions. Inspect current changes and preserve unrelated
-work. Resolve the target and package name from the request. Ask only when a
-missing decision can materially change the result or authority.
+rules, README, and metadata conventions. Inspect current changes and preserve
+unrelated work. Resolve the target and package name from the request. Ask only
+when a missing decision can materially change the result or authority.
 
 ## Establish the assignment
 
@@ -87,6 +88,10 @@ Write the outcome and one skill-level done condition before workflow. Apply the
 authoring principles to activation, protocol, judgment, information placement,
 pruning, authority, and verification.
 
+For each package, define what happens after a failed check and when work must
+stop. Keep the rule specific to the skill's role. Preserve report-only limits,
+review points, authority, and resource limits.
+
 Write the `kata.skill/v1` facets defined in the library contract. Reuse the
 exact subject value used by skills in the same knowledge domain. Select the
 subject by the specialist knowledge needed to judge the result, not by the tool
@@ -135,8 +140,9 @@ reason when a behavioral check does not run. Static validation alone does not
 prove behavior.
 
 Confirm that the output meets the assignment acceptance criteria and the skill's
-completion conditions. Report the selected route, taxonomy, changed files,
-evidence, untested behavior, and any remaining decision. When controlled cases
-are required to judge behavior or efficiency, hand the exact candidate to the
-Dojo workflow. Do not call a mechanically conforming candidate adopted, and do
-not report success when required evidence is missing.
+completion conditions. Fix in-scope package defects and repeat affected checks.
+Report the selected route, taxonomy, changed files, evidence, untested behavior,
+and any remaining decision. If a check cannot run, name the limit, recovery
+attempted, and evidence still needed. Use Dojo only when the current request
+explicitly names it. Do not call a mechanically conforming candidate adopted,
+and do not report success when required evidence is missing.
