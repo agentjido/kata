@@ -2,8 +2,6 @@
 
 This file records material changes to Agent Jido Kata.
 
-## [Unreleased]
-
 ## [0.5.0] - 2026-11-05
 
 ### Added
