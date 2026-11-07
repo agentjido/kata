@@ -23,6 +23,7 @@ defmodule Kata.ReleaseValidator do
     .codex-plugin/plugin.json
     .grok-plugin/plugin.json
   )
+  @release_please_exclude_paths ~w(.github/ docs/ dojo/ scripts/)
   @required_licenses ~w(
     skills/kata-build-jido/LICENSE
     skills/kata-debug/LICENSE-COMPOUND-ENGINEERING
@@ -144,6 +145,8 @@ defmodule Kata.ReleaseValidator do
         |> Enum.map(& &1["path"])
         |> Enum.sort()
 
+      exclude_paths = package |> Map.get("exclude-paths", []) |> Enum.sort()
+
       errors
       |> require(
         manifest["."] == version,
@@ -151,8 +154,8 @@ defmodule Kata.ReleaseValidator do
       )
       |> require(package["release-type"] == "node", "release-please: release type must be node")
       |> require(
-        package["skip-github-release"] == true,
-        "release-please: GitHub release creation must remain disabled"
+        package["skip-github-release"] == false,
+        "release-please: GitHub release creation must remain enabled"
       )
       |> require(
         package["include-component-in-tag"] == false,
@@ -165,6 +168,10 @@ defmodule Kata.ReleaseValidator do
       |> require(
         extra_files == Enum.sort(@release_please_extra_files),
         "release-please: extra version files are incomplete"
+      )
+      |> require(
+        exclude_paths == Enum.sort(@release_please_exclude_paths),
+        "release-please: non-product path exclusions are incomplete"
       )
     else
       {:error, reason} -> ["release-please: invalid JSON: #{reason}" | errors]

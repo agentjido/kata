@@ -15,9 +15,8 @@ maintainer authority.
 - `.release-please-manifest.json` must match `package.json`.
 - `CHANGELOG.md` must have a dated section for that version.
 - A release tag is `v<version>`.
-- A release tag must be annotated and must point to the reviewed release source.
-- A tag creates a GitHub Release from its changelog section only after
-  validation passes.
+- Release Please creates the tag and GitHub Release from the reviewed release
+  pull request only after validation passes.
 - Kata does not publish an npm package or another registry artifact.
 - Dojo is an internal support tool. It has separate maintenance automation. It
   is not a release gate, release artifact, version source, or release-notes
@@ -25,13 +24,16 @@ maintainer authority.
 
 ## Prepare the release pull request
 
-The `Release Please` workflow reads Conventional Commits on `main`. It creates
-or updates one release pull request. That pull request updates `package.json`,
-the other five versioned manifests, `.release-please-manifest.json`, and
-`CHANGELOG.md`.
+Every push to `main` starts the `Validate and Release` workflow. The workflow
+first runs the release validator, changelog tests, formatting check, and
+catalog check. It then reads Conventional Commits and creates or updates one
+release pull request. That pull request updates `package.json`, the other five
+versioned manifests, `.release-please-manifest.json`, and `CHANGELOG.md`.
 
-Release Please does not create the tag or GitHub Release. The repository keeps
-that work in the annotated-tag release workflow.
+A normal push does not publish immediately. A maintainer must review and merge
+the release pull request. That merge is another push to `main`. After the same
+checks pass, Release Please creates the matching `v<version>` tag and GitHub
+Release.
 
 1. Review the proposed version and changelog.
 2. Confirm that all six public version files and the Release Please manifest
@@ -55,34 +57,49 @@ Release Please uses a Conventional Commit title such as
 `chore(release): prepare 0.6.0`. Merge the release pull request only after the
 `Validate` and `Jido Review` workflows pass on the release source.
 
-The workflow uses `RELEASE_PLEASE_TOKEN` when that Actions secret exists. It
-otherwise uses the built-in `GITHUB_TOKEN`. GitHub does not start new workflows
-for a pull request that the built-in token creates. Configure a fine-grained
-token with only repository contents, issues, and pull request write access for
-the normal automatic path. If the workflow uses the fallback token, do not
-merge the release pull request until a trusted maintainer causes both checks to
-run on its current head.
+Ordinary pull requests cannot change release-owned versions, the Release
+Please manifest, or `CHANGELOG.md`. CI permits those files only on the Release
+Please branch. Changes limited to `.github/`, `docs/`, `dojo/`, and `scripts/`
+do not cause a public skills release.
 
 Do not add Dojo checks to the release pull request or release workflow. The
 separate `Dojo Maintenance` workflow owns scheduled and dependency checks for
 that tool.
 
-## Create the release
+## Configure the release GitHub App
 
-With explicit authority, create and push an annotated matching tag:
+Create one private GitHub App for release automation. Do not enable webhooks,
+user authorization, or organization permissions.
+
+Grant these repository permissions only:
+
+- Contents: Read and write.
+- Issues: Read and write.
+- Pull requests: Read and write.
+- Metadata: Read-only. GitHub grants this permission automatically.
+
+Install the app on this repository only. Generate one private key, then add:
+
+- repository variable `RELEASE_APP_CLIENT_ID`, set to the app Client ID;
+- repository secret `RELEASE_APP_PRIVATE_KEY`, set to the complete PEM private
+  key, including its begin and end lines.
+
+The workflow requests a one-hour installation token for the current repository
+and narrows it again to the four permissions above. The token is masked and is
+revoked when the release job ends. Never commit the private key or put it in a
+repository variable.
+
+After configuration, use the workflow dispatch control once. A successful run
+with no releasable commits can finish without a release pull request. This is a
+valid token and configuration test.
+
+## Confirm the automatic release
+
+After a release pull request merges, confirm the workflow, tag, and release:
 
 ```sh
 version="$(node --print 'require("./package.json").version')"
-git tag -a "v${version}" -m "Agent Jido Kata ${version}"
-git push origin "v${version}"
-```
-
-The `Release` workflow validates the tagged source and extracts its notes from
-the matching `CHANGELOG.md` section. It does not run Dojo. Confirm the result:
-
-```sh
-version="$(node --print 'require("./package.json").version')"
-gh run list --workflow Release --limit 5
+gh run list --workflow "Validate and Release" --limit 5
 gh release view "v${version}"
 ```
 

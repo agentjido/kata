@@ -1,12 +1,17 @@
-name: Validate
+name: Validate and Release
 
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: validate-release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -14,6 +19,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Elixir
         uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
@@ -27,6 +35,44 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: elixir scripts/validate_conventional_commit.exs "$PR_TITLE"
 
+      - name: Protect release-owned files
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_REF: ${{ github.head_ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if ! git cat-file -e "$BASE_SHA:.release-please-manifest.json" 2>/dev/null; then
+            echo "Release Please bootstrap PR; ownership guard starts after merge."
+            exit 0
+          fi
+
+          release_owned=(
+            package.json
+            plugin.json
+            .claude-plugin/plugin.json
+            .cursor-plugin/plugin.json
+            .codex-plugin/plugin.json
+            .grok-plugin/plugin.json
+            .release-please-manifest.json
+            CHANGELOG.md
+          )
+
+          changed="$(git diff --name-only "$BASE_SHA"...HEAD -- "${release_owned[@]}")"
+          if [ -z "$changed" ]; then
+            exit 0
+          fi
+
+          if [[ "$HEAD_REF" == "release-please--branches--main" &&
+                "$PR_TITLE" =~ ^chore\(release\):\ prepare\ v?[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            exit 0
+          fi
+
+          echo "Release-owned files can change only in the Release Please pull request:"
+          echo "$changed"
+          exit 1
+
       - name: Validate repository
         run: elixir scripts/validate_release.exs
 
@@ -38,3 +84,37 @@ jobs:
 
       - name: Validate Kata catalog
         run: elixir skills/catalog.exs --check
+
+  release-please:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      # With no owner or repositories input, this token is limited to the
+      # current repository. The action revokes it when this job ends.
+      - name: Create scoped release token
+        id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-issues: write
+          permission-metadata: read
+          permission-pull-requests: write
+
+      - name: Create or update release pull request
+        id: release
+        uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Set release title
+        if: steps.release.outputs.release_created == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag_name }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: gh release edit "$RELEASE_TAG" --title "Agent Jido Kata $RELEASE_VERSION"

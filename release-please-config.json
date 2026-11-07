@@ -3,10 +3,16 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "skip-github-release": true,
+      "skip-github-release": false,
       "include-component-in-tag": false,
       "include-v-in-tag": true,
       "pull-request-title-pattern": "chore(release): prepare ${version}",
+      "exclude-paths": [
+        ".github/",
+        "docs/",
+        "dojo/",
+        "scripts/"
+      ],
       "extra-files": [
         {
           "type": "json",
