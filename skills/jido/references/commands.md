@@ -36,7 +36,7 @@ already selects a route.
 | Step | Trigger | Non-trigger | Primary Kata | Default authority |
 | --- | --- | --- | --- | --- |
 | `docs` | Establish or maintain project docs, process an inbox item, preserve durable project knowledge, reconcile selected docs with code, or create, audit, and refresh project orientation. `docs refresh` explicitly refreshes the scoped `README.md` and `AGENTS.md` files. `orient` is an entry alias. | Author a plan, write one selected technical artifact without an orientation decision, or make a product decision about disputed content. | `../kata-docs/SKILL.md` | `local-write` |
-| `status` | Report local or remote Git workbench state for a repository or folder. | Application health, business status, or general progress. | `../kata-sitrep/SKILL.md` | `read-only` |
+| `sitrep` | Report local or remote Git workbench state for a repository or folder. | Application health, business status, or general progress. | `../kata-sitrep/SKILL.md` | `read-only` |
 | `shipit` | A bare `shipit` means commit, push, and create or update a PR for the accepted verified change. Honor a requested direct push, commit only, watch, or merge. | The accepted change or target is unclear, or required verification is missing. | `../kata-shipit/SKILL.md` | `external-write` |
 | `help` | Explain available routes with natural-language examples. | A request to perform work. | None | `read-only` |
 
@@ -44,10 +44,14 @@ already selects a route.
 
 1. Determine what the requested result changes. A current domain result uses
    value delivery. A request to learn how to lead agent work uses tutoring. A
-   reusable skill or work method uses Kaizen. Project docs, Git status,
+   reusable skill or work method uses Kaizen. Project docs, Git workbench state,
    shipping, and help use support.
-2. Honor an explicit step only as an entry request. Continue to a later step
-   only when the user's requested result and authority include it.
+2. Classify the work domain before you honor an explicit step. An entry word
+   cannot move the request to another domain. For example, `idea`, `plan`, or
+   `work` in a request about a reusable skill does not move the request out of
+   Kaizen. Select the matching Kaizen entry from the complete request. Continue
+   to a later step only when the user's requested result and authority include
+   it.
 3. Without an explicit step, select the first unresolved contract in
    `loops.md`. Never infer Dojo as that step.
 4. Re-evaluate against the whole request after every step. Return a failed gate
@@ -56,6 +60,11 @@ already selects a route.
    limit, or an unavailable decision, authority, capability, or dependency that
    prevents further authorized progress.
 5. Do not make the human repeat the request with an internal term.
+
+The word `status` is normal request language, not an entry override. Interpret
+its complete target. Use `sitrep` only for Git workbench state. Route project
+progress, application health, and other current-state questions to the matching
+domain or value-delivery step.
 
 `$jido feedback ...` selects the feedback entry in `maintain-skill` when the
 subject is a skill or its workflow. Feedback alone permits capture and
@@ -76,9 +85,11 @@ $jido prepare a launch approach from these constraints
 $jido update this report to meet the supplied acceptance rules
 $jido check whether this result meets the contract
 $jido make this repeated review process reusable
+$jido idea for a reusable review skill, but check the current owners first
 $jido feedback on shipit: I expected a PR, but it stopped after a local commit
 $jido dojo inspect the saved evidence for this skill
 $jido record this verified finding in the project docs
 $jido docs refresh this project's README.md and AGENTS.md files
+$jido sitrep this repository before we start new work
 $jido ship the accepted verified change as a pull request
 ```

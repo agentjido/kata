@@ -18,7 +18,8 @@ metadata:
 report that identifies work needing a decision.
 
 **Done:** Every in-scope repository has local, sync, and relevant open-work
-status or an explicit unknown, and the report names the most useful next action.
+status or an explicit unknown. The report identifies the inspected root set and
+names the most useful next action.
 
 **Authority:** Inspect the requested Git roots and provider state. One fetch
 without pruning is a permitted local write to remote-tracking refs. Do not
@@ -32,13 +33,28 @@ Use judgment to show only the facts the operator needs to choose the next action
 
 ## Find the active roots
 
-Resolve the requested repository or project folder. Ask only when several
-plausible roots would materially change the report. Start with local Git commands:
+Resolve and record the target as one repository, one configured project or
+workspace folder, or an explicit list of repositories. Ask only when several
+plausible root sets would materially change the report.
+
+- For a named or current repository, inspect that Git root and its worktrees.
+- For “this project,” use active project instructions or a workspace registry
+  to decide whether the project is one repository or a configured repository
+  set. If neither identifies a broader set, use the current Git root.
+- For a folder of projects, use its workspace configuration when available.
+  Otherwise, check only its direct child directories.
+- For an explicit repository list, inspect exactly those roots.
+
+A current Git root does not prove that a project-level request targets only
+that repository when project configuration names active child repositories.
+Do not add task managers, calendars, application health, documentation
+progress, or other non-Git sources to a Sitrep.
+
+Use local Git commands to resolve the selected roots:
 
 - Use `git rev-parse --show-toplevel` to find the current root.
 - Use `git worktree list --porcelain` to find its linked worktrees.
-- If the target is a folder of projects, use its workspace configuration when
-  available. Otherwise, check its direct child directories with
+- For a folder without a workspace configuration, check direct children with
   `git -C <path> rev-parse --show-toplevel`.
 
 Inspect each Git root once. Do not search all nested directories. Exclude
@@ -66,8 +82,9 @@ Do not run tests, builds, or history analysis.
 
 ## Show the result
 
-Skip the preamble. If everything is clean, use one sentence. Use a table only
-when two or more projects or worktrees need comparison:
+Skip the preamble. Name the inspected repository in a one-repository report.
+If everything is clean, use one sentence. Use a table only when two or more
+projects or worktrees need comparison:
 
 `Project | Local | Sync | Open work`
 

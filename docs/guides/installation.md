@@ -26,12 +26,16 @@ Treat an installed skill pack like installed software:
 3. Confirm the requested file, command, network, and account access before use.
 4. Require explicit approval for writes, publication, deletion, purchases, or
    other high-impact actions.
-5. Review every entry in `<user-home>/.jido/extra-skills.md`. Kata does not
-   validate those optional skills.
+5. Review each private or third-party skill before you install or enable it.
+   Kata does not validate skills supplied outside this package.
 
 Kata has no hosted service, MCP server, or required network connection. A host,
 model provider, installer, or tool can have its own data and network behavior.
 Review those systems separately.
+
+Jido uses the skills that the host exposes for the current session. Install a
+private or team skill through the host's normal user or project skill location.
+Jido does not keep a separate skill registry or scan the filesystem for skills.
 
 ## 2. Start an agent session
 

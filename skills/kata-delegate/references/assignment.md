@@ -10,6 +10,7 @@ Expected output: <format, location, or return shape>
 Worker: <person, agent, or unassigned>
 Integration owner: <owner who accepts and combines the return>
 Allowed actions: <actions the worker can take>
+Exclusions: <nearby work, organizations, accounts, data, or effects outside scope>
 Reserved decisions: <decisions that return to the owner>
 Limits: <time, calls, cost, tools, or other relevant limits>
 Done when: <completion checks and evidence>
@@ -32,6 +33,7 @@ Assignment: <identity>
 State: <complete|partial|blocked|failed>
 Result: <candidate or location>
 Evidence: <direct checks and sources>
+Boundary check: <explicit exclusions preserved or exact deviation>
 Changed state: <files, records, or systems changed>
 Unresolved: <questions, risks, and missing inputs>
 Recommended next owner: <repair, verification, integration, or decision owner>
