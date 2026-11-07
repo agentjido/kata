@@ -29,6 +29,9 @@ jobs:
       - name: Validate tagged source
         run: elixir scripts/validate_release.exs --tag "$GITHUB_REF_NAME"
 
+      - name: Test release changelog parser
+        run: elixir scripts/release_changelog_test.exs
+
       - name: Read package version
         id: package
         run: echo "version=$(node --print 'require("./package.json").version')" >> "$GITHUB_OUTPUT"

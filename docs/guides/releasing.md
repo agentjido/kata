@@ -2,7 +2,7 @@
 
 Status: Current
 
-Last reviewed: 2026-11-05
+Last reviewed: 2026-11-07
 
 This guide defines the maintainer process for one repository-wide release. A
 release is a remote write. Do not push a tag or create a release without explicit
@@ -12,6 +12,7 @@ maintainer authority.
 
 - `package.json` contains the canonical semantic version.
 - The other five versioned manifests must match `package.json`.
+- `.release-please-manifest.json` must match `package.json`.
 - `CHANGELOG.md` must have a dated section for that version.
 - A release tag is `v<version>`.
 - A release tag must be annotated and must point to the reviewed release source.
@@ -22,28 +23,45 @@ maintainer authority.
   is not a release gate, release artifact, version source, or release-notes
   source.
 
-## Prepare the release change
+## Prepare the release pull request
 
-1. Confirm the worktree and preserve unrelated changes.
-2. Update the version in `package.json`, the other five versioned manifests,
-   and `CHANGELOG.md`.
-3. Confirm that the changelog date is the intended release date.
-4. Review the README, installation guide, license, and attribution.
-5. Run the same Elixir release validator used by CI.
+The `Release Please` workflow reads Conventional Commits on `main`. It creates
+or updates one release pull request. That pull request updates `package.json`,
+the other five versioned manifests, `.release-please-manifest.json`, and
+`CHANGELOG.md`.
+
+Release Please does not create the tag or GitHub Release. The repository keeps
+that work in the annotated-tag release workflow.
+
+1. Review the proposed version and changelog.
+2. Confirm that all six public version files and the Release Please manifest
+   use the same version.
+3. Review the README, installation guide, license, and attribution when the
+   release changes those contracts.
+4. Run the same Elixir release validator used by CI.
 
 Run the repository checks from the repository root:
 
 ```sh
 version="$(node --print 'require("./package.json").version')"
 elixir scripts/validate_release.exs
+elixir scripts/release_changelog_test.exs
 elixir skills/catalog.exs --check
 elixir scripts/validate_release.exs --tag "v${version}"
 elixir scripts/release_notes.exs "${version}"
 ```
 
-Use a Conventional Commit title for the pull request, such as
-`chore(release): prepare 0.5.0`. Open and merge a reviewed pull request. Confirm
-that the `Validate` and `Jido Review` workflows pass on the release source.
+Release Please uses a Conventional Commit title such as
+`chore(release): prepare 0.6.0`. Merge the release pull request only after the
+`Validate` and `Jido Review` workflows pass on the release source.
+
+The workflow uses `RELEASE_PLEASE_TOKEN` when that Actions secret exists. It
+otherwise uses the built-in `GITHUB_TOKEN`. GitHub does not start new workflows
+for a pull request that the built-in token creates. Configure a fine-grained
+token with only repository contents, issues, and pull request write access for
+the normal automatic path. If the workflow uses the fallback token, do not
+merge the release pull request until a trusted maintainer causes both checks to
+run on its current head.
 
 Do not add Dojo checks to the release pull request or release workflow. The
 separate `Dojo Maintenance` workflow owns scheduled and dependency checks for

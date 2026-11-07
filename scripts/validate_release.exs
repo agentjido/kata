@@ -1,3 +1,5 @@
+Code.require_file("release_changelog.exs", __DIR__)
+
 defmodule Kata.ReleaseValidator do
   @root Path.expand("..", __DIR__)
   @description "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido."
@@ -8,6 +10,13 @@ defmodule Kata.ReleaseValidator do
   @required_metadata ~w(schema subject practice object profile authority consumes produces)
   @versioned_manifests ~w(
     package.json
+    plugin.json
+    .claude-plugin/plugin.json
+    .cursor-plugin/plugin.json
+    .codex-plugin/plugin.json
+    .grok-plugin/plugin.json
+  )
+  @release_please_extra_files ~w(
     plugin.json
     .claude-plugin/plugin.json
     .cursor-plugin/plugin.json
@@ -88,6 +97,7 @@ defmodule Kata.ReleaseValidator do
       "tag #{inspect(tag)} does not match package.json version #{inspect(version)}"
     )
     |> validate_manifests(version)
+    |> validate_release_please(version)
     |> validate_changelog(version)
     |> validate_required_files()
     |> validate_skills()
@@ -97,14 +107,7 @@ defmodule Kata.ReleaseValidator do
 
   defp validate_changelog(errors, version) do
     changelog = read!("CHANGELOG.md")
-
-    release_pattern =
-      Regex.compile!("^## \\[#{Regex.escape(version)}\\] - (\\d{4}-\\d{2}-\\d{2})$", "m")
-
-    release_dates =
-      release_pattern
-      |> Regex.scan(changelog, capture: :all_but_first)
-      |> List.flatten()
+    release_dates = Kata.ReleaseChangelog.release_dates(changelog, version)
 
     valid_date =
       case release_dates do
@@ -112,29 +115,60 @@ defmodule Kata.ReleaseValidator do
         _other -> false
       end
 
-    release_section_pattern =
-      Regex.compile!(
-        "^## \\[#{Regex.escape(version)}\\] - \\d{4}-\\d{2}-\\d{2}$\\n(?<notes>.*?)(?=^## \\[|\\z)",
-        "ms"
-      )
-
     release_notes =
-      case Regex.named_captures(release_section_pattern, changelog) do
-        %{"notes" => notes} -> String.trim(notes)
+      case Kata.ReleaseChangelog.release_notes(changelog, version) do
+        {:ok, notes} -> notes
         _other -> ""
       end
 
     errors
-    |> require(
-      length(Regex.scan(~r/^## \[Unreleased\]$/m, changelog)) == 1,
-      "CHANGELOG.md: must contain one Unreleased section"
-    )
     |> require(
       length(release_dates) == 1,
       "CHANGELOG.md: must contain one release heading for #{version}"
     )
     |> require(valid_date, "CHANGELOG.md: release #{version} must have a valid ISO date")
     |> require(release_notes != "", "CHANGELOG.md: release #{version} has no notes")
+  end
+
+  defp validate_release_please(errors, version) do
+    with {:ok, manifest} <- decode_json(".release-please-manifest.json"),
+         {:ok, config} <- decode_json("release-please-config.json") do
+      package = get_in(config, ["packages", "."]) || %{}
+
+      extra_files =
+        package
+        |> Map.get("extra-files", [])
+        |> Enum.filter(fn file ->
+          is_map(file) and file["type"] == "json" and file["jsonpath"] == "$.version"
+        end)
+        |> Enum.map(& &1["path"])
+        |> Enum.sort()
+
+      errors
+      |> require(
+        manifest["."] == version,
+        ".release-please-manifest.json: root version must be #{version}"
+      )
+      |> require(package["release-type"] == "node", "release-please: release type must be node")
+      |> require(
+        package["skip-github-release"] == true,
+        "release-please: GitHub release creation must remain disabled"
+      )
+      |> require(
+        package["include-component-in-tag"] == false,
+        "release-please: component must not be included in release tags"
+      )
+      |> require(
+        package["include-v-in-tag"] == true,
+        "release-please: release tags must use the v prefix"
+      )
+      |> require(
+        extra_files == Enum.sort(@release_please_extra_files),
+        "release-please: extra version files are incomplete"
+      )
+    else
+      {:error, reason} -> ["release-please: invalid JSON: #{reason}" | errors]
+    end
   end
 
   defp validate_manifests(errors, version) do

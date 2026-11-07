@@ -30,6 +30,9 @@ jobs:
       - name: Validate repository
         run: elixir scripts/validate_release.exs
 
+      - name: Test release changelog parser
+        run: elixir scripts/release_changelog_test.exs
+
       - name: Check script formatting
         run: mix format --check-formatted scripts/*.exs
 
