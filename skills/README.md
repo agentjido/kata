@@ -74,10 +74,12 @@ General skills use `kata-<task>`. Skills that require Elixir use
 `kata-ex-<task>`. You can use each skill directly or give `$jido` a goal.
 Dojo requires an explicit request; normal use does not run model evaluations.
 
-## Public and extra skills
+## Public and local skills
 
 This directory contains public skills only. Keep private skills in a separate
-package. List optional installed skills in `<user-home>/.jido/extra-skills.md`.
+package and install them through the host's user or project skill location.
+Jido can select a compatible local skill that the host exposes for the current
+session.
 
 ## Package layout
 

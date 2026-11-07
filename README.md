@@ -94,12 +94,13 @@ Kata does not require the Jido runtime.
 
 ## Add private or team skills
 
-Keep private skills in a separate repository. List optional installed skills in
-`<user-home>/.jido/extra-skills.md`. Jido reads this file only when no included
-skill matches. Jido ignores the file when it is absent.
+Keep private skills in a separate repository. Install them through your host's
+user or project skill location. Jido can select a local skill that the host
+exposes in the current session when the request names that procedure or the
+selected public step needs its domain method.
 
-Review each optional skill before you list it. Kata does not validate private
-or third-party skills.
+Review each skill before you install or enable it. The host owns discovery and
+its trust controls. Kata does not validate private or third-party skills.
 
 ## Community and project links
 

@@ -18,8 +18,6 @@ This file records material changes to Agent Jido Kata.
 - `kata-scope` for bounded, portable work briefs.
 - `kata-delegate` for clear assignments and check, watch, or drive follow-through.
 - `kata-security` for security guidance and source-first security audits.
-- An optional `<user-home>/.jido/extra-skills.md` index that Jido reads only
-  when its included skill registry has no match.
 - A release check that rejects symbolic links in the public skill catalog.
 - A changelog-driven, tag-based GitHub Release workflow.
 - A shared Jido pull request review that reports conventional commit titles and

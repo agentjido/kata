@@ -26,9 +26,10 @@ for its integration owner.
 
 ## Assignment and authority
 
-The required input is defined work with an intended result, boundary,
-completion conditions, and owner. If a material boundary is missing, return a
-scope handoff rather than asking a worker to guess.
+The required input is defined work with an intended result, boundary, explicit
+exclusions when they matter, completion conditions, and owner. If a material
+boundary is missing, return a scope handoff rather than asking a worker to
+guess.
 
 Preparing an assignment brief is permitted by direct user authority or
 inherited caller authority. Starting a person, agent, service, or external job
@@ -47,7 +48,10 @@ Read [references/assignment.md](references/assignment.md). Resolve:
 
 - the intended result, purpose, source context, and expected output;
 - one responsible worker and one integration owner;
-- allowed actions, reserved decisions, and resource limits;
+- allowed actions, explicit exclusions, reserved decisions, and resource
+  limits;
+- organization, account, client, data, privacy, and funding boundaries when
+  they can change the work;
 - inputs, dependencies, shared mutable state, and sequence constraints;
 - completion checks, return evidence, and repair owner; and
 - progress, blocker, decision, and stop conditions.
@@ -60,8 +64,10 @@ sequence. More workers are not a success measure.
 ## Start and track work
 
 1. Show or state the assignment before starting a worker when a material
-   interpretation remains. Do not ask for confirmation when the request already
-   authorizes the resolved assignment and action.
+   interpretation remains. Preserve supplied exclusions as assignment fields;
+   do not reduce them to background context or omit them from a handoff. Do not
+   ask for confirmation when the request already authorizes the resolved
+   assignment and action.
 2. Start the smallest useful worker set. Record the actual worker or tool,
    assignment identity, start evidence, integration owner, and stop condition.
 3. Do useful independent work while workers run when it does not conflict with
@@ -104,6 +110,7 @@ Return:
 - assignment identity, worker, mode, and current state;
 - result or usable brief;
 - evidence and completion-check results;
+- compliance with explicit exclusions and other material boundaries;
 - changed state and unresolved questions;
 - repair, verification, and integration owners; and
 - the stop reason or next authorized action.

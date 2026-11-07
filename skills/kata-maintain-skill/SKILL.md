@@ -21,7 +21,9 @@ next owner and any permitted change clear.
 an explicit evidence gap. Feedback ends in a local brief, shareable draft, or
 confirmed authorized submission. A requested fix is complete and verified; a
 handoff, failed check, or evidence gap does not complete it. A requested commit
-workflow also reports its result. Unrelated concerns remain unchanged.
+workflow also reports its result. A new-package proposal also proves that no
+current owner, bounded entry route, consolidation, or composition can produce
+the result cleanly. Unrelated concerns remain unchanged.
 
 ## Assignment
 
@@ -113,6 +115,31 @@ Prefer the finding with the highest likely harm and strongest evidence, then
 prefer the smaller remedy. Do not select a style preference, a speculative gap,
 or an issue that requires a broad audit to prove.
 
+### Check current owners first
+
+Before you propose a new package or select the `Route` disposition for a
+missing job, inspect the current registry and packages that can receive the
+same request. Use subject, practice, object, inputs, and outputs to find
+candidates. Then compare their outcome, activation and non-trigger conditions,
+authority, done condition, and next consumer. Matching metadata identifies a
+candidate, not a duplicate. Record each credible owner and why it can or cannot
+own the job.
+
+Choose the smallest ownership shape that keeps one clear contract:
+
+| Shape | Use it when |
+| --- | --- |
+| Refine one owner | The job is part of the owner's existing outcome, but its contract does not produce the required result. |
+| Add a bounded entry route | One package owns the outcome and authority, while request context selects one of a small set of operations. Keep one shared done condition and define the trigger, result, and limits of each route. |
+| Consolidate owners | Two packages own the same result or make callers choose between overlapping contracts. Keep one canonical owner and preserve required behavior. |
+| Keep separate and compose | The packages have distinct outcomes, authority, or consumers, and a caller can sequence them without a new reusable owner. |
+| Create a package | The job has a distinct reusable outcome and no current owner, bounded route, consolidation, or composition can support it without making another contract incoherent. |
+
+Do not use an entry route as a hidden second skill. Keep packages separate when
+their branches need different authority, independent completion, or different
+next consumers. Do not create a package only to give an existing operation a
+new command name.
+
 When a package can be out of date with the library contract, read the
 repository's canonical skill-writing contract. In Kata, `kata-write-skill` owns
 that contract. Report a conversion finding only when the gap can change the
@@ -135,7 +162,7 @@ Choose one disposition:
 | Consolidate | Overlapping owners create an ambiguous route or duplicate rule. Keep one authoritative owner. |
 | Reclassify | The package and the canonical index disagree about its work domain. |
 | Retire | Evidence shows that the package is unsafe, obsolete, or has no distinct job. Approval is required. |
-| Route | The finding proves a missing job or an existing package needs conversion to the library contract. Produce a bounded authoring brief for the maintainer. |
+| Route | The owner check proves a distinct missing job, or an existing package needs conversion to the library contract. Produce a bounded authoring brief for the maintainer. |
 | Reject | The evidence does not prove a library defect. Make no change. |
 | Defer | Required evidence, rights, or authority is unavailable. State the missing condition. |
 
@@ -143,24 +170,25 @@ Choose one disposition:
 
 Apply only the selected disposition. Preserve unrelated edits, callers,
 supported metadata, notices, licenses, and attribution. Keep each rule in one
-canonical location. Use subject, practice, object, inputs, and outputs to find
-overlap candidates. Then compare outcome, activation conditions, authority, and
-next consumer. Do not consolidate packages only because their metadata, topics,
-or tools are similar.
+canonical location. Use the recorded owner check. Do not consolidate packages
+only because their metadata, topics, or tools are similar.
 
 For a refinement, change the smallest contract text or support file that fixes
-the proven consequence. For a consolidation, move the required behavior to the
-canonical owner and update affected callers before an approved retirement. For
-a reclassification, reuse the exact facet values used by equivalent work and
-keep classification in the skill frontmatter. For a route, state the required
-outcome, non-trigger, authority, taxonomy, acceptance evidence, and source
-rights. If the operator requested a report only, stop with that brief. If the
-operator requested a completed fix, use the canonical skill-writing workflow
-for a skill-package change. Use the canonical work-execution workflow for
-another clear local change, then use independent verification. Enter at work when
-the finding already resolved the target, scope, acceptance conditions, and
-authority; do not add understanding or planning steps. Return here with the
-verification result.
+the proven consequence. A bounded entry route must keep one package outcome and
+state the context that selects each operation. For a consolidation, move the
+required behavior to the canonical owner and update affected callers before an
+approved retirement. For a reclassification, reuse the exact facet values used
+by equivalent work and keep classification in the skill frontmatter. For a
+route, state the required outcome, non-trigger, authority, taxonomy, acceptance
+evidence, and source rights. A new-package brief must also list the credible
+owners considered and explain why refinement, a bounded entry route,
+consolidation, and composition do not fit. If the operator requested a report
+only, stop with that brief. If the operator requested a completed fix, use the
+canonical skill-writing workflow for a skill-package change. Use the canonical
+work-execution workflow for another clear local change, then use independent
+verification. Enter at work when the finding already resolved the target,
+scope, acceptance conditions, and authority; do not add understanding or
+planning steps. Return here with the verification result.
 For a conversion route, also name the behavior and resources to preserve and
 the exact contract gaps to correct. Route Kata conversions to `kata-write-skill`
 when it is available. Keep the brief complete when it is not available.

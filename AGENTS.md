@@ -27,7 +27,6 @@
   changes. Use direct file inspection and checks that do not enter `dojo/`.
 - Keep this repository public-only. Private skills stay in a separate
   repository. Do not add them, or links to them, under `skills/`. Public files
-  can describe the optional extra-skills index but must not name a private
-  skill.
+  can describe host-exposed local skills but must not name a private skill.
 - Keep marketing material outside this repository.
 - Preserve the user's existing files and work when changing a target project.
