@@ -4,7 +4,7 @@
   "plugins": [
     {
       "name": "kata",
-      "description": "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido.",
+      "description": "A work system for useful AI work and guided practice with Jido and Tutor.",
       "source": "./"
     }
   ]

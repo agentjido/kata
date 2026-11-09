@@ -6,14 +6,17 @@ public Agent Skills.
 
 ## Available routines
 
-- [Jido package](jido-package.md): check the single-command package and its
-  internal registry.
+- [Jido package](jido-package.md): check the two-skill public surface and the
+  Jido internal registry.
 - [Documentation](documentation.md): check the current documentation index,
   intake state, and supported claims.
+- [Curriculum alignment](curriculum-alignment.md): reconcile Jido Katas, Tutor
+  topics, local skill mappings, and WorkTutor learning materials on demand.
 - [Release gates](release-gates.md): run the local CI gates outside the Jido
   package-specific check.
-- [Repository health](repository-health.md): run the three routines above as
-  one ordered group.
+- [Repository health](repository-health.md): run the Jido package,
+  documentation, and release-gate routines as one ordered group. Curriculum
+  alignment remains a separate on-demand review.
 
 Use `$jido routine` to inspect routine state. Use `$jido run <name> routine` for
 one routine or `$jido run all routines` for every active routine. Jido validates

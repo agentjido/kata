@@ -13,7 +13,7 @@ Select the first unresolved internal Kata:
 
 - `understand` when the current condition, cause, or evidence is unclear;
 - `shape` when direction, boundary, decisions, or sequence are unclear;
-- `lead` when the request asks for teaching or separate worker ownership;
+- `lead` when the request asks for separate worker ownership;
 - `work` when the result and authority are ready;
 - `verify` when a candidate needs independent evidence;
 - `improve` when the result changes a reusable method;

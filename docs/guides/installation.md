@@ -1,10 +1,10 @@
-# Install Jido
+# Install Jido and Tutor
 
 Status: Current
 
 Last reviewed: 2026-11-09
 
-## 1. Install Jido
+## 1. Install the skills
 
 Use a terminal with Node.js and npm available. Open the workspace where you
 want to use Jido, then run:
@@ -13,15 +13,17 @@ want to use Jido, then run:
 npx skills add agentjido/skills
 ```
 
-Select your agent host when prompted. Install `jido`. It is the only public
-Agent Skill in this package.
+Select your agent host when prompted. Install `jido` for general work and
+`tutor` for guided learning. They are the two public Agent Skills in this
+package.
 
 ## Review the trust boundary
 
 Skills are agent instructions and can include scripts or supporting files.
 Treat an installed skill pack like installed software:
 
-1. Review `skills/jido/SKILL.md` and its support files.
+1. Review `skills/jido/SKILL.md`, `skills/tutor/SKILL.md`, and their support
+   files.
 2. Use a reviewed release or source revision for team deployment.
 3. Confirm the requested file, command, network, and account access before use.
 4. Require explicit approval for writes, publication, deletion, purchases, or
@@ -40,7 +42,7 @@ Jido does not keep a separate skill registry or scan the filesystem for skills.
 ## 2. Start an agent session
 
 Start a new session if your host requires it. Ask the agent to confirm that
-`jido` is available. Skill invocation syntax depends on the host.
+`jido` and `tutor` are available. Skill invocation syntax depends on the host.
 
 ## 3. Give Jido a goal
 

@@ -11,6 +11,7 @@ they do not grant the actions named in a request.
 | A standing user or workspace instruction prefers Jido and the work is substantial or ambiguous. | Use Jido. |
 | The request is a simple question, direct command, or small self-contained task. | Skip Jido. |
 | The requester selects another workflow or says not to use a skill. | Skip Jido. |
+| The requester asks Jido to teach a concept or practise a skill. | Recommend one explicit `$tutor` request with relevant context. Do not start Tutor automatically. |
 
 ## Route cases
 
@@ -20,7 +21,6 @@ they do not grant the actions named in a request.
 | Fix this reproduced defect and check the result. | deliver | `work` | Use the supported diagnosis, repair locally, then use `verify`. |
 | Grill this product idea before we build it. | deliver | `shape` | Set product direction. Do not implement. |
 | Scope and plan this ready software change. | deliver | `shape` | Produce the requested scope and plan. Do not implement. |
-| Teach me to write a clear agent assignment. | learn | `lead` | Teach from the user's attempt. Do not start work. |
 | Delegate these independent research units and integrate their return. | deliver | `lead` | Start workers only when the tool and authority are available. |
 | Turn these notes into a report and check every claim. | deliver | `work` | Produce the report, then use `verify`. |
 | Routine. | support | `work` | List local routines and their state. Do not run them. |

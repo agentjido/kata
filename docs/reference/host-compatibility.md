@@ -9,14 +9,17 @@ Use [the installation guide](../guides/installation.md) first. It uses
 
 ## Public package shape
 
-The repository contains one public Agent Skill:
+The repository contains two public Agent Skills:
 
 ```text
 skills/jido/SKILL.md
+skills/tutor/SKILL.md
 ```
 
 Internal Kata contracts and detailed methods are support files below that
-package. A host must not expose them as separate commands.
+package. Internal Tutor commands and learning content are support files below
+the Tutor package. A host must not expose these internal files as separate
+commands.
 
 ## Grok Build CLI
 
@@ -66,6 +69,8 @@ Omit `-l` for a user-wide install. Start a new Pi session and ask it to use
 skills/jido/SKILL.md             Public Agent Skill
 skills/jido/references/katas/    Internal work contracts
 skills/jido/references/methods/  Detailed methods and license notices
+skills/tutor/SKILL.md            Public WorkTutor learning skill
+skills/tutor/references/         Internal learning commands and content
 skills/README.md                 Package and maintenance guide
 skills/catalog.exs               Optional local package view
 plugin.json                      Portable plugin metadata

@@ -1,15 +1,17 @@
-# Jido method provenance and retention
+# Jido Work System provenance and retention
 
-Purpose: Record the current ownership and source location of the internal Jido
-methods after the single-command consolidation.
+Purpose: Record the public skill boundary and the current ownership and source
+location of the internal Jido methods.
 
 Last reviewed: 2026-11-09
 
 ## Public package
 
-`skills/jido/SKILL.md` is the only public Agent Skill. The eight internal Kata
-contracts are below `skills/jido/references/katas/`. Detailed methods are below
-`skills/jido/references/methods/`.
+`skills/jido/SKILL.md` and `skills/tutor/SKILL.md` are the two public Agent
+Skills. The eight internal Jido Kata contracts are below
+`skills/jido/references/katas/`. Detailed methods are below
+`skills/jido/references/methods/`. Tutor owns a separate learning result and
+keeps its internal commands and learning content below `skills/tutor/references/`.
 
 The detailed method directory names retain their former `kata-*` identifiers
 to keep source history, relative links, license mapping, and migration review
@@ -21,7 +23,7 @@ clear. They are not public commands.
 | --- | --- |
 | Understand | `kata-understand`, diagnosis from `kata-debug`, `kata-sitrep` |
 | Shape | `kata-idea`, `kata-roadmap`, `kata-scope`, `kata-plan` |
-| Lead | `kata-tutor`, `kata-delegate` |
+| Lead | `kata-delegate` |
 | Work | `kata-work`, repair from `kata-debug`, `kata-docs`, `kata-showme`, `kata-technical-writing` |
 | Verify | `kata-verify`, `kata-security` |
 | Improve | `kata-maintain-skill`, `kata-write-skill` |
@@ -46,8 +48,9 @@ licenses and provenance after an owner decision.
 
 ## Admission rule
 
-Do not add another public Agent Skill package to this repository only because
-a method has a distinct name. Add a detailed method below Jido when one
-internal Kata can own its result and authority. Use a separate repository when
-the work needs specialist domain ownership, an independent release, or a
-different installation decision.
+Do not add another public Agent Skill package only because a method has a
+distinct name. Keep a separate package when it has a distinct result,
+authority boundary, and consumer, as Tutor does. Add a detailed method below
+Jido when one internal Kata can own its result and authority. Use a separate
+repository when the work needs specialist domain ownership, an independent
+release, or a different installation decision.

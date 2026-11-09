@@ -15,23 +15,13 @@ Enter at the first unresolved contract:
 | --- | --- | --- |
 | `understand` | The current condition, cause, evidence, or workbench state is unclear. | Supported facts already bound the work. |
 | `shape` | Direction, scope, decisions, or technical sequence are unresolved. | The target, boundary, acceptance, and route are ready. |
-| `lead` | The request asks for teaching, delegation, worker coordination, or managed return. | One direct worker is sufficient and no teaching was requested. |
+| `lead` | The request asks for delegation, worker coordination, or managed return. | One direct worker is sufficient. |
 | `work` | The result, scope, acceptance, and authority are known. | A candidate already exists. |
 | `verify` | A candidate needs independent acceptance evidence. | Current matching evidence already proves each material condition. |
 | `ship` | The user asks for a commit, push, pull request, merge, tag, or release. | The requested result is local or delivery authority is absent. |
 
 A failed verification returns to the repair owner, then to verification. Jido
 keeps integration ownership through that return.
-
-## Learn
-
-```text
-lead -> work? -> verify?
-```
-
-Use `lead` in teaching mode when the user asks to learn or practise agent
-leadership. Teaching is not a required gate for ordinary delivery.
-Reflection is a learning result, not an internal Kata or a sequence step.
 
 ## Improve
 
@@ -64,7 +54,7 @@ it. An evaluation result does not adopt or publish a candidate.
 
 ## Route output vocabulary
 
-Use only `deliver`, `learn`, `improve`, `support`, or `dojo` as the route name.
+Use only `deliver`, `improve`, `support`, or `dojo` as the route name.
 Use only internal Kata names from `commands.md` in the entry and sequence.
 Acceptance, reflection, and handoff are results or transitions, not Katas.
 Do not use older output terms such as `deliver-value`, `accept`, `procedure`,

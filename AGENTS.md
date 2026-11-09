@@ -4,7 +4,7 @@
 - Use `kata-ex-<task>` for Elixir skills and `kata-<task>` for language-agnostic skills.
 - `jido` is the approved bare dispatcher. Use
   `jido-sdk` when a name refers specifically to the Jido Elixir SDK.
-- A small conversational or writing command can keep a distinctive bare name when the user explicitly approves the exception and the name has low collision risk. Bare commands must say that they require explicit invocation.
+- A small conversational or writing command can keep a distinctive bare name when the user explicitly approves the exception and the name has low collision risk. Tutor can be invoked directly or selected for clear learning intent. It must not take over ordinary task execution.
 - Mark Elixir skills with `metadata: {language: elixir}`. No language marker means language-agnostic.
 - Keep the plugin small. Add a skill when an actual task shows a need.
 - Keep each skill self-contained in `skills/<name>/SKILL.md`.

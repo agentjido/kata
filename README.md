@@ -2,9 +2,9 @@
   <img src="assets/agent-jido-kata.png" alt="Jido logo" width="180">
 </p>
 
-<h1 align="center">Jido Skills</h1>
+<h1 align="center">Jido Work System</h1>
 
-<p align="center"><strong>One command. Useful work. You lead.</strong></p>
+<p align="center"><strong>WorkTutor teaches. Jido guides. The user leads.</strong></p>
 
 <p align="center">
   <a href="https://github.com/agentjido/skills/actions/workflows/ci.yml"><img src="https://github.com/agentjido/skills/actions/workflows/ci.yml/badge.svg" alt="Validate status"></a>
@@ -14,14 +14,17 @@
   <a href="LICENSE"><img src="https://img.shields.io/github/license/agentjido/skills" alt="Apache 2.0 license"></a>
 </p>
 
-Jido is one Agent Skill for useful AI work. Give `$jido` a normal-language
-goal. Jido selects the smallest internal work method, acts within your
-authority, checks the result, and continues through repair when a required
-check fails.
+The Jido Work System contains two Agent Skills with separate jobs:
 
-You set the goal, limits, and authority. Jido coordinates the work. Internal
-Katas provide the methods. You do not install or invoke those methods as
-separate skills.
+- `$jido` guides useful work. It selects the smallest internal work method,
+  acts within your authority, checks the result, and continues through repair
+  when a required check fails.
+- `$tutor` teaches productive AI work through explanation, practice, and
+  feedback. It is the first WorkTutor skill. Invoke it directly or use a clear
+  request to learn, explore, practise, or review agent-led work.
+
+You set the goal, limits, and authority. Jido coordinates work. Tutor supports
+learning. Internal Katas and Tutor commands are not separate public skills.
 
 ## Install
 
@@ -31,8 +34,8 @@ Run this command from the workspace where you use your agent:
 npx skills add agentjido/skills
 ```
 
-Select `jido`, start a new agent session if your host requires it, and give it
-a goal:
+Select `jido` and `tutor`, then start a new agent session if your host requires
+it. Give Jido a goal:
 
 ```text
 $jido turn these source notes into a decision brief and check its claims
@@ -59,7 +62,7 @@ Jido uses seven normal internal Katas and one explicit maintainer Kata:
 | --- | --- |
 | Understand | Establish facts, causes, and current state. |
 | Shape | Set direction, scope, decisions, and technical sequence. |
-| Lead | Teach agent leadership or delegate bounded work. |
+| Lead | Delegate bounded work. |
 | Work | Produce one candidate result. |
 | Verify | Check the candidate with evidence. |
 | Improve | Maintain and revise reusable work methods. |
@@ -69,6 +72,15 @@ Jido uses seven normal internal Katas and one explicit maintainer Kata:
 These Katas are internal references in the `jido` package. They are not public
 commands. Jido starts at the first unresolved contract and skips work that the
 request already supplies.
+
+## How Tutor works
+
+Tutor has one public entry point: `$tutor`. It routes one learning goal through
+the smallest useful combination of explanation, practice, feedback, and
+current resources. Tutor can prepare a work handoff, but it does not perform
+the work or grant itself new authority. Jido can recommend Tutor for a learning
+gap. Tutor can prepare a `$jido` handoff to apply or verify what it teaches.
+Neither skill invokes the other automatically.
 
 ## Authority
 

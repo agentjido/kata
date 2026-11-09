@@ -40,8 +40,8 @@ this routine.
    unprocessed item with its owner and next action.
 3. Compare current-state and completed-plan claims with direct repository
    evidence. Treat a plan as intent, not proof.
-4. Confirm that root and package guides describe one public `$jido` command and
-   keep internal methods private to the package.
+4. Confirm that root and package guides describe the public `$jido` and
+   `$tutor` commands and keep their internal methods private to each package.
 5. Confirm that `docs/routines/README.md` indexes every routine file and does
    not treat results or extension providers as routine definitions.
 

@@ -8,8 +8,8 @@ authority: read-only
 
 ## Outcome
 
-The repository has one public Jido skill, and every internal Kata and detailed
-method has one valid registered owner.
+The repository has Jido and Tutor as its two public skills, and every internal
+Jido Kata and detailed method has one valid registered owner.
 
 ## Trigger
 
@@ -35,15 +35,15 @@ state.
 
 1. Run `elixir scripts/validate_jido_package.exs` from the repository root.
 2. Use `rg --files -g 'SKILL.md' skills` and confirm that it returns only
-   `skills/jido/SKILL.md`.
+   `skills/jido/SKILL.md` and `skills/tutor/SKILL.md`.
 3. Confirm that new routine behavior remains an internal method and does not
    become a public skill or ninth routing Kata.
 
 ## Findings
 
-Create a finding when a command fails, a public skill is added, a registry path
-is missing, a method has no Kata owner, or a routing case loses an authority
-boundary. Include the exact file and command evidence.
+Create a finding when a command fails, an unexpected public skill is added, a
+registry path is missing, a method has no Kata owner, or a routing case loses
+an authority boundary. Include the exact file and command evidence.
 
 ## Done
 

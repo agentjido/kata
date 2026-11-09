@@ -1,8 +1,8 @@
 {
   "name": "kata",
-  "displayName": "Agent Jido Kata",
+  "displayName": "Jido Work System",
   "version": "0.5.0",
-  "description": "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido.",
+  "description": "A work system for useful AI work and guided practice with Jido and Tutor.",
   "author": {
     "name": "Jidoka Labs and licensed contributors",
     "url": "https://jidokahq.com"

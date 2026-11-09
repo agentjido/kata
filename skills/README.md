@@ -1,9 +1,10 @@
-# Jido Agent Skill
+# Jido Work System skills
 
-This directory contains one discoverable Agent Skill:
+This directory contains two discoverable Agent Skills:
 
 ```text
 skills/jido/SKILL.md
+skills/tutor/SKILL.md
 ```
 
 Invoke it with `$jido` and a normal-language goal. Jido routes work through
@@ -12,8 +13,9 @@ and their required source notices are below
 `skills/jido/references/methods/`.
 
 Internal Katas and methods are not separate Agent Skills or public commands.
-Do not add another `skills/<name>/SKILL.md` package without a new product and
-library decision.
+Invoke Tutor with `$tutor` for guided learning. Its internal commands, lessons,
+and concepts are not separate Agent Skills. Do not add another public package
+without a new product and library decision.
 
 ## Package layout
 
@@ -24,6 +26,11 @@ skills/jido/
 └── references/
     ├── katas/
     └── methods/
+skills/tutor/
+├── SKILL.md
+└── references/
+    ├── commands/
+    └── learning/
 ```
 
 Read `SKILL.md` first. It owns routing, authority, continuation, and final
@@ -39,5 +46,6 @@ elixir scripts/validate_release.exs
 elixir skills/catalog.exs --check
 ```
 
-The release check requires exactly one public `SKILL.md`, validates its
-frontmatter and links, and checks the preserved license notices.
+The release check requires exactly the Jido and Tutor public packages,
+validates their frontmatter and links, and checks the preserved license
+notices.

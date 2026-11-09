@@ -9,6 +9,7 @@ metadata:
   object: work-request
   profile: coordination
   authority: external-write
+  worktutor-topics: "define-work, direct-agents, use-jido, verify-work, improve-work, agentic-engineering"
   consumes: "work-request"
   produces: "routed-work-result"
 ---
@@ -63,7 +64,6 @@ Kata:
 
 ```text
 deliver: understand -> shape? -> lead? -> work -> verify -> ship?
-learn: lead -> work? -> verify?
 improve: improve
 support: understand? -> shape? -> lead? -> work? -> verify? -> ship?
 dojo: dojo, only when the user names Dojo
@@ -76,7 +76,7 @@ run a Kata for ceremony.
 Before substantial work, report the route once:
 
 ```text
-Jido: <deliver|learn|improve|support|dojo> | Entry: <kata> | Sequence: <kata -> kata> | Authority: <level>
+Jido: <deliver|improve|support|dojo> | Entry: <kata> | Sequence: <kata -> kata> | Authority: <level>
 ```
 
 This line is the complete Jido startup notice. Do not add a separate statement
@@ -88,6 +88,15 @@ when it explains a material boundary or the requester asks for it.
 
 Do not report the route again while it is unchanged. If evidence changes the
 route, report the new route once when the change occurs.
+
+## Hand learning to Tutor
+
+Tutor is the sibling skill for explanation, practice, and learning feedback.
+When the primary request is to learn, or a learning gap prevents useful work,
+recommend one explicit `$tutor <learning goal>` request with the relevant work
+context. Do not invoke Tutor automatically. A recommendation does not complete
+an unresolved work contract. Continue any authorized work that does not depend
+on the learning result.
 
 ## Load internal instructions safely
 

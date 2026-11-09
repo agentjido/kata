@@ -12,12 +12,14 @@ options. The sections below contain project and maintenance records.
 Use the [Docs Kata rules](AGENTS.md) for documentation changes. The
 [inbox and intake log](inbox/README.md) record source material.
 
-Last reviewed: 2026-11-09 (single-command consolidation; dated records retained)
+Last reviewed: 2026-11-09 (Jido and Tutor sibling skills; dated records retained)
 
 ## Current state
 
-- [`jido`](../skills/jido/SKILL.md) is the only public Agent Skill. It owns work
-  routing, authority, continuation, and final integration.
+- [`jido`](../skills/jido/SKILL.md) owns work routing, authority, continuation,
+  and final integration.
+- [`tutor`](../skills/tutor/SKILL.md) is the explicit WorkTutor entry point for
+  explanation, practice, feedback, and learning resources.
 - Seven normal internal Katas own understanding, shaping, leadership, work,
   verification, improvement, and Git delivery. Dojo is an eighth,
   explicit-only internal Kata.
@@ -56,7 +58,8 @@ that a document has been verified.
   Jira `twg` adapters.
 
 The [single-command consolidation plan](plans/2026-11-09-jido-single-command-consolidation-plan.md)
-defines the breaking 1.0 package shape. The older
+records the internal Jido consolidation. Its one-public-skill surface is
+superseded by the current Jido and Tutor sibling packages. The older
 [skill library architecture](plans/skill-library-architecture.md) is retained
 as the source for the work-system contracts that the internal Katas preserve.
 

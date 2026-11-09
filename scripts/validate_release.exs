@@ -2,7 +2,7 @@ Code.require_file("release_changelog.exs", __DIR__)
 
 defmodule Kata.ReleaseValidator do
   @root Path.expand("..", __DIR__)
-  @description "A flexible workflow for agentic productivity: lead, delegate, and verify with Jido."
+  @description "A work system for useful AI work and guided practice with Jido and Tutor."
   @plugin_schema "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
   @semver ~r/^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/
   @identifier ~r/^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -67,7 +67,7 @@ defmodule Kata.ReleaseValidator do
       [] ->
         version = version!()
         skill_count = @root |> Path.join("skills/*/SKILL.md") |> Path.wildcard() |> length()
-        IO.puts("Validated Agent Jido Kata #{version}: #{skill_count} skills")
+        IO.puts("Validated Jido Work System #{version}: #{skill_count} skills")
         if options[:tag], do: IO.puts("Validated release tag: #{options[:tag]}")
         :ok
 
@@ -219,10 +219,16 @@ defmodule Kata.ReleaseValidator do
 
   defp validate_skills(errors) do
     skill_files = @root |> Path.join("skills/*/SKILL.md") |> Path.wildcard() |> Enum.sort()
-    expected = [Path.join(@root, "skills/jido/SKILL.md")]
+
+    expected =
+      [
+        Path.join(@root, "skills/jido/SKILL.md"),
+        Path.join(@root, "skills/tutor/SKILL.md")
+      ]
+      |> Enum.sort()
 
     errors =
-      require(errors, skill_files == expected, "jido must be the only active skill package")
+      require(errors, skill_files == expected, "jido and tutor must be the active skill packages")
 
     Enum.reduce(skill_files, errors, fn path, acc ->
       case validate_skill(path) do
@@ -238,8 +244,9 @@ defmodule Kata.ReleaseValidator do
     errors =
       require(
         errors,
-        Enum.map(paths, &Path.basename/1) |> Enum.sort() == ["README.md", "catalog.exs", "jido"],
-        "skills/: public package surface must contain only jido and its package guides"
+        Enum.map(paths, &Path.basename/1) |> Enum.sort() ==
+          ["README.md", "catalog.exs", "jido", "tutor"],
+        "skills/: public package surface must contain only jido, tutor, and package guides"
       )
 
     Enum.reduce(paths, errors, fn path, acc ->

@@ -7,7 +7,7 @@ public commands or separately installable skills.
 | --- | --- | --- |
 | `understand` | `references/katas/understand.md` | understand, debug diagnosis, Git workbench |
 | `shape` | `references/katas/shape.md` | idea, roadmap, scope, software plan |
-| `lead` | `references/katas/lead.md` | tutor, delegate |
+| `lead` | `references/katas/lead.md` | delegate |
 | `work` | `references/katas/work.md` | general work, debug repair, docs, routines, visual explanation, technical writing |
 | `verify` | `references/katas/verify.md` | general verification, security review |
 | `improve` | `references/katas/improve.md` | maintain method, write method |
@@ -16,8 +16,8 @@ public commands or separately installable skills.
 
 ## Selection rules
 
-1. Select the result domain first: delivery, learning, reusable-method
-   improvement, support, or explicit Dojo evaluation.
+1. Select the result domain first: delivery, reusable-method improvement,
+   support, or explicit Dojo evaluation. Send learning requests to Tutor.
 2. Select the first unresolved Kata from `loops.md`.
 3. Read one detailed method only when its condition applies.
 4. A method cannot change the route, authority, or Jido's integration duty.
