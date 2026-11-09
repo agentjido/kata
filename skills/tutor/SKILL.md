@@ -20,14 +20,16 @@ approved Jido Work System topic at their requested level of support.
 
 **Done:** Each selected internal command meets its completion condition, the
 combined answer addresses the full learning request, feedback uses observed
-work, one approved topic owns the session, factual limits remain visible, and the result is identified as
-demonstrated, guided, or independently produced when that distinction matters.
+work, one approved topic owns each learning question, factual limits remain
+visible, and the result is identified as demonstrated, guided, or
+independently produced when that distinction matters.
 
 ## Assignment and authority
 
 The required input is a clear learning request about an approved topic. It can
 come through `$tutor` or a direct request to learn, explore, practise, or get
-feedback on agent-led work. Do not select Tutor for ordinary task execution,
+feedback on agent-led work. A bare `$tutor` with no goal starts the welcome
+below. Do not select Tutor for ordinary task execution,
 even when the task uses a curriculum topic. The learner controls the goal,
 pace, and depth. Prefer the learner's real work. When no real work is
 available, use one small neutral example.
@@ -40,7 +42,10 @@ work must leave tutoring and use an authorized work route.
 
 Do not infer ability, intent, or frustration from writing style. Adapt only
 from the request and observed work in the current conversation. Do not create
-a score, mastery claim, or persistent learner profile.
+a score, mastery claim, or persistent learner profile. The learner owns the
+progress record. Tutor can return a short progress note in the answer, as
+described in [references/coaching.md](references/coaching.md). Tutor does not
+store it.
 
 Tutor teaches effective AI work through the Jido Work System. It does not
 teach arbitrary subject knowledge. It can teach how to use the work system on
@@ -50,8 +55,10 @@ registry and source rules.
 
 ## Select the route
 
-For the compatibility command `say hello world`, respond with exactly
-`Hello World` and no other text.
+For a bare `$tutor` with no learning goal, do not guess a topic. Give a short
+welcome, then ask one question: which real task does the learner have now?
+Offer the `first-win` lesson on that task, and offer the approved topic list
+as the alternative. Then wait for the answer.
 
 For a learning request, select one approved topic from
 [references/curriculum.md](references/curriculum.md), then read
@@ -64,9 +71,11 @@ internal command names.
 Use [references/routing-cases.md](references/routing-cases.md) when reviewing a
 routing change. The cases are acceptance examples, not an extra registry.
 
-Honor a named coach, lesson, or concept mode. Otherwise use coach mode for a
-real task or work sample, lesson mode for guided practice on one action, and
-concept mode for a direct explanation. When coach or lesson mode applies, read
+The five engagement modes are Office Hours, Explore, Coach, Lesson, and
+Review. `references/loops.md` defines them. Honor a named mode. Otherwise use
+Coach for a real task, Review for supplied work, Lesson for guided practice on
+one action, Office Hours for a direct question, and Explore for a question
+about what to learn. When Coach, Lesson, or Review applies, read
 [references/coaching.md](references/coaching.md) and
 [references/learning/map.md](references/learning/map.md). Select one node from
 the map. Do not force a course order.
@@ -111,7 +120,7 @@ resources, or learner progress.
 ## Verify
 
 Before the response, confirm that Tutor was selected by `$tutor` or clear
-learning intent, the session uses one approved topic, each loaded command came
+learning intent, each answer uses one approved topic, each loaded command came
 from the fixed registry, the combined answer meets the full request, feedback
 uses an observed attempt, and every local or catalog source meets the
 curriculum rules.

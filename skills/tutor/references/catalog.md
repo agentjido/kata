@@ -5,15 +5,12 @@ The catalog is a publication source, not the curriculum authority.
 
 ## Sources
 
-Use an exact catalog URL supplied by the learner or active workspace. The
-local WorkTutor development convention is:
+No default catalog is live. Use a catalog only when the learner or the active
+workspace supplies its exact URL. Without a supplied URL, do not fetch a
+catalog. Use the bundled curriculum.
 
-```text
-http://localhost:4010/curriculum/catalog.json
-```
-
-The planned production source is below. Do not claim that it is live until a
-fetch returns a valid current catalog:
+The planned production source is below. Do not fetch it by default, and do not
+claim that it is live:
 
 ```text
 https://worktutor.ai/curriculum/catalog.json

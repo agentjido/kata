@@ -9,16 +9,8 @@ target, scope, acceptance evidence, authority, next consumer, and stop
 condition. Ask one question only when a missing accountable decision can
 materially change them.
 
-Select the first unresolved internal Kata:
-
-- `understand` when the current condition, cause, or evidence is unclear;
-- `shape` when direction, boundary, decisions, or sequence are unclear;
-- `lead` when the request asks for separate worker ownership;
-- `work` when the result and authority are ready;
-- `verify` when a candidate needs independent evidence;
-- `improve` when the result changes a reusable method;
-- `ship` when the user asks for Git delivery; or
-- `dojo` only when the user explicitly names Dojo.
+Select the first unresolved internal Kata with the entry conditions in
+`commands.md`. This loop does not add a Kata or a selection rule.
 
 If the selected Kata needs specialist domain judgment that is unavailable,
 name that missing capability. Do not install, search for, or invent a domain
@@ -43,6 +35,6 @@ or an unavailable decision, authority, capability, or dependency.
 
 ## Return evidence
 
-Report the result, direct evidence, selected Kata, authority used, changed
-state, and exact limit. Label an unseen cause or prediction as an inference.
+Report the result, direct evidence, authority used, changed state, and exact
+limit. State when the verdict is `self-checked`. Label an unseen cause or prediction as an inference.
 Do not claim a remote or accepted state that was not observed.

@@ -28,6 +28,8 @@ do not treat them as a linear course or prerequisites.
 | `delegate-clearly` | A worker could guess about output, authority, or ownership. | Assign an output with context and authority. | `authority`, `ownership` | An assignment the learner can explain. |
 | `check-the-return` | A returned result needs an acceptance or repair decision. | Compare the result with sources and agreed conditions. | `evidence`, `uncertainty` | A supported acceptance decision or specific repair request. |
 | `improve-the-next-run` | The learner wants to apply a result or failure to later work. | Change one part of the next assignment. | `reflection`, `feedback` | One justified change without a mastery claim. |
+| `choose-the-entry` | The learner does not know when to use `$jido`, `$tutor`, or a direct request. | Select the entry for one real request and write it. | `authority`, `ownership` | A written request with a stated reason and allowed actions. |
+| `bound-a-code-change` | The real task is a software change for an agent. | Write the check, file boundary, and delivery limit. | `done`, `scope`, `evidence` | An assignment with one observable check and clear limits. |
 
 Lesson files:
 
@@ -36,6 +38,11 @@ Lesson files:
 - [delegate-clearly](lessons/delegate-clearly.md)
 - [check-the-return](lessons/check-the-return.md)
 - [improve-the-next-run](lessons/improve-the-next-run.md)
+- [choose-the-entry](lessons/choose-the-entry.md)
+- [bound-a-code-change](lessons/bound-a-code-change.md)
+
+Each lesson file has a worked example and a common mistake. Use them after the
+learner's attempt, or earlier when the learner asks for an example.
 
 ## Concepts
 
@@ -57,6 +64,8 @@ Lesson files:
 1. Honor a named node or mode.
 2. Otherwise inspect the real task or sample for the earliest material gap:
    outcome, boundary, assignment, return check, or next-run improvement.
+   Use `choose-the-entry` for a question about when to use Jido or Tutor. Use
+   `bound-a-code-change` when the real task is a software change.
 3. Offer one node and state why it helps the current result.
 4. If no real sample exists, use a small neutral task and the same router.
 5. If the learner already demonstrates the action, reduce support or select a

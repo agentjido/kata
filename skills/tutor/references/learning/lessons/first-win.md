@@ -18,5 +18,14 @@ Done when: Each option has a source, cost range, main constraint, and a stated
 recommendation; unsupported facts are marked unknown.
 ```
 
+Common mistake:
+
+```text
+Outcome: Research our options thoroughly and report back.
+```
+
+This states an activity and an effort level. The result consumer cannot check
+"thoroughly". Ask what the consumer will decide or do with the result.
+
 Complete when the learner produces an outcome with an observable completion
 check. Label a copied or heavily guided answer as demonstrated or guided.

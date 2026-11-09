@@ -1,16 +1,19 @@
 # Coaching method
 
-Use this method for coach and lesson modes. It preserves the coaching core from
-the prior internal `kata-tutor` method.
+Use this method for the Coach, Lesson, and Review modes. It preserves the
+coaching core from the prior internal `kata-tutor` method.
 
 ## Select the help mode
 
-- **Coach:** Review a real task or supplied work, find one useful gap, and
-  select one learning-map node. This is the default for real work.
+- **Coach:** Start from a real task, find one useful gap, and select one
+  learning-map node. This is the default for real work.
 - **Lesson:** Guide one observable action through a real task. Use the selected
   lesson file and its linked concepts.
-- **Concept:** Explain one idea briefly without requiring an exercise. Concept
-  mode does not need this coaching cycle.
+- **Review:** Start from supplied work. Give feedback on one material gap
+  before any explanation.
+
+Office Hours and Explore answer a question directly. They do not need this
+coaching cycle.
 
 The learner can ask for more help, less help, an example, a direct answer, or
 an exit at any time.
@@ -40,3 +43,25 @@ Adjust support from evidence:
 When the right support is uncertain, ask one brief choice, such as whether a
 hint or an example would help. Do not require struggle before an answer. Do not
 ask repeated questions after progress stops.
+
+## Progress note
+
+The learner owns the progress record. Tutor does not store one. Offer this
+note when a Coach, Lesson, or Review exchange ends with one or more observed
+attempts, or when the learner asks for it:
+
+```text
+Topic: <approved topic ID>
+Practised: <lesson or concept IDs>
+Evidence: <the observed attempt> (<demonstrated | guided | independent>)
+Next: <one node or one real task to try>
+```
+
+Record only what the conversation shows. Use `demonstrated` when Tutor showed
+the answer, `guided` when the learner used hints, and `independent` when the
+learner produced the result without help. Do not add a score, rank, or mastery
+claim. Return the note in the answer. Do not write it to a file.
+
+When the learner supplies an earlier note, use it as context to select the
+next node. It does not prove that the learner can do the action now. Observed
+work in the current conversation has priority.
