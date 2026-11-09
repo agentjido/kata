@@ -2,6 +2,13 @@
 
 This file records material changes to Agent Jido Kata.
 
+## [0.6.0](https://github.com/agentjido/skills/compare/v0.5.0...v0.6.0) (2026-11-09)
+
+
+### Features
+
+* add Tutor curriculum system ([17e5dbc](https://github.com/agentjido/skills/commit/17e5dbc9c72839d781ea4e3b9e86f60bf0161b4b))
+
 ## [0.5.0] - 2026-11-05
 
 ### Added
