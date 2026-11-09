@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/agent-jido-kata.png" alt="Jido logo" width="180">
+  <img src="assets/jido-work-system-logo-v1.png" alt="Jido Work System logo" width="180">
 </p>
 
 <h1 align="center">Jido Work System</h1>
