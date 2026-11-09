@@ -4,16 +4,16 @@ Status: Current
 
 Last reviewed: 2026-11-09
 
-Agent Jido Kata preserves source authorship and required license notices. This
-page records the current sources and adaptations. The root project uses
+The Jido Work System preserves source authorship and required license notices.
+This page records the current sources and adaptations. The root project uses
 Apache-2.0. A method-specific notice continues to apply to the adapted material
 in that internal method.
 
 Keep author credits here and in required license files, outside the Jido
 instructions.
 
-Kata is authored by [Jidoka Labs](https://jidokahq.com) and licensed
-contributors.
+The Jido Work System is authored by [Jidoka Labs](https://jidokahq.com) and
+licensed contributors.
 
 - `kata-security` adapts Cloudflare's
   [security-audit skill](https://github.com/cloudflare/security-audit-skill/tree/c1c8a8c1471069fb0e188eeaff69b8e8db6564a8/skills/security-audit).
