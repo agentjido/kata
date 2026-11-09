@@ -36,5 +36,6 @@ or an unavailable decision, authority, capability, or dependency.
 ## Return evidence
 
 Report the result, direct evidence, authority used, changed state, and exact
-limit. State when the verdict is `self-checked`. Label an unseen cause or prediction as an inference.
-Do not claim a remote or accepted state that was not observed.
+limit. State when the verdict is `self-checked`. Label an unseen cause or
+prediction as an inference. Do not claim a remote or accepted state that was
+not observed.

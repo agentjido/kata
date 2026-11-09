@@ -6,16 +6,21 @@ registry and routing source.
 
 ## Registry
 
-| Kata | Fixed path | Detailed methods |
-| --- | --- | --- |
-| `understand` | `references/katas/understand.md` | understand, debug diagnosis, Git workbench |
-| `shape` | `references/katas/shape.md` | idea, roadmap, scope, software plan |
-| `lead` | `references/katas/lead.md` | delegate |
-| `work` | `references/katas/work.md` | general work, debug repair, docs, routines, visual explanation, technical writing |
-| `verify` | `references/katas/verify.md` | general verification, security review |
-| `improve` | `references/katas/improve.md` | maintain method, write method |
-| `ship` | `references/katas/ship.md` | Git delivery |
-| `dojo` | `references/katas/dojo.md` | saved or live controlled evaluation |
+| Kata | Plain verb | Fixed path | Detailed methods |
+| --- | --- | --- | --- |
+| `understand` | investigate | `references/katas/understand.md` | understand, debug diagnosis, Git workbench |
+| `shape` | plan | `references/katas/shape.md` | idea, roadmap, scope, software plan |
+| `lead` | delegate | `references/katas/lead.md` | delegate |
+| `work` | produce | `references/katas/work.md` | general work, debug repair, docs, routines, visual explanation, technical writing |
+| `verify` | check | `references/katas/verify.md` | general verification, security review |
+| `improve` | improve | `references/katas/improve.md` | maintain method, write method |
+| `ship` | deliver | `references/katas/ship.md` | Git delivery |
+| `dojo` | evaluate | `references/katas/dojo.md` | saved or live controlled evaluation |
+
+The startup sentence uses the plain verb for each planned Kata, in sequence
+order. Each verb maps to one Kata, so a reviewer can read the selected
+sequence from the sentence. Do not use these verbs for other steps in the
+sentence.
 
 ## Sequence
 
@@ -58,9 +63,9 @@ Common single-Kata requests:
 3. Use `dojo` only when the current request explicitly names Dojo. Do not
    infer it. An evaluation result does not adopt or publish a candidate.
 4. Send a learning request to Tutor.
-5. For all other work, select the first unresolved Kata from the sequence.
-   Use the latest Kata that can act without guessing. Task size does not
-   select a Kata. Move earlier only when evidence shows that a required
+5. For all other work, enter at the first unresolved Kata in the sequence.
+   Do not enter earlier than the evidence requires. Task size does not select
+   a Kata. Move back to an earlier Kata only when evidence shows that its
    contract is missing.
 6. Read one detailed method only when its condition applies.
 7. A method cannot change the sequence, the authority, or Jido's integration

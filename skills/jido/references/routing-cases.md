@@ -35,8 +35,11 @@ they do not grant the actions named in a request.
 | Use the Elixir quality method on this project. | `work` | `work -> verify` | Use a host-exposed specialist skill or report it unavailable. |
 
 For each substantial case, check that Jido gives one plain startup sentence
-with the planned steps and the authority limit. It must not add a separate
-Jido announcement or a route label. It must not repeat an unchanged plan in the
+with the planned steps and the authority limit. The sentence must use the
+plain verb from `commands.md` for each Kata in the Sequence column, in that
+order, and no plain verb for a Kata outside it. For example, `work -> verify`
+reads as "produce ..., then check ...". It must not add a separate Jido
+announcement or a route label. It must not repeat an unchanged plan in the
 final answer. A method name is optional and appears only when it explains a
 material boundary. The result still reports evidence, the exact limit, and
 whether the verdict is separate or self-checked.

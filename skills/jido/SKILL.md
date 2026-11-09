@@ -1,6 +1,6 @@
 ---
 name: jido
-description: "Carry one goal to a checked result with the smallest sequence of steps that the goal needs: investigate, plan, delegate, produce, verify, and deliver. Use when directly invoked or selected by standing user or workspace guidance for substantial or ambiguous work, such as research, diagnosis, planning, a multi-step change, a review, or Git delivery; skip simple questions, direct commands, small self-contained tasks, and another selected workflow."
+description: "Carry one goal to a checked result with the smallest sequence of steps that the goal needs: investigate, plan, delegate, produce, check, and deliver. Use when directly invoked or selected by standing user or workspace guidance for substantial or ambiguous work, such as research, diagnosis, planning, a multi-step change, a review, or Git delivery; skip simple questions, direct commands, small self-contained tasks, and another selected workflow."
 metadata:
   kata-argument-hint: "[goal]"
   schema: kata.skill/v1
@@ -79,14 +79,15 @@ Re-evaluate after each result because new evidence can expose an earlier
 unresolved contract. Do not run a Kata for ceremony.
 
 Before substantial work, state the plan once in one plain sentence. Give the
-planned steps in order and the authority limit:
+planned steps in order and the authority limit. Start each step with the
+plain verb that `references/commands.md` assigns to its Kata:
 
 ```text
-Jido: <planned steps in plain words>. <authority limit>.
+Jido: <verb> <object>, <verb> <object>, then <verb> <object>. <authority limit>.
 ```
 
-For example: `Jido: diagnose the failure, repair it locally, then check the
-result. No commit or push.`
+For example: `Jido: investigate the failure, produce a local repair, then
+check the result. No commit or push.`
 
 This line is the complete Jido startup notice. Do not add a separate statement
 that says Jido is in use or explains why it was selected. Do not add a route
@@ -152,16 +153,19 @@ budget.
 Check each selected Kata's completion condition, then compare the integrated
 result with the complete request.
 
-Keep the acceptance check separate from the work. When the host can start a
+Make the acceptance check proportionate. A mechanical check, such as a test,
+build, or validator command whose output decides the condition, does not need
+a separate verifier. For a material, risky, or judgment-based acceptance
+condition, keep the check separate from the work. When the host can start a
 separate worker or a fresh context and the authority permits it, give that
 verifier the candidate and its acceptance conditions without the reasoning
 that produced the candidate. When it cannot, check the final candidate state
-in a separate step and report the verdict as `self-checked`. Do not describe a
-self-checked verdict as independent.
+in a separate step and report that verdict as `self-checked`. Do not describe
+a self-checked verdict as independent.
 
 Lead with the result. Report material evidence, changed state, remaining
 decisions, and uncertainty. Do not repeat the startup plan in the final answer
 when it did not change. Include the plan or Kata sequence in the final answer
-only when the requester asks for it or it explains a material change or limit. Do not claim a commit,
-publication, merge, release, or acceptance without observed evidence for that
-state.
+only when the requester asks for it or it explains a material change or limit.
+Do not claim a commit, publication, merge, release, or acceptance without
+observed evidence for that state.

@@ -6,7 +6,10 @@ request, or a `$tutor` request, and write it.
 Concepts: [authority](../concepts/authority.md) and
 [ownership](../concepts/ownership.md).
 
-Facts for this lesson:
+Facts for this lesson restate the public Jido and Tutor contracts. When a fact
+here differs from `skills/jido/SKILL.md` or `skills/tutor/SKILL.md`, the
+`SKILL.md` file is correct. Teach from it and report the difference as a
+curriculum finding.
 
 - A direct request fits a simple question, one command, or a small
   self-contained task.

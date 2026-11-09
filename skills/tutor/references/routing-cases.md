@@ -28,6 +28,8 @@ Use these cases to review a Tutor routing change. They do not grant actions.
 | When should I use Jido and when should I ask directly? | Lesson | `how`, `practice` | Select `use-jido` and the `choose-the-entry` lesson. |
 | Help me give an agent a safe code change. | Coach | as needed | Select `agentic-engineering` and the `bound-a-code-change` lesson. Do not make the change. |
 | Give me a note of what I practised. | Coach | `feedback` | Return the progress note from observed attempts only. Do not store it or claim mastery. |
+| Here is my note from last time. What next? | Coach | `practice` | Use the note only to select the next node. Do not treat it as proof of current ability. Observed work in this conversation has priority. |
+| Help me state the outcome for this unclear code change. | Lesson | `how`, `practice` | Select `first-win`, not `bound-a-code-change`. The outcome gap comes before the boundary gap. |
 
 The Mode column uses the five engagement modes from `loops.md`. Resource
 support is not a mode.

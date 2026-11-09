@@ -64,8 +64,10 @@ learner's attempt, or earlier when the learner asks for an example.
 1. Honor a named node or mode.
 2. Otherwise inspect the real task or sample for the earliest material gap:
    outcome, boundary, assignment, return check, or next-run improvement.
-   Use `choose-the-entry` for a question about when to use Jido or Tutor. Use
-   `bound-a-code-change` when the real task is a software change.
+   When the earliest gap is the boundary and the real task is a software
+   change, use `bound-a-code-change` in place of `bound-the-work`. Use
+   `choose-the-entry` for a question about when to use a direct request,
+   Jido, or Tutor.
 3. Offer one node and state why it helps the current result.
 4. If no real sample exists, use a small neutral task and the same router.
 5. If the learner already demonstrates the action, reduce support or select a

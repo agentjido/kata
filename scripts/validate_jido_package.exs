@@ -14,6 +14,17 @@ defmodule Jido.PackageValidator do
     "dojo" => ~w(kata-dojo)
   }
 
+  @plain_verbs %{
+    "understand" => "investigate",
+    "shape" => "plan",
+    "lead" => "delegate",
+    "work" => "produce",
+    "verify" => "check",
+    "improve" => "improve",
+    "ship" => "deliver",
+    "dojo" => "evaluate"
+  }
+
   @removed_elixir ~w(kata-build-jido kata-ex-design-review kata-ex-quality)
 
   def run do
@@ -211,6 +222,10 @@ defmodule Jido.PackageValidator do
       acc =
         acc
         |> require(String.contains?(commands, "`#{kata}`"), "registry is missing #{kata}")
+        |> require(
+          String.contains?(commands, "| `#{kata}` | #{Map.fetch!(@plain_verbs, kata)} |"),
+          "registry has no plain verb for #{kata}"
+        )
         |> require(
           String.contains?(commands, "references/katas/#{kata}.md"),
           "registry path is missing #{kata}"
