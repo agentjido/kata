@@ -42,9 +42,13 @@ both results so that they identify the checked release commit.
 1. Review the proposed version and changelog.
 2. Confirm that all six public version files and the Release Please manifest
    use the same version.
-3. Review the README, installation guide, license, and attribution when the
+3. Preserve the generated release pull request body. Release Please parses it
+   after merge to identify the version and create the tag and GitHub Release.
+   Put detailed release notes in `CHANGELOG.md`; do not replace the pull
+   request body with a custom template.
+4. Review the README, installation guide, license, and attribution when the
    release changes those contracts.
-4. Run the same Elixir release validator used by CI.
+5. Run the same Elixir release validator used by CI.
 
 Run the repository checks from the repository root:
 
