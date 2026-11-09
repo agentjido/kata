@@ -25,19 +25,24 @@ maintainer authority.
 ## Prepare the release pull request
 
 Every push to `main` starts the `Validate and Release` workflow. The workflow
-first runs the release validator, changelog tests, formatting check, and
-catalog check. It then reads Conventional Commits and creates or updates one
-release pull request. That pull request updates `package.json`, the other five
-versioned manifests, `.release-please-manifest.json`, and `CHANGELOG.md`.
+runs the release validator, changelog tests, formatting check, and catalog
+check. A push does not run Release Please or create a release pull request.
 
-A normal push does not publish immediately. A maintainer must review and merge
-the release pull request. That merge is another push to `main`. After the same
-checks pass, Release Please creates the matching `v<version>` tag and GitHub
-Release.
+When a maintainer approves release preparation, run the `Validate and Release`
+workflow with the manual dispatch control. The workflow runs the same checks.
+It then reads Conventional Commits and creates or updates one release pull
+request. That pull request updates `package.json`, the other five versioned
+manifests, `.release-please-manifest.json`, and `CHANGELOG.md`.
 
-The release pull request merge is the publication trigger. Do not create the
-tag or GitHub Release by hand during the normal process. The workflow must own
-both results so that they identify the checked release commit.
+A maintainer must review and merge the release pull request. That merge starts
+the validation checks on `main`, but it does not publish the release. Run the
+workflow with the manual dispatch control again. Release Please then creates
+the matching `v<version>` tag and GitHub Release.
+
+The manual workflow dispatch after the release pull request merge is the
+publication trigger. Do not create the tag or GitHub Release by hand during the
+normal process. The workflow must own both results so that they identify the
+checked release commit.
 
 1. Review the proposed version and changelog.
 2. Confirm that all six public version files and the Release Please manifest
@@ -101,9 +106,10 @@ After configuration, use the workflow dispatch control once. A successful run
 with no releasable commits can finish without a release pull request. This is a
 valid token and configuration test.
 
-## Confirm the automatic release
+## Confirm the manual release
 
-After a release pull request merges, confirm the workflow, tag, and release:
+After a release pull request merges and the manual workflow run finishes,
+confirm the workflow, tag, and release:
 
 ```sh
 version="$(node --print 'require("./package.json").version')"
