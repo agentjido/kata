@@ -35,6 +35,10 @@ the release pull request. That merge is another push to `main`. After the same
 checks pass, Release Please creates the matching `v<version>` tag and GitHub
 Release.
 
+The release pull request merge is the publication trigger. Do not create the
+tag or GitHub Release by hand during the normal process. The workflow must own
+both results so that they identify the checked release commit.
+
 1. Review the proposed version and changelog.
 2. Confirm that all six public version files and the Release Please manifest
    use the same version.
@@ -112,7 +116,8 @@ on it.
 
 After the GitHub Release exists:
 
-1. Confirm that `npx skills add agentjido/skills --list` finds only `jido`.
+1. Confirm that `npx skills add agentjido/skills --list` finds `jido` and
+   `tutor`, with no former public `kata-*` packages.
 2. Inspect [the skills.sh page](https://www.skills.sh/agentjido/skills).
 3. If the page is stale, collect the current revision, expected package names,
    stale names, and installer result.
