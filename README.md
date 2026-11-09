@@ -113,11 +113,12 @@ Jido can use a separate team or domain skill only when the host already exposes
 it. Jido does not scan the file system or install missing skills. Elixir and
 Jido SDK specialist methods are not part of this general package.
 
-## Version 1.0
+## Version 0.6
 
-Version 1.0 removes the former public `kata-*` commands. There are no aliases
-or compatibility wrappers. The published `v0.5.0` release remains the last
-multi-skill package.
+Version 0.6 replaces the former public `kata-*` commands with two public
+skills: Jido and Tutor. The detailed work methods remain internal to Jido.
+There are no aliases or compatibility wrappers. The published `v0.5.0`
+release remains the last multi-skill package.
 
 ## Project links
 

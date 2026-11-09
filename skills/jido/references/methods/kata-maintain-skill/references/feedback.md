@@ -100,7 +100,7 @@ private details with the operator before including them.
 
 For GitHub, resolve the canonical source from package metadata or an explicit
 source, not the current work project's remote. For public Kata skills the
-intended source is `agentjido/kata`; confirm the live target before submitting.
+intended source is `agentjido/skills`; confirm the live target before submitting.
 Use its issue template if available. When read-only tools are available, check
 whether issues are enabled and whether a matching report exists. Offer an
 existing issue link instead of a duplicate. A comment needs its own authority.
