@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "kata",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A work system for useful AI work and guided practice with Jido and Tutor.",
   "author": {
     "name": "Jidoka Labs and licensed contributors",
