@@ -1,4 +1,4 @@
-# Releasing Agent Jido Kata
+# Releasing the Jido Work System
 
 Status: Current
 

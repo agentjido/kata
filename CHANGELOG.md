@@ -1,6 +1,30 @@
 # Changelog
 
-This file records material changes to Agent Jido Kata.
+This file records material changes to the Jido Work System.
+
+## [0.6.0](https://github.com/agentjido/skills/compare/v0.5.0...v0.6.0) (2026-11-09)
+
+
+### Added
+
+- The public `$tutor` skill with six approved topics, guided practice,
+  feedback, and explicit handoffs to Jido.
+- Release Please automation that creates a checked release pull request and
+  creates the matching tag and GitHub Release after merge.
+
+### Changed
+
+- `$jido` now selects the first unresolved contract from eight internal Katas
+  and continues through repair and verification.
+- Detailed work methods are now internal Jido references instead of separate
+  public skills.
+- Installation now provides the two public skills `jido` and `tutor`.
+- Public library links and package metadata now use `agentjido/skills`.
+
+### Removed
+
+- The former public `kata-*` skill entry points and compatibility wrappers.
+  The `v0.5.0` release remains available as the last multi-skill package.
 
 ## [0.5.0] - 2026-11-05
 
