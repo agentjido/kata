@@ -112,8 +112,8 @@ on it.
 
 After the GitHub Release exists:
 
-1. Confirm that `npx skills add agentjido/kata --list` finds the current skills.
-2. Inspect [the skills.sh page](https://www.skills.sh/agentjido/kata).
+1. Confirm that `npx skills add agentjido/skills --list` finds only `jido`.
+2. Inspect [the skills.sh page](https://www.skills.sh/agentjido/skills).
 3. If the page is stale, collect the current revision, expected package names,
    stale names, and installer result.
 4. With explicit remote-write authority, request a refresh in the

@@ -25,36 +25,34 @@ defmodule Kata.ReleaseValidator do
   )
   @release_please_exclude_paths ~w(.github/ docs/ dojo/ scripts/)
   @required_licenses ~w(
-    skills/kata-build-jido/LICENSE
-    skills/kata-debug/LICENSE-COMPOUND-ENGINEERING
-    skills/kata-debug/LICENSE-EVERYTHING-CLAUDE-CODE
-    skills/kata-debug/LICENSE-MATT-POCOCK
-    skills/kata-ex-quality/LICENSE-EVERYTHING-CLAUDE-CODE
-    skills/kata-ex-quality/LICENSE-GSTACK
-    skills/kata-idea/LICENSE-COMPOUND-ENGINEERING
-    skills/kata-idea/LICENSE-MATT-POCOCK
-    skills/kata-idea/LICENSE-PSTACK
-    skills/kata-maintain-skill/LICENSE-CURSOR
-    skills/kata-plan/LICENSE
-    skills/kata-roadmap/LICENSE-MATT-POCOCK
-    skills/kata-shipit/LICENSE-COMPOUND-ENGINEERING
-    skills/kata-shipit/LICENSE-SUPERPOWERS
-    skills/kata-showme/LICENSE
-    skills/kata-technical-writing/LICENSE
-    skills/kata-understand/LICENSE-K-DENSE
-    skills/kata-understand/LICENSE-PSTACK
-    skills/kata-verify/LICENSE-ADDY-OSMANI
-    skills/kata-verify/LICENSE-COMPOUND-ENGINEERING
-    skills/kata-verify/LICENSE-CURSOR
-    skills/kata-verify/LICENSE-EVERYTHING-CLAUDE-CODE
-    skills/kata-verify/LICENSE-K-DENSE
-    skills/kata-verify/LICENSE-MATT-POCOCK
-    skills/kata-verify/LICENSE-PSTACK
-    skills/kata-work/LICENSE-CURSOR
-    skills/kata-work/LICENSE-PSTACK
-    skills/kata-write-skill/LICENSE-COMPOUND-ENGINEERING
-    skills/kata-write-skill/LICENSE-MATT-POCOCK
-    skills/kata-write-skill/LICENSE-PSTACK
+    skills/jido/references/methods/kata-debug/LICENSE-COMPOUND-ENGINEERING
+    skills/jido/references/methods/kata-debug/LICENSE-EVERYTHING-CLAUDE-CODE
+    skills/jido/references/methods/kata-debug/LICENSE-MATT-POCOCK
+    skills/jido/references/methods/kata-idea/LICENSE-COMPOUND-ENGINEERING
+    skills/jido/references/methods/kata-idea/LICENSE-MATT-POCOCK
+    skills/jido/references/methods/kata-idea/LICENSE-PSTACK
+    skills/jido/references/methods/kata-maintain-skill/LICENSE-CURSOR
+    skills/jido/references/methods/kata-plan/LICENSE
+    skills/jido/references/methods/kata-roadmap/LICENSE-MATT-POCOCK
+    skills/jido/references/methods/kata-security/LICENSE-CLOUDFLARE
+    skills/jido/references/methods/kata-shipit/LICENSE-COMPOUND-ENGINEERING
+    skills/jido/references/methods/kata-shipit/LICENSE-SUPERPOWERS
+    skills/jido/references/methods/kata-showme/LICENSE
+    skills/jido/references/methods/kata-technical-writing/LICENSE
+    skills/jido/references/methods/kata-understand/LICENSE-K-DENSE
+    skills/jido/references/methods/kata-understand/LICENSE-PSTACK
+    skills/jido/references/methods/kata-verify/LICENSE-ADDY-OSMANI
+    skills/jido/references/methods/kata-verify/LICENSE-COMPOUND-ENGINEERING
+    skills/jido/references/methods/kata-verify/LICENSE-CURSOR
+    skills/jido/references/methods/kata-verify/LICENSE-EVERYTHING-CLAUDE-CODE
+    skills/jido/references/methods/kata-verify/LICENSE-K-DENSE
+    skills/jido/references/methods/kata-verify/LICENSE-MATT-POCOCK
+    skills/jido/references/methods/kata-verify/LICENSE-PSTACK
+    skills/jido/references/methods/kata-work/LICENSE-CURSOR
+    skills/jido/references/methods/kata-work/LICENSE-PSTACK
+    skills/jido/references/methods/kata-write-skill/LICENSE-COMPOUND-ENGINEERING
+    skills/jido/references/methods/kata-write-skill/LICENSE-MATT-POCOCK
+    skills/jido/references/methods/kata-write-skill/LICENSE-PSTACK
   )
 
   def run(args) do
@@ -221,7 +219,10 @@ defmodule Kata.ReleaseValidator do
 
   defp validate_skills(errors) do
     skill_files = @root |> Path.join("skills/*/SKILL.md") |> Path.wildcard() |> Enum.sort()
-    errors = require(errors, skill_files != [], "no active skill packages found")
+    expected = [Path.join(@root, "skills/jido/SKILL.md")]
+
+    errors =
+      require(errors, skill_files == expected, "jido must be the only active skill package")
 
     Enum.reduce(skill_files, errors, fn path, acc ->
       case validate_skill(path) do
@@ -232,10 +233,16 @@ defmodule Kata.ReleaseValidator do
   end
 
   defp validate_public_boundary(errors) do
-    @root
-    |> Path.join("skills/*")
-    |> Path.wildcard()
-    |> Enum.reduce(errors, fn path, acc ->
+    paths = @root |> Path.join("skills/*") |> Path.wildcard()
+
+    errors =
+      require(
+        errors,
+        Enum.map(paths, &Path.basename/1) |> Enum.sort() == ["README.md", "catalog.exs", "jido"],
+        "skills/: public package surface must contain only jido and its package guides"
+      )
+
+    Enum.reduce(paths, errors, fn path, acc ->
       name = Path.basename(path)
 
       require(
@@ -370,7 +377,7 @@ defmodule Kata.ReleaseValidator do
       |> Enum.filter(&File.regular?/1)
 
     patterns =
-      ~w(docs/*.md docs/guides/**/*.md docs/reference/**/*.md skills/*/SKILL.md skills/*/README.md)
+      ~w(docs/*.md docs/guides/**/*.md docs/reference/**/*.md skills/*/SKILL.md skills/*/README.md skills/jido/**/*.md)
 
     (root_files ++ Enum.flat_map(patterns, &Path.wildcard(Path.join(@root, &1))))
     |> Enum.uniq()

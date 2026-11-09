@@ -1,4 +1,4 @@
 interface:
   display_name: "Jido"
-  short_description: "Translate a goal into the smallest valid Kata sequence"
-  default_prompt: "Use $jido to interpret this goal, enter at the first unresolved contract, and run only the Kata steps needed for learning, evidence, and consumer acceptance."
+  short_description: "Carry one goal through the smallest useful work route"
+  default_prompt: "Use $jido to interpret this goal, enter at the first unresolved internal Kata, and continue until the requested result is supported or an exact limit stops the work."

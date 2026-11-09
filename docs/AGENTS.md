@@ -15,6 +15,7 @@ someone understand or change this project. Follow the project's writing rules.
 | `reference/` | Current system behavior, interfaces, and configuration. |
 | `decisions/` | Decisions with context, reasons, and consequences. |
 | `plans/` | Intended changes, scope, acceptance criteria, and progress. |
+| `routines/` | Repository-local work that Jido can inspect, validate, or run. |
 | `lessons/` | Verified findings from completed work and how to apply them. |
 | `archive/` | Historical, superseded, or unverified material kept for provenance. |
 

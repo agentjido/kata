@@ -1,152 +1,43 @@
-# Skill packages
+# Jido Agent Skill
 
-This directory contains the active Kata skill packages. Each direct child
-directory with a `SKILL.md` file is one package. Use the
-[project README](../README.md) for the introduction and installation instructions.
+This directory contains one discoverable Agent Skill:
 
-Read a package's `SKILL.md` before its support files. The frontmatter in that
-file is the canonical source for the package name, selection description, and
-classification metadata.
+```text
+skills/jido/SKILL.md
+```
 
-Each skill owns its assigned result. Jido owns the requested outcome across
-selected skills. It returns failed checks to the correct owner and continues
-within the granted authority. Report-only requests, review points, and resource
-limits remain valid boundaries. The skill-writing
-[library contract](kata-write-skill/references/library-contract.md) owns these
-continuation rules for new and maintained packages.
+Invoke it with `$jido` and a normal-language goal. Jido routes work through
+internal Kata contracts below `skills/jido/references/katas/`. Detailed methods
+and their required source notices are below
+`skills/jido/references/methods/`.
 
-## Skill list
-
-### Primary workflow
-
-| Skill | Result |
-| --- | --- |
-| `jido` | Carry an explicit `$jido` goal through the smallest necessary sequence to a supported result. |
-| `kata-understand` | Establish the current condition with evidence. |
-| `kata-plan` | Create a grounded software implementation plan. |
-| `kata-work` | Produce one candidate result from ready work. |
-| `kata-verify` | Judge a candidate against its acceptance contract. |
-| `kata-shipit` | Commit, publish, watch, or land an accepted change. |
-
-### Agentic leadership and learning
-
-| Skill | Result |
-| --- | --- |
-| `kata-tutor` | Teach one agentic-leadership action through real work with adaptive support. |
-| `kata-scope` | Turn a rough request into bounded delivery work. |
-| `kata-delegate` | Assign defined work and manage its return. |
-
-### Decision altitudes
-
-| Skill | Result |
-| --- | --- |
-| `kata-idea` | Settle product direction and requirements before planning. |
-| `kata-roadmap` | Resolve dependent long-horizon decisions across plans. |
-
-### Work-system improvement
-
-| Skill | Result |
-| --- | --- |
-| `kata-maintain-skill` | Capture skill feedback locally, resolve a library finding, or prepare optional sharing. |
-| `kata-write-skill` | Create, import, or convert one skill package. |
-| `kata-dojo` | Evaluate an exact candidate only on explicit Dojo request. |
-
-### Project support
-
-| Skill | Result |
-| --- | --- |
-| `kata-debug` | Diagnose a reproducible failure and repair it when authorized. |
-| `kata-docs` | Set up and maintain project documentation and scoped orientation files. |
-| `kata-security` | Give security guidance or run a source-first software security audit. |
-| `kata-sitrep` | Report local and remote Git workbench state. |
-| `kata-showme` | Explain a topic with focused diagrams and visuals. |
-| `kata-technical-writing` | Write or review one technical artifact. |
-
-### Elixir and Jido
-
-| Skill | Result |
-| --- | --- |
-| `kata-build-jido` | Build current Jido actions, agents, runtime, and AI work. |
-| `kata-ex-design-review` | Review an Elixir package as a principal engineer. |
-| `kata-ex-quality` | Find and fix bounded Elixir package-quality findings. |
-
-General skills use `kata-<task>`. Skills that require Elixir use
-`kata-ex-<task>`. You can use each skill directly or give `$jido` a goal.
-Dojo requires an explicit request; normal use does not run model evaluations.
-
-## Public and local skills
-
-This directory contains public skills only. Keep private skills in a separate
-package and install them through the host's user or project skill location.
-Jido can select a compatible local skill that the host exposes for the current
-session.
+Internal Katas and methods are not separate Agent Skills or public commands.
+Do not add another `skills/<name>/SKILL.md` package without a new product and
+library decision.
 
 ## Package layout
 
 ```text
-skills/<name>/
-├── SKILL.md       Required skill contract
-├── references/    Optional detail loaded for a selected branch
-├── scripts/       Optional deterministic helpers
-├── assets/        Optional files used in generated output
-├── README.md      Optional package-specific guide
-└── LICENSE*       Required source notices when applicable
+skills/jido/
+├── SKILL.md
+├── agents/
+└── references/
+    ├── katas/
+    └── methods/
 ```
 
-Only `SKILL.md` is required. Add another file only when the skill has a clear
-reason to read, run, preserve, or produce it.
+Read `SKILL.md` first. It owns routing, authority, continuation, and final
+integration. Read one Kata only after routing selects it. Read one detailed
+method only when that Kata selects its branch.
 
-Keep `SKILL.md` below 500 lines. Its description must say what the skill does
-and when it applies. Link each support file from `SKILL.md`, explain when to use
-it, and avoid deep reference chains. Treat scripts and fetched content as a
-security boundary. Public packages must not hide network calls, file writes,
-credential access, or another high-impact action.
+## Checks
 
-General packages use `kata-<task>`. Elixir-specific packages use
-`kata-ex-<task>`. A package keeps a bare name only when the project approves a
-small conversation command or dispatcher as an exception.
-
-## Browse the catalog
-
-Run the live catalog from the repository root:
+From the repository root:
 
 ```sh
-iex skills/catalog.exs
-```
-
-The Phoenix Playground reads each package's current `SKILL.md` frontmatter.
-Use **Reload source** after a file change. Set `KATA_CATALOG_PORT` to use another
-port or `KATA_CATALOG_OPEN_BROWSER=false` to keep the browser closed.
-
-Agent Skills metadata values are strings. Kata stores multi-value `consumes`
-and `produces` facets as comma-separated strings. The catalog parses them into
-ordered lists for filtering and display. Kata stores a portable command hint,
-when useful, as the custom `metadata.kata-argument-hint` string instead of a
-host-specific top-level field.
-
-Check the catalog without starting the server:
-
-```sh
+elixir scripts/validate_release.exs
 elixir skills/catalog.exs --check
 ```
 
-## Change a package
-
-1. Read the [project instructions](../AGENTS.md) and the complete target
-   package.
-2. Edit the canonical files in this directory. Do not edit an installed copy.
-3. Keep the package self-contained and independent of one coding host.
-4. Preserve source notices, attribution, supported metadata, and unrelated
-   behavior.
-5. Update the project README when a package name or public job changes.
-6. Run the package's applicable checks and inspect the final diff.
-
-Do not install, publish, or add distribution tooling unless the current request
-includes that work.
-
-## Related information
-
-- [Project documentation](../docs/README.md)
-- [Agent Skills specification](https://agentskills.io/specification)
-- [OpenAI skill guidance](https://developers.openai.com/plugins/build/skills)
-- [Anthropic skill guidance](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+The release check requires exactly one public `SKILL.md`, validates its
+frontmatter and links, and checks the preserved license notices.

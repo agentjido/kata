@@ -1,35 +1,35 @@
-# Install Kata
+# Install Jido
 
 Status: Current
 
-Last reviewed: 2026-11-05
+Last reviewed: 2026-11-09
 
-## 1. Install the skills
+## 1. Install Jido
 
 Use a terminal with Node.js and npm available. Open the workspace where you
-want to use Kata, then run:
+want to use Jido, then run:
 
 ```sh
-npx skills add agentjido/kata
+npx skills add agentjido/skills
 ```
 
-Select your agent host when prompted. Install `jido` and the Kata skills you
-want it to use. This is the main install path.
+Select your agent host when prompted. Install `jido`. It is the only public
+Agent Skill in this package.
 
 ## Review the trust boundary
 
 Skills are agent instructions and can include scripts or supporting files.
 Treat an installed skill pack like installed software:
 
-1. Review the selected `SKILL.md` files and their support files.
+1. Review `skills/jido/SKILL.md` and its support files.
 2. Use a reviewed release or source revision for team deployment.
 3. Confirm the requested file, command, network, and account access before use.
 4. Require explicit approval for writes, publication, deletion, purchases, or
    other high-impact actions.
 5. Review each private or third-party skill before you install or enable it.
-   Kata does not validate skills supplied outside this package.
+   Jido does not validate skills supplied outside this package.
 
-Kata has no hosted service, MCP server, or required network connection. A host,
+Jido has no hosted service, MCP server, or required network connection. A host,
 model provider, installer, or tool can have its own data and network behavior.
 Review those systems separately.
 
@@ -50,15 +50,15 @@ Provide the source material and the result you need. For example:
 $jido turn these source notes into a decision brief and check its claims
 ```
 
-You can also use an individual skill. See the
-[skill list](../../skills/README.md#skill-list) to choose one.
+The internal Katas are not separate commands. State the result that you need in
+the `$jido` request.
 
 ## Other install options
 
 To select a host in the command:
 
 ```sh
-npx skills add agentjido/kata --agent codex
+npx skills add agentjido/skills --agent codex
 ```
 
 Use `--agent claude-code` or `--agent cursor` for those hosts.

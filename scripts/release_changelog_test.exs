@@ -29,7 +29,7 @@ defmodule Kata.ReleaseChangelogTest do
     changelog = """
     # Changelog
 
-    ## [1.3.0](https://github.com/agentjido/kata/compare/v1.2.3...v1.3.0) (2026-11-07)
+    ## [1.3.0](https://github.com/agentjido/skills/compare/v1.2.3...v1.3.0) (2026-11-07)
 
     ### Features
 

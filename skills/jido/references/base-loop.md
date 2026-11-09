@@ -1,77 +1,48 @@
 # Jido base loop
 
-Use this loop when no stable Jido route fits or when its leaf package is not
-available.
+Use this loop when no registered internal method fits the requested domain.
 
-## Establish the route and entry
+## Establish the assignment
 
-Restate the human's goal and the concrete result that can be completed in the
-current scope. Preserve every explicit limit. Classify the result as current
-value delivery, reusable method improvement, or support. Do not ask the human
-to name that class.
+Restate the goal as an observable result. Preserve explicit limits. Resolve the
+target, scope, acceptance evidence, authority, next consumer, and stop
+condition. Ask one question only when a missing accountable decision can
+materially change them.
 
-Use the first unresolved contract:
+Select the first unresolved internal Kata:
 
-- Understand when the current condition or problem lacks evidence.
-- Idea when the problem is understood but product behavior, direction, or scope
-  still needs an accountable decision.
-- Roadmap when the destination is clear but dependent decisions need several
-  review cycles before one implementation plan can be written.
-- Scope when the outcome is clear but the delivery boundary, exclusions,
-  dependencies, or completion evidence are unresolved.
-- Plan when the target is clear but the route has a material decision.
-- Delegate when defined work benefits from separate ownership or supervised
-  follow-through and a suitable worker route is available.
-- Work when target, scope, acceptance, and authority are clear.
-- Verify when a candidate exists and needs evidence.
+- `understand` when the current condition, cause, or evidence is unclear;
+- `shape` when direction, boundary, decisions, or sequence are unclear;
+- `lead` when the request asks for teaching or separate worker ownership;
+- `work` when the result and authority are ready;
+- `verify` when a candidate needs independent evidence;
+- `improve` when the result changes a reusable method;
+- `ship` when the user asks for Git delivery; or
+- `dojo` only when the user explicitly names Dojo.
 
-Skip every earlier step whose result is already supplied and supported.
+If the selected Kata needs specialist domain judgment that is unavailable,
+name that missing capability. Do not install, search for, or invent a domain
+method.
 
-Classify the maximum authority:
+## Perform the bounded step
 
-- Use `read-only` when the user asks for an answer, diagnosis, review, or status.
-- Use `local-write` when the user asks for a local change or build result.
-- Require explicit authority before any remote write.
+1. Produce the selected Kata's result inside the active authority.
+2. Run direct checks that the result type requires.
+3. Re-evaluate the complete request.
+4. Continue only when the next Kata is needed and authorized.
+5. After a failed check, gather new evidence, repair within scope, or change
+   the approach. Do not repeat an unchanged failure.
 
-Do not turn a read-only request into an implementation task. Do not combine
-creation and final judgment without naming the separate evidence phases.
+Do not turn a report-only request into an implementation. Do not combine
+candidate creation and final judgment without separate evidence phases. Do not
+change a reusable method outside `improve`, and do not deliver Git state outside
+`ship`.
 
-Do not change the skill library through the base loop. A known package change
-belongs to `write-skill`. An unknown library-maintenance need belongs to
-`maintain-skill`. Ask one boundary question when neither route can be selected
-safely.
-
-Do not deliver a Git change through the base loop. Route an explicit commit,
-pull request, watch, or merge request for a verified change to `shipit`.
-
-If the result depends on a running Jidoka BEAM system, read
-[runtime-client.md](runtime-client.md) and use the optional client only when it
-can supply relevant evidence.
-
-## Perform the work
-
-1. Execute only the selected entry phase.
-2. Produce its named result and evidence inside the authority.
-3. Re-evaluate the next unresolved contract.
-4. Continue only when the requested outcome and authority include the next
-   phase.
-5. After a failed check, use an authorized repair or another evidence-based
-   approach, then check again. Do not repeat an unchanged failure or lower the
-   completion bar.
-6. Continue required in-scope work. Stop when the requested result is supported,
-   a stated limit is reached, or an unavailable decision, authority, capability,
-   or dependency prevents further authorized progress. Report the unmet
-   condition and the recovery attempted.
-
-Do not add a long generic workflow. Use the host's normal tools and the
-repository's existing checks.
+Stop at completion, an explicit review point, cancellation, a resource limit,
+or an unavailable decision, authority, capability, or dependency.
 
 ## Return evidence
 
-Report the result and the direct evidence. Label an unseen cause or prediction
-as an inference. Report a failed or missing check instead of describing the work
-as complete.
-
-If the same distinct procedure has needed this loop more than once, report it
-as possible Kaizen evidence. Do not create or modify a Kata without an explicit
-request.
+Report the result, direct evidence, selected Kata, authority used, changed
+state, and exact limit. Label an unseen cause or prediction as an inference.
+Do not claim a remote or accepted state that was not observed.

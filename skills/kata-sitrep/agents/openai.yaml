@@ -1,3 +1,0 @@
-interface:
-  display_name: "Sitrep"
-  short_description: "Summarize local and remote Git workbench status"

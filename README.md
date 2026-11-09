@@ -1,121 +1,124 @@
 <p align="center">
-  <img src="assets/agent-jido-kata.png" alt="Agent Jido Kata logo" width="180">
+  <img src="assets/agent-jido-kata.png" alt="Jido logo" width="180">
 </p>
 
-<h1 align="center">Agent Jido Kata</h1>
+<h1 align="center">Jido Skills</h1>
 
-<p align="center"><strong>Lead your agents. Deliver verified work.</strong></p>
+<p align="center"><strong>One command. Useful work. You lead.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/agentjido/kata/actions/workflows/ci.yml"><img src="https://github.com/agentjido/kata/actions/workflows/ci.yml/badge.svg" alt="Validate status"></a>
-  <a href="https://github.com/agentjido/kata/releases"><img src="https://img.shields.io/github/v/release/agentjido/kata?display_name=tag&amp;sort=semver" alt="Latest release"></a>
-  <a href="https://skills.sh/agentjido/kata"><img src="https://img.shields.io/badge/skills.sh-agentjido%2Fkata-black" alt="Kata on skills.sh"></a>
+  <a href="https://github.com/agentjido/skills/actions/workflows/ci.yml"><img src="https://github.com/agentjido/skills/actions/workflows/ci.yml/badge.svg" alt="Validate status"></a>
+  <a href="https://github.com/agentjido/skills/releases"><img src="https://img.shields.io/github/v/release/agentjido/skills?display_name=tag&amp;sort=semver" alt="Latest release"></a>
+  <a href="https://skills.sh/agentjido/skills"><img src="https://img.shields.io/badge/skills.sh-agentjido%2Fskills-black" alt="Jido on skills.sh"></a>
   <a href="https://jido.run"><img src="https://img.shields.io/badge/website-jido.run-0f172a" alt="Jido website"></a>
-  <a href="https://jido.run/discord"><img src="https://img.shields.io/badge/discord-join-5865F2?logo=discord&amp;logoColor=white" alt="Join the Jido Discord"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/agentjido/kata" alt="Apache 2.0 license"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/agentjido/skills" alt="Apache 2.0 license"></a>
 </p>
 
-Kata is an open-source skill pack that gives an AI agent a clear path from a
-goal to a checked result. Start with `$jido` and state the result that you need.
-Jido selects the smallest useful work route and starts at its first unfinished
-step.
+Jido is one Agent Skill for useful AI work. Give `$jido` a normal-language
+goal. Jido selects the smallest internal work method, acts within your
+authority, checks the result, and continues through repair when a required
+check fails.
 
-Use Kata for research, reports, content, operations, and software. You set the
-goal, source material, limits, and approval boundaries. Your agent uses the
-tools and models that its host provides.
+You set the goal, limits, and authority. Jido coordinates the work. Internal
+Katas provide the methods. You do not install or invoke those methods as
+separate skills.
 
 ## Install
 
 Run this command from the workspace where you use your agent:
 
 ```sh
-npx skills add agentjido/kata
+npx skills add agentjido/skills
 ```
 
-Select your agent host. Install `jido` and the Kata skills you want it to use.
-Start a new agent session if your host requires it.
-
-See the [installation guide](docs/guides/installation.md) for host options,
-local installation, and the trust boundary.
-
-## Give Jido a task
+Select `jido`, start a new agent session if your host requires it, and give it
+a goal:
 
 ```text
 $jido turn these source notes into a decision brief and check its claims
 ```
 
-Include the source files, desired result, and limits in your request. Jido can:
+For Codex, you can also make Jido a preference for substantial work. Add this
+line to `~/.codex/AGENTS.md`:
 
-1. Research missing facts.
-2. Scope or plan work when the result is not ready to produce.
-3. Produce one candidate result.
-4. Check the result against your request.
+```text
+Prefer $jido for substantial or ambiguous work that benefits from routing, coordination, or verification; skip it for simple questions, direct commands, and small self-contained tasks.
+```
 
-Jido uses only the steps that the task needs. A clear task can start at
-execution. An unclear problem starts with research.
+This is a preference, not a requirement for every request. A direct `$jido`
+request remains available when you want to select it yourself.
 
-Jido keeps responsibility for the requested outcome through failed checks,
-repair, and verification. It resolves necessary discovered work within your
-scope and authority. It continues while an authorized next action remains,
-respects review points and resource limits, and reports the exact unmet
-condition when completion is blocked. A request for an answer, review, or plan
-ends at that result.
+See the [installation guide](docs/guides/installation.md) for host options and
+the trust boundary.
 
-A route does not expand authority. A request to inspect a project does not
-permit a commit, push, publication, live-system change, purchase, or deletion.
+## How Jido works
 
-Example goals include:
+Jido uses seven normal internal Katas and one explicit maintainer Kata:
 
-- Teach you how to turn one real task into a clear first assignment.
-- Scope a rough request into bounded work with completion evidence.
-- Delegate defined work and manage its return.
-- Compare proposals against your requirements.
-- Turn meeting notes into a report with decisions and next actions.
-- Prepare launch content and check its product claims.
-- Investigate a software failure and verify an authorized fix.
-- Turn a repeated process into a reusable skill.
+| Kata | Purpose |
+| --- | --- |
+| Understand | Establish facts, causes, and current state. |
+| Shape | Set direction, scope, decisions, and technical sequence. |
+| Lead | Teach agent leadership or delegate bounded work. |
+| Work | Produce one candidate result. |
+| Verify | Check the candidate with evidence. |
+| Improve | Maintain and revise reusable work methods. |
+| Ship | Commit, publish, monitor, merge, tag, or release only with the required authority. |
+| Dojo | Evaluate one exact method candidate only when the user explicitly names Dojo. |
 
-## Choose a skill directly
+These Katas are internal references in the `jido` package. They are not public
+commands. Jido starts at the first unresolved contract and skips work that the
+request already supplies.
 
-Kata includes 23 skill packages. You can invoke one package directly when you
-already know the work that you need. Use the [skill list](skills/README.md) to
-find packages for research, scoping, planning, implementation, verification,
-documentation, security, Git delivery, Elixir, and the Jido framework.
+## Authority
 
-Start with [`kata-tutor`](skills/kata-tutor/SKILL.md) when you want guided
-practice. Use [`kata-scope`](skills/kata-scope/SKILL.md) to bound a rough
-request and [`kata-delegate`](skills/kata-delegate/SKILL.md) to assign defined
-work. These steps are optional. Jido skips them when the work is already clear
-or one direct worker is enough.
+A route does not grant authority. Inspection does not permit a write. A local
+change does not permit a commit. A commit does not permit a push. A push does
+not permit a merge, tag, or release.
 
-General Kata skills work across languages and domains. The pack also includes
-specialist skills for Elixir and the [Jido framework](https://github.com/agentjido/jido).
-Kata does not require the Jido runtime.
+Jido asks for a decision only when the missing answer can materially change the
+result, scope, cost, risk, authority, owner, or an irreversible effect.
 
-## Add private or team skills
+## Local routines
 
-Keep private skills in a separate repository. Install them through your host's
-user or project skill location. Jido can select a local skill that the host
-exposes in the current session when the request names that procedure or the
-selected public step needs its domain method.
+A project can define repeatable local work in `docs/routines/`. Jido can list,
+show, make, validate, or run these routines through the normal `$jido` entry
+point:
 
-Review each skill before you install or enable it. The host owns discovery and
-its trust controls. Kata does not validate private or third-party skills.
+```text
+$jido make a dependency health routine
+$jido run the dependency health routine
+$jido run all routines
+```
 
-## Community and project links
+A routine can produce a bounded work request for the existing Jido Katas. It
+cannot grant authority. Task systems, schedulers, and notification services are
+extension points rather than part of the routine loop.
 
-- [Skill list and package guide](skills/README.md)
+## Specialist skills
+
+Jido can use a separate team or domain skill only when the host already exposes
+it. Jido does not scan the file system or install missing skills. Elixir and
+Jido SDK specialist methods are not part of this general package.
+
+## Version 1.0
+
+Version 1.0 removes the former public `kata-*` commands. There are no aliases
+or compatibility wrappers. The published `v0.5.0` release remains the last
+multi-skill package.
+
+## Project links
+
+- [Jido package guide](skills/README.md)
 - [Installation guide](docs/guides/installation.md)
-- [Latest releases](https://github.com/agentjido/kata/releases)
+- [Latest releases](https://github.com/agentjido/skills/releases)
 - [Changelog](CHANGELOG.md)
-- [Jido community](https://jido.run)
-- [Jido Discord](https://jido.run/discord)
 - [Contributing](CONTRIBUTING.md)
 - [Release process](docs/guides/releasing.md)
 - [Attribution](docs/reference/attribution.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Documentation index](docs/README.md)
 
-Agent Jido Kata is authored by [Jidoka Labs](https://jidokahq.com) and licensed
+Jido Skills is authored by [Jidoka Labs](https://jidokahq.com) and licensed
 contributors. It is licensed under [Apache-2.0](LICENSE). Adapted material keeps
-its required package-specific license notices and attribution.
+its required license notices and attribution.

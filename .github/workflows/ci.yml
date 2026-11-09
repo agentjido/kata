@@ -76,6 +76,9 @@ jobs:
       - name: Validate repository
         run: elixir scripts/validate_release.exs
 
+      - name: Validate single Jido package
+        run: elixir scripts/validate_jido_package.exs
+
       - name: Test release changelog parser
         run: elixir scripts/release_changelog_test.exs
 

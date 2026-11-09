@@ -1,117 +1,53 @@
-# Skill provenance and retention index
+# Jido method provenance and retention
 
-Purpose: Show where each active skill came from and record the applied skill
-retention decisions.
+Purpose: Record the current ownership and source location of the internal Jido
+methods after the single-command consolidation.
 
-Status: Current
+Last reviewed: 2026-11-09
 
-Last reviewed: 2026-11-05
+## Public package
 
-## Summary
+`skills/jido/SKILL.md` is the only public Agent Skill. The eight internal Kata
+contracts are below `skills/jido/references/katas/`. Detailed methods are below
+`skills/jido/references/methods/`.
 
-Direct inspection found 23 active public skill packages on 2026-11-05.
+The detailed method directory names retain their former `kata-*` identifiers
+to keep source history, relative links, license mapping, and migration review
+clear. They are not public commands.
 
-| Primary origin | Count | Meaning |
-| --- | ---: | --- |
-| Kata-native | 12 | The package was first written as part of the Kata work system. Some packages now contain folded source methods. |
-| In-house source | 1 | Mike Hostetler wrote the earlier source. Kata adapted or migrated it. |
-| Hybrid | 4 | Kata owns the workflow, but it adapts ideas and methods from named external sources. |
-| External adaptation | 6 | Kata adapted the active package from an external project. |
+## Internal ownership
 
-The root [README attribution section](../../README.md#attribution), package
-license files, and current package files support this index.
-
-## Active skills
-
-### Kata-native
-
-| Skill | Current job | Folded source method |
-| --- | --- | --- |
-| `jido` | Select the smallest Kata route for an explicit request. | None. |
-| `kata-docs` | Set up and maintain Docs Kata and scoped project orientation. | Earlier Jido docs-sync and `kata-orient` material. |
-| `kata-dojo` | Run an explicitly requested skill evaluation. | None. |
-| `kata-ex-design-review` | Review Elixir and OTP design. | None. |
-| `kata-ex-quality` | Find, backlog, batch, and fix bounded Elixir quality findings. | Jason Allum's focused coverage and dead-code methods and analyzers. |
-| `kata-maintain-skill` | Resolve one skill-library maintenance finding. | None. |
-| `kata-sitrep` | Report local and remote Git workbench state. | None. |
-| `kata-understand` | Establish current condition, explain existing software, or reconstruct recent work context. | pstack `recall` and Jason Allum's private `neckbeard` method. |
-| `kata-work` | Produce one candidate result with optional repository-guard, test-first, or decision-log methods. | pstack `correct`, `tdd`, and `show-me-your-work`. |
-| `kata-tutor` | Teach agentic leadership through real work with adaptive support. | None. |
-| `kata-scope` | Turn rough requests into bounded delivery work. | None. |
-| `kata-delegate` | Assign defined work and manage its return. | None. |
-
-### In-house source
-
-| Skill | Earlier source |
+| Internal Kata | Retained detailed methods |
 | --- | --- |
-| `kata-build-jido` | Mike Hostetler's `agentjido/jido-skills` action, agent, runtime, AI, and test material. |
+| Understand | `kata-understand`, diagnosis from `kata-debug`, `kata-sitrep` |
+| Shape | `kata-idea`, `kata-roadmap`, `kata-scope`, `kata-plan` |
+| Lead | `kata-tutor`, `kata-delegate` |
+| Work | `kata-work`, repair from `kata-debug`, `kata-docs`, `kata-showme`, `kata-technical-writing` |
+| Verify | `kata-verify`, `kata-security` |
+| Improve | `kata-maintain-skill`, `kata-write-skill` |
+| Ship | `kata-shipit` |
+| Dojo | `kata-dojo`, explicit request only |
 
-### Hybrid
+The [attribution register](attribution.md) records adapted sources and required
+license notices. Each notice remains beside its detailed internal method.
 
-| Skill | Source relationship |
-| --- | --- |
-| `kata-write-skill` | Kata owns the workflow. It adapts authoring ideas from Matt Pocock and Compound Engineering and the pstack project-verification-skill method. |
-| `kata-verify` | Kata owns the compound router. Its methods adapt pstack repository-guard and verification practices, Compound Engineering and Matt Pocock code review, and Addy Osmani security review. |
-| `kata-shipit` | Kata's former scoped-commit boundary now includes authorized branch, push, pull-request, watch, and land methods adapted from Compound Engineering and Superpowers. |
-| `kata-plan` | Kata owns the deep software-planning workflow and its Markdown, HTML, and Beadwork adapters. It retains planning methods and the license from Compound Engineering `ce-plan`. |
+## Removed domain methods
 
-### External adaptations kept
+The 1.0 general package does not contain these Elixir-specific methods:
 
-| Skill | External source | Decision reason |
-| --- | --- | --- |
-| `kata-debug` | Compound Engineering `ce-debug` and Matt Pocock `diagnosing-bugs` | Reproducible diagnosis and a bounded repair are a distinct job. |
-| `kata-idea` | Compound Engineering `ce-brainstorm`, Matt Pocock `grilling`, and pstack `interrogate` | Product exploration, decision grilling, and idea challenge happen before implementation planning. |
-| `kata-roadmap` | Matt Pocock `wayfinder` | Durable decision resolution across several review cycles is a separate result between idea and implementation planning. |
-| `kata-security` | Cloudflare `security-audit` | Security guidance and source-first audits need a broad specialist method and preserved source notices. |
-| `kata-showme` | HumanLayer `show-me` | Visual explanation is a distinct job that prose does not replace well. |
-| `kata-technical-writing` | pstack `technical-writing` and Mike Hostetler's Elixir documentation guidance | It owns one document-writing job and now contains the former `unslop` cleanup mode. |
+- Jido SDK build guidance from `kata-build-jido`;
+- Elixir and OTP design review from `kata-ex-design-review`;
+- Elixir quality analysis from `kata-ex-quality`; and
+- Elixir library documentation guidance from `kata-technical-writing`.
 
-## Applied folds
-
-| Former skill | Current owner |
-| --- | --- |
-| `kata-benchmark-checklist` | `kata-verify` benchmark reference. |
-| `kata-blast-radius` | `kata-verify` blast-radius reference. |
-| `kata-create-verification-skill` | `kata-write-skill` Create specialization. |
-| `kata-correct` | `kata-work` repository-guard creation reference and `kata-verify` repository-guard verification reference. |
-| `kata-ex-coverage` | `kata-ex-quality` coverage rules and analyzer. |
-| `kata-ex-hunt-dead-code` | `kata-ex-quality` dead-code rules, analyzer, roots template, and false-positive reference. |
-| `kata-neckbeard` | `kata-understand` software-system explanation mode. |
-| `kata-interrogate` | `kata-verify` adversarial-review reference and `kata-idea` Challenge method. |
-| `kata-no-comments` | `kata-verify` comment-review reference. |
-| `kata-recall` | `kata-understand` recall mode. |
-| `kata-show-your-work` | `kata-work` decision-log method. |
-| `kata-tdd` | `kata-work` test-first method. |
-| `unslop` | `kata-technical-writing` AI-pattern cleanup mode. |
-| `kata-orient` | `kata-docs` project-orientation operation. |
-
-## Retired external skills
-
-| Skill | Reason |
-| --- | --- |
-| `bro` | Plain restatement is normal conversation behavior. |
-| `in-your-own-words` | Goal restatement belongs in normal conversation or understanding work. |
-| `ketchup` | Current-chat summary is normal host behavior. Its video mode added a large path for a small job. |
-| `kata-principled` | The 24-command package added a large rule catalog without task-use evidence. |
-| `sharpen` | Normal prompt editing can apply its small "deeper, not bigger" rule. |
-
-## Other consolidation decisions
-
-- `kata-jido-action`, `kata-jido-agent`, `kata-jido-ai`, and
-  `kata-jido-testing` became `kata-build-jido`.
-- `kata-commit` became `kata-shipit`; the strict local commit route remains and
-  remote delivery uses separate explicit authority.
-- `kata-review-pr` retired.
-- `kata-sync-docs` retired. `kata-docs` maintenance now owns bounded
-  code-to-document reconciliation.
-- Technical explainer production was removed from the public pack.
+The pre-consolidation source is retained in the owner's `kata_bkp` copy and in
+Git history. A separate domain repository can import that source with its
+licenses and provenance after an owner decision.
 
 ## Admission rule
 
-Add a separate active skill only when real tasks show all of these facts:
-
-1. The job occurred at least twice.
-2. Its result differs from a current core result.
-3. Its method contains judgment that a normal request does not supply.
-4. A command, mode, or reference cannot preserve the method well.
-5. The job is worth one active catalog entry.
+Do not add another public Agent Skill package to this repository only because
+a method has a distinct name. Add a detailed method below Jido when one
+internal Kata can own its result and authority. Use a separate repository when
+the work needs specialist domain ownership, an independent release, or a
+different installation decision.

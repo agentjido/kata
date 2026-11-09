@@ -2,9 +2,9 @@
 
 ## Start here
 
-1. [Install Kata](guides/installation.md) with `npx skills`.
-2. [Give Jido a task](../README.md#give-jido-a-task).
-3. [Browse the skills](../skills/README.md#skill-list).
+1. [Install Jido](guides/installation.md) with `npx skills`.
+2. [Install and give Jido a task](../README.md#install).
+3. [Inspect the Jido package](../skills/README.md).
 
 See [host compatibility](reference/host-compatibility.md) for advanced install
 options. The sections below contain project and maintenance records.
@@ -12,16 +12,19 @@ options. The sections below contain project and maintenance records.
 Use the [Docs Kata rules](AGENTS.md) for documentation changes. The
 [inbox and intake log](inbox/README.md) record source material.
 
-Last reviewed: 2026-11-05 (entry links; dated project records retained)
+Last reviewed: 2026-11-09 (single-command consolidation; dated records retained)
 
 ## Current state
 
-- Direct frontmatter inspection found 23 active skill packages. All 23 declare
-  `kata.skill/v1` metadata. This is a point-in-time result from 2026-11-05.
-- [`jido`](../skills/jido/SKILL.md) owns work routing.
-  [`kata-docs`](../skills/kata-docs/SKILL.md) owns Docs Kata setup, inbox
-  processing, durable capture, maintenance, and scoped project orientation
-  through `AGENTS.md` and entry-point `README.md` files.
+- [`jido`](../skills/jido/SKILL.md) is the only public Agent Skill. It owns work
+  routing, authority, continuation, and final integration.
+- Seven normal internal Katas own understanding, shaping, leadership, work,
+  verification, improvement, and Git delivery. Dojo is an eighth,
+  explicit-only internal Kata.
+- Detailed methods and license notices are internal Jido support files. They
+  are not separate commands.
+- [Local routines](routines/README.md) define repository maintenance work that
+  Jido can inspect, validate, or run. Routine files do not grant authority.
 - Dojo has a current suite adapter for
   [the `kata-docs` setup route](../dojo/suites/setup.exs) and preserves a
   historical Neckbeard adapter. The other live-suite work remains pending. Dojo
@@ -52,10 +55,10 @@ that a document has been verified.
   shared `docs/agents/issues.md` contract and Beadwork, CSV, GitHub `gh`, and
   Jira `twg` adapters.
 
-The [skill library architecture](plans/skill-library-architecture.md) sets a
-25-skill hard limit. The current catalog has 23 skills after adding the tutor,
-scope, and delegation methods, removing technical explainer production from
-the public pack, and merging project orientation into Docs Kata.
+The [single-command consolidation plan](plans/2026-11-09-jido-single-command-consolidation-plan.md)
+defines the breaking 1.0 package shape. The older
+[skill library architecture](plans/skill-library-architecture.md) is retained
+as the source for the work-system contracts that the internal Katas preserve.
 
 ## Archived source material
 
