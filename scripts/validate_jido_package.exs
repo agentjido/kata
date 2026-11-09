@@ -14,6 +14,17 @@ defmodule Jido.PackageValidator do
     "dojo" => ~w(kata-dojo)
   }
 
+  @plain_verbs %{
+    "understand" => "investigate",
+    "shape" => "plan",
+    "lead" => "delegate",
+    "work" => "produce",
+    "verify" => "check",
+    "improve" => "improve",
+    "ship" => "deliver",
+    "dojo" => "evaluate"
+  }
+
   @removed_elixir ~w(kata-build-jido kata-ex-design-review kata-ex-quality)
 
   def run do
@@ -118,15 +129,22 @@ defmodule Jido.PackageValidator do
       end),
       "Tutor command file is missing"
     )
-    |> require(String.contains?(cases, "Say hello world."), "Tutor compatibility case is missing")
+    |> require(
+      String.contains?(text, "bare `$tutor`") and String.contains?(cases, "| `$tutor` |"),
+      "Tutor must define the bare start"
+    )
+    |> require(
+      not String.contains?(catalog, "localhost"),
+      "Tutor catalog must not name a local development source"
+    )
   end
 
   defp validate_jido_contract(errors) do
     text = read!("skills/jido/SKILL.md")
-    loops = read!("skills/jido/references/loops.md")
+    registry = read!("skills/jido/references/commands.md")
     cases = read!("skills/jido/references/routing-cases.md")
     readme = read!("README.md")
-    route_contract = Enum.join([text, loops, cases], "\n")
+    route_contract = Enum.join([text, registry, cases], "\n")
 
     errors
     |> require(
@@ -155,6 +173,19 @@ defmodule Jido.PackageValidator do
       "Jido route contracts contain an older output term"
     )
     |> require(String.contains?(text, "Dojo is isolated"), "Jido must keep the Dojo gate inline")
+    |> require(
+      not File.exists?(Path.join(@jido, "references/loops.md")),
+      "Jido must keep one routing source in commands.md"
+    )
+    |> require(
+      not Regex.match?(~r/^\|[^|]*\|\s*(?:deliver|support)\s*\|/m, cases) and
+        not Regex.match?(~r/^(?:deliver|support):/m, route_contract),
+      "Jido route contracts contain a route label"
+    )
+    |> require(
+      String.contains?(text, "`self-checked`"),
+      "Jido must label a verdict that has no separate verifier"
+    )
     |> require(
       String.contains?(
         text,
@@ -191,6 +222,10 @@ defmodule Jido.PackageValidator do
       acc =
         acc
         |> require(String.contains?(commands, "`#{kata}`"), "registry is missing #{kata}")
+        |> require(
+          String.contains?(commands, "| `#{kata}` | #{Map.fetch!(@plain_verbs, kata)} |"),
+          "registry has no plain verb for #{kata}"
+        )
         |> require(
           String.contains?(commands, "references/katas/#{kata}.md"),
           "registry path is missing #{kata}"

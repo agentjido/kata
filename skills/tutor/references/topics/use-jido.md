@@ -14,4 +14,5 @@ jido-katas:
 # Use Jido
 
 Learn when to use Jido for work, how Jido keeps integration ownership, and how
-Tutor and Jido hand work to the user without invoking each other.
+Tutor and Jido hand work to the user without invoking each other. Start with
+`choose-the-entry`.

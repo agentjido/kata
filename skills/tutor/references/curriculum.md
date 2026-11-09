@@ -15,14 +15,14 @@ these methods in any suitable domain, but it does not teach the domain itself.
 | --- | --- | --- |
 | [`define-work`](topics/define-work.md) | How do I state a useful outcome, scope, constraints, and completion evidence? | `first-win`, `bound-the-work`, `outcome`, `done`, `scope`, `constraints` |
 | [`direct-agents`](topics/direct-agents.md) | How do I give an agent context, authority, ownership, and a clear return condition? | `delegate-clearly`, `authority`, `ownership` |
-| [`use-jido`](topics/use-jido.md) | How do I choose Jido for work and use an explicit Tutor or Jido handoff? | Jido and Tutor public contracts |
+| [`use-jido`](topics/use-jido.md) | How do I choose Jido for work and use an explicit Tutor or Jido handoff? | `choose-the-entry`, `authority`, `ownership` |
 | [`verify-work`](topics/verify-work.md) | How do I check evidence, manage uncertainty, and request repair? | `check-the-return`, `evidence`, `uncertainty` |
 | [`improve-work`](topics/improve-work.md) | How do I use feedback and reflection to improve the next run or reusable method? | `improve-the-next-run`, `feedback`, `reflection` |
-| [`agentic-engineering`](topics/agentic-engineering.md) | How do I apply outcomes, bounded execution, and verification to software work with agents? | The five work topics above, applied to software work |
+| [`agentic-engineering`](topics/agentic-engineering.md) | How do I apply outcomes, bounded execution, and verification to software work with agents? | `bound-a-code-change`, then the five work topics above, applied to software work |
 
-Select one topic for each session. Office Hours can move to another approved
-topic when the learner asks a new question. Explore can compare approved
-topics, but it must not invent a topic.
+Select one topic for each learning question. A session can move to another
+approved topic when the learner asks a new question. Explore can compare
+approved topics, but it must not invent a topic.
 
 Each topic file has five frontmatter fields: `id`, `title`, `question`,
 `related`, and `jido-katas`. The related IDs form a two-dimensional topic web.

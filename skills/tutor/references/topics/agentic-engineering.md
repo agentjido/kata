@@ -21,4 +21,4 @@ jido-katas:
 
 Apply clear outcomes, bounded execution, evidence, repair, and improvement to
 software work. Tutor teaches the work method, not a programming language or
-software framework.
+software framework. Start with `bound-a-code-change`.

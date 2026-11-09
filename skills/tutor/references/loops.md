@@ -32,7 +32,7 @@ catalog.
 feedback? -> how? -> why? -> practice? -> feedback?
 ```
 
-Coach is the default for a real task or supplied work. Read the learning map,
+Coach is the default for a real task. Read the learning map,
 find one material gap, and select one lesson or concept. Use `feedback` only
 after an observable attempt exists. Use `practice` when a small new attempt can
 help. Do not require practice before giving a direct answer.
@@ -53,7 +53,7 @@ learner's attempt.
 feedback -> how? -> why? -> practice?
 ```
 
-Start with `feedback` when the learner supplies work for review. Add `how` or
+Review is the default for supplied work. Start with `feedback`. Add `how` or
 `why` only for the gap that matters. Offer another attempt without requiring
 it.
 
