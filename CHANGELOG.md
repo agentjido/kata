@@ -2,6 +2,19 @@
 
 This file records material changes to the Jido Work System.
 
+## [0.7.0](https://github.com/agentjido/skills/compare/v0.6.0...v0.7.0) (2026-11-09)
+
+
+### Features
+
+* **skills:** simplify Jido routing and add Tutor lesson content ([7ec8b1d](https://github.com/agentjido/skills/commit/7ec8b1d1750dc7d656e18c48e434fe4e68f8690f))
+* **skills:** simplify Jido routing and add Tutor lesson content ([b88d456](https://github.com/agentjido/skills/commit/b88d4569879be7e7aca283f8f0c22ab8a0edd0b2))
+
+
+### Bug Fixes
+
+* **skills:** make Jido plans reviewable and checks proportionate ([c3d7e5e](https://github.com/agentjido/skills/commit/c3d7e5efebc69bd1e06b08959067a99ed3dd8f19))
+
 ## [0.6.0](https://github.com/agentjido/skills/compare/v0.5.0...v0.6.0) (2026-11-09)
 
 
