@@ -123,4 +123,7 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           RELEASE_TAG: ${{ steps.release.outputs.tag_name }}
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
-        run: gh release edit "$RELEASE_TAG" --title "Jido Work System $RELEASE_VERSION"
+        run: >-
+          gh release edit "$RELEASE_TAG"
+          --repo "$GITHUB_REPOSITORY"
+          --title "Jido Work System $RELEASE_VERSION"
