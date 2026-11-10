@@ -32,6 +32,7 @@ defmodule Jido.PackageValidator do
       []
       |> validate_public_surface()
       |> validate_jido_contract()
+      |> validate_idea_contract()
       |> validate_katas()
       |> validate_removed_elixir()
 
@@ -244,6 +245,57 @@ defmodule Jido.PackageValidator do
         )
       end)
     end)
+  end
+
+  defp validate_idea_contract(errors) do
+    jido = read!("skills/jido/SKILL.md")
+    idea = read!("skills/jido/references/methods/kata-idea/method.md")
+    methods = read!("skills/jido/references/methods/kata-idea/references/methods.md")
+    cases = read!("skills/jido/references/routing-cases.md")
+
+    errors
+    |> require(
+      String.contains?(jido, "Ask one question at a time") and
+        String.contains?(jido, "interview method can continue across several turns"),
+      "Jido must allow a selected interview method to continue one question at a time"
+    )
+    |> require(
+      String.contains?(idea, "shared-design-concept") and
+        String.contains?(idea, "Use when the user asks to be grilled") and
+        String.contains?(idea, "one unresolved product decision that controls") and
+        String.contains?(methods, "unresolved product decision controls") and
+        String.contains?(idea, "switch to Grill and continue without waiting for permission"),
+      "Idea must start explicit Grill and promote a controlling product decision to Grill"
+    )
+    |> require(
+      String.contains?(methods, "ask one highest-value question") and
+        String.contains?(methods, "recommended answer") and
+        String.contains?(methods, "with its evidence") and
+        String.contains?(methods, "short titles only") and
+        String.contains?(methods, "also answers a previewed question"),
+      "Grill must use one supported primary question with a short question preview"
+    )
+    |> require(
+      String.contains?(methods, "Investigate those facts") and
+        String.contains?(methods, "Rebuild the frontier after every answer") and
+        String.contains?(methods, "do not repeat a resolved"),
+      "Grill must investigate facts and rebuild its frontier without repetition"
+    )
+    |> require(
+      String.contains?(methods, "Ask the user to confirm shared understanding") and
+        String.contains?(methods, "stop and offer the next route") and
+        String.contains?(methods, "status and next owner") and
+        String.contains?(methods, "Do not create a brief, contract") and
+        String.contains?(idea, "request made before the Grill session does not cross") and
+        String.contains?(idea, "new post-confirmation request"),
+      "Grill must end at user-confirmed shared understanding with no silent branch"
+    )
+    |> require(
+      String.contains?(cases, "Explore what package health should mean for us") and
+        String.contains?(cases, "supported recommendation") and
+        String.contains?(cases, "accepts early answers to previewed questions"),
+      "routing cases must cover automatic Grill promotion and question rounds"
+    )
   end
 
   defp validate_removed_elixir(errors) do

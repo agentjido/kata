@@ -1,6 +1,6 @@
 ---
 name: kata-idea
-description: Turn a vague idea, disputed product direction, or untested design assumption into a decision-ready idea brief. Use when product intent or success criteria need exploration, decision grilling, or challenge before planning.
+description: Turn a vague idea, disputed product direction, or untested design assumption into a decision-ready idea brief or a user-confirmed shared design concept. Use when product intent or success criteria need exploration, decision grilling, or challenge before planning.
 metadata:
   kata-argument-hint: "[idea, decision, or design to explore] [mode:explore|grill|challenge]"
   schema: kata.skill/v1
@@ -10,22 +10,25 @@ metadata:
   profile: direction
   authority: local-write
   consumes: "idea-request, domain-context, source-material"
-  produces: "idea-brief, product-contract, verified-change"
+  produces: "idea-brief, product-contract, shared-design-concept, verified-change"
 ---
 
 # Idea
 
 **Outcome:** The next decision-maker or planner receives a clear product or
 design direction without having to invent the problem, user value, scope,
-success signal, or important open questions.
+success signal, or important open questions. A Grill run first gives the user
+and Jido a confirmed shared design concept.
 
-**Done:** The result states the problem, intended beneficiary, desired outcome,
-scope boundary, success signals, selected direction, rejected alternatives,
-assumptions, and unresolved decisions. A short idea ends in chat. A durable
-software idea produces a requirements-only Product Contract. A long-horizon
-initiative with dependent unresolved decisions can pass that contract to
-`kata-roadmap`; a route that fits one planning session can pass it directly to
-`kata-plan`.
+**Done:** A Grill run has no silent decision branch, gives each unresolved
+branch a status and next owner, and ends only after the user confirms the
+shared design concept. Another run states the problem, intended beneficiary,
+desired outcome, scope boundary, success signals, selected direction, rejected
+alternatives, assumptions, and unresolved decisions. A short idea ends in
+chat. A durable software idea produces a requirements-only Product Contract.
+A long-horizon initiative with dependent unresolved decisions can pass that
+contract to `kata-roadmap`; a route that fits one planning session can pass it
+directly to `kata-plan`.
 
 ## Assignment and authority
 
@@ -61,7 +64,10 @@ method from the request:
 
 Combine methods only when the request needs them. A normal Explore run can use
 one Grill question or one Challenge probe without becoming a large ceremony.
-An explicit mode controls the primary method.
+When that Grill question exposes one unresolved product decision that controls
+dependent decisions about user value, behavior, scope, or success, announce a
+switch to Grill and continue without waiting for permission. An explicit mode
+controls the initial method.
 
 ## 1. Frame the idea
 
@@ -78,8 +84,9 @@ similar capability, prior decision, active plan, or rejected attempt already
 exists. Use the project's current vocabulary. When the user's premise conflicts
 with current evidence, show the conflict before treating the premise as settled.
 
-If the input is already clear, confirm it and produce a compact result. Do not
-force an interview.
+In Explore mode, if the input is already clear, confirm it and produce a
+compact result. Do not force an interview. In Grill mode, check the decision
+frontier and use the Grill confirmation rule before completion.
 
 ## 2. Pressure-test the premise
 
@@ -138,6 +145,11 @@ small idea in chat.
 
 ## Report and handoff
 
+For Grill, return the confirmed shared design concept and offer the next route.
+Stop at this review point. Do not create an Idea Brief, Product Contract, plan,
+or implementation until the user makes a new request after confirmation. A
+request made before the Grill session does not cross this review point.
+
 Return:
 
 - **Problem and beneficiary**;
@@ -151,5 +163,6 @@ Return:
   prototype one expensive unknown, gather missing evidence, or stop.
 
 Do not claim that an idea is implementation-ready when a product decision is
-still open. Do not start planning or implementation unless the current request
-also authorizes that next step.
+still open. A Grill run always requires a new post-confirmation request before
+the next route. For another run, do not start planning or implementation unless
+the current request also authorizes that next step.

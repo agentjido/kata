@@ -19,7 +19,8 @@ they do not grant the actions named in a request.
 | --- | --- | --- | --- |
 | Explain why this test fails. | `understand` | `understand` | Diagnose only. Do not edit. |
 | Fix this reproduced defect and check the result. | `work` | `work -> verify` | Use the supported diagnosis, repair locally, then verify. |
-| Grill this product idea before we build it. | `shape` | `shape` | Set product direction. Do not implement. |
+| Grill this product idea before we build it. | `shape` | `shape` | Ask one decision per round with a short preview, continue to user-confirmed shared understanding, then stop and offer the next route. Do not implement. |
+| Explore what package health should mean for us. | `shape` | `shape` | When one unresolved product decision controls dependent value, behavior, scope, or success decisions, announce the switch to Grill and continue. |
 | Scope and plan this ready software change. | `shape` | `shape` | Produce the requested scope and plan. Do not implement. |
 | Delegate these independent research units and integrate their return. | `lead` | `lead -> verify` | Start workers only when the tool and authority are available. |
 | Turn these notes into a report and check every claim. | `work` | `work -> verify` | Produce the report, then verify each claim. |
@@ -33,6 +34,14 @@ they do not grant the actions named in a request.
 | Test whether this skill is useful. | `improve` | `improve` | Do not infer Dojo. |
 | Dojo: inspect the saved evaluation for this candidate. | `dojo` | `dojo` | Inspect saved evidence only. Do not run live calls. |
 | Use the Elixir quality method on this project. | `work` | `work -> verify` | Use a host-exposed specialist skill or report it unavailable. |
+
+For each Grill case, check that Jido investigates available facts, asks one
+primary question with a supported recommendation, previews likely next
+questions as short titles, accepts early answers to previewed questions, and
+rebuilds the decision tree after each answer. It must expose every unresolved
+branch with a status and next owner, request confirmation of shared
+understanding, then stop and offer the next route. It must not create an idea
+artifact, plan, or implementation as part of Grill.
 
 For each substantial case, check that Jido gives one plain startup sentence
 with the planned steps and the authority limit. The sentence must use the

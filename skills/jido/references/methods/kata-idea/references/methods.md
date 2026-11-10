@@ -19,25 +19,40 @@ Ask one question per turn. Stop early when the idea is already clear.
 ## Grill
 
 Use Grill when the user asks for a demanding interview or wants a design,
-decision, or proposal sharpened.
+decision, or proposal sharpened. Also switch from Explore to Grill when one
+unresolved product decision controls dependent decisions about user value,
+behavior, scope, or success. Announce an automatic switch and continue:
+
+> This idea now needs a full Grill. I will ask one decision at a time until we
+> confirm shared understanding.
 
 Model the work as a decision tree. A decision can be asked only after its
 prerequisites are settled. The current **frontier** is the set of decisions
 whose prerequisites are settled and whose answers are still open.
 
 1. Build the tree from the user's proposal and current evidence.
-2. Remove questions that the environment can answer.
+2. Remove questions that the environment can answer. Investigate those facts
+   instead. If a fact is unavailable, record the evidence gap.
 3. Rank the frontier by how much each answer can change the result.
-4. Ask the highest-value question. If the user explicitly asks for a rapid
-   grilling round, ask at most three independent frontier questions and number
-   them.
-5. Give a recommended answer and its evidence for each question.
-6. Rebuild the frontier after every answer. Do not ask a downstream question
-   while its prerequisite is open.
-7. End when the frontier is empty or the remaining items are named assumptions.
+4. In each round, ask one highest-value question and give a recommended answer
+   with its evidence. Preview likely next questions as short titles only. Do
+   not include their full wording or recommendations.
+5. If the user also answers a previewed question, record the supported decision.
+   Rebuild the frontier after every answer, and do not repeat a resolved
+   question or ask a downstream question while its prerequisite is open.
+6. Continue until the frontier is empty or each unresolved branch is an
+   explicit assumption, research need, or decision for another person. Give
+   every unresolved branch a status and next owner.
+7. Summarize the shared design concept, resolved decisions, and explicit open
+   items. Ask the user to confirm shared understanding.
+8. If the user does not confirm it, rebuild the tree and continue. After
+   confirmation, stop and offer the next route. Do not create a brief, contract,
+   plan, or implementation as part of Grill.
 
 Grill mode is demanding about missing decisions, not hostile toward the user.
 Do not repeat a settled question or make the user defend a fact already proved.
+Clarity means that no branch remains silent. It does not require an immediate
+answer when an explicit unresolved branch has a status and next owner.
 
 ## Challenge
 
