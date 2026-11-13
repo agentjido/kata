@@ -144,6 +144,12 @@ defmodule Jido.PackageValidator do
     text = read!("skills/jido/SKILL.md")
     registry = read!("skills/jido/references/commands.md")
     cases = read!("skills/jido/references/routing-cases.md")
+    docs_setup = read!("skills/jido/references/methods/kata-docs/references/setup.md")
+
+    docs_contracts =
+      read!("skills/jido/references/methods/kata-docs/references/document-contracts.md")
+
+    role_template = read!("skills/jido/references/methods/kata-docs/templates/role.md")
     readme = read!("README.md")
     route_contract = Enum.join([text, registry, cases], "\n")
 
@@ -197,6 +203,40 @@ defmodule Jido.PackageValidator do
     |> require(
       String.contains?(text, "requires authority for that action"),
       "Jido must keep the authority boundary inline"
+    )
+    |> require(
+      String.contains?(text, "`docs/ROLE.md`") and
+        String.contains?(readme, "`docs/ROLE.md`") and
+        String.contains?(text, "Do not scan for") and
+        String.contains?(text, "other role files") and
+        String.contains?(text, "A review definition does") and
+        String.contains?(text, "create a schedule") and
+        String.contains?(text, "cannot select a Kata, grant authority"),
+      "Jido must load optional project role context without expanding authority"
+    )
+    |> require(
+      String.contains?(cases, "Project role cases") and
+        String.contains?(cases, "names a review from the role") and
+        String.contains?(cases, "claims action authority or names a Kata"),
+      "routing acceptance cases must cover project role restraint"
+    )
+    |> require(
+      String.contains?(docs_setup, "`docs/ROLE.md`") and
+        String.contains?(docs_setup, "../templates/role.md") and
+        String.contains?(docs_contracts, "`ROLE.md`") and
+        Enum.all?(
+          [
+            "## Title",
+            "## Reports to",
+            "## Purpose",
+            "## Responsibilities",
+            "## Decision rights",
+            "## Reserved decisions",
+            "## Success measures"
+          ],
+          &String.contains?(role_template, &1)
+        ),
+      "Docs setup must create the light default Jido role"
     )
     |> require(
       Enum.all?(Map.keys(@katas), &String.contains?(cases, "`#{&1}`")),

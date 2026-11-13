@@ -25,13 +25,16 @@ collected content.
 
 ## Create and collect
 
-1. Create missing `docs/AGENTS.md`, `docs/README.md`, and
+1. Create missing `docs/AGENTS.md`, `docs/ROLE.md`, `docs/README.md`, and
    `docs/inbox/README.md`. Use `../templates/docs-agents.md` for new
-   instructions. Otherwise, preserve existing rules and merge one reusable
-   `## Docs Kata` section. Never silently replace a conflicting rule.
-2. Preserve useful index content. Link to the rules, inbox, existing processed
-   documents, and fixed-path exceptions. Add a missing documentation index link
-   to the root README. Create category folders only during processing.
+   instructions and `../templates/role.md` for a new role. Preserve an
+   existing role. For existing documentation instructions, preserve their
+   rules and merge one reusable `## Docs Kata` section. Never silently replace
+   a conflicting rule.
+2. Preserve useful index content. Link to the rules, role, inbox, existing
+   processed documents, and fixed-path exceptions. Add a missing documentation
+   index link to the root README. Create category folders only during
+   processing.
 3. Preserve the intake log. Record original path, actual destination, intake
    date, status, and exceptions with reasons.
 4. Map individual inventoried files into `docs/inbox/`, preserving each source
@@ -52,4 +55,5 @@ collected content.
 
 Verify that the setup files agree, every inventoried item is moved, retained, or
 unresolved, assets and local edits are accounted for, and a repeat is safe.
-State that inbox contents still need review.
+State that inbox contents still need review. The default role supplies project
+context only. It does not grant authority or create a schedule.

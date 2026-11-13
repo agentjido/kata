@@ -10,7 +10,7 @@ metadata:
   profile: coordination
   authority: external-write
   worktutor-topics: "define-work, direct-agents, use-jido, verify-work, improve-work, agentic-engineering"
-  consumes: "work-request"
+  consumes: "work-request, project-role"
   produces: "routed-work-result"
 ---
 
@@ -59,10 +59,32 @@ irreversible effect. Infer only safe and reversible details. A selected
 interview method can continue across several turns under its own completion
 rule.
 
+## Load the project role
+
+When the active project root is clear, check the fixed path `docs/ROLE.md`
+after active project instructions and before route selection. Do not scan for
+other role files. Continue normally when the file does not exist.
+
+Use the role's purpose, responsibilities, decision rights, reserved decisions,
+and success measures as standing project context. A role can also name reviews,
+their expected results, and their intended cadence. A review definition does
+not create a schedule or cause the review to run.
+
+The role cannot select a Kata, grant authority, override active instructions,
+or replace the current request. A live or scheduled request supplies the goal,
+trigger, and current authority. When a request names a review from the role,
+treat its expected result as part of the work request and select the smallest
+route that can produce it.
+
 ## Select the route
 
 Read [references/commands.md](references/commands.md). It is the one fixed
 internal registry and routing source.
+
+If the direct request is exactly `$jido help`, return the capability menu from
+the registry and stop. Do not select a Kata, give a startup notice, or do
+work. Group all 19 detailed methods below their internal routes. Present each
+example as a natural-language `$jido` request, not as a separate command.
 
 Use [references/routing-cases.md](references/routing-cases.md) when reviewing a
 routing change. The cases are acceptance examples, not an extra registry.
@@ -80,25 +102,29 @@ Each Kata is optional. Skip a Kata when its contract is already supported.
 Re-evaluate after each result because new evidence can expose an earlier
 unresolved contract. Do not run a Kata for ceremony.
 
-Before substantial work, state the plan once in one plain sentence. Give the
-planned steps in order and the authority limit. Start each step with the
-plain verb that `references/commands.md` assigns to its Kata:
+Before substantial work, state the sequence and authority once in one line.
+Start each sequence step with the plain verb that
+`references/commands.md` assigns to its Kata. Add a short object that names
+the work for that step. Use the applicable authority level, then state the
+important task-specific limits in plain language:
 
 ```text
-Jido: <verb> <object>, <verb> <object>, then <verb> <object>. <authority limit>.
+Jido | Sequence: <verb> <object> → <verb> <object> → <verb> <object> | Authority: <level> — <limits>.
 ```
 
-For example: `Jido: investigate the failure, produce a local repair, then
-check the result. No commit or push.`
+For example: `Jido | Sequence: investigate failure → produce local repair →
+check result | Authority: local-write — requested files only; no commit or
+push.`
 
 This line is the complete Jido startup notice. Do not add a separate statement
-that says Jido is in use or explains why it was selected. Do not add a route
-label. Do not put `accept`, `acceptance`, `reflection`, `deliver-value`,
-`procedure`, or former `kata-*` skill names in the notice. Name a detailed
-method only when it explains a material boundary or the requester asks for it.
+that says Jido is in use or explains why it was selected. Do not add `Route`
+or `Entry` fields. Do not put `accept`, `acceptance`, `reflection`,
+`deliver-value`, `procedure`, or former `kata-*` skill names in the notice.
+Name a detailed method only when it explains a material boundary or the
+requester asks for it.
 
-Do not state the plan again while it is unchanged. If evidence changes the
-plan, state the new plan once when the change occurs.
+Do not repeat the startup line while the sequence and authority are unchanged.
+If either one changes, show the new line once when the change occurs.
 
 ## Hand learning to Tutor
 
@@ -166,8 +192,8 @@ in a separate step and report that verdict as `self-checked`. Do not describe
 a self-checked verdict as independent.
 
 Lead with the result. Report material evidence, changed state, remaining
-decisions, and uncertainty. Do not repeat the startup plan in the final answer
-when it did not change. Include the plan or Kata sequence in the final answer
-only when the requester asks for it or it explains a material change or limit.
-Do not claim a commit, publication, merge, release, or acceptance without
-observed evidence for that state.
+decisions, and uncertainty. Do not repeat the startup line in the final answer
+when it did not change. Include the sequence in the final answer only when the
+requester asks for it or it explains a material change or limit. Do not claim
+a commit, publication, merge, release, or acceptance without observed evidence
+for that state.

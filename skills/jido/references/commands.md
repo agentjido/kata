@@ -17,10 +17,41 @@ registry and routing source.
 | `ship` | deliver | `references/katas/ship.md` | Git delivery |
 | `dojo` | evaluate | `references/katas/dojo.md` | saved or live controlled evaluation |
 
-The startup sentence uses the plain verb for each planned Kata, in sequence
-order. Each verb maps to one Kata, so a reviewer can read the selected
-sequence from the sentence. Do not use these verbs for other steps in the
-sentence.
+The startup line uses the plain verb for each planned Kata, in sequence order.
+Each verb maps to one Kata, so a reviewer can read the selected sequence from
+the line. Do not use these verbs for other steps in the line.
+
+## Help
+
+`$jido help` returns this capability menu and stops. It does not select or run
+a Kata. The eight routes group the 19 detailed methods. The methods are
+capabilities, not separate public commands.
+
+| Route | Capability | Example request |
+| --- | --- | --- |
+| Investigate | Understand a current condition. | `$jido explain how this system works` |
+| Investigate or Produce | Diagnose a reproducible failure, or repair a supported cause when authorized. | `$jido diagnose this test failure, fix it locally, and check the result` |
+| Investigate | Report Git workbench state. | `$jido report the local and remote repository state` |
+| Plan | Explore or challenge a product idea. | `$jido grill this product idea before we build it` |
+| Plan | Manage a decision roadmap. | `$jido map the decisions needed to reach this product goal` |
+| Plan | Define scope and acceptance. | `$jido scope this request and name the exclusions` |
+| Plan | Make a software implementation plan. | `$jido plan this ready software change` |
+| Delegate | Assign bounded work and integrate returns. | `$jido delegate these research tasks and combine the results` |
+| Produce | Complete ready general work. | `$jido implement this ready plan and check the local result` |
+| Produce | Create or maintain project documentation. | `$jido update the project guide for the current behavior` |
+| Produce | Create, inspect, validate, or run local routines. | `$jido list the routines available in this repository` |
+| Produce | Make a focused visual explanation. | `$jido show how these components exchange data` |
+| Produce | Write one technical artifact. | `$jido turn these notes into a decision brief` |
+| Check | Verify a candidate against its conditions. | `$jido verify this result against the acceptance checks` |
+| Check | Give security guidance or review source. | `$jido review this API for security defects` |
+| Improve | Resolve a reusable-method finding. | `$jido assess this feedback about our review method` |
+| Improve | Write or revise a reusable method. | `$jido make this repeated review method reusable` |
+| Deliver | Commit, publish, watch, merge, tag, or release with exact authority. | `$jido commit this verified change only` |
+| Evaluate | Inspect or run a controlled Dojo evaluation when explicitly requested. | `$jido Dojo: inspect the saved evaluation for this candidate` |
+
+After the table, add: `Give Jido a goal in ordinary language. Jido selects the
+smallest route that the goal needs. Use $tutor when you want guided practice.`
+Do not present an internal route as a separate command.
 
 ## Sequence
 
@@ -80,5 +111,5 @@ reflection, and handoff are results or transitions, not Katas. Do not use
 older output terms such as `deliver-value`, `accept`, `procedure`, a route
 label, or a former `kata-*` package name.
 
-For help, explain the eight Katas with one natural-language `$jido` example for
-each. Do not tell the user to invoke an internal Kata as a separate skill.
+For other help requests, use the same capability menu. Do not tell the user to
+invoke an internal Kata or detailed method as a separate skill.

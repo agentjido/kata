@@ -9,7 +9,7 @@ metadata:
   profile: bounded-execution
   authority: local-write
   consumes: "project, documentation-request, project-orientation-request, project-knowledge-capture, verified-readme"
-  produces: "docs-kata-intake, documented-project-knowledge, project-orientation-audit, verified-project-orientation, readme-brief, verified-documentation-change, verified-change"
+  produces: "docs-kata-intake, project-role, documented-project-knowledge, project-orientation-audit, verified-project-orientation, readme-brief, verified-documentation-change, verified-change"
 ---
 
 # Docs Kata

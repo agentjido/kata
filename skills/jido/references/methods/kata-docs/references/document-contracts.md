@@ -7,6 +7,7 @@ has a document:
 | Path | Contract |
 | --- | --- |
 | `README.md` | A short index of current documentation and fixed-path exceptions. |
+| `ROLE.md` | Jido's project job description: purpose, responsibilities, decision rights, reserved decisions, and success measures. It supplies context, not authority. |
 | `inbox/` | A processing queue for new material. A clear queue contains only `README.md`. |
 | `guides/` | Current instructions for completing a task. |
 | `reference/` | Current behavior, interfaces, concepts, and configuration. |

@@ -10,6 +10,7 @@ someone understand or change this project. Follow the project's writing rules.
 | Path | Purpose |
 | --- | --- |
 | `README.md` | Index of the current documentation. |
+| `ROLE.md` | Jido's project role, responsibilities, decision rights, and success measures. |
 | `inbox/` | Existing or new material that still needs review. |
 | `guides/` | Instructions for completing a task. |
 | `reference/` | Current system behavior, interfaces, and configuration. |

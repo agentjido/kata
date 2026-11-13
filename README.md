@@ -54,8 +54,8 @@ task from a clear request to a checked result.
    done. Tutor gives feedback, and you revise.
 3. **Get a Jido request.** Ask Tutor to turn your work into a `$jido` request.
    Tutor writes the request, but it does not run it.
-4. **Run it with Jido.** Send the request. Jido states its plan and authority
-   limit in one sentence, does the work, and returns the result with evidence.
+4. **Run it with Jido.** Send the request. Jido states its sequence and
+   authority in one line, does the work, and returns the result with evidence.
 5. **Check the result.** Send `$tutor review this result against my done
    check`. Tutor helps you accept the result or write a specific repair
    request.
@@ -77,10 +77,10 @@ The Jido request that comes from this lesson can look like this:
 $jido compare vendors A, B, and C on price, support hours, and contract length, with one source for each cell. Read only the vendor sites and my budget note. Do not contact a vendor.
 ```
 
-Jido starts with one plan sentence, for example:
+Jido starts with one sequence and authority line, for example:
 
 ```text
-Jido: produce the comparison table, then check each source. No external contact.
+Jido | Sequence: produce comparison table → check each source | Authority: read-only — vendor sites and budget note only; no external contact.
 ```
 
 ## Fast path: go straight to Jido
@@ -92,6 +92,27 @@ $jido find why the nightly report job failed, fix it locally, and show the passi
 ```
 
 Tell Jido what you need, not how to do it. Jido selects the steps.
+
+If you need a quick reminder, ask for the capability menu:
+
+```text
+$jido help
+```
+
+The menu groups Jido's 19 detailed methods below eight internal routes. It
+gives one natural-language request for each capability. You still give Jido a
+goal in ordinary language. The routes and methods are not separate commands.
+
+## Optional project role
+
+A project can define Jido's job in `docs/ROLE.md`. When that fixed file exists,
+Jido reads its purpose, responsibilities, decision rights, reserved decisions,
+and success measures before it selects the work route. The role can describe
+named reviews, but it does not run them or create a schedule.
+
+The live request still supplies the goal and authority. The role cannot select
+a Kata or override active project instructions. Jido's documentation setup
+creates a light default role when the file is missing.
 
 ## Which entry to use
 
@@ -135,8 +156,9 @@ Jido uses only the steps that your goal needs, in this order:
 | Deliver | Commit, push, open a pull request, merge, tag, or release, only with that authority. |
 
 Jido starts at the first step that your request does not already resolve. Its
-plan sentence uses these verbs, so you can see which steps it selected. A
-separate request to improve a reusable work method uses an `improve` step.
+startup line uses these verbs, so you can see the selected sequence. The same
+line shows the authority level and the important limits. A separate request
+to improve a reusable work method uses an `improve` step.
 
 For a material or risky check, Jido uses a separate worker when the host
 supports one. When it cannot, it labels the verdict `self-checked`.
